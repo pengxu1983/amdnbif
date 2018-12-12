@@ -5,15 +5,14 @@
   "description": "a Sails application",
   "keywords": [],
   "dependencies": {
-    "sails": "^1.0.2",
+    "sails": "^1.1.0",
     "grunt": "1.0.1",
-    "sails-hook-grunt": "^3.0.2",
-    "sails-hook-orm": "^2.0.0-16",
-    "sails-hook-sockets": "^1.4.0",
+    "sails-hook-grunt": "^3.1.0",
+    "sails-hook-orm": "^2.1.1",
+    "sails-hook-sockets": "^1.5.5",
     "@sailshq/connect-redis": "^3.2.1",
     "@sailshq/socket.io-redis": "^5.2.0",
-    "@sailshq/lodash": "^3.10.3",
-    "async": "2.0.1"
+    "@sailshq/lodash": "^3.10.3"
   },
   "devDependencies": {
     "@sailshq/eslint": "^4.19.3"
@@ -27,11 +26,11 @@
   "main": "app.js",
   "repository": {
     "type": "git",
-    "url": "git://github.com/root/server.git"
+    "url": "git://github.com/pengxu/server.git"
   },
-  "author": "root",
+  "author": "pengxu",
   "license": "",
   "engines": {
-    "node": ">=8.12"
+    "node": "^10.14"
   }
 }

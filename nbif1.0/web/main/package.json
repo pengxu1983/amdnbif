@@ -12,7 +12,7 @@
     "echarts": "^4.2.0-rc.2",
     "element-ui": "^2.4.5",
     "moment": "^2.22.2",
-    "vue": "^2.5.17",
+    "vue": "^2.5.21",
     "vue-resource": "^1.5.1",
     "vue-router": "^3.0.1",
     "vuex": "^3.0.1"
@@ -27,7 +27,7 @@
     "node-sass": "^4.9.2",
     "sass-loader": "^7.0.3",
     "vue-cli-plugin-element": "^1.0.0",
-    "vue-template-compiler": "^2.5.17"
+    "vue-template-compiler": "^2.5.21"
   },
   "eslintConfig": {
     "root": true,
