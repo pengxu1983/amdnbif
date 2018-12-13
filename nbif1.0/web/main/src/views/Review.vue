@@ -1,17 +1,17 @@
 <template>
   <div>
-    <HomePage></HomePage>
+    <ReviewPage></ReviewPage>
   </div>
 </template>
 
 <script>
 // @ is an alias to /src
-import HomePage from '@/components/HomePage.vue'
+import ReviewPage from '@/components/ReviewPage.vue'
 
 export default {
   name: 'home',
   components: {
-    HomePage
+    ReviewPage
   }
 }
 </script>

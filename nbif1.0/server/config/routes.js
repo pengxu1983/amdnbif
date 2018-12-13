@@ -10,6 +10,11 @@
 
 module.exports.routes = {
 
+
+  //  ╦ ╦╔═╗╔╗ ╔═╗╔═╗╔═╗╔═╗╔═╗
+  //  ║║║║╣ ╠╩╗╠═╝╠═╣║ ╦║╣ ╚═╗
+  //  ╚╩╝╚═╝╚═╝╩  ╩ ╩╚═╝╚═╝╚═╝
+
   /***************************************************************************
   *                                                                          *
   * Make the view located at `views/homepage.ejs` your home page.            *
@@ -19,9 +24,10 @@ module.exports.routes = {
   *                                                                          *
   ***************************************************************************/
 
-  '/': { view: 'pages/homepage' },
-
-
+  //'/': {
+  //  view: 'pages/homepage'
+  //},
+  'GET  /'  : '/main',
   /***************************************************************************
   *                                                                          *
   * More custom routes here...                                               *
@@ -29,9 +35,45 @@ module.exports.routes = {
   *                                                                          *
   * If a request to a URL doesn't match any of the routes in this file, it   *
   * is matched against "shadow routes" (e.g. blueprint routes).  If it does  *
-  * not match any of those, it is matched against static assets.             *
+  * not match :pny of those, it is matched against static assets.             *
   *                                                                          *
   ***************************************************************************/
+
+  'POST /regression/start'  : {
+    action  : 'regression/start'
+  },
+  'POST /regression/ongoing'  : {
+    action  : 'regression/ongoing'
+  },
+  'POST /regression/stop'  : {
+    action  : 'regression/stop'
+  },
+  'POST /regression/check'  : {
+    action  : 'regression/check'
+  },
+
+  'POST /testplans/gettestplanlist' : {
+    action  : 'testplans/gettestplanlist'
+  },
+
+  'POST /testplans/upload'  : {
+    action  : 'testplans/upload'
+  }
+
+  //  ╔═╗╔═╗╦  ╔═╗╔╗╔╔╦╗╔═╗╔═╗╦╔╗╔╔╦╗╔═╗
+  //  ╠═╣╠═╝║  ║╣ ║║║ ║║╠═╝║ ║║║║║ ║ ╚═╗
+  //  ╩ ╩╩  ╩  ╚═╝╝╚╝═╩╝╩  ╚═╝╩╝╚╝ ╩ ╚═╝
+
+
+
+  //  ╦ ╦╔═╗╔╗ ╦ ╦╔═╗╔═╗╦╔═╔═╗
+  //  ║║║║╣ ╠╩╗╠═╣║ ║║ ║╠╩╗╚═╗
+  //  ╚╩╝╚═╝╚═╝╩ ╩╚═╝╚═╝╩ ╩╚═╝
+
+
+  //  ╔╦╗╦╔═╗╔═╗
+  //  ║║║║╚═╗║
+  //  ╩ ╩╩╚═╝╚═╝
 
 
 };
