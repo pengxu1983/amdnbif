@@ -39,7 +39,7 @@ module.exports = {
 
 
   fn: async function (inputs, exits) {
-    sails.log('/regression/ongoing');
+    //sails.log('/regression/ongoing');
     var one_regression_his;
     one_regression_his  = await Regression_his.findOne({
       batchname : inputs.batchname,

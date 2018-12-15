@@ -61,6 +61,10 @@ export default {
       ],
       versionRecord : [
         {
+          versionID : '1.4.3',
+          versionLog  : 'add home link'
+        },
+        {
           versionID : '1.4.2',
           versionLog  : 'add tables to describe regression parameters'
         },

@@ -51,8 +51,30 @@ module.exports = {
       type            : 'string'
     },
     passingrate       : {
-      type            : 'string'
+      type            : 'string',
+      defaultsTo      : '0.00'
+    },
+    totalnum          : {
+      type            : 'number',
+      columnType      : 'int(10)',
+      defaultsTo      : 0
+    },
+    passednum         : {
+      type            : 'number',
+      columnType      : 'int(10)',
+      defaultsTo      : 0
+    },
+    failednum         : {
+      type            : 'number',
+      columnType      : 'int(10)',
+      defaultsTo      : 0
+    },
+    unknownnum        : {
+      type            : 'number',
+      columnType      : 'int(10)',
+      defaultsTo      : 0
     }
+
     //  ╔═╗╔╦╗╔╗ ╔═╗╔╦╗╔═╗
     //  ║╣ ║║║╠╩╗║╣  ║║╚═╗
     //  ╚═╝╩ ╩╚═╝╚═╝═╩╝╚═╝
