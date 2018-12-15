@@ -360,7 +360,17 @@ module.exports = {
       //=================
       i++;
     }
-    return exits.success({ok:'ok'});
+    return exits.success({
+      ok  : 'ok',
+      PassingRate_his_normal  : passingrates_official_normal,
+      PassingRate_his_long    : passingrates_official_long,
+      PassingRate_his_pg      : passingrates_official_pg,
+      PassingRate_his_baco    : passingrates_official_baco,
+      detailsinfonormal       : detailsinfonormal,
+      detailsinfolong         : detailsinfolong,
+      detailsinfobaco         : detailsinfobaco,
+      detailsinfopg           : detailsinfopg,
+    });
   }
 
 
