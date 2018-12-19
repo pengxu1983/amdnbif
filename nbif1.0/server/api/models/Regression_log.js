@@ -73,6 +73,9 @@ module.exports = {
       type            : 'number',
       columnType      : 'int(10)',
       defaultsTo      : 0
+    },
+    updatetime        : {
+      type            : 'string'
     }
 
     //  ╔═╗╔╦╗╔╗ ╔═╗╔╦╗╔═╗

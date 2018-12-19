@@ -1,3 +1,4 @@
+var moment = require('moment');
 module.exports = {
 
 
@@ -70,8 +71,9 @@ module.exports = {
         starttime         : inputs.starttime          ,
         changelist        : inputs.changelist         ,
         regressionlocation: inputs.regressionlocation ,
-        regressionsite    : 'cyb'    ,
-        operator          : inputs.operator          
+        regressionsite    : 'cyb'                     ,
+        operator          : inputs.operator           ,
+        updatetime        : moment().format()
       });
       one_regression_log  = await Regression_log.findOne({
         mode      : inputs.mode,
@@ -97,8 +99,9 @@ module.exports = {
         starttime         : inputs.starttime          ,
         changelist        : inputs.changelist         ,
         regressionlocation: inputs.regressionlocation ,
-        regressionsite    : 'cyb'    ,
-        operator          : inputs.operator
+        regressionsite    : 'cyb'                     ,
+        operator          : inputs.operator           ,
+        updatetime        : moment().format()
       });
       return exits.success({
         ok    :   'ok',
