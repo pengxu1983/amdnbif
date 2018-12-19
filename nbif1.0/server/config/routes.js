@@ -54,7 +54,7 @@ module.exports.routes = {
   ///////////////////
   //internal
   ///////////////////
-  'POST /regression/check'  : {
+  'POST /regression/calpassingrate'  : {
     action  : 'regression/calpassingrate'
   },
   ///////////////////

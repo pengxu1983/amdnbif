@@ -27,6 +27,7 @@ module.exports = {
     var failednum;
     var totalnum;
     var unknownnum;
+    
     var one_reg = await Regression_log.findOne({
       batchname : inputs.batchname
     });

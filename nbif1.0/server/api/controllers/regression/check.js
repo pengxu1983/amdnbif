@@ -1,3 +1,5 @@
+var http = require('http');  
+var querystring = require('querystring');  
 var moment = require('moment');
 module.exports = {
 
@@ -39,6 +41,8 @@ module.exports = {
     var detailsinfolong               = [];
     var detailsinfobaco               = [];
     var detailsinfopg                 = [];
+
+    
     if(inputs.kind  ==  'rangepassingrate'){
       while(item  != moment(inputs.dateend).format('YYYY-MM-DD')){
         item  = moment(inputs.datestart).add(i,'days').format('YYYY-MM-DD');
@@ -58,6 +62,41 @@ module.exports = {
 	          isofficial  : 'yes'
 	        });
 	      }
+        postData = querystring.stringify({
+          'batchname': 'Hello World!'
+        });
+        
+        var options = {
+          hostname: 'localhost',
+          port: 1337,
+          path: '/regression/calpassingrate',
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/x-www-form-urlencoded',
+            'Content-Length': Buffer.byteLength(postData)
+          }
+        };
+        
+        var req = http.request(options, (res) => {
+          console.log(`STATUS: ${res.statusCode}`);
+          console.log(`HEADERS: ${JSON.stringify(res.headers)}`);
+          res.setEncoding('utf8');
+          res.on('data', (chunk) => {
+            console.log(`BODY: ${chunk}`);
+          });
+          res.on('end', () => {
+            console.log('No more data in response.');
+          });
+        });
+        
+        req.on('error', (e) => {
+          console.error(`problem with request: ${e.message}`);
+        });
+        
+        // write data to request body
+        req.write(postData);
+        req.end();
+
         passingrates_official_normal.push(one_reg_official_normal.passingrate);
         detailsinfonormal.unshift({
           date            : item,
