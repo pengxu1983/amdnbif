@@ -75,7 +75,12 @@ module.exports = {
       defaultsTo      : 0
     },
     updatetime        : {
-      type            : 'string'
+      type            : 'string',
+      defaultsTo      : 'NA'
+    },
+    kickofftime       : {
+      type            : 'string',
+      defaultsTo      : 'NA'
     }
 
     //  ╔═╗╔╦╗╔╗ ╔═╗╔╦╗╔═╗

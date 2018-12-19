@@ -29,13 +29,6 @@ module.exports = {
   fn: async function (inputs, exits) {
     sails.log('/regression/check');
     sails.log(inputs);
-    //if(inputs.kind  ==  'rangepassingrate'){
-    //  var result  = await sails.helpers.rangepassingrate.with({
-    //    datestart : inputs.datestart,
-    //    dateend   : inputs.dateend
-    //  });
-    //  return exits.success(result);
-    //}
     var i = 0;
     var item = "";
     var passingrates_official_normal  = [];
