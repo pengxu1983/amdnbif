@@ -341,7 +341,7 @@ module.exports = {
             unknownnum      : 0,
           });
         }
-        
+        i++;
       }
     }
     return exits.success({
