@@ -63,40 +63,42 @@ module.exports = {
 	        });
 	      }
         ///////////////////TODO/////////////////////////
-        var postData = querystring.stringify({
-          'batchname': one_reg_official_normal.batchname
-        });
-        
-        var options = {
-          hostname: 'localhost',
-          port: 80,
-          path: '/regression/calpassingrate',
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/x-www-form-urlencoded',
-            'Content-Length': Buffer.byteLength(postData)
-          }
-        };
-        
-        var req = http.request(options, (res) => {
-          console.log(`STATUS: ${res.statusCode}`);
-          console.log(`HEADERS: ${JSON.stringify(res.headers)}`);
-          res.setEncoding('utf8');
-          res.on('data', (chunk) => {
-            console.log(`BODY: ${chunk}`);
+        if(one_reg_official_normal){
+          var postData = querystring.stringify({
+            'batchname': one_reg_official_normal.batchname
           });
-          res.on('end', () => {
-            console.log('No more data in response.');
+          
+          var options = {
+            hostname: 'localhost',
+            port: 80,
+            path: '/regression/calpassingrate',
+            method: 'POST',
+            headers: {
+              'Content-Type': 'application/x-www-form-urlencoded',
+              'Content-Length': Buffer.byteLength(postData)
+            }
+          };
+          
+          var req = http.request(options, (res) => {
+            console.log(`STATUS: ${res.statusCode}`);
+            console.log(`HEADERS: ${JSON.stringify(res.headers)}`);
+            res.setEncoding('utf8');
+            res.on('data', (chunk) => {
+              console.log(`BODY: ${chunk}`);
+            });
+            res.on('end', () => {
+              console.log('No more data in response.');
+            });
           });
-        });
-        
-        req.on('error', (e) => {
-          console.error(`problem with request: ${e.message}`);
-        });
-        
-        // write data to request body
-        req.write(postData);
-        req.end();
+          
+          req.on('error', (e) => {
+            console.error(`problem with request: ${e.message}`);
+          });
+          
+          // write data to request body
+          req.write(postData);
+          req.end();
+        }
         ///////////////////TODO/////////////////////////
         passingrates_official_normal.push(one_reg_official_normal.passingrate);
         detailsinfonormal.unshift({
