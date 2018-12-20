@@ -25,7 +25,7 @@
         </el-form>
       </el-container>
       <hr />
-      <h3>Normal Regression PassingRate</h3>
+      <h3>Normal Regression</h3>
       <el-tabs v-model="activeNameNormal" @tab-click="handleClickNormal">
         <el-tab-pane label="Trend Chart" name="passingratenormal">
           <div id="chartRegressionNormal" style="width: 100%;height:400px;">
@@ -33,6 +33,206 @@
         </el-tab-pane>
         <el-tab-pane label="Details Info" name="detailsinfonormal">
           <el-container style="width: 100%;height:400px;">
+            <el-table
+              :data="detailsinfonormal"
+              height="400"
+              border
+              style="width: 100%">
+              <el-table-column
+                prop="date"
+                label="Date"                    
+              >                                 
+              </el-table-column>                
+              <el-table-column
+                prop="changelist"                     
+                label="ChangeList"                    
+              >                    
+              </el-table-column>
+              <el-table-column
+                prop="totalnum"
+                label="TotalNum"
+              >
+              </el-table-column>
+              <el-table-column
+                prop="totalnumdelta"
+                label="TotalNumDelta"
+              >
+              </el-table-column>
+              <el-table-column
+                prop="passednum"
+                label="PassedNum"
+              >
+              </el-table-column>
+              <el-table-column
+                prop="failednum"
+                label="FailedNum"
+              >
+              </el-table-column>
+              <el-table-column
+                prop="unknownnum"
+                label="UnknownNum"
+              >
+              </el-table-column>
+            </el-table>
+          </el-container>
+        </el-tab-pane>
+      </el-tabs>
+      <hr />
+      <h3>Long Regression</h3>
+      <el-tabs v-model="activeNameLong" @tab-click="handleClickLong">
+        <el-tab-pane label="Trend Chart" name="passingratelong">
+          <div id="chartRegressionLong" style="width: 100%;height:400px;">
+          </div>
+        </el-tab-pane>
+        <el-tab-pane label="Details Info" name="detailsinfolong">
+          <el-container style="width: 100%;height:400px;">
+            <el-table
+              :data="detailsinfolong"
+              height="400"
+              border
+              style="width: 100%">
+              <el-table-column
+                prop="date"
+                label="Date"                    
+              >                                 
+              </el-table-column>                
+              <el-table-column
+                prop="changelist"                     
+                label="ChangeList"                    
+              >                    
+              </el-table-column>
+              <el-table-column
+                prop="totalnum"
+                label="TotalNum"
+              >
+              </el-table-column>
+              <el-table-column
+                prop="totalnumdelta"
+                label="TotalNumDelta"
+              >
+              </el-table-column>
+              <el-table-column
+                prop="passednum"
+                label="PassedNum"
+              >
+              </el-table-column>
+              <el-table-column
+                prop="failednum"
+                label="FailedNum"
+              >
+              </el-table-column>
+              <el-table-column
+                prop="unknownnum"
+                label="UnknownNum"
+              >
+              </el-table-column>
+            </el-table>
+          </el-container>
+        </el-tab-pane>
+      </el-tabs>
+      <hr />
+      <h3>Baco Regression</h3>
+      <el-tabs v-model="activeNameBaco" @tab-click="handleClickBaco">
+        <el-tab-pane label="Trend Chart" name="passingratebaco">
+          <div id="chartRegressionBaco" style="width: 100%;height:400px;">
+          </div>
+        </el-tab-pane>
+        <el-tab-pane label="Details Info" name="detailsinfobaco">
+          <el-container style="width: 100%;height:400px;">
+            <el-table
+              :data="detailsinfobaco"
+              height="400"
+              border
+              style="width: 100%">
+              <el-table-column
+                prop="date"
+                label="Date"                    
+              >                                 
+              </el-table-column>                
+              <el-table-column
+                prop="changelist"                     
+                label="ChangeList"                    
+              >                    
+              </el-table-column>
+              <el-table-column
+                prop="totalnum"
+                label="TotalNum"
+              >
+              </el-table-column>
+              <el-table-column
+                prop="totalnumdelta"
+                label="TotalNumDelta"
+              >
+              </el-table-column>
+              <el-table-column
+                prop="passednum"
+                label="PassedNum"
+              >
+              </el-table-column>
+              <el-table-column
+                prop="failednum"
+                label="FailedNum"
+              >
+              </el-table-column>
+              <el-table-column
+                prop="unknownnum"
+                label="UnknownNum"
+              >
+              </el-table-column>
+            </el-table>
+          </el-container>
+        </el-tab-pane>
+      </el-tabs>
+      <hr />
+      <h3>PG Regression</h3>
+      <el-tabs v-model="activeNamePG" @tab-click="handleClickPG">
+        <el-tab-pane label="Trend Chart" name="passingratepg">
+          <div id="chartRegressionPG" style="width: 100%;height:400px;">
+          </div>
+        </el-tab-pane>
+        <el-tab-pane label="Details Info" name="detailsinfopg">
+          <el-container style="width: 100%;height:400px;">
+            <el-table
+              :data="detailsinfopg"
+              height="400"
+              border
+              style="width: 100%">
+              <el-table-column
+                prop="date"
+                label="Date"                    
+              >                                 
+              </el-table-column>                
+              <el-table-column
+                prop="changelist"                     
+                label="ChangeList"                    
+              >                    
+              </el-table-column>
+              <el-table-column
+                prop="totalnum"
+                label="TotalNum"
+              >
+              </el-table-column>
+              <el-table-column
+                prop="totalnumdelta"
+                label="TotalNumDelta"
+              >
+              </el-table-column>
+              <el-table-column
+                prop="passednum"
+                label="PassedNum"
+              >
+              </el-table-column>
+              <el-table-column
+                prop="failednum"
+                label="FailedNum"
+              >
+              </el-table-column>
+              <el-table-column
+                prop="unknownnum"
+                label="UnknownNum"
+              >
+              </el-table-column>
+            </el-table>
           </el-container>
         </el-tab-pane>
       </el-tabs>
@@ -66,24 +266,27 @@ export default {
       PassingRate_his_long  : [],
       FuncCov_his           : [],
       CodeCov_his           : [],
-      RegressionNormalInfo  : [
-        {
-          changelist      : '',
-          totalnum        : '',
-          totalnumdelta   : '',
-          passednum       : '',
-          passednumrate   : '',
-          failednum       : '',
-          failednumrate   : '',
-          unknownnum      : '',
-          unknownnumrate  : ''
-        }
-      ],
-      activeNameNormal: 'passingratenormal',
+      activeNameNormal      : 'passingratenormal',
+      activeNameLong        : 'passingratelong',
+      activeNamePG          : 'passingratepg',
+      activeNameBaco        : 'passingratebaco',
+      detailsinfonormal     : [],
+      detailsinfolong       : [],
+      detailsinfobaco       : [],
+      detailsinfopg         : [],
     }
   },
   methods : {
     handleClickNormal(tab, event) {
+      console.log(tab, event);
+    },
+    handleClickBaco(tab, event) {
+      console.log(tab, event);
+    },
+    handleClickLong(tab, event) {
+      console.log(tab, event);
+    },
+    handleClickPG(tab, event) {
       console.log(tab, event);
     },
     onSubmit  : function(){
@@ -160,6 +363,10 @@ export default {
             this.PassingRate_his_long     = response.body.PassingRate_his_long;
             this.PassingRate_his_pg       = response.body.PassingRate_his_pg;
             this.PassingRate_his_baco     = response.body.PassingRate_his_baco;
+            this.detailsinfonormal        = response.body.detailsinfonormal;
+            this.detailsinfolong          = response.body.detailsinfolong;
+            this.detailsinfopg            = response.body.detailsinfopg;
+            this.detailsinfobaco          = response.body.detailsinfobaco;
             this.drawLine('chartRegressionNormal');
             this.drawLine('chartRegressionLong');
             this.drawLine('chartRegressionPG');
@@ -213,7 +420,7 @@ export default {
         series: []
       };
       if(chartid == 'chartRegressionNormal'){
-        option.title.text = 'PassingRate';
+        //option.title.text = 'PassingRate';
         option.series = [
           {
             name:'PassingRate',
@@ -223,7 +430,7 @@ export default {
         ];
       }
       else if(chartid == 'chartRegressionLong'){
-        option.title.text = 'Long Regression PassingRate';
+        //option.title.text = 'PassingRate';
         option.series = [
           {
             name:'PassingRate',
@@ -233,7 +440,7 @@ export default {
         ];
       }
       else if(chartid == 'chartRegressionBaco'){
-        option.title.text = 'Baco Regression PassingRate';
+        //option.title.text = 'PassingRate';
         option.series = [
           {
             name:'PassingRate',
@@ -243,7 +450,7 @@ export default {
         ];
       }
       else if(chartid == 'chartRegressionPG'){
-        option.title.text = 'PG Regression PassingRate';
+        //option.title.text = 'PassingRate';
         option.series = [
           {
             name:'PassingRate',
