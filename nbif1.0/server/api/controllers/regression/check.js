@@ -62,13 +62,14 @@ module.exports = {
 	          isofficial  : 'yes'
 	        });
 	      }
-        postData = querystring.stringify({
-          'batchname': 'Hello World!'
+        ///////////////////TODO/////////////////////////
+        var postData = querystring.stringify({
+          'batchname': one_reg_official_normal.batchname
         });
         
         var options = {
           hostname: 'localhost',
-          port: 1337,
+          port: 80,
           path: '/regression/calpassingrate',
           method: 'POST',
           headers: {
@@ -96,7 +97,7 @@ module.exports = {
         // write data to request body
         req.write(postData);
         req.end();
-
+        ///////////////////TODO/////////////////////////
         passingrates_official_normal.push(one_reg_official_normal.passingrate);
         detailsinfonormal.unshift({
           date            : item,
