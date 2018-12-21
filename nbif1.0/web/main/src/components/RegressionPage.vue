@@ -237,12 +237,6 @@
         </el-tab-pane>
       </el-tabs>
       <hr />
-      <div id="chartRegressionLong" style="width: 100%;height:400px;">
-      </div>
-      <div id="chartRegressionBaco" style="width: 100%;height:400px;">
-      </div>
-      <div id="chartRegressionPG" style="width: 100%;height:400px;">
-      </div>
     </el-col>
   </el-container>
 </template>
