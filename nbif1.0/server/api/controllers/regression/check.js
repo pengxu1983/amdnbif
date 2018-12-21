@@ -68,8 +68,8 @@ module.exports = {
           });
           
           var options = {
-            hostname: 'http://amdnbif.thehunters.club',
-            port: 80,
+            hostname: 'localhost',
+            port: 7001,
             path: '/regression/calpassingrate',
             method: 'POST',
             headers: {
@@ -142,7 +142,7 @@ module.exports = {
           
           var options = {
             hostname: 'localhost',
-            port: 80,
+            port: 7001,
             path: '/regression/calpassingrate',
             method: 'POST',
             headers: {
@@ -216,7 +216,7 @@ module.exports = {
           
           var options = {
             hostname: 'localhost',
-            port: 80,
+            port: 7001,
             path: '/regression/calpassingrate',
             method: 'POST',
             headers: {
@@ -290,7 +290,7 @@ module.exports = {
           
           var options = {
             hostname: 'localhost',
-            port: 80,
+            port: 7001,
             path: '/regression/calpassingrate',
             method: 'POST',
             headers: {

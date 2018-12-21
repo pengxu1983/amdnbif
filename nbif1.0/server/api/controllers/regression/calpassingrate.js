@@ -20,7 +20,7 @@ module.exports = {
   },
 
 
-  fn: async function (inputs) {
+  fn: async function (inputs,exits) {
     sails.log('regression/calpassingrate');
     sails.log(inputs);
     var passednum;
