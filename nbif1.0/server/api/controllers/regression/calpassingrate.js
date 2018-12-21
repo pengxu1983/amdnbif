@@ -50,6 +50,7 @@ module.exports = {
       await Regression_log.update({
         batchname : inputs.batchname
       },{
+        passingrate : (passednum/totalnum).toFixed(2),
         passednum : passednum,
         failednum : failednum,
         totalnum  : totalnum,
