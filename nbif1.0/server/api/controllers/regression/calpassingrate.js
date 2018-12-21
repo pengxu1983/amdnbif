@@ -58,7 +58,7 @@ module.exports = {
       });
     }
     // All done.
-    return;
+    return exits.success({ok:'ok'});
 
   }
 

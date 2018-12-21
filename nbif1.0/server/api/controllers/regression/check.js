@@ -68,7 +68,7 @@ module.exports = {
           });
           
           var options = {
-            hostname: 'localhost',
+            hostname: 'http://amdnbif.thehunters.club',
             port: 80,
             path: '/regression/calpassingrate',
             method: 'POST',
