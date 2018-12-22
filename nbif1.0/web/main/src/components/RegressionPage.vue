@@ -11,6 +11,13 @@
             <el-select v-model="projectinfo.projectname" placeholder="ProjectName">
               <el-option label="NV21" value="NV21"></el-option>
               <el-option label="MERO" value="MERO"></el-option>
+              <el-option label="FLOYD" value="FLOYD"></el-option>
+            </el-select>
+          </el-form-item>
+          <el-form-item label="ProjectName">
+            <el-select v-model="projectinfo.variant" placeholder="VariantName">
+              <el-option label="nbif_nv10_gpu" value="nbif_nv10_gpu"></el-option>
+              <el-option label="nbif_al_gpu" value="nbif_al_gpu"></el-option>
             </el-select>
           </el-form-item>
           <el-form-item label="TimeWindow">
@@ -251,7 +258,8 @@ export default {
     return {
       projectinfo : {
         projectname : 'NV21',
-        timewindow  : 'week'
+        timewindow  : 'week',
+        variant     : ''
       },
       xAxislist             : [],
       PassingRate_his_normal: [],
@@ -295,7 +303,7 @@ export default {
           i++;
         }
         console.log(this.xAxislist);
-        this.getPassingRate(moment().subtract(1,'weeks').add(1,'days').format('YYYY-MM-DD'),moment().format('YYYY-MM-DD'));
+        this.getPassingRate(moment().subtract(1,'weeks').add(1,'days').format('YYYY-MM-DD'),moment().format('YYYY-MM-DD'),this.projectinfo.projectname,this.projectinfo.variant);
       }
       else if(this.projectinfo.timewindow == 'month'){
         this.xAxislist = [];
@@ -305,7 +313,7 @@ export default {
           i++;
         }
         console.log(this.xAxislist);
-        this.getPassingRate(moment().subtract(1,'months').add(1,'days').format('YYYY-MM-DD'),moment().format('YYYY-MM-DD'));
+        this.getPassingRate(moment().subtract(1,'months').add(1,'days').format('YYYY-MM-DD'),moment().format('YYYY-MM-DD'),this.projectinfo.projectname,this.projectinfo.variant);
       }
       else if(this.projectinfo.timewindow == 'threemonths'){
         this.xAxislist = [];
@@ -315,7 +323,7 @@ export default {
           i++;
         }
         console.log(this.xAxislist);
-        this.getPassingRate(moment().subtract(3,'months').add(1,'days').format('YYYY-MM-DD'),moment().format('YYYY-MM-DD'));
+        this.getPassingRate(moment().subtract(3,'months').add(1,'days').format('YYYY-MM-DD'),moment().format('YYYY-MM-DD'),this.projectinfo.projectname,this.projectinfo.variant);
       }
       else if(this.projectinfo.timewindow == 'halfyear'){
         this.xAxislist = [];
@@ -325,23 +333,26 @@ export default {
           i++;
         }
         console.log(this.xAxislist);
-        this.getPassingRate(moment().subtract(6,'months').add(1,'days').format('YYYY-MM-DD'),moment().format('YYYY-MM-DD'));
+        this.getPassingRate(moment().subtract(6,'months').add(1,'days').format('YYYY-MM-DD'),moment().format('YYYY-MM-DD'),this.projectinfo.projectname,this.projectinfo.variant);
       }
       this.drawLine('chartRegressionNormal');
       this.drawLine('chartRegressionLong');
       this.drawLine('chartRegressionPG');
       this.drawLine('chartRegressionBaco');
     },
-    getPassingRate  :function(datestart,dateend) {
+    getPassingRate  :function(datestart,dateend,projectname,variant) {
       console.log('getPassingRate');
       console.log('datestart');
       console.log(datestart);
       console.log('dateend');
       console.log(dateend);
+      console.log(projectname);
       this.$http.post('/regression/check',{
         kind  : 'rangepassingrate',
-        datestart  : datestart,
-        dateend    : dateend
+        datestart   : datestart,
+        dateend     : dateend,
+        projectname : projectname,
+        variant     : variant
       }).then(
         function(response){
           if(response.body.ok ==  'ok'){
