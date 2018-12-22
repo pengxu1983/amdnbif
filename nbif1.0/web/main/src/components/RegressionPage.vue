@@ -468,11 +468,12 @@ export default {
     }
   },
   mounted(){
-    this.getPassingRate(moment().subtract(1,'weeks').add(1,'days').format('YYYY-MM-DD'),moment().format('YYYY-MM-DD'),this.projectinfo.projectname,this.projectinfo.variant);
-    this.drawLine('chartRegressionNormal');
-    this.drawLine('chartRegressionLong');
-    this.drawLine('chartRegressionPG');
-    this.drawLine('chartRegressionBaco');
+    this.onSubmit();
+    //this.getPassingRate(moment().subtract(1,'weeks').add(1,'days').format('YYYY-MM-DD'),moment().format('YYYY-MM-DD'),this.projectinfo.projectname,this.projectinfo.variant);
+    //this.drawLine('chartRegressionNormal');
+    //this.drawLine('chartRegressionLong');
+    //this.drawLine('chartRegressionPG');
+    //this.drawLine('chartRegressionBaco');
   },
 }
 </script>
