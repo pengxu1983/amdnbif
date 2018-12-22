@@ -11,6 +11,7 @@
             <el-select v-model="projectinfo.projectname" placeholder="ProjectName">
               <el-option label="NV21" value="NV21"></el-option>
               <el-option label="MERO" value="MERO"></el-option>
+              <el-option label="MI200" value="MI200"></el-option>
               <el-option label="FLOYD" value="FLOYD"></el-option>
             </el-select>
           </el-form-item>
@@ -18,6 +19,11 @@
             <el-select v-model="projectinfo.variant" placeholder="VariantName">
               <el-option label="nbif_nv10_gpu" value="nbif_nv10_gpu"></el-option>
               <el-option label="nbif_al_gpu" value="nbif_al_gpu"></el-option>
+              <el-option label="nbif_ssp_generic_a" value="nbif_ssp_generic_a"></el-option>
+              <el-option label="nbif_ssp_generic_b" value="nbif_ssp_generic_b"></el-option>
+              <el-option label="nbif_ssp_ntb" value="nbif_ssp_ntb"></el-option>
+              <el-option label="nbif_vg20_gpu" value="nbif_vg20_gpu"></el-option>
+              <el-option label="nbif_oak_gpu" value="nbif_oak_gpu"></el-option>
             </el-select>
           </el-form-item>
           <el-form-item label="TimeWindow">

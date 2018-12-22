@@ -61,6 +61,10 @@ export default {
       ],
       versionRecord : [
         {
+          versionID : '1.4.4',
+          versionLog  : '1. project name supports "FLOYD", "MI200", "NV21", "MERO"\n2. variant name supports "nbif_al_gpu", "nbif_al_gpu", "nbif_ssp_generic_a", "nbif_ssp_generic_b", "nbif_ssp_ntb", "nbif_oak_gpu" and "nbif_vg20_gpu"'
+        },
+        {
           versionID : '1.4.3',
           versionLog  : 'add home link'
         },
