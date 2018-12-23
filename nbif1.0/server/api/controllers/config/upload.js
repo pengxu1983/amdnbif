@@ -29,7 +29,17 @@ module.exports = {
       await Users.destroy({
         id: {'>=':0}
       });
-      await Users.createEach(users);
+      for(var i=0;i<inputs.users.length;i++){
+        if(inputs.users[i].realname == ''){
+          //Do nothing
+        }
+        else {
+          await Users.create({
+            realname  : inputs.users[i].realname,
+            email     : inputs.users[i].email
+          });
+        }
+      }
       return exits.success({ok:'ok'});
     }
     // All done.
