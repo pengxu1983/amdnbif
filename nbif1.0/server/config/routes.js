@@ -71,7 +71,7 @@ module.exports.routes = {
   'POST /config/upload'   : {
     action  : 'config/upload'
   },
-  'POST /config/upload'   : {
+  'POST /config/get'   : {
     action  : 'config/get'
   },
 
