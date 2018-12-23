@@ -69,9 +69,10 @@ export default {
       rows.splice(index, 1);
     },
     upload () {
+      console.log('upload');
       this.$http.post('/config/upload',{
         kind  : 'usersupload',
-        users : users 
+        users : this.users 
       }).then(
         function(response){
           if(response.body.ok ==  'ok'){
