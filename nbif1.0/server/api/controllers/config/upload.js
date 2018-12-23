@@ -112,7 +112,7 @@ module.exports = {
           //Do nothing
         }
         else {
-          await Testplans.create({
+          await Variants.create({
             variantname : inputs.variants[i].variantname,
           });
         }
