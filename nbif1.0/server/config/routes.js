@@ -66,7 +66,14 @@ module.exports.routes = {
 
   'POST /testplans/upload'  : {
     action  : 'testplans/upload'
-  }
+  },
+
+  'POST /config/upload'   : {
+    action  : 'config/upload'
+  },
+  'POST /config/upload'   : {
+    action  : 'config/get'
+  },
 
   //  ╔═╗╔═╗╦  ╔═╗╔╗╔╔╦╗╔═╗╔═╗╦╔╗╔╔╦╗╔═╗
   //  ╠═╣╠═╝║  ║╣ ║║║ ║║╠═╝║ ║║║║║ ║ ╚═╗

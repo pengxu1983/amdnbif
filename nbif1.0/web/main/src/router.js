@@ -4,6 +4,7 @@ import Home from './views/Home.vue'
 import Review from './views/Review.vue'
 import Regression from './views/Regression.vue'
 import Action from './views/Action.vue'
+import Config from './views/Config.vue'
 
 Vue.use(Router)
 
@@ -33,6 +34,11 @@ export default new Router({
       path: '/Action',
       name: 'Action',
       component: Action
+    },
+    {
+      path: '/Config',
+      name: 'Config',
+      component: Config
     },
 
     //{
