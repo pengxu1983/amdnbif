@@ -104,15 +104,7 @@ export default {
         projectname : 'NV21',
         variantname : 'nbif_nv10_gpu',
       },
-      variants  : [
-        'nbif_nv10_gpu',
-        'nbif_oak_gpu',
-        'nbif_vg20_gpu',
-        'nbif_ssp_ntb',
-        'nbif_ssp_generic_a',
-        'nbif_ssp_generic_b',
-        'nbif_al_gpu',
-      ],
+      variants  : [],
       projects  : [
         'NV21',
         'MI200',

@@ -44,7 +44,7 @@ module.exports = {
       type    : 'string'
     },
 
-    testplans : {
+    variants  : {
       type    : 'string',
       columnType  : 'longtext'
     }

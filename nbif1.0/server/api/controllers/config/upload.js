@@ -78,7 +78,7 @@ module.exports = {
       return exits.success({ok:'ok'});
     }
     ///////////////////
-    //for Testplans 
+    //for Projects
     ///////////////////
     else if(inputs.kind == 'projectsupload'){
       await Projects.destroy({
@@ -89,12 +89,15 @@ module.exports = {
           //Do nothing
         }
         else {
-          await Testplans.create({
-            name            : inputs.testplans[i].name,
-            projectname     : inputs.testplans[i].projectname,
-            DEowner         : inputs.testplans[i].DEowner,
-            DVowner         : inputs.testplans[i].DVowner,
-            testnameprefix  : inputs.testplans[i].testnameprefix
+          await Projects.create({
+            name      : inputs.projects[i].name,
+            LSA       : inputs.projects[i].LSA ,
+            LSB       : inputs.projects[i].LSB ,
+            LSC       : inputs.projects[i].LSC ,
+            LSD       : inputs.projects[i].LSD ,
+            DElead    : inputs.projects[i].DElead,
+            DVlead    : inputs.projects[i].DVlead,
+            Projlead  : inputs.projects[i].Projlead
           });
         }
       }

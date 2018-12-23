@@ -1,23 +1,93 @@
 <template>
-  <el-table
-    :data="tableData"
-    border
-    style="width: 100%">
-    <el-table-column
-      prop="date"
-      label="日期"
-      width="180">
-    </el-table-column>
-    <el-table-column
-      prop="name"
-      label="姓名"
-      width="180">
-    </el-table-column>
-    <el-table-column
-      prop="address"
-      label="地址">
-    </el-table-column>
-  </el-table>
+  <el-container>
+    <el-col :span=24>
+      <el-row>
+        <el-button type="primary" round @click='add()'>Add</el-button>
+        <el-button type="primary" round @click='upload()'>Upload</el-button>
+      </el-row>
+      <el-table
+        :data="projects"
+        border
+        style="width: 100%"
+      >
+        <el-table-column
+          fixed
+          prop="name"
+          label="name"
+        >
+          <template slot-scope="scope">
+            <el-input
+              placeholder="name"
+              v-model="scope.row.name"
+              clearable>
+            </el-input>
+          </template>
+        </el-table-column>
+        <el-table-column
+          prop="Projlead"
+          label="Projlead"
+        >
+          <template slot-scope="scope">
+            <el-input
+              placeholder="Project lead"
+              v-model="scope.row.Projlead"
+              clearable>
+            </el-input>
+          </template>
+        </el-table-column>
+        <el-table-column
+          prop="DVlead"
+          label="DVlead"
+        >
+          <template slot-scope="scope">
+            <el-input
+              placeholder="DV lead"
+              v-model="scope.row.DVlead"
+              clearable>
+            </el-input>
+          </template>
+        </el-table-column>
+        <el-table-column
+          prop="DElead"
+          label="DElead"
+        >
+          <template slot-scope="scope">
+            <el-input
+              placeholder="DE lead"
+              v-model="scope.row.DElead"
+              clearable>
+            </el-input>
+          </template>
+        </el-table-column>
+        <el-table-column
+          prop="variants"
+          label="variants"
+        >
+          <template slot-scope="scope">
+            <el-input
+              placeholder="variants"
+              v-model="scope.row.variants"
+              clearable>
+            </el-input>
+          </template>
+        </el-table-column>
+        <el-table-column
+          fixed="right"
+          label="operation"
+          width="120"
+        >
+          <template slot-scope="scope">
+            <el-button
+              @click.native.prevent="deleteRow(scope.$index, projects)"
+              type="text"
+              size="small">
+              Delete
+            </el-button>
+          </template>
+        </el-table-column>
+      </el-table>
+    </el-col>
+  </el-container>
 </template>
 
 <script>
@@ -27,25 +97,65 @@ export default {
   },
   data () {
     return {
-      tableData: [{
-        date: '2016-05-02',
-        name: '王小虎',
-        address: '上海市普陀区金沙江路 1518 弄'
-      }, {
-        date: '2016-05-04',
-        name: '王小虎',
-        address: '上海市普陀区金沙江路 1517 弄'
-      }, {
-        date: '2016-05-01',
-        name: '王小虎',
-        address: '上海市普陀区金沙江路 1519 弄'
-      }, {
-        date: '2016-05-03',
-        name: '王小虎',
-        address: '上海市普陀区金沙江路 1516 弄'
-      }]
+      projects  : []
     }
   },
+  methods : {
+    deleteRow(index, rows) {
+      rows.splice(index, 1);
+    },
+    upload () {
+      console.log('upload');
+      for(var i=0;i<this.projects.length;i++){
+        console.log(this.projects[i].name);
+      }
+      this.$http.post('/config/upload',{
+        kind  : 'projectsupload',
+        projects  : this.projects
+      }).then(
+        function(response){
+          if(response.body.ok ==  'ok'){
+            console.log('ok');
+          }
+          this.get();
+          alert('uploaded');
+        },
+        function(){}
+      );
+    },
+    add () {
+      this.projects.push({
+        name      : '',
+        Projlead  : '',
+        DVlead    : '',
+        DElead    : '',
+        variants  : ''
+      });
+    },
+    get () {
+      this.$http.post('/config/get',{
+        kind  : 'allprojectsget'
+      }).then(
+        function(response){
+          if(response.body.ok ==  'ok'){
+            this.projects = [];
+            for(var index = 0; index < response.body.projects.length; index++){
+              this.projects.push({
+                name      : response.body.projects[index].name,
+                DVlead    : response.body.projects[index].DVlead,
+                DElead    : response.body.projects[index].DElead,
+                Projlead  : response.body.projects[index].Projlead,
+                variants  : response.body.projects[index].variants
+              });
+            }
+          }
+        },
+        function(){}
+      );
+    }
+  },
+  mounted  () {
+  }
 }
 </script>
 
