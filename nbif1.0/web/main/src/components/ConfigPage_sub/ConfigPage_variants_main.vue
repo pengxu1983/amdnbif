@@ -77,7 +77,7 @@ export default {
     },
     add () {
       this.variants.push({
-        variants  : ''
+        variantname  : ''
       });
     },
     get () {

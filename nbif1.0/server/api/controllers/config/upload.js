@@ -108,16 +108,12 @@ module.exports = {
         id: {'>=':0}
       });
       for(var i=0;i<inputs.variants.length;i++){
-        if(inputs.projects[i].name== ''){
+        if(inputs.variants[i].variantname== ''){
           //Do nothing
         }
         else {
           await Testplans.create({
-            name            : inputs.testplans[i].name,
-            projectname     : inputs.testplans[i].projectname,
-            DEowner         : inputs.testplans[i].DEowner,
-            DVowner         : inputs.testplans[i].DVowner,
-            testnameprefix  : inputs.testplans[i].testnameprefix
+            variantname : inputs.variants[i].variantname,
           });
         }
       }
