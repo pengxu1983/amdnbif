@@ -14,9 +14,11 @@ module.exports = {
     //  ╩  ╩╚═╩╩ ╩╩ ╩ ╩ ╚╝ ╚═╝╚═╝
     name      : {
       type    : 'string',
-      unique  : true
     },
     projectname : {
+      type    : 'string',
+    },
+    variantname : {
       type    : 'string',
     },
     DEowner   : {

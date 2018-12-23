@@ -1,56 +1,56 @@
 <template>
   <el-container>
-  <el-col :span=24>
-    <el-row>
-      <el-button type="primary" round @click='add()'>Add</el-button>
-      <el-button type="primary" round @click='upload()'>Upload</el-button>
-    </el-row>
-    <el-table
-      :data="users"
-      border
-      style="width: 100%"
-    >
-      <el-table-column
-        fixed
-        prop="realname"
-        label="realname"
+    <el-col :span=24>
+      <el-row>
+        <el-button type="primary" round @click='add()'>Add</el-button>
+        <el-button type="primary" round @click='upload()'>Upload</el-button>
+      </el-row>
+      <el-table
+        :data="users"
+        border
+        style="width: 100%"
       >
-        <template slot-scope="scope">
-          <el-input
-            placeholder="realname"
-            v-model="scope.row.realname"
-            clearable>
-          </el-input>
-        </template>
-      </el-table-column>
-      <el-table-column
-        prop="email"
-        label="email"
-      >
-        <template slot-scope="scope">
-          <el-input
-            placeholder="email"
-            v-model="scope.row.email"
-            clearable>
-          </el-input>
-        </template>
-      </el-table-column>
-      <el-table-column
-        fixed="right"
-        label="operation"
-        width="120"
-      >
-        <template slot-scope="scope">
-          <el-button
-            @click.native.prevent="deleteRow(scope.$index, users)"
-            type="text"
-            size="small">
-            Delete
-          </el-button>
-        </template>
-      </el-table-column>
-    </el-table>
-  </el-col>
+        <el-table-column
+          fixed
+          prop="realname"
+          label="realname"
+        >
+          <template slot-scope="scope">
+            <el-input
+              placeholder="realname"
+              v-model="scope.row.realname"
+              clearable>
+            </el-input>
+          </template>
+        </el-table-column>
+        <el-table-column
+          prop="email"
+          label="email"
+        >
+          <template slot-scope="scope">
+            <el-input
+              placeholder="email"
+              v-model="scope.row.email"
+              clearable>
+            </el-input>
+          </template>
+        </el-table-column>
+        <el-table-column
+          fixed="right"
+          label="operation"
+          width="120"
+        >
+          <template slot-scope="scope">
+            <el-button
+              @click.native.prevent="deleteRow(scope.$index, users)"
+              type="text"
+              size="small">
+              Delete
+            </el-button>
+          </template>
+        </el-table-column>
+      </el-table>
+    </el-col>
   </el-container>
 </template>
 
@@ -70,6 +70,10 @@ export default {
     },
     upload () {
       console.log('upload');
+      for(var i=0;i<this.users.length;i++){
+        console.log(this.users[i].realname);
+        console.log(this.users[i].email);
+      }
       this.$http.post('/config/upload',{
         kind  : 'usersupload',
         users : this.users 

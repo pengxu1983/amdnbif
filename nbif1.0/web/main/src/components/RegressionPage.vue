@@ -15,7 +15,7 @@
               <el-option label="FLOYD" value="FLOYD"></el-option>
             </el-select>
           </el-form-item>
-          <el-form-item label="ProjectName">
+          <el-form-item label="VariantName">
             <el-select v-model="projectinfo.variant" placeholder="VariantName">
               <el-option label="nbif_nv10_gpu" value="nbif_nv10_gpu"></el-option>
               <el-option label="nbif_al_gpu" value="nbif_al_gpu"></el-option>
