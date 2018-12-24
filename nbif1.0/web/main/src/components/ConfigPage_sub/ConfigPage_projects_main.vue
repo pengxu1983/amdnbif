@@ -107,7 +107,8 @@ export default {
   data () {
     return {
       projects  : [],
-      users     : []
+      users     : [],
+      variants  : []
     }
   },
   methods : {
@@ -143,6 +144,22 @@ export default {
       });
     },
     get () {
+      //Variants get info
+      this.$http.post('/config/get',{
+        kind  : 'allvariantsget'
+      }).then(
+        function(response){
+          if(response.body.ok ==  'ok'){
+            this.variants = [];
+            for(var index = 0; index < response.body.variants.length; index++){
+              this.variants.push({
+                variantname : response.body.variants[index].variantname,
+              });
+            }
+          }
+        },
+        function(){}
+      );
       //Users get info
       this.$http.post('/config/get',{
         kind  : 'allusersget'
