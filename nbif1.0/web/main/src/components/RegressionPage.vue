@@ -11,8 +11,8 @@
             <el-select v-model="projectinfo.projectname" placeholder="ProjectName">
               <el-option 
                 v-for="oneproject in projects" 
-                :label="oneproject" 
-                :value="oneproject"
+                :label="oneproject.name" 
+                :value="oneproject.name"
               >
               </el-option>
             </el-select>
@@ -21,8 +21,8 @@
             <el-select v-model="projectinfo.variantname" placeholder="VariantName">
               <el-option 
                 v-for="onevariant in variants" 
-                :label="onevariant" 
-                :value="onevariant"
+                :label="onevariant.variantname" 
+                :value="onevariant.variantname"
               >
               </el-option>
             </el-select>
