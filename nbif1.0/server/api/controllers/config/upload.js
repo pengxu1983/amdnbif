@@ -48,7 +48,8 @@ module.exports = {
         else {
           await Users.create({
             realname  : inputs.users[i].realname,
-            email     : inputs.users[i].email
+            email     : inputs.users[i].email,
+            groupname : inputs.users[i].groupname
           });
         }
       }
