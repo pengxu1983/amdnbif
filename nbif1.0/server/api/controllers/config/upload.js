@@ -97,7 +97,8 @@ module.exports = {
             LSD       : inputs.projects[i].LSD ,
             DElead    : inputs.projects[i].DElead,
             DVlead    : inputs.projects[i].DVlead,
-            Projlead  : inputs.projects[i].Projlead
+            Projlead  : inputs.projects[i].Projlead,
+            variants  : inputs.projects[i].variants
           });
         }
       }
