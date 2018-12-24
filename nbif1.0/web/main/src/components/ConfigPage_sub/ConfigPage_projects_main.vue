@@ -73,11 +73,11 @@
           label="variants"
         >
           <template slot-scope="scope">
-            <el-input
-              placeholder="variants"
-              v-model="scope.row.variants"
-              clearable>
-            </el-input>
+            <el-checkbox-group v-model="scope.row.variants">
+              <div v-for="onevariant in variants">
+                <el-checkbox label="onevariant.variantname"></el-checkbox>
+              </div>
+            </el-checkbox-group>
           </template>
         </el-table-column>
         <el-table-column
