@@ -9,21 +9,22 @@
         <el-form :inline="true" :model="projectinfo" class="demo-form-inline">
           <el-form-item label="ProjectName">
             <el-select v-model="projectinfo.projectname" placeholder="ProjectName">
-              <el-option label="NV21" value="NV21"></el-option>
-              <el-option label="MERO" value="MERO"></el-option>
-              <el-option label="MI200" value="MI200"></el-option>
-              <el-option label="FLOYD" value="FLOYD"></el-option>
+              <el-option 
+                v-for="oneproject in projects" 
+                :label="oneproject" 
+                :value="oneproject"
+              >
+              </el-option>
             </el-select>
           </el-form-item>
           <el-form-item label="VariantName">
-            <el-select v-model="projectinfo.variant" placeholder="VariantName">
-              <el-option label="nbif_nv10_gpu" value="nbif_nv10_gpu"></el-option>
-              <el-option label="nbif_al_gpu" value="nbif_al_gpu"></el-option>
-              <el-option label="nbif_ssp_generic_a" value="nbif_ssp_generic_a"></el-option>
-              <el-option label="nbif_ssp_generic_b" value="nbif_ssp_generic_b"></el-option>
-              <el-option label="nbif_ssp_ntb" value="nbif_ssp_ntb"></el-option>
-              <el-option label="nbif_vg20_gpu" value="nbif_vg20_gpu"></el-option>
-              <el-option label="nbif_oak_gpu" value="nbif_oak_gpu"></el-option>
+            <el-select v-model="projectinfo.variantname" placeholder="VariantName">
+              <el-option 
+                v-for="onevariant in variants" 
+                :label="onevariant" 
+                :value="onevariant"
+              >
+              </el-option>
             </el-select>
           </el-form-item>
           <el-form-item label="TimeWindow">
@@ -265,7 +266,7 @@ export default {
       projectinfo : {
         projectname : 'NV21',
         timewindow  : 'week',
-        variant     : 'nbif_nv10_gpu'
+        variantname     : 'nbif_nv10_gpu'
       },
       xAxislist             : [],
       PassingRate_his_normal: [],
@@ -282,6 +283,9 @@ export default {
       detailsinfolong       : [],
       detailsinfobaco       : [],
       detailsinfopg         : [],
+      projects              : [],
+      users                 : [],
+      variants              : []
     }
   },
   methods : {
@@ -309,7 +313,7 @@ export default {
           i++;
         }
         console.log(this.xAxislist);
-        this.getPassingRate(moment().subtract(1,'weeks').add(1,'days').format('YYYY-MM-DD'),moment().format('YYYY-MM-DD'),this.projectinfo.projectname,this.projectinfo.variant);
+        this.getPassingRate(moment().subtract(1,'weeks').add(1,'days').format('YYYY-MM-DD'),moment().format('YYYY-MM-DD'),this.projectinfo.projectname,this.projectinfo.variantname);
       }
       else if(this.projectinfo.timewindow == 'month'){
         this.xAxislist = [];
@@ -319,7 +323,7 @@ export default {
           i++;
         }
         console.log(this.xAxislist);
-        this.getPassingRate(moment().subtract(1,'months').add(1,'days').format('YYYY-MM-DD'),moment().format('YYYY-MM-DD'),this.projectinfo.projectname,this.projectinfo.variant);
+        this.getPassingRate(moment().subtract(1,'months').add(1,'days').format('YYYY-MM-DD'),moment().format('YYYY-MM-DD'),this.projectinfo.projectname,this.projectinfo.variantname);
       }
       else if(this.projectinfo.timewindow == 'threemonths'){
         this.xAxislist = [];
@@ -329,7 +333,7 @@ export default {
           i++;
         }
         console.log(this.xAxislist);
-        this.getPassingRate(moment().subtract(3,'months').add(1,'days').format('YYYY-MM-DD'),moment().format('YYYY-MM-DD'),this.projectinfo.projectname,this.projectinfo.variant);
+        this.getPassingRate(moment().subtract(3,'months').add(1,'days').format('YYYY-MM-DD'),moment().format('YYYY-MM-DD'),this.projectinfo.projectname,this.projectinfo.variantname);
       }
       else if(this.projectinfo.timewindow == 'halfyear'){
         this.xAxislist = [];
@@ -339,14 +343,14 @@ export default {
           i++;
         }
         console.log(this.xAxislist);
-        this.getPassingRate(moment().subtract(6,'months').add(1,'days').format('YYYY-MM-DD'),moment().format('YYYY-MM-DD'),this.projectinfo.projectname,this.projectinfo.variant);
+        this.getPassingRate(moment().subtract(6,'months').add(1,'days').format('YYYY-MM-DD'),moment().format('YYYY-MM-DD'),this.projectinfo.projectname,this.projectinfo.variantname);
       }
       this.drawLine('chartRegressionNormal');
       this.drawLine('chartRegressionLong');
       this.drawLine('chartRegressionPG');
       this.drawLine('chartRegressionBaco');
     },
-    getPassingRate  :function(datestart,dateend,projectname,variant) {
+    getPassingRate  :function(datestart,dateend,projectname,variantname) {
       console.log('getPassingRate');
       console.log('datestart');
       console.log(datestart);
@@ -358,7 +362,7 @@ export default {
         datestart   : datestart,
         dateend     : dateend,
         projectname : projectname,
-        variant     : variant
+        variantname     : variantname
       }).then(
         function(response){
           if(response.body.ok ==  'ok'){
@@ -388,6 +392,73 @@ export default {
         },
         function(){}
       );
+    },
+    get () {
+      //Users info get
+      this.$http.post('/config/get',{
+        kind  : 'allusersget'
+      }).then(
+        function(response){
+          if(response.body.ok=='ok'){
+            this.users  = [];
+            for(var i = 0;i<response.body.users.length;i++){
+              this.users.push({
+                realname  : response.body.users[i].realname,
+                email     : response.body.users[i].email
+              });
+            }
+          }
+        },
+        function(){}
+      );
+      //Projects info get
+      this.$http.post('/config/get',{
+        kind  : 'allprojectsget'
+      }).then(
+        function(response){
+          if(response.body.ok=='ok'){
+            this.projects = [];
+            for(var i = 0;i<response.body.projects.length;i++){
+              this.projects.push({
+                name      : response.body.projects[i].name,
+              });
+            }
+          }
+        },
+        function(){}
+      );
+      //Variants info get
+      this.$http.post('/config/get',{
+        kind  : 'allvariantsget'
+      }).then(
+        function(response){
+          if(response.body.ok=='ok'){
+            this.variants = [];
+            for(var i = 0;i<response.body.variants.length;i++){
+              this.variants.push({
+                variantname : response.body.variants[i].variantname
+              });
+            }
+          }
+        },
+        function(){}
+      );
+      //Testplans info get
+      //this.$http.post('/config/get',{
+      //  kind  : 'alltestplansget'
+      //}).then(
+      //  function(response){
+      //    if(response.body.ok=='ok'){
+      //      this.testplans= [];
+      //      for(var i = 0;i<response.body.testplans.length;i++){
+      //        this.testplans.push({
+      //          name  : response.body.testplans[i].name
+      //        });
+      //      }
+      //    }
+      //  },
+      //  function(){}
+      //);
     },
     drawLine(chartid){
       // 基于准备好的dom，初始化echarts实例
@@ -474,12 +545,8 @@ export default {
     }
   },
   mounted(){
+    this.get();
     this.onSubmit();
-    //this.getPassingRate(moment().subtract(1,'weeks').add(1,'days').format('YYYY-MM-DD'),moment().format('YYYY-MM-DD'),this.projectinfo.projectname,this.projectinfo.variant);
-    //this.drawLine('chartRegressionNormal');
-    //this.drawLine('chartRegressionLong');
-    //this.drawLine('chartRegressionPG');
-    //this.drawLine('chartRegressionBaco');
   },
 }
 </script>

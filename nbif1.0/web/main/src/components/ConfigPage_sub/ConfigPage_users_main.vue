@@ -111,7 +111,8 @@ export default {
     add () {
       this.users.push({
         realname  : '',
-        email     : ''
+        email     : '',
+        groupname : ''
       });
     },
     get () {
