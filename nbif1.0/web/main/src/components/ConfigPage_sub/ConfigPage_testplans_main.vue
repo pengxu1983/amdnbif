@@ -61,11 +61,6 @@
               >
               </el-option>
             </el-select>
-            <el-input
-              placeholder="project name"
-              v-model="scope.row.projectname"
-              clearable>
-            </el-input>
           </template>
         </el-table-column>
         <el-table-column
