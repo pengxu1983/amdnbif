@@ -112,6 +112,19 @@
           </template>
         </el-table-column>
         <el-table-column
+          fixed
+          prop="testnameprefix"
+          label="Test Name Prefix"
+        >
+          <template slot-scope="scope">
+            <el-input
+              placeholder="Test Name Prefix"
+              v-model="scope.row.testnameprefix"
+              clearable>
+            </el-input>
+          </template>
+        </el-table-column>
+        <el-table-column
           fixed="right"
           label="operation"
           width="120"

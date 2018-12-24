@@ -28,11 +28,14 @@
           label="Projlead"
         >
           <template slot-scope="scope">
-            <el-input
-              placeholder="Project lead"
-              v-model="scope.row.Projlead"
-              clearable>
-            </el-input>
+            <el-select v-model="scope.row.Projlead" placeholder="Project Lead">
+              <el-option 
+                v-for="oneuser in users" 
+                :label="oneuser.realname" 
+                :value="oneuser.realname"
+              >
+              </el-option>
+            </el-select>
           </template>
         </el-table-column>
         <el-table-column
@@ -40,11 +43,14 @@
           label="DVlead"
         >
           <template slot-scope="scope">
-            <el-input
-              placeholder="DV lead"
-              v-model="scope.row.DVlead"
-              clearable>
-            </el-input>
+            <el-select v-model="scope.row.DVlead" placeholder="DVlead">
+              <el-option 
+                v-for="oneuser in users" 
+                :label="oneuser.realname" 
+                :value="oneuser.realname"
+              >
+              </el-option>
+            </el-select>
           </template>
         </el-table-column>
         <el-table-column
@@ -52,11 +58,14 @@
           label="DElead"
         >
           <template slot-scope="scope">
-            <el-input
-              placeholder="DE lead"
-              v-model="scope.row.DElead"
-              clearable>
-            </el-input>
+            <el-select v-model="scope.row.DElead" placeholder="DElead">
+              <el-option 
+                v-for="oneuser in users" 
+                :label="oneuser.realname" 
+                :value="oneuser.realname"
+              >
+              </el-option>
+            </el-select>
           </template>
         </el-table-column>
         <el-table-column
@@ -97,7 +106,8 @@ export default {
   },
   data () {
     return {
-      projects  : []
+      projects  : [],
+      users     : []
     }
   },
   methods : {
@@ -133,6 +143,25 @@ export default {
       });
     },
     get () {
+      //Users get info
+      this.$http.post('/config/get',{
+        kind  : 'allusersget'
+      }).then(
+        function(response){
+          if(response.body.ok ==  'ok'){
+            this.users= [];
+            for(var index = 0; index < response.body.users.length; index++){
+              this.users.push({
+                realname  : response.body.users[index].realname,
+                email     : response.body.users[index].email,
+                groupname : response.body.users[index].groupname
+              });
+            }
+          }
+        },
+        function(){}
+      );
+      //Projects get info
       this.$http.post('/config/get',{
         kind  : 'allprojectsget'
       }).then(
