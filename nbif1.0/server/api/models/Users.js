@@ -17,7 +17,10 @@ module.exports = {
     },
     email     : {
       type  : 'string'
-    }
+    },
+    groupname : {
+      type  : 'string'
+    },
 
     //  ╔═╗╔╦╗╔╗ ╔═╗╔╦╗╔═╗
     //  ║╣ ║║║╠╩╗║╣  ║║╚═╗

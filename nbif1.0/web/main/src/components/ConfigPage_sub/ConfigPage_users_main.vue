@@ -36,6 +36,21 @@
           </template>
         </el-table-column>
         <el-table-column
+          prop="groupname"
+          label="groupname"
+        >
+          <template slot-scope="scope">
+            <el-select v-model="scope.row.groupname" placeholder="GroupName">
+              <el-option 
+                v-for="onegroup in groups" 
+                :label="onegroup" 
+                :value="onegroup"
+              >
+              </el-option>
+            </el-select>
+          </template>
+        </el-table-column>
+        <el-table-column
           fixed="right"
           label="operation"
           width="120"
@@ -61,7 +76,11 @@ export default {
   },
   data () {
     return {
-      users : []
+      users : [],
+      groups  : [
+        'FTE',
+        'Contractor'
+      ] //TODO  need to get from DB
     }
   },
   methods : {
@@ -104,7 +123,8 @@ export default {
             for(var userindex = 0; userindex < response.body.users.length; userindex++){
               this.users.push({
                 realname  : response.body.users[userindex].realname,
-                email     : response.body.users[userindex].email
+                email     : response.body.users[userindex].email,
+                groupname : response.body.users[userindex].groupname,
               });
             }
           }
