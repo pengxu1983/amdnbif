@@ -45,7 +45,7 @@ module.exports = {
         id  : {'>=':0}
       });
       return exits.success({
-        ok  : 'ok',
+        ok        : 'ok',
         variants  : allvariants
       });
     }

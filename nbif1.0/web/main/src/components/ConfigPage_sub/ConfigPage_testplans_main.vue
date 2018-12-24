@@ -208,10 +208,12 @@ export default {
       }).then(
         function(response){
           if(response.body.ok ==  'ok'){
-            this.variants = [];
-            for(var index = 0; index < response.body.variants.length; index++){
-              this.variants.push({
-                variantname : response.body.variants[index].variantname,
+            this.users= [];
+            for(var index = 0; index < response.body.users.length; index++){
+              this.users.push({
+                realname  : response.body.users[index].realname,
+                email     : response.body.users[index].email,
+                groupname : response.body.users[index].groupname
               });
             }
           }
