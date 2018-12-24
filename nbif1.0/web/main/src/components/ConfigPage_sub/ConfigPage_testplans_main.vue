@@ -241,9 +241,9 @@ export default {
       }).then(
         function(response){
           if(response.body.ok ==  'ok'){
-            this.projects = [];
+            this.testplans  = [];
             for(var index = 0; index < response.body.testplans.length; index++){
-              this.projects.push({
+              this.testplans.push({
                 name            : response.body.testplans[index].name,
                 DVowner         : response.body.testplans[index].DVowner,
                 DEowner         : response.body.testplans[index].DEowner,
