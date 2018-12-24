@@ -75,7 +75,7 @@
           <template slot-scope="scope">
             <el-checkbox-group v-model="scope.row.variants">
               <div v-for="onevariant in variants">
-                <el-checkbox label="onevariant.variantname"></el-checkbox>
+                <el-checkbox :label="onevariant.variantname"></el-checkbox>
               </div>
             </el-checkbox-group>
           </template>
@@ -156,6 +156,7 @@ export default {
                 variantname : response.body.variants[index].variantname,
               });
             }
+            
           }
         },
         function(){}
