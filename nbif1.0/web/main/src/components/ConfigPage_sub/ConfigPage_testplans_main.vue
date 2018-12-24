@@ -24,8 +24,8 @@
             </el-select>
           </el-form-item>
           <el-form-item>
-            <el-button type="primary" >Check</el-button>
-            <el-button type="primary" >Check</el-button>
+            <el-button type="primary" @click="add()">Add</el-button>
+            <el-button type="primary" @click="upload()">Upload</el-button>
           </el-form-item>
         </el-form>
       </el-container>
@@ -47,7 +47,7 @@
             </el-input>
           </template>
         </el-table-column>
-        <el-table-column
+        <!-- <el-table-column
           fixed
           prop="projectname"
           label="project name"
@@ -83,7 +83,7 @@
               </el-option>
             </el-select>
           </template>
-        </el-table-column>
+        </el-table-column> -->
         <el-table-column
           fixed
           prop="DVowner"
