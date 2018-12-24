@@ -7,6 +7,7 @@
       </el-row>
       <el-table
         :data="users"
+        height="800"
         border
         style="width: 100%"
       >
