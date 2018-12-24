@@ -1,6 +1,6 @@
 <template>
   <el-container>
-    <el-col :span=24>
+    <el-col :span="24">
       <el-row>
         <el-button type="primary" round @click='add()'>Add</el-button>
         <el-button type="primary" round @click='upload()'>Upload</el-button>
