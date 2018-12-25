@@ -128,7 +128,7 @@ export default {
       }
       this.$http.post('/config/upload',{
         kind  : 'projectsupload',
-        projects  : this.projects
+        projects  : JSON.stringify(this.projects)
       }).then(
         function(response){
           if(response.body.ok ==  'ok'){
