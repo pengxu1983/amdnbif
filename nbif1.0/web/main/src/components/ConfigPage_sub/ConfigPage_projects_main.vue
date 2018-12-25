@@ -201,6 +201,7 @@ export default {
                 availablevariants: response.body.projects[index].availablevariants
               });
             console.log(this.projects[index].availablevariants);
+            console.log(typeof(this.projects[index].availablevariants));
             }
           }
         },
