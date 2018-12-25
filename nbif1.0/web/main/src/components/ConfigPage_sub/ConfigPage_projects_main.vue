@@ -124,7 +124,7 @@ export default {
       console.log('upload');
       for(var i=0;i<this.projects.length;i++){
         console.log(this.projects[i].name);
-        console.log(this.projects[i].variants);
+        console.log(this.projects[i].availablevariants);
       }
       this.$http.post('/config/upload',{
         kind  : 'projectsupload',
@@ -198,8 +198,9 @@ export default {
                 DVlead    : response.body.projects[index].DVlead,
                 DElead    : response.body.projects[index].DElead,
                 Projlead  : response.body.projects[index].Projlead,
-                variants  : response.body.projects[index].variants
+                availablevariants: response.body.projects[index].availablevariants
               });
+            console.log(this.projects[index].availablevariants);
             }
           }
         },
