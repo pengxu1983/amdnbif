@@ -124,6 +124,7 @@ export default {
       console.log('upload');
       for(var i=0;i<this.projects.length;i++){
         console.log(this.projects[i].name);
+        console.log(this.projects[i].variants);
       }
       this.$http.post('/config/upload',{
         kind  : 'projectsupload',

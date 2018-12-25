@@ -20,6 +20,9 @@ module.exports = {
     projects  : {
       type  : 'ref'
     },
+    availablevariants: {
+      type  : 'ref'
+    },
     variants  : {
       type  : 'ref'
     }
@@ -99,7 +102,7 @@ module.exports = {
             DElead    : inputs.projects[i].DElead,
             DVlead    : inputs.projects[i].DVlead,
             Projlead  : inputs.projects[i].Projlead,
-            variants  : inputs.projects[i].variants
+            availablevariants : inputs.projects[i].availablevariants
           });
         }
       }
