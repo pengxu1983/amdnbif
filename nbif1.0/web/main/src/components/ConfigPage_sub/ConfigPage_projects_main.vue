@@ -192,7 +192,7 @@ export default {
         function(response){
           if(response.body.ok ==  'ok'){
             this.projects = [];
-            var allprojects = JSON.parse.response.body.projects;
+            var allprojects = JSON.parse(response.body.projects);
             for(var index = 0; index < allprojects.length; index++){
               this.projects.push({
                 name              : allprojects[index].name,
