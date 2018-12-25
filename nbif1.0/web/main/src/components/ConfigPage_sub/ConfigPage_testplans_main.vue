@@ -238,10 +238,6 @@ export default {
             for(var index = 0; index < response.body.projects.length; index++){
               this.projects.push({
                 name      : response.body.projects[index].name,
-                DVlead    : response.body.projects[index].DVlead,
-                DElead    : response.body.projects[index].DElead,
-                Projlead  : response.body.projects[index].Projlead,
-                variants  : response.body.projects[index].variants
               });
             }
           }

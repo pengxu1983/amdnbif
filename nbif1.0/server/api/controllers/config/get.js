@@ -37,7 +37,7 @@ module.exports = {
       });
       return exits.success({
         ok  : 'ok',
-        projects  : allprojects
+        projects  : JSON.stringify(allprojects)
       });
     }
     else if(inputs.kind  ==  'allvariantsget'){
