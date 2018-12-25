@@ -199,7 +199,7 @@ export default {
                 DVlead            : allprojects[index].DVlead,
                 DElead            : allprojects[index].DElead,
                 Projlead          : allprojects[index].Projlead,
-                availablevariants : allprojects[index].availablevariants
+                availablevariants : JSON.parse(allprojects[index].availablevariants)
               });
             console.log(allprojects[index].availablevariants);
             console.log(typeof(allprojects[index].availablevariants));
