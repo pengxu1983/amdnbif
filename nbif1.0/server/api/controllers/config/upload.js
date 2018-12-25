@@ -93,24 +93,25 @@ module.exports = {
       sails.log(typeof(inputs.projects));
       sails.log(JSON.parse(inputs.projects));
       sails.log(typeof(JSON.parse(inputs.projects)));
-      //for(var i=0;i<JSON.parse(inputs.projects).length;i++){
-      //  if(inputs.projects[i].name== ''){
-      //    //Do nothing
-      //  }
-      //  else {
-      //    await Projects.create({
-      //      name      : inputs.projects[i].name,
-      //      LSA       : inputs.projects[i].LSA ,
-      //      LSB       : inputs.projects[i].LSB ,
-      //      LSC       : inputs.projects[i].LSC ,
-      //      LSD       : inputs.projects[i].LSD ,
-      //      DElead    : inputs.projects[i].DElead,
-      //      DVlead    : inputs.projects[i].DVlead,
-      //      Projlead  : inputs.projects[i].Projlead,
-      //      availablevariants : JSON.parse(inputs.projects[i]).availablevariants
-      //    });
-      //  }
-      //}
+      var allprojects = JSON.parse(inputs.projects);
+      for(var i=0;i<allprojects.length;i++){
+        if(allprojects.name== ''){
+          //Do nothing
+        }
+        else {
+          await Projects.create({
+            name      : allprojects[i].name,
+            LSA       : allprojects[i].LSA ,
+            LSB       : allprojects[i].LSB ,
+            LSC       : allprojects[i].LSC ,
+            LSD       : allprojects[i].LSD ,
+            DElead    : allprojects[i].DElead,
+            DVlead    : allprojects[i].DVlead,
+            Projlead  : allprojects[i].Projlead,
+            availablevariants : allprojects[i].availablevariants
+          });
+        }
+      }
       return exits.success({ok:'ok'});
     }
     ///////////////////
