@@ -69,14 +69,16 @@
           </template>
         </el-table-column>
         <el-table-column
-          prop="variants"
-          label="variants"
+          prop="availablevariants"
+          label="availablevariants"
         >
           <template slot-scope="scope">
-            <el-checkbox-group v-model="scope.row.variants">
-              <div v-for="onevariant in variants">
-                <el-checkbox :label="onevariant.variantname"></el-checkbox>
-              </div>
+            <el-checkbox-group v-model="scope.row.availablevariants">
+              <el-checkbox  
+                v-for="onevariant in variants" 
+                :label="onevariant.variantname"
+              >
+              </el-checkbox>
             </el-checkbox-group>
           </template>
         </el-table-column>
@@ -140,7 +142,7 @@ export default {
         Projlead  : '',
         DVlead    : '',
         DElead    : '',
-        variants  : ''
+        availablevariants: []
       });
     },
     get () {
