@@ -74,16 +74,14 @@
           width="500"
         >
           <template slot-scope="scope">
-            <el-checkbox-group v-model="scope.row.availablevariants" align="left">
-              <ul>
-                <li><el-checkbox label="nbif_nv10_gpu"></el-checkbox>           </li>
-                <li><el-checkbox label="nbif_oak_gpu"></el-checkbox>            </li>
-                <li><el-checkbox label="nbif_vg20_gpu"></el-checkbox>           </li>
-                <li><el-checkbox label="nbif_al_gpu"></el-checkbox>             </li>
-                <li><el-checkbox label="nbif_ssp_ntb"></el-checkbox>            </li>
-                <li><el-checkbox label="nbif_ssp_generic_a"></el-checkbox>      </li>
-                <li><el-checkbox label="nbif_ssp_generic_b"></el-checkbox>      </li>
-              </ul>
+            <el-checkbox-group v-model="scope.row.availablevariants" >
+                <el-checkbox label="nbif_nv10_gpu"></el-checkbox>           
+                <el-checkbox label="nbif_oak_gpu"></el-checkbox>            
+                <el-checkbox label="nbif_vg20_gpu"></el-checkbox>           
+                <el-checkbox label="nbif_al_gpu"></el-checkbox>             
+                <el-checkbox label="nbif_ssp_ntb"></el-checkbox>            
+                <el-checkbox label="nbif_ssp_generic_a"></el-checkbox>      
+                <el-checkbox label="nbif_ssp_generic_b"></el-checkbox>      
             </el-checkbox-group>
           </template>
         </el-table-column>
