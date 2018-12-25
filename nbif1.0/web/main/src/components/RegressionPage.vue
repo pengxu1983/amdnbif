@@ -416,12 +416,19 @@ export default {
         kind  : 'allprojectsget'
       }).then(
         function(response){
-          if(response.body.ok=='ok'){
+          if(response.body.ok ==  'ok'){
             this.projects = [];
-            for(var i = 0;i<response.body.projects.length;i++){
+            var allprojects = JSON.parse(response.body.projects);
+            for(var index = 0; index < allprojects.length; index++){
               this.projects.push({
-                name      : response.body.projects[i].name,
+                name              : allprojects[index].name,
+                DVlead            : allprojects[index].DVlead,
+                DElead            : allprojects[index].DElead,
+                Projlead          : allprojects[index].Projlead,
+                availablevariants : JSON.parse(allprojects[index].availablevariants)
               });
+            console.log(allprojects[index].availablevariants);
+            console.log(typeof(allprojects[index].availablevariants));
             }
           }
         },
