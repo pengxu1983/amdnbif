@@ -45,8 +45,7 @@ module.exports = {
     },
 
     availablevariants : {
-      type    : 'string',
-      columnType  : 'longtext'
+      type    : 'ref'
     }
     //  ╔═╗╔╦╗╔╗ ╔═╗╔╦╗╔═╗
     //  ║╣ ║║║╠╩╗║╣  ║║╚═╗
