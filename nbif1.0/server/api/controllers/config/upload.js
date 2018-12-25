@@ -17,6 +17,12 @@ module.exports = {
     testplans : {
       type  : 'ref'
     },
+    projectname : {
+      type  : 'string'
+    },
+    variantname : {
+      type  : 'string'
+    },
     projects  : {
       type  : 'string'
     },
@@ -63,7 +69,9 @@ module.exports = {
     ///////////////////
     else if(inputs.kind == 'testplansupload'){
       await Testplans.destroy({
-        id: {'>=':0}
+        //id: {'>=':0},
+        projectname : inputs.projectname,
+        variantname : inputs.variantname
       });
       for(var i=0;i<inputs.testplans.length;i++){
         if(inputs.testplans[i].name== ''){
@@ -73,6 +81,7 @@ module.exports = {
           await Testplans.create({
             name            : inputs.testplans[i].name,
             projectname     : inputs.testplans[i].projectname,
+            variantname     : inputs.testplans[i].variantname,
             DEowner         : inputs.testplans[i].DEowner,
             DVowner         : inputs.testplans[i].DVowner,
             testnameprefix  : inputs.testplans[i].testnameprefix
@@ -88,11 +97,10 @@ module.exports = {
       await Projects.destroy({
         id: {'>=':0}
       });
-      sails.log('aaaa');
-      sails.log(inputs.projects);
-      sails.log(typeof(inputs.projects));
-      sails.log(JSON.parse(inputs.projects));
-      sails.log(typeof(JSON.parse(inputs.projects)));
+      //sails.log(inputs.projects);
+      //sails.log(typeof(inputs.projects));
+      //sails.log(JSON.parse(inputs.projects));
+      //sails.log(typeof(JSON.parse(inputs.projects)));
       var allprojects = JSON.parse(inputs.projects);
       for(var i=0;i<allprojects.length;i++){
         if(allprojects.name== ''){

@@ -30,7 +30,7 @@
         </el-form>
       </el-container>
       <el-table
-        :data="testplans"
+        :data="testplans_display"
         border
         style="width: 100%"
       >
@@ -131,7 +131,7 @@
         >
           <template slot-scope="scope">
             <el-button
-              @click.native.prevent="deleteRow(scope.$index, testplan)"
+              @click.native.prevent="deleteRow(scope.$index, testplans_display)"
               type="text"
               size="small">
               Delete
@@ -160,6 +160,17 @@ export default {
       }
     }
   },
+  computed  : {
+    testplans_display : function (){
+      var result = [];
+      for(var i = 0; i< this.testplans.length; i++){
+        if((this.testplans[i].projectname == this.projectinfo.projectname) && (this.testplans[i].variantname == this.projectinfo.variantname)){
+          result.push(this.testplans[i]);
+        }
+      }
+      return result;
+    },
+  },
   methods : {
     deleteRow(index, rows) {
       rows.splice(index, 1);
@@ -171,7 +182,9 @@ export default {
       }
       this.$http.post('/config/upload',{
         kind      : 'testplansupload',
-        testplans : this.testplans
+        projectname : this.projectinfo.projectname,
+        variantname : this.projectinfo.variantname,
+        testplans : this.testplans_display
       }).then(
         function(response){
           if(response.body.ok ==  'ok'){
