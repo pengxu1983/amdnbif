@@ -44,7 +44,7 @@ module.exports = {
       type    : 'string'
     },
 
-    variants  : {
+    availablevariants : {
       type    : 'string',
       columnType  : 'longtext'
     }
