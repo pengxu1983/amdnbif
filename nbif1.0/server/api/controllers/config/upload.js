@@ -18,7 +18,7 @@ module.exports = {
       type  : 'ref'
     },
     projects  : {
-      type  : 'ref'
+      type  : 'string'
     },
     availablevariants: {
       type  : 'ref'
@@ -88,24 +88,29 @@ module.exports = {
       await Projects.destroy({
         id: {'>=':0}
       });
-      for(var i=0;i<inputs.projects.length;i++){
-        if(inputs.projects[i].name== ''){
-          //Do nothing
-        }
-        else {
-          await Projects.create({
-            name      : inputs.projects[i].name,
-            LSA       : inputs.projects[i].LSA ,
-            LSB       : inputs.projects[i].LSB ,
-            LSC       : inputs.projects[i].LSC ,
-            LSD       : inputs.projects[i].LSD ,
-            DElead    : inputs.projects[i].DElead,
-            DVlead    : inputs.projects[i].DVlead,
-            Projlead  : inputs.projects[i].Projlead,
-            availablevariants : inputs.projects[i].availablevariants
-          });
-        }
-      }
+      sails.log('aaaa');
+      sails.log(inputs.projects);
+      sails.log(typeof(inputs.projects));
+      sails.log(JSON.parse(inputs.projects));
+      sails.log(typeof(JSON.parse(inputs.projects)));
+      //for(var i=0;i<JSON.parse(inputs.projects).length;i++){
+      //  if(inputs.projects[i].name== ''){
+      //    //Do nothing
+      //  }
+      //  else {
+      //    await Projects.create({
+      //      name      : inputs.projects[i].name,
+      //      LSA       : inputs.projects[i].LSA ,
+      //      LSB       : inputs.projects[i].LSB ,
+      //      LSC       : inputs.projects[i].LSC ,
+      //      LSD       : inputs.projects[i].LSD ,
+      //      DElead    : inputs.projects[i].DElead,
+      //      DVlead    : inputs.projects[i].DVlead,
+      //      Projlead  : inputs.projects[i].Projlead,
+      //      availablevariants : JSON.parse(inputs.projects[i]).availablevariants
+      //    });
+      //  }
+      //}
       return exits.success({ok:'ok'});
     }
     ///////////////////
