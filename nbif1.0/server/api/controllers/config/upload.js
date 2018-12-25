@@ -108,7 +108,7 @@ module.exports = {
             DElead    : allprojects[i].DElead,
             DVlead    : allprojects[i].DVlead,
             Projlead  : allprojects[i].Projlead,
-            availablevariants : allprojects[i].availablevariants
+            availablevariants : JSON.stringify(allprojects[i].availablevariants)
           });
         }
       }
