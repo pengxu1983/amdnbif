@@ -357,6 +357,7 @@ export default {
       console.log('dateend');
       console.log(dateend);
       console.log(projectname);
+      console.log(variantname);
       this.$http.post('/regression/check',{
         kind  : 'rangepassingrate',
         datestart   : datestart,

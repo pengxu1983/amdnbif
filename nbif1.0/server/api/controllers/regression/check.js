@@ -23,7 +23,7 @@ module.exports = {
     projectname : {
       type  : 'string'
     },
-    variant : {
+    variantname : {
       type  : 'string'
     }
   },
@@ -60,16 +60,16 @@ module.exports = {
           mode        : 'normal',
           startdate   : item,
           isofficial  : 'yes',
-          //variant     : inputs.variant,//TODO
-          projectname : inputs.variant//TODO
+          //variantname     : inputs.variantname,//TODO
+          projectname : inputs.variantname//TODO
         });
         if(!one_reg_official_normal){
           one_reg_official_normal = await Regression_log.findOne({
             mode        : 'normal',
             startdate   : moment(item).subtract(1,'days').format('YYYY-MM-DD'),
 	          isofficial  : 'yes',
-            //variant     : inputs.variant,//TODO
-            projectname : inputs.variant//TODO
+            //variantname     : inputs.variantname,//TODO
+            projectname : inputs.variantname//TODO
 	        });
 	      }
         if(one_reg_official_normal){
@@ -137,16 +137,16 @@ module.exports = {
           mode        : 'long',
           startdate   : item,
           isofficial  : 'yes',
-          //variant     : inputs.variant,//TODO
-          projectname : inputs.variant//TODO
+          //variantname     : inputs.variantname,//TODO
+          projectname : inputs.variantname//TODO
         });
         if(!one_reg_official_long){
           one_reg_official_long= await Regression_log.findOne({
             mode        : 'long',
             startdate   : moment(item).subtract(1,'days').format('YYYY-MM-DD'),
 	          isofficial  : 'yes',
-            //variant     : inputs.variant,//TODO
-            projectname : inputs.variant//TODO
+            //variantname     : inputs.variantname,//TODO
+            projectname : inputs.variantname//TODO
 	        });
 	      }
         if(one_reg_official_long){
@@ -215,16 +215,16 @@ module.exports = {
           mode        : 'baco',
           startdate   : item,
           isofficial  : 'yes',
-          //variant     : inputs.variant,//TODO
-          projectname : inputs.variant//TODO
+          //variantname     : inputs.variantname,//TODO
+          projectname : inputs.variantname//TODO
         });
         if(!one_reg_official_baco){
           one_reg_official_baco= await Regression_log.findOne({
             mode        : 'baco',
             startdate   : moment(item).subtract(1,'days').format('YYYY-MM-DD'),
 	          isofficial  : 'yes',
-            //variant     : inputs.variant,//TODO
-            projectname : inputs.variant//TODO
+            //variantname     : inputs.variantname,//TODO
+            projectname : inputs.variantname//TODO
 	        });
 	      }
         if(one_reg_official_baco){
@@ -293,16 +293,16 @@ module.exports = {
           mode        : 'pg',
           startdate   : item,
           isofficial  : 'yes',
-          //variant     : inputs.variant,//TODO
-          projectname : inputs.variant//TODO
+          //variantname     : inputs.variantname,//TODO
+          projectname : inputs.variantname//TODO
         });
         if(!one_reg_official_pg){
           one_reg_official_pg= await Regression_log.findOne({
             mode        : 'pg',
             startdate   : moment(item).subtract(1,'days').format('YYYY-MM-DD'),
 	          isofficial  : 'yes',
-            //variant     : inputs.variant,//TODO
-            projectname : inputs.variant//TODO
+            //variantname     : inputs.variantname,//TODO
+            projectname : inputs.variantname//TODO
 	        });
 	      }
         if(one_reg_official_pg){
