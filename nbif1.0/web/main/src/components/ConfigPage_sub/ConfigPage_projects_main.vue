@@ -71,7 +71,6 @@
         <el-table-column
           prop="availablevariants"
           label="availablevariants"
-          width="500"
         >
           <template slot-scope="scope">
             <el-checkbox-group v-model="scope.row.availablevariants" >
