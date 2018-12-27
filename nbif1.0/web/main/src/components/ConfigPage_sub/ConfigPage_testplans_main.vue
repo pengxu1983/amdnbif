@@ -209,6 +209,7 @@ export default {
     },
     clone(){
       console.log('clone');
+      var cloneitems = [];
       if((this.clonetarget.projectname == '') || (this.clonetarget.variantname == '')){
         //Doing nothing
       }
@@ -216,7 +217,7 @@ export default {
         for(var i = 0; i<this.testplans.length ; i++){
           console.log(this.testplans[i].projectname);
           if((this.testplans[i].projectname == this.clonetarget.projectname) && (this.testplans[i].variantname == this.clonetarget.variantname)){
-            this.testplans.push({
+            this.cloneitems.push({
               variantname     : this.clonetarget.variantname,
               projectname     : this.clonetarget.projectname,
               DVowner         : this.testplans[i].DVowner       ,
@@ -226,6 +227,7 @@ export default {
 	    });
 	  }
 	}
+        this.testplans = this.testplans.concat(cloneitems);
       }
     },
     upload () {
