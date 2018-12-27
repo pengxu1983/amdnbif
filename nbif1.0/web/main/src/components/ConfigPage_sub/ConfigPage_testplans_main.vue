@@ -214,20 +214,21 @@ export default {
         //Doing nothing
       }
       else {
-        for(var i = 0; i<this.testplans.length ; i++){
-          console.log(this.testplans[i].projectname);
-          if((this.testplans[i].projectname == this.clonetarget.projectname) && (this.testplans[i].variantname == this.clonetarget.variantname)){
-            this.cloneitems.push({
-              variantname     : this.clonetarget.variantname,
-              projectname     : this.clonetarget.projectname,
-              DVowner         : this.testplans[i].DVowner       ,
-              DEowner         : this.testplans[i].DEowner       ,
-              name            : this.testplans[i].name          ,
-              testnameprefix  : this.testplans[i].testnameprefix
-	    });
-	  }
-	}
-        this.testplans = this.testplans.concat(cloneitems);
+        console.log(this.testplans.length);
+        //for(var i = 0; i<this.testplans.length ; i++){
+        //  console.log(this.testplans[i].projectname);
+        //  if((this.testplans[i].projectname == this.clonetarget.projectname) && (this.testplans[i].variantname == this.clonetarget.variantname)){
+        //    this.cloneitems.push({
+        //      variantname     : this.clonetarget.variantname,
+        //      projectname     : this.clonetarget.projectname,
+        //      DVowner         : this.testplans[i].DVowner       ,
+        //      DEowner         : this.testplans[i].DEowner       ,
+        //      name            : this.testplans[i].name          ,
+        //      testnameprefix  : this.testplans[i].testnameprefix
+	//    });
+	//  }
+	//}
+        //this.testplans = this.testplans.concat(cloneitems);
       }
     },
     upload () {
