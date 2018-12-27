@@ -29,6 +29,33 @@
           </el-form-item>
         </el-form>
       </el-container>
+      <el-container>
+        <el-form :inline="true" :model="clonetarget" class="demo-form-inline">
+          <el-form-item>
+            <el-button type="primary" @click="clone()">CloneFrom</el-button>
+          </el-form-item>
+          <el-form-item label="ProjectName">
+            <el-select v-model="clonetarget.projectname" placeholder="ProjectName">
+              <el-option 
+                v-for="oneproject in projects" 
+                :label="oneproject.name" 
+                :value="oneproject.name"
+              >
+              </el-option>
+            </el-select>
+          </el-form-item>
+          <el-form-item label="VariantName">
+            <el-select v-model="clonetarget.variantname" placeholder="VariantName">
+              <el-option 
+                v-for="onevariant in variants" 
+                :label="onevariant.variantname" 
+                :value="onevariant.variantname"
+              >
+              </el-option>
+            </el-select>
+          </el-form-item>
+        </el-form>
+      </el-container>
       <el-table
         :data="testplans_display"
         border
@@ -158,6 +185,10 @@ export default {
       projectinfo : {
         projectname : 'NV21',
         variantname : 'nbif_nv10_gpu',
+      },
+      clonetarget : {
+        projectname : '',
+	variantname : ''
       }
     }
   },
@@ -175,6 +206,25 @@ export default {
   methods : {
     deleteRow(index, rows) {
       rows.splice(index, 1);
+    },
+    clone(){
+      if((this.clonetarget.projectname == '') || (this.clonetarget.variantname == '')){
+        //Doing nothing
+      }
+      else {
+        for(var i = 0; i<this.testplans.length ; i++){
+          if((this.testplans[i].projectname == this.clonetarget.projectname) && (this.testplans[i].variantname == this.clonetarget.variantname)){
+            this.testplans.push({
+              variantname     : this.clonetarget.variantname,
+              projectname     : this.clonetarget.projectname,
+              DVowner         : this.testplans[i].DVowner       ,
+              DEowner         : this.testplans[i].DEowner       ,
+              name            : this.testplans[i].name          ,
+              testnameprefix  : this.testplans[i].testnameprefix
+	    });
+	  }
+	}
+      }
     },
     upload () {
       console.log('upload');
