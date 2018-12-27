@@ -32,6 +32,7 @@
       <el-table
         :data="testplans_display"
         border
+        height="800"
         style="width: 100%"
       >
         <el-table-column

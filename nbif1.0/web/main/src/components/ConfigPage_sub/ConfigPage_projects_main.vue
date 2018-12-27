@@ -8,6 +8,7 @@
       <el-table
         :data="projects"
         border
+        height="800"
         style="width: 100%"
       >
         <el-table-column
