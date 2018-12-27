@@ -74,6 +74,9 @@ module.exports.routes = {
   'POST /config/get'   : {
     action  : 'config/get'
   },
+  'POST /config/clone'   : {
+    action  : 'config/clone'
+  },
 
   //  ╔═╗╔═╗╦  ╔═╗╔╗╔╔╦╗╔═╗╔═╗╦╔╗╔╔╦╗╔═╗
   //  ╠═╣╠═╝║  ║╣ ║║║ ║║╠═╝║ ║║║║║ ║ ╚═╗
