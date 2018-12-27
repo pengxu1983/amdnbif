@@ -34,6 +34,9 @@ module.exports = {
     if(inputs.kind == 'testplanclone'){
       //remove previous one
       var clonetarget = JSON.parse(inputs.clonetarget);
+      sails.log('abc');
+      sails.log(clonetarget.projectname);
+      sails.log(clonetarget.variantname);
       await Testplans.destroy({
         projectname : inputs.projectname,
         variantname : inputs.variantname
@@ -44,17 +47,19 @@ module.exports = {
       });
       for(var i=0;i<testplanstarget.length;i++){
         await Testplans.create({
-          name            : inputs.testplanstarget[i].name,
+          name            : testplanstarget[i].name,
           projectname     : inputs.projectname,
           variantname     : inputs.variantname,
-          DEowner         : inputs.testplanstarget[i].DEowner,
-          DVowner         : inputs.testplanstarget[i].DVowner,
-          testnameprefix  : inputs.testplanstarget[i].testnameprefix
+          DEowner         : testplanstarget[i].DEowner,
+          DVowner         : testplanstarget[i].DVowner,
+          testnameprefix  : testplanstarget[i].testnameprefix
 	});
       }
     }
     // All done.
-    return;
+    return exits.success({
+      ok : 'ok'
+    });
 
   }
 
