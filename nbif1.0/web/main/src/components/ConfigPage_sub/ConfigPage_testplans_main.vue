@@ -215,22 +215,19 @@ export default {
       }
       else {
         console.log(this.testplans.length);
-        for(var i = 0; i<this.testplans.length ; i++){
-          console.log(this.testplans[i].projectname);
-          console.log(this.testplans[i].variantname);
-          console.log(i);
-        //  if((this.testplans[i].projectname == this.clonetarget.projectname) && (this.testplans[i].variantname == this.clonetarget.variantname)){
-        //    this.cloneitems.push({
-        //      variantname     : this.clonetarget.variantname,
-        //      projectname     : this.clonetarget.projectname,
-        //      DVowner         : this.testplans[i].DVowner       ,
-        //      DEowner         : this.testplans[i].DEowner       ,
-        //      name            : this.testplans[i].name          ,
-        //      testnameprefix  : this.testplans[i].testnameprefix
-	//    });
-	//  }
-	}
-        //this.testplans = this.testplans.concat(cloneitems);
+        this.$http.post('/config/clone',{
+          kind : 'testplanclone',
+          projectname : this.projectinfo.projectname,
+          variantname : this.projectinfo.variantname,
+          clonetarget : JSON.stringify(this.clonetarget),
+	}).then(
+          function(response){
+            if(response.body.ok	=='ok'){
+              this.get();
+	    }
+	  },
+          function(){}
+	);
       }
     },
     upload () {
