@@ -208,11 +208,13 @@ export default {
       rows.splice(index, 1);
     },
     clone(){
+      console.log('clone');
       if((this.clonetarget.projectname == '') || (this.clonetarget.variantname == '')){
         //Doing nothing
       }
       else {
         for(var i = 0; i<this.testplans.length ; i++){
+          console.log(this.testplans[i].projectname);
           if((this.testplans[i].projectname == this.clonetarget.projectname) && (this.testplans[i].variantname == this.clonetarget.variantname)){
             this.testplans.push({
               variantname     : this.clonetarget.variantname,
