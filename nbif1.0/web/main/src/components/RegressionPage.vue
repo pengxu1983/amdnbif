@@ -266,7 +266,7 @@ export default {
       projectinfo : {
         projectname : 'NV21',
         timewindow  : 'week',
-        variantname     : 'nbif_nv10_gpu'
+        variantname : 'nbif_nv10_gpu'
       },
       xAxislist             : [],
       PassingRate_his_normal: [],
@@ -363,7 +363,7 @@ export default {
         datestart   : datestart,
         dateend     : dateend,
         projectname : projectname,
-        variantname     : variantname
+        variantname : variantname
       }).then(
         function(response){
           if(response.body.ok ==  'ok'){
