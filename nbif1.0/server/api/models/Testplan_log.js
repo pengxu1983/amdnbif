@@ -30,27 +30,7 @@ module.exports = {
     mode              : {
       type            : 'string'
     },
-    testlist          : {
-      type            : 'string',
-      columnType      : 'longtext'
-    },
-    startdate         : {
-      type            : 'string'
-    },
-    starttime         : {
-      type            : 'string'
-    },
     changelist        : {
-      type            : 'string'
-    },
-    regressionlocation: {
-      type            : 'string'
-    },
-    regressionsite    : {
-      type            : 'string',
-      isIn            : ['cyb','srdc']
-    },
-    operator          : {
       type            : 'string'
     },
     passingrate       : {
