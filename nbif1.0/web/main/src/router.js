@@ -5,6 +5,7 @@ import Review from './views/Review.vue'
 import Regression from './views/Regression.vue'
 import Action from './views/Action.vue'
 import Config from './views/Config.vue'
+import TestplanDetail from './views/TestplanDetail.vue'
 
 Vue.use(Router)
 
@@ -39,6 +40,12 @@ export default new Router({
       path: '/Config',
       name: 'Config',
       component: Config
+    },
+    {
+      path: '/TestplanDetail',
+      name: 'TestplanDetail',
+      component: TestplanDetail,
+      props : true
     },
 
     //{

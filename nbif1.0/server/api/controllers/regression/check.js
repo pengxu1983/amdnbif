@@ -67,14 +67,15 @@ module.exports = {
           one_reg_official_normal = await Regression_log.findOne({
             mode        : 'normal',
             startdate   : moment(item).subtract(1,'days').format('YYYY-MM-DD'),
-	          isofficial  : 'yes',
+            isofficial  : 'yes',
             //variantname     : inputs.variantname,//TODO
             projectname : inputs.variantname//TODO
-	        });
-	      }
+          });
+        }
         if(one_reg_official_normal){
           var postData = querystring.stringify({
-            'batchname': one_reg_official_normal.batchname
+            'batchname': one_reg_official_normal.batchname,
+            'testnameprefix'  : 'NA'
           });
           
           var options = {
@@ -144,14 +145,15 @@ module.exports = {
           one_reg_official_long= await Regression_log.findOne({
             mode        : 'long',
             startdate   : moment(item).subtract(1,'days').format('YYYY-MM-DD'),
-	          isofficial  : 'yes',
+            isofficial  : 'yes',
             //variantname     : inputs.variantname,//TODO
             projectname : inputs.variantname//TODO
-	        });
-	      }
+          });
+        }
         if(one_reg_official_long){
           var postData = querystring.stringify({
-            'batchname': one_reg_official_long.batchname
+            'batchname': one_reg_official_long.batchname,
+            'testnameprefix'  : 'NA'
           });
           
           var options = {
@@ -222,14 +224,15 @@ module.exports = {
           one_reg_official_baco= await Regression_log.findOne({
             mode        : 'baco',
             startdate   : moment(item).subtract(1,'days').format('YYYY-MM-DD'),
-	          isofficial  : 'yes',
+            isofficial  : 'yes',
             //variantname     : inputs.variantname,//TODO
             projectname : inputs.variantname//TODO
-	        });
-	      }
+          });
+        }
         if(one_reg_official_baco){
           var postData = querystring.stringify({
-            'batchname': one_reg_official_baco.batchname
+            'batchname': one_reg_official_baco.batchname,
+            'testnameprefix'  : 'NA'
           });
           
           var options = {
@@ -300,14 +303,15 @@ module.exports = {
           one_reg_official_pg= await Regression_log.findOne({
             mode        : 'pg',
             startdate   : moment(item).subtract(1,'days').format('YYYY-MM-DD'),
-	          isofficial  : 'yes',
+            isofficial  : 'yes',
             //variantname     : inputs.variantname,//TODO
             projectname : inputs.variantname//TODO
-	        });
-	      }
+          });
+        }
         if(one_reg_official_pg){
           var postData = querystring.stringify({
-            'batchname': one_reg_official_pg.batchname
+            'batchname': one_reg_official_pg.batchname,
+            'testnameprefix'  : 'NA'
           });
           
           var options = {

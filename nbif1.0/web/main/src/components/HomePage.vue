@@ -58,16 +58,21 @@ export default {
         'Regression',
         'Review',
         'Action',
-        'Config'
+        'Config',
+        'TestplanDetail'
       ],
       versionRecord : [
+        {
+          versionID : '1.4.6',
+          versionLog  : 'Testplan details page init'
+        },
         {
           versionID : '1.4.5',
           versionLog  : 'config page initial'
         },
         {
           versionID : '1.4.4',
-          versionLog  : '1. project name supports "FLOYD", "MI200", "NV21", "MERO"\n2. variant name supports "nbif_al_gpu", "nbif_al_gpu", "nbif_ssp_generic_a", "nbif_ssp_generic_b", "nbif_ssp_ntb", "nbif_oak_gpu" and "nbif_vg20_gpu"'
+          versionLog  : '1. project name supports "FLOYD", "MI200", "NV21", "MERO"2. variant name supports "nbif_al_gpu", "nbif_al_gpu", "nbif_ssp_generic_a", "nbif_ssp_generic_b", "nbif_ssp_ntb", "nbif_oak_gpu" and "nbif_vg20_gpu"'
         },
         {
           versionID : '1.4.3',
