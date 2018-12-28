@@ -29,7 +29,7 @@ module.exports = {
     var one_reg = await Regression_log.findOne({
       batchname : inputs.batchname
     });
-    if(testnameprefix == 'NA'){
+    if(inputs.testnameprefix == 'NA'){
       
       var passednum   = 0;
       var failednum   = 0;
