@@ -5,7 +5,7 @@
       <a class="navbar-brand col-sm-3 col-md-2 mr-0" href="#">TestplanDetailPage</a>
     </nav>
     <el-container>
-      <el-col :span="24">
+      <el-header>
         <el-form :inline="true" :model="projectinfo" class="demo-form-inline">
           <el-form-item label="ProjectName">
             <el-select v-model="projectinfo.projectname" placeholder="ProjectName">
@@ -34,27 +34,27 @@
             </el-select>
           </el-form-item>
         </el-form>
-      </el-col>
-    </el-container>
-    <el-container>
-      <el-col :span="4">
-        <el-menu
-          default-active="2"
-          class="el-menu-vertical-demo"
-          @open="handleOpen"
-          @close="handleClose"
-        >
-          <el-menu-item 
-            v-for="onetestplan in testplans"
-            :index="onetestplan.name"
+      </el-header>
+      <el-container>
+        <el-aside width="200px">
+          <el-menu
+            default-active="2"
+            class="el-menu-vertical-demo"
+            @open="handleOpen"
+            @close="handleClose"
           >
-            <i class="el-icon-setting"></i>
-            <span slot="title">{{onetestplan.name}}</span>
-          </el-menu-item>
-        </el-menu>
-      </el-col>
-      <el-col :span="20">
-      </el-col>
+            <el-menu-item 
+              v-for="onetestplan in testplans"
+              :index="onetestplan.name"
+            >
+              <i class="el-icon-setting"></i>
+              <span slot="title">{{onetestplan.name}}</span>
+            </el-menu-item>
+          </el-menu>
+        </el-aside>
+        <el-main>
+        </el-main>
+      </el-container>
     </el-container>
   </el-container>
 </template>
@@ -69,7 +69,11 @@ export default {
       projects  : [],
       variants  : [],
       users     : [],
-      testplans : [],
+      testplans : [{
+        name  : 'aaa'
+      },{
+        name  : 'bbb'
+      }],
       projectinfo : {
         projectname : 'NV21',
         variantname : 'nbif_nv10_gpu',
@@ -177,7 +181,7 @@ export default {
     }
   },
   mounted () {
-    this.get();
+    //this.get();
   }
 }
 </script>
