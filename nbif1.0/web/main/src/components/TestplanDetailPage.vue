@@ -69,11 +69,7 @@ export default {
       projects  : [],
       variants  : [],
       users     : [],
-      testplans : [{
-        name  : 'aaa'
-      },{
-        name  : 'bbb'
-      }],
+      testplans : [],
       projectinfo : {
         projectname : 'NV21',
         variantname : 'nbif_nv10_gpu',
@@ -181,7 +177,7 @@ export default {
     }
   },
   mounted () {
-    //this.get();
+    this.get();
   }
 }
 </script>
