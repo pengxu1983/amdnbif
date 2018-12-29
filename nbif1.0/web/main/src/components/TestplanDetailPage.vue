@@ -53,6 +53,12 @@
           </el-menu>
         </el-aside>
         <el-main>
+          <TestplanDetailPage_onetestplan_main
+            :projectname="projectinfo.projectname"
+            :variantname="projectinfo.variantname"
+            :timewindow="projectinfo.timewindow"
+          >
+          </TestplanDetailPage_onetestplan_main>
         </el-main>
       </el-container>
     </el-container>
@@ -60,9 +66,15 @@
 </template>
 
 <script>
+
+// @ is an alias to /src
+import TestplanDetailPage_onetestplan_main from '@/components/TestplanDetailPage_sub/TestplanDetailPage_onetestplan_main.vue'
 export default {
   name: 'TestplanDetailPage',
   props: {
+  },
+  components  : {
+    TestplanDetailPage_onetestplan_main
   },
   data() {
     return {
