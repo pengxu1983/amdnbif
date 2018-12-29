@@ -54,170 +54,170 @@
           </el-tab-pane>
         </el-tabs>
       </el-col>
-    <el-col :span="24">
-    <h3>Long Regression</h3>
-    <el-tabs v-model="activeNameLong" @tab-click="handleClickLong">
-      <el-tab-pane label="Trend Chart" name="passingratelong">
-        <div id="chartRegressionLong" style="width: 100%;height:400px;">
-        </div>
-      </el-tab-pane>
-      <el-tab-pane label="Details Info" name="detailsinfolong">
-        <el-container style="width: 100%;height:400px;">
-          <el-table
-            :data="detailsinfolong"
-            height="400"
-            border
-            style="width: 100%">
-            <el-table-column
-              prop="date"
-              label="Date"                    
-            >                                 
-            </el-table-column>                
-            <el-table-column
-              prop="changelist"                     
-              label="ChangeList"                    
-            >                    
-            </el-table-column>
-            <el-table-column
-              prop="totalnum"
-              label="TotalNum"
-            >
-            </el-table-column>
-            <el-table-column
-              prop="totalnumdelta"
-              label="TotalNumDelta"
-            >
-            </el-table-column>
-            <el-table-column
-              prop="passednum"
-              label="PassedNum"
-            >
-            </el-table-column>
-            <el-table-column
-              prop="failednum"
-              label="FailedNum"
-            >
-            </el-table-column>
-            <el-table-column
-              prop="unknownnum"
-              label="UnknownNum"
-            >
-            </el-table-column>
-          </el-table>
-        </el-container>
-      </el-tab-pane>
-    </el-tabs>
-    <hr />
-    </el-col>
-    <el-col :span="24">
-    <h3>Baco Regression</h3>
-    <el-tabs v-model="activeNameBaco" @tab-click="handleClickBaco">
-      <el-tab-pane label="Trend Chart" name="passingratebaco">
-        <div id="chartRegressionBaco" style="width: 100%;height:400px;">
-        </div>
-      </el-tab-pane>
-      <el-tab-pane label="Details Info" name="detailsinfobaco">
-        <el-container style="width: 100%;height:400px;">
-          <el-table
-            :data="detailsinfobaco"
-            height="400"
-            border
-            style="width: 100%">
-            <el-table-column
-              prop="date"
-              label="Date"                    
-            >                                 
-            </el-table-column>                
-            <el-table-column
-              prop="changelist"                     
-              label="ChangeList"                    
-            >                    
-            </el-table-column>
-            <el-table-column
-              prop="totalnum"
-              label="TotalNum"
-            >
-            </el-table-column>
-            <el-table-column
-              prop="totalnumdelta"
-              label="TotalNumDelta"
-            >
-            </el-table-column>
-            <el-table-column
-              prop="passednum"
-              label="PassedNum"
-            >
-            </el-table-column>
-            <el-table-column
-              prop="failednum"
-              label="FailedNum"
-            >
-            </el-table-column>
-            <el-table-column
-              prop="unknownnum"
-              label="UnknownNum"
-            >
-            </el-table-column>
-          </el-table>
-        </el-container>
-      </el-tab-pane>
-    </el-tabs>
-    <hr />
-    </el-col>
-    <el-col :span="24">
-    <h3>PG Regression</h3>
-    <el-tabs v-model="activeNamePG" @tab-click="handleClickPG">
-      <el-tab-pane label="Trend Chart" name="passingratepg">
-        <div id="chartRegressionPG" style="width: 100%;height:400px;">
-        </div>
-      </el-tab-pane>
-      <el-tab-pane label="Details Info" name="detailsinfopg">
-        <el-container style="width: 100%;height:400px;">
-          <el-table
-            :data="detailsinfopg"
-            height="400"
-            border
-            style="width: 100%">
-            <el-table-column
-              prop="date"
-              label="Date"                    
-            >                                 
-            </el-table-column>                
-            <el-table-column
-              prop="changelist"                     
-              label="ChangeList"                    
-            >                    
-            </el-table-column>
-            <el-table-column
-              prop="totalnum"
-              label="TotalNum"
-            >
-            </el-table-column>
-            <el-table-column
-              prop="totalnumdelta"
-              label="TotalNumDelta"
-            >
-            </el-table-column>
-            <el-table-column
-              prop="passednum"
-              label="PassedNum"
-            >
-            </el-table-column>
-            <el-table-column
-              prop="failednum"
-              label="FailedNum"
-            >
-            </el-table-column>
-            <el-table-column
-              prop="unknownnum"
-              label="UnknownNum"
-            >
-            </el-table-column>
-          </el-table>
-        </el-container>
-      </el-tab-pane>
-    </el-tabs>
-    </el-col>
+      <el-col :span="24">
+        <h3>Long Regression</h3>
+        <el-tabs v-model="activeNameLong" @tab-click="handleClickLong">
+          <el-tab-pane label="Trend Chart" name="passingratelong">
+            <div id="chartRegressionLong" style="width: 100%;height:400px;">
+            </div>
+          </el-tab-pane>
+          <el-tab-pane label="Details Info" name="detailsinfolong">
+            <el-container style="width: 100%;height:400px;">
+              <el-table
+                :data="detailsinfolong"
+                height="400"
+                border
+                style="width: 100%">
+                <el-table-column
+                  prop="date"
+                  label="Date"                    
+                >                                 
+                </el-table-column>                
+                <el-table-column
+                  prop="changelist"                     
+                  label="ChangeList"                    
+                >                    
+                </el-table-column>
+                <el-table-column
+                  prop="totalnum"
+                  label="TotalNum"
+                >
+                </el-table-column>
+                <el-table-column
+                  prop="totalnumdelta"
+                  label="TotalNumDelta"
+                >
+                </el-table-column>
+                <el-table-column
+                  prop="passednum"
+                  label="PassedNum"
+                >
+                </el-table-column>
+                <el-table-column
+                  prop="failednum"
+                  label="FailedNum"
+                >
+                </el-table-column>
+                <el-table-column
+                  prop="unknownnum"
+                  label="UnknownNum"
+                >
+                </el-table-column>
+              </el-table>
+            </el-container>
+          </el-tab-pane>
+        </el-tabs>
+        <hr />
+      </el-col>
+      <el-col :span="24">
+        <h3>Baco Regression</h3>
+        <el-tabs v-model="activeNameBaco" @tab-click="handleClickBaco">
+          <el-tab-pane label="Trend Chart" name="passingratebaco">
+            <div id="chartRegressionBaco" style="width: 100%;height:400px;">
+            </div>
+          </el-tab-pane>
+          <el-tab-pane label="Details Info" name="detailsinfobaco">
+            <el-container style="width: 100%;height:400px;">
+              <el-table
+                :data="detailsinfobaco"
+                height="400"
+                border
+                style="width: 100%">
+                <el-table-column
+                  prop="date"
+                  label="Date"                    
+                >                                 
+                </el-table-column>                
+                <el-table-column
+                  prop="changelist"                     
+                  label="ChangeList"                    
+                >                    
+                </el-table-column>
+                <el-table-column
+                  prop="totalnum"
+                  label="TotalNum"
+                >
+                </el-table-column>
+                <el-table-column
+                  prop="totalnumdelta"
+                  label="TotalNumDelta"
+                >
+                </el-table-column>
+                <el-table-column
+                  prop="passednum"
+                  label="PassedNum"
+                >
+                </el-table-column>
+                <el-table-column
+                  prop="failednum"
+                  label="FailedNum"
+                >
+                </el-table-column>
+                <el-table-column
+                  prop="unknownnum"
+                  label="UnknownNum"
+                >
+                </el-table-column>
+              </el-table>
+            </el-container>
+          </el-tab-pane>
+        </el-tabs>
+        <hr />
+      </el-col>
+      <el-col :span="24">
+        <h3>PG Regression</h3>
+        <el-tabs v-model="activeNamePG" @tab-click="handleClickPG">
+          <el-tab-pane label="Trend Chart" name="passingratepg">
+            <div id="chartRegressionPG" style="width: 100%;height:400px;">
+            </div>
+          </el-tab-pane>
+          <el-tab-pane label="Details Info" name="detailsinfopg">
+            <el-container style="width: 100%;height:400px;">
+              <el-table
+                :data="detailsinfopg"
+                height="400"
+                border
+                style="width: 100%">
+                <el-table-column
+                  prop="date"
+                  label="Date"                    
+                >                                 
+                </el-table-column>                
+                <el-table-column
+                  prop="changelist"                     
+                  label="ChangeList"                    
+                >                    
+                </el-table-column>
+                <el-table-column
+                  prop="totalnum"
+                  label="TotalNum"
+                >
+                </el-table-column>
+                <el-table-column
+                  prop="totalnumdelta"
+                  label="TotalNumDelta"
+                >
+                </el-table-column>
+                <el-table-column
+                  prop="passednum"
+                  label="PassedNum"
+                >
+                </el-table-column>
+                <el-table-column
+                  prop="failednum"
+                  label="FailedNum"
+                >
+                </el-table-column>
+                <el-table-column
+                  prop="unknownnum"
+                  label="UnknownNum"
+                >
+                </el-table-column>
+              </el-table>
+            </el-container>
+          </el-tab-pane>
+        </el-tabs>
+      </el-col>
     </el-row>
   </el-container>
 </template>
@@ -229,7 +229,8 @@ export default {
   props: {
     projectname : '',
     variantname : '',
-    timewindow  : ''
+    timewindow  : '',
+    activeTestplan: '',
   },
   data() {
     return {
@@ -310,10 +311,10 @@ export default {
         console.log(this.xAxislist);
         this.getPassingRate(moment().subtract(6,'months').add(1,'days').format('YYYY-MM-DD'),moment().format('YYYY-MM-DD'),this.projectname,this.variantname);
       }
-      this.drawLine('chartRegressionNormal');
-      this.drawLine('chartRegressionLong');
-      this.drawLine('chartRegressionPG');
-      this.drawLine('chartRegressionBaco');
+      //this.drawLine('chartRegressionNormal');
+      //this.drawLine('chartRegressionLong');
+      //this.drawLine('chartRegressionPG');
+      //this.drawLine('chartRegressionBaco');
     },
     getPassingRate  :function(datestart,dateend,projectname,variantname) {
       console.log('getPassingRate');
@@ -328,7 +329,8 @@ export default {
         datestart   : datestart,
         dateend     : dateend,
         projectname : projectname,
-        variantname : variantname
+        variantname : variantname,
+        testplanname : this.activeTestplan
       }).then(
         function(response){
           if(response.body.ok ==  'ok'){
@@ -433,6 +435,12 @@ export default {
       //  function(){}
       //);
     },
+    drawAllLine(){
+      this.drawLine('chartRegressionNormal');
+      this.drawLine('chartRegressionLong');
+      this.drawLine('chartRegressionPG');
+      this.drawLine('chartRegressionBaco');
+    },
     drawLine(chartid){
       // 基于准备好的dom，初始化echarts实例
       let myChart = this.$echarts.init(document.getElementById(chartid))
@@ -517,9 +525,14 @@ export default {
       myChart.setOption(option);
     }
   },
+  watch : {
+    activeTestplan  : function(){
+      this.onSubmit();
+    }
+  },
   mounted(){
     this.get();
-    this.onSubmit();
+    //this.onSubmit();
   },
 
 }

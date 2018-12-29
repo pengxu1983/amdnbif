@@ -25,6 +25,9 @@ module.exports = {
     },
     variantname : {
       type  : 'string'
+    },
+    testplanname  : {
+      type  : 'string'
     }
   },
 
@@ -47,7 +50,14 @@ module.exports = {
     var detailsinfolong               = [];
     var detailsinfobaco               = [];
     var detailsinfopg                 = [];
-
+    var onetestplan;
+    if(testplanname){
+      onetestplan = await Testplans.findOne({
+        projectname : inputs.projectname,
+        variantname : inputs.variantname,
+        name        : inputs.testplanname
+      });
+    }
     
     if(inputs.kind  ==  'rangepassingrate'){
       while(item  != moment(inputs.dateend).format('YYYY-MM-DD')){
@@ -60,24 +70,31 @@ module.exports = {
           mode        : 'normal',
           startdate   : item,
           isofficial  : 'yes',
-          //variantname     : inputs.variantname,//TODO
-          projectname : inputs.variantname//TODO
+          variantname : inputs.variantname,
+          projectname : inputs.projectname
         });
         if(!one_reg_official_normal){
           one_reg_official_normal = await Regression_log.findOne({
             mode        : 'normal',
             startdate   : moment(item).subtract(1,'days').format('YYYY-MM-DD'),
             isofficial  : 'yes',
-            //variantname     : inputs.variantname,//TODO
-            projectname : inputs.variantname//TODO
+            variantname : inputs.variantname,
+            projectname : inputs.projectname
           });
         }
         if(one_reg_official_normal){
-          var postData = querystring.stringify({
-            'batchname': one_reg_official_normal.batchname,
-            'testnameprefix'  : 'NA'
-          });
-          
+          if(onetestplan.testnameprefix){
+            var postData = querystring.stringify({
+              'batchname': one_reg_official_normal.batchname,
+              'testnameprefix'  : onetestplan.testnameprefix
+            });
+          }
+          else{
+            var postData = querystring.stringify({
+              'batchname': one_reg_official_normal.batchname,
+              'testnameprefix'  : 'NA'
+            });
+          }
           var options = {
             hostname: 'localhost',
             port: 7001,
@@ -138,24 +155,31 @@ module.exports = {
           mode        : 'long',
           startdate   : item,
           isofficial  : 'yes',
-          //variantname     : inputs.variantname,//TODO
-          projectname : inputs.variantname//TODO
+          variantname : inputs.variantname,
+          projectname : inputs.projectname
         });
         if(!one_reg_official_long){
           one_reg_official_long= await Regression_log.findOne({
             mode        : 'long',
             startdate   : moment(item).subtract(1,'days').format('YYYY-MM-DD'),
             isofficial  : 'yes',
-            //variantname     : inputs.variantname,//TODO
-            projectname : inputs.variantname//TODO
+            variantname : inputs.variantname,
+            projectname : inputs.projectname
           });
         }
         if(one_reg_official_long){
-          var postData = querystring.stringify({
-            'batchname': one_reg_official_long.batchname,
-            'testnameprefix'  : 'NA'
-          });
-          
+          if(onetestplan.testnameprefix){
+            var postData = querystring.stringify({
+              'batchname': one_reg_official_long.batchname,
+              'testnameprefix'  : onetestplan.testnameprefix
+            });
+          }
+          else{
+            var postData = querystring.stringify({
+              'batchname': one_reg_official_long.batchname,
+              'testnameprefix'  : 'NA'
+            });
+          }
           var options = {
             hostname: 'localhost',
             port: 7001,
@@ -217,24 +241,31 @@ module.exports = {
           mode        : 'baco',
           startdate   : item,
           isofficial  : 'yes',
-          //variantname     : inputs.variantname,//TODO
-          projectname : inputs.variantname//TODO
+          variantname : inputs.variantname,
+          projectname : inputs.projectname
         });
         if(!one_reg_official_baco){
           one_reg_official_baco= await Regression_log.findOne({
             mode        : 'baco',
             startdate   : moment(item).subtract(1,'days').format('YYYY-MM-DD'),
             isofficial  : 'yes',
-            //variantname     : inputs.variantname,//TODO
-            projectname : inputs.variantname//TODO
+            variantname : inputs.variantname,
+            projectname : inputs.projectname
           });
         }
         if(one_reg_official_baco){
-          var postData = querystring.stringify({
-            'batchname': one_reg_official_baco.batchname,
-            'testnameprefix'  : 'NA'
-          });
-          
+          if(onetestplan.testnameprefix){
+            var postData = querystring.stringify({
+              'batchname': one_reg_official_baco.batchname,
+              'testnameprefix'  : onetestplan.testnameprefix
+            });
+          }
+          else{
+            var postData = querystring.stringify({
+              'batchname': one_reg_official_baco.batchname,
+              'testnameprefix'  : 'NA'
+            });
+          }
           var options = {
             hostname: 'localhost',
             port: 7001,
@@ -296,24 +327,31 @@ module.exports = {
           mode        : 'pg',
           startdate   : item,
           isofficial  : 'yes',
-          //variantname     : inputs.variantname,//TODO
-          projectname : inputs.variantname//TODO
+          variantname : inputs.variantname,
+          projectname : inputs.projectname
         });
         if(!one_reg_official_pg){
           one_reg_official_pg= await Regression_log.findOne({
             mode        : 'pg',
             startdate   : moment(item).subtract(1,'days').format('YYYY-MM-DD'),
             isofficial  : 'yes',
-            //variantname     : inputs.variantname,//TODO
-            projectname : inputs.variantname//TODO
+            variantname : inputs.variantname,
+            projectname : inputs.projectname
           });
         }
         if(one_reg_official_pg){
-          var postData = querystring.stringify({
-            'batchname': one_reg_official_pg.batchname,
-            'testnameprefix'  : 'NA'
-          });
-          
+          if(onetestplan.testnameprefix){
+            var postData = querystring.stringify({
+              'batchname': one_reg_official_pg.batchname,
+              'testnameprefix'  : onetestplan.testnameprefix
+            });
+          }
+          else{
+            var postData = querystring.stringify({
+              'batchname': one_reg_official_pg.batchname,
+              'testnameprefix'  : 'NA'
+            });
+          }
           var options = {
             hostname: 'localhost',
             port: 7001,

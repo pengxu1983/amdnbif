@@ -57,6 +57,7 @@
             :projectname="projectinfo.projectname"
             :variantname="projectinfo.variantname"
             :timewindow="projectinfo.timewindow"
+            :activeTestplan="activeTestplan"
           >
           </TestplanDetailPage_onetestplan_main>
         </el-main>
@@ -86,7 +87,8 @@ export default {
         projectname : 'NV21',
         variantname : 'nbif_nv10_gpu',
         timewindow  : 'week'
-      }
+      },
+      activeTestplan : ''
     }
   },
   methods : {
