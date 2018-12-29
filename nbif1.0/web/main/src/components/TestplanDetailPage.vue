@@ -5,6 +5,36 @@
       <a class="navbar-brand col-sm-3 col-md-2 mr-0" href="#">TestplanDetailPage</a>
     </nav>
     <el-container>
+      <el-form :inline="true" :model="projectinfo" class="demo-form-inline">
+        <el-form-item label="ProjectName">
+          <el-select v-model="projectinfo.projectname" placeholder="ProjectName">
+            <el-option 
+              v-for="oneproject in projects" 
+              :label="oneproject.name" 
+              :value="oneproject.name"
+            >
+            </el-option>
+          </el-select>
+        </el-form-item>
+        <el-form-item label="VariantName">
+          <el-select v-model="projectinfo.variantname" placeholder="VariantName">
+            <el-option 
+              v-for="onevariant in variants" 
+              :label="onevariant.variantname" 
+              :value="onevariant.variantname"
+            >
+            </el-option>
+          </el-select>
+        </el-form-item>
+        <el-form-item label="TimeWindow">
+          <el-select v-model="projectinfo.timewindow" placeholder="TimeWindow">
+            <el-option label="week" value="week"></el-option>
+            <el-option label="month" value="month"></el-option>
+          </el-select>
+        </el-form-item>
+      </el-form>
+    </el-container>
+    <el-container>
       <el-col :span="4">
         <el-menu
           default-active="2"
@@ -31,18 +61,18 @@
 export default {
   name: 'TestplanDetailPage',
   props: {
-    projectinfo : {
-      projectname : 'NV21',
-      variantname : 'nbif_nv10_gpu',
-      timewindow  : 'week'
-    }
   },
   data() {
     return {
       projects  : [],
       variants  : [],
       users     : [],
-      testplans : []
+      testplans : [],
+      projectinfo : {
+        projectname : 'NV21',
+        variantname : 'nbif_nv10_gpu',
+        timewindow  : 'week'
+      }
     }
   },
   methods : {
@@ -131,6 +161,17 @@ export default {
         },
         function(){}
       );
+    }
+  },
+  computed  : {
+    testplans_display () {
+      var result = [];
+      for(var i = 0; i< this.testplans.length; i++){
+        if((this.testplans[i].projectname == this.projectinfo.projectname) && (this.testplans[i].variantname == this.projectinfo.variantname)){
+          result.push(this.testplans[i]);
+        }
+      }
+      return result;
     }
   },
   mounted () {
