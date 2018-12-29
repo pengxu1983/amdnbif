@@ -5,7 +5,7 @@
       <a class="navbar-brand col-sm-3 col-md-2 mr-0" href="#">TestplanDetailPage</a>
     </nav>
     <el-container>
-      <el-col :span="4">
+      <el-col :span="24">
         <el-form :inline="true" :model="projectinfo" class="demo-form-inline">
           <el-form-item label="ProjectName">
             <el-select v-model="projectinfo.projectname" placeholder="ProjectName">
