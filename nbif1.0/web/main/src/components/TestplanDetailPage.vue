@@ -35,7 +35,7 @@
           </el-form-item>
         </el-form>
       </el-header>
-      <el-container>
+      <el-container style="height: 500px; border: 1px solid #eee">
         <el-aside width="200px">
           <el-menu
             default-active="2"
