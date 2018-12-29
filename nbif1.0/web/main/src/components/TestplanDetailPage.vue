@@ -44,7 +44,7 @@
             @close="handleClose"
           >
             <el-menu-item 
-              v-for="onetestplan in testplans"
+              v-for="onetestplan in testplans_display"
               :index="onetestplan.name"
             >
               <i class="el-icon-setting"></i>
