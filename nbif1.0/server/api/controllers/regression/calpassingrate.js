@@ -36,9 +36,6 @@ module.exports = {
       var totalnum    = 0;
       var unknownnum  = 0;
 
-      //var one_reg = await Regression_log.findOne({
-      //  batchname : inputs.batchname
-      //});
       if( (one_reg.updatetime !=  'NA') && (moment(one_reg.kickofftime).add(48,'hours').isBefore(moment().format())) ){
         //Do nothing
       }
@@ -73,9 +70,6 @@ module.exports = {
       var totalnum    = 0;
       var unknownnum  = 0;
       
-      //var one_reg = await Regression_log.findOne({
-      //  batchname : inputs.batchname
-      //});
       if( (one_reg.updatetime !=  'NA') && (moment(one_reg.kickofftime).add(48,'hours').isBefore(moment().format())) ){
         //Do nothing
       }

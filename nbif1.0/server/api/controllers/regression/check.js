@@ -51,7 +51,7 @@ module.exports = {
     var detailsinfobaco               = [];
     var detailsinfopg                 = [];
     var onetestplan;
-    if(testplanname){
+    if(inputs.testplanname != 'NA'){
       onetestplan = await Testplans.findOne({
         projectname : inputs.projectname,
         variantname : inputs.variantname,

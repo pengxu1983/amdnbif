@@ -363,7 +363,8 @@ export default {
         datestart   : datestart,
         dateend     : dateend,
         projectname : projectname,
-        variantname : variantname
+        variantname : variantname,
+        testplanname  : 'NA'
       }).then(
         function(response){
           if(response.body.ok ==  'ok'){
