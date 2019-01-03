@@ -63,6 +63,10 @@ export default {
       ],
       versionRecord : [
         {
+          versionID : '1.4.7',
+          versionLog  : 'Sanity page init'
+        },
+        {
           versionID : '1.4.6',
           versionLog  : 'Testplan details page init'
         },
