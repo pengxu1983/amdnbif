@@ -97,12 +97,13 @@ export default {
   computed  : {
     sanitys_display () {
       var items = [];
+      console.log(this.sanitys);
       for(var i=0;i<this.sanitys.length;i++){
         if((this.sanitys[i].projectname  == this.projectinfo.projectname) && (this.sanitys[i].variantname == this.projectinfo.variantname)){
           items = items.push({
             testname    : this.sanitys[i].testname,
-            projectname : this.sanitys[i].projectname,
-            variantname : this.sanitys[i].variantname
+            projectname : this.projectinfo.projectname,
+            variantname : this.projectinfo.variantname
           });
         }
       }
