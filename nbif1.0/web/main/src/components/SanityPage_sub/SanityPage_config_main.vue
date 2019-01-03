@@ -100,11 +100,7 @@ export default {
       console.log(this.sanitys);
       for(var i=0;i<this.sanitys.length;i++){
         if((this.sanitys[i].projectname  == this.projectinfo.projectname) && (this.sanitys[i].variantname == this.projectinfo.variantname)){
-          items = items.push({
-            testname    : this.sanitys[i].testname,
-            projectname : this.projectinfo.projectname,
-            variantname : this.projectinfo.variantname
-          });
+          items.push( this.sanitys[i]);
         }
       }
       console.log(items);
