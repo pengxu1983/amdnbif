@@ -161,6 +161,9 @@ export default {
         function(){}
       );
     },
+  },
+  mounted (){
+    this.get();
   }
 }
 </script>
