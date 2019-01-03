@@ -11,7 +11,9 @@
             </el-button>
           </el-form-item>
           <el-form-item>
-            <el-button type="primary">
+            <el-button type="primary"
+              @click="upload()"
+            >
             Upload
             </el-button>
           </el-form-item>
@@ -112,6 +114,24 @@ export default {
       rows.splice(index, 1);
     },
     get () {
+      //Sanitys get info
+      this.$http.post('/sanitys/get',{
+        kind  : 'allsanitysget'
+      }).then(
+        function(response){
+          if(response.body.ok =='ok'){
+            this.sanitys  =[];
+            for(var i = 0; i<response.body.sanitys.length; i++){
+              this.sanitys.push({
+                testname    : response.body.sanitys[i].testname,
+                projectname : response.body.sanitys[i].projectname,
+                variantname : response.body.sanitys[i].variantname
+              });
+            }
+          }
+        },
+        function(){}
+      );
     },
     add () {
       console.log(this.projectinfo.projectname);

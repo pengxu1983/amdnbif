@@ -220,14 +220,14 @@ export default {
           projectname : this.projectinfo.projectname,
           variantname : this.projectinfo.variantname,
           clonetarget : JSON.stringify(this.clonetarget),
-	}).then(
+	      }).then(
           function(response){
             if(response.body.ok	=='ok'){
               this.get();
-	    }
-	  },
+	          }
+	        },
           function(){}
-	);
+	      );
       }
     },
     upload () {
