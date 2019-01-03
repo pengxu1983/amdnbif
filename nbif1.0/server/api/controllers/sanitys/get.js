@@ -23,11 +23,12 @@ module.exports = {
     sails.log('/sanitys/get');
     sails.log(inputs);
     if(inputs.kind=='allsanitysget'){
-      await Sanity_tests.find({
+      var result = await Sanity_tests.find({
         id  : {'>=':0}
       });
       return exits.success({
-        ok  : 'ok'
+        ok  : 'ok',
+        sanitys : result
       });
     }
 
