@@ -39,7 +39,7 @@ module.exports = {
         variantname : inputs.variantname
       }); 
       for(var i=0;i<inputs.sanitys.length;i++){
-        if(inputs.sanitys[i].testname== ''){
+        if(sanitys[i].testname== ''){
           //Do nothing
         }
         else {
