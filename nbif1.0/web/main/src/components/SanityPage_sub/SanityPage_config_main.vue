@@ -122,6 +122,25 @@ export default {
         testname        : ''
       });
     },
+    upload () {
+      console.log('upload');
+      for(var i=0;i<this.sanitys.length;i++){
+        console.log(this.sanitys_display[i].testname);
+      }
+      this.$http.post('/sanitys/upload',{
+        kind    : 'sanity_test_upload',
+        sanitys : JSON.stringify(this.sanitys_display)
+      }).then(
+        function(response){
+          if(response.body.ok ==  'ok'){
+            console.log('ok');
+          }
+          this.get();
+          alert('uploaded');
+        },
+        function(){}
+      );
+    },
   }
 }
 </script>

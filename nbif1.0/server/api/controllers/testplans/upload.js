@@ -30,11 +30,14 @@ module.exports = {
     sails.log(inputs.testplanlist);
     if(inputs.kind  ==  'testplansupload'){
       await Testplans.destroy({
-        projectname : inputs.projectname
+        projectname : inputs.projectname,
+        variantname : inputs.variantname
       });
       await Testplans.createEach(inputs.testplanlist);
     }
-    return exits.success();
+    return exits.success({
+      ok  : 'ok'
+    });
 
   }
 
