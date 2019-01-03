@@ -38,8 +38,8 @@ module.exports = {
         projectname : inputs.projectname,
         variantname : inputs.variantname
       }); 
-      for(var i=0;i<inputs.sanitys.length;i++){
-        if(sanitys[i].testname== ''){
+      for(var i=0;i<sanitys.length;i++){
+        if(sanitys[i].testname == ''){
           //Do nothing
         }
         else {
