@@ -59,7 +59,8 @@ export default {
         'Review',
         'Action',
         'Config',
-        'TestplanDetail'
+        'TestplanDetail',
+        'Sanity'
       ],
       versionRecord : [
         {

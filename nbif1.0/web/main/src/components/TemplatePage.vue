@@ -8,6 +8,7 @@
 </template>
 
 <script>
+import TemplatePage_XX_main from '@/components/TemplatePage_sub/TemplatePage_XX_main.vue'
 export default {
   name: 'TemplatePage',
   props: {

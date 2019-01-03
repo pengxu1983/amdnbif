@@ -6,6 +6,7 @@ import Regression from './views/Regression.vue'
 import Action from './views/Action.vue'
 import Config from './views/Config.vue'
 import TestplanDetail from './views/TestplanDetail.vue'
+import Sanity from './views/Sanity.vue'
 
 Vue.use(Router)
 
@@ -47,7 +48,12 @@ export default new Router({
       component: TestplanDetail,
       props : true
     },
-
+    {
+      path: '/Sanity',
+      name: 'Sanity',
+      component: Sanity,
+      props : true
+    },
     //{
     //  path: '/about',
     //  name: 'about',
