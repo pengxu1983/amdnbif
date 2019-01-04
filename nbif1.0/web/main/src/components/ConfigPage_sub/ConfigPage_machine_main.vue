@@ -52,6 +52,35 @@
           </template>
         </el-table-column>
         <el-table-column
+          prop="allownum"
+          label="allowed tests number"
+        >
+          <template slot-scope="scope">
+            <el-input
+              placeholder="number"
+              v-model="scope.row.allownum"
+              clearable>
+            </el-input>
+          </template>
+        </el-table-column>
+        <el-table-column
+          prop="control"
+          label="control"
+          width="200"
+        >
+          <template slot-scope="scope">
+            <el-switch
+              style="display: block"
+              v-model="scope.row.control"
+              active-color="#13ce66"
+              inactive-color="#ff4949"
+              active-text="enabled"
+              inactive-text="disabled"
+            >
+            </el-switch>
+          </template>
+        </el-table-column>
+        <el-table-column
           prop="testStatus"
           label="testStatus"
           width="120"
@@ -159,6 +188,8 @@ export default {
         pcname      : '',
         site        : '',
         roll        : 'dev',
+        control     : true,
+        allownum    : 1,
         testStatus  : []
       });
     },
@@ -174,7 +205,9 @@ export default {
                 pcname    : response.body.machines[index].pcname,
                 roll      : response.body.machines[index].roll,
                 site      : response.body.machines[index].site,
-                testStatus: response.body.machines[index].testStatus
+                control   : response.body.machines[index].control,
+                testStatus: response.body.machines[index].testStatus,
+                allownum  : response.body.machines[index].allownum
               });
             }
           }

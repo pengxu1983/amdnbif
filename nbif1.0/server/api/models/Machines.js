@@ -36,6 +36,10 @@ module.exports = {
     },
     roll          : {
       type        : 'string'
+    },
+    control       : {
+      type        : 'string',
+      isIn        : ['enabled','disabled']
     }
     //  ╔═╗╔╦╗╔╗ ╔═╗╔╦╗╔═╗
     //  ║╣ ║║║╠╩╗║╣  ║║╚═╗

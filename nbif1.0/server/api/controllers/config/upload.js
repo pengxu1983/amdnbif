@@ -62,7 +62,8 @@ module.exports = {
           await Machines.create({
             pcname    : machines[i].pcname,
             roll      : machines[i].roll,
-            site      : machines[i].site
+            site      : machines[i].site,
+            control   : machines[i].control
           });
         }
       }
