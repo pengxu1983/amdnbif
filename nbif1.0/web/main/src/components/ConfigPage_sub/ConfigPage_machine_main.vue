@@ -142,7 +142,7 @@ export default {
       console.log('upload');
       this.$http.post('/config/upload',{
         kind  : 'machinesupload',
-        machines : this.machines
+        machines : JSON.stringify(this.machines)
       }).then(
         function(response){
           if(response.body.ok ==  'ok'){
@@ -158,6 +158,7 @@ export default {
       this.machines.unshift({
         pcname      : '',
         site        : '',
+        roll        : 'dev',
         testStatus  : []
       });
     },

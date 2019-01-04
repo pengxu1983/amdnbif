@@ -31,6 +31,9 @@ module.exports = {
     },
     variants  : {
       type  : 'ref'
+    },
+    machines  : {
+      type  : 'string'
     }
   },
 
@@ -43,6 +46,28 @@ module.exports = {
   fn: async function (inputs,exits) {
     sails.log('/config/upload');
     sails.log(inputs);
+    ///////////////////
+    //for Machines
+    ///////////////////
+    if(inputs.kind  ==  'machinesupload'){
+      await Machines.destroy({
+        id: {'>=':0}
+      });
+      var machines  = JSON.parse(inputs.machines);
+      for(var i=0;i<machines.length;i++){
+        if(machines[i].pcname== ''){
+          //Do nothing
+        }
+        else {
+          await Machines.create({
+            pcname    : machines[i].pcname,
+            roll      : machines[i].roll,
+            site      : machines[i].site
+          });
+        }
+      }
+      return exits.success({ok:'ok'});
+    }
     ///////////////////
     //for Users
     ///////////////////
