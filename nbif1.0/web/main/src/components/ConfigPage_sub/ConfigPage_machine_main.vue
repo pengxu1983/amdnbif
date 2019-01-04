@@ -164,7 +164,7 @@ export default {
     },
     get () {
       this.$http.post('/config/get',{
-        kind  : 'allmachines'
+        kind  : 'allmachinesget'
       }).then(
         function(response){
           if(response.body.ok ==  'ok'){
