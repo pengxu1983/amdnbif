@@ -33,6 +33,9 @@ module.exports = {
     testStatus    : {
       type        : 'string',
       columnType  : 'longtext'
+    },
+    roll          : {
+      type        : 'string'
     }
     //  ╔═╗╔╦╗╔╗ ╔═╗╔╦╗╔═╗
     //  ║╣ ║║║╠╩╗║╣  ║║╚═╗
