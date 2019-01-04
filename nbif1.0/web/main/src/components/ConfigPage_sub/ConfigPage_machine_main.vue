@@ -173,6 +173,7 @@ export default {
               this.machines.push({
                 pcname    : response.body.machines[index].pcname,
                 roll      : response.body.machines[index].roll,
+                site      : response.body.machines[index].site,
                 testStatus: response.body.machines[index].testStatus
               });
             }
