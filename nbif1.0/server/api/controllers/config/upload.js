@@ -35,6 +35,7 @@ module.exports = {
     machines  : {
       type  : 'string'
     }
+
   },
 
 
@@ -63,7 +64,8 @@ module.exports = {
             pcname    : machines[i].pcname,
             roll      : machines[i].roll,
             site      : machines[i].site,
-            control   : machines[i].control
+            control   : machines[i].control,
+            allownum  : machines[i].allownum
           });
         }
       }
