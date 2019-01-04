@@ -13,24 +13,28 @@ module.exports = {
     //  ╠═╝╠╦╝║║║║║ ║ ║╚╗╔╝║╣ ╚═╗
     //  ╩  ╩╚═╩╩ ╩╩ ╩ ╩ ╚╝ ╚═╝╚═╝
 
-    testname    : {
-      type      : 'string'
+    testname      : {
+      type        : 'string'
     },
-    projectname : {
-      type      : 'string'
+    projectname   : {
+      type        : 'string'
     },
-    variantname : {
-      type      : 'string'
+    variantname   : {
+      type        : 'string'
     },
-    stat        : {
-      type      : 'string'
+    seed          : {
+      type        : 'string'
     },
-    seed        : {
-      type      : 'string'
+    lastpassCL    : {
+      type        : 'string'
     },
-    changelist  : {
-      type      : 'string'
-    }
+    lastCL        : {
+      type        : 'string'
+    },
+    lastStatus    : {
+      type        : 'string'
+    },
+
     //  ╔═╗╔╦╗╔╗ ╔═╗╔╦╗╔═╗
     //  ║╣ ║║║╠╩╗║╣  ║║╚═╗
     //  ╚═╝╩ ╩╚═╝╚═╝═╩╝╚═╝
