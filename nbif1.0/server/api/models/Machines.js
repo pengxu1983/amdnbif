@@ -38,8 +38,7 @@ module.exports = {
       type        : 'string'
     },
     control       : {
-      type        : 'string',
-      isIn        : ['enabled','disabled']
+      type        : 'boolean'
     }
     //  ╔═╗╔╦╗╔╗ ╔═╗╔╦╗╔═╗
     //  ║╣ ║║║╠╩╗║╣  ║║╚═╗
