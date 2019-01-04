@@ -43,7 +43,7 @@
               @click="currentTab  = onekind"
             >
               <i class="el-icon-setting"></i>
-              <span slot="title">{{ onekind }}</span>
+              <span slot="title">{{ kind_disp(onekind)}}</span>
             </el-menu-item>
           </el-menu>
         </el-aside>
@@ -62,8 +62,8 @@
 </template>
 
 <script>
-import SanityPage_status_main from '@/components/SanityPage_sub/SanityPage_status_main.vue'
-import SanityPage_config_main from '@/components/SanityPage_sub/SanityPage_config_main.vue'
+import SanityPage_status_main   from '@/components/SanityPage_sub/SanityPage_status_main.vue'
+import SanityPage_config_main   from '@/components/SanityPage_sub/SanityPage_config_main.vue'
 
 export default {
   name: 'SanityPage',
@@ -80,9 +80,9 @@ export default {
       testplans   : [],
       kinds       : [
         'SanityPage_status_main',
-        'SanityPage_config_main'
+        'SanityPage_config_main',
       ],
-      currentTab  : 'SanityPage_status_main',
+      currentTab  : 'SanityPage_config_main',
     }
   },
   components  : {
@@ -103,6 +103,9 @@ export default {
       }
       else if(name == 'SanityPage_config_main'){
         return 'Config';
+      }
+      else if(name == 'SanityPage_machines_main'){
+        return 'Machines';
       }
     },
     handleOpen(key, keyPath) {

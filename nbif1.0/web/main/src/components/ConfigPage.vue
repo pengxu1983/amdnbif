@@ -33,13 +33,17 @@
               <i class="el-icon-menu"></i>
               <span slot="title">Variants</span>
             </el-menu-item>
+            <el-menu-item index="machines" 
+              @click="currentTab = 'ConfigPage_machine_main'">
+              <i class="el-icon-menu"></i>
+              <span slot="title">Machine</span>
+            </el-menu-item>
           </el-menu>
         </el-col>
         <el-col :span="20">
           <component
             v-bind:is="currentTabComponent"
           ></component>
-          
         </el-col>
       </el-row>
     </div>
@@ -53,6 +57,7 @@ import ConfigPage_projects_main   from '@/components/ConfigPage_sub/ConfigPage_p
 import ConfigPage_users_main      from '@/components/ConfigPage_sub/ConfigPage_users_main.vue'
 import ConfigPage_testplans_main  from '@/components/ConfigPage_sub/ConfigPage_testplans_main.vue'
 import ConfigPage_variants_main   from '@/components/ConfigPage_sub/ConfigPage_variants_main.vue'
+import ConfigPage_machine_main    from '@/components/ConfigPage_sub/ConfigPage_machine_main.vue'
 
 export default {
   name: 'ConfigPage',
@@ -63,6 +68,7 @@ export default {
     ConfigPage_users_main,
     ConfigPage_testplans_main,
     ConfigPage_variants_main,
+    ConfigPage_machine_main,
   },
   data() {
     return {
@@ -78,6 +84,7 @@ export default {
         'ConfigPage_users_main',
         'ConfigPage_testplans_main',
         'ConfigPage_variants_main',
+        'ConfigPage_machine_main',
       ],
     }
   },
