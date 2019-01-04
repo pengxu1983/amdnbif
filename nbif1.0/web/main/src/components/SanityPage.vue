@@ -97,6 +97,14 @@ export default {
     }
   },
   methods : {
+    kind_disp (name){
+      if(name == 'SanityPage_status_main'){
+        return 'Status';
+      }
+      else if(name == 'SanityPage_config_main'){
+        return 'Config';
+      }
+    },
     handleOpen(key, keyPath) {
       console.log(key, keyPath);
     },
