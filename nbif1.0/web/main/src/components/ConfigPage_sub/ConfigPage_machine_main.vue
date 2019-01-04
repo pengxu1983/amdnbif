@@ -164,16 +164,16 @@ export default {
     },
     get () {
       this.$http.post('/config/get',{
-        kind  : 'allusersget'
+        kind  : 'allmachines'
       }).then(
         function(response){
           if(response.body.ok ==  'ok'){
-            this.users  = [];
-            for(var userindex = 0; userindex < response.body.users.length; userindex++){
-              this.users.push({
-                realname  : response.body.users[userindex].realname,
-                email     : response.body.users[userindex].email,
-                groupname : response.body.users[userindex].groupname,
+            this.machines= [];
+            for(var index = 0; index< response.body.machines.length; index++){
+              this.machines.push({
+                pcname    : response.body.machines[index].pcname,
+                roll      : response.body.machines[index].roll,
+                testStatus: response.body.machines[index].testStatus
               });
             }
           }

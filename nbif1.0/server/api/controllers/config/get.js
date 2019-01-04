@@ -58,6 +58,16 @@ module.exports = {
         testplans : alltestplans
       });
     }
+    else if(inputs.kind  ==  'allmachinesget'){
+      var allmachines= await Machines.find({
+        id  : {'>=':0}
+      });
+      return exits.success({
+        ok  : 'ok',
+        machines : allmachines
+      });
+    }
+
     else{
       return exits.success({
         ok  : 'notok'
