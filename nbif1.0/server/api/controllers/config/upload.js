@@ -173,10 +173,9 @@ module.exports = {
       return exits.success({ok:'ok'});
     }
     ///////////////////
-    //for Variants 
+    //for Regression 
     ///////////////////
-    else if(inputs.kind == 'regressionsettings'){
-      sails.log('aaaa');
+    else if(inputs.kind == 'regressionsettingsupload'){
       await Regressionsettings.destroy({
         //id: {'>=':0},
         projectname : inputs.projectname,
