@@ -182,6 +182,8 @@ module.exports = {
         variantname : inputs.variantname
       });
       var regressionsettings  = JSON.parse(inputs.regressionsettings);
+      sails.log('abc');
+      sails.log(regressionsettings);
       for(var i=0;i<regressionsettings.length;i++){
         if(regressionsettings[i].kind== ''){
           //Do nothing
