@@ -17,7 +17,7 @@ module.exports = {
       type        : 'string'
     },
     daysperround  : {
-      type        : 'string'
+      type        : 'number'
     },
     regressionstatus  : {
       type        : 'string'

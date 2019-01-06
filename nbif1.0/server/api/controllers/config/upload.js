@@ -188,13 +188,18 @@ module.exports = {
         if(regressionsettings[i].kind== ''){
           //Do nothing
         }
-        else {
+        else { 
+          sails.log(regressionsettings[i].kind);
+          sails.log(regressionsettings[i].projectname);
+          sails.log(regressionsettings[i].variantname);
+          sails.log(regressionsettings[i].daysperround);
+          sails.log(regressionsettings[i].control);
           await Regressionsettings.create({
-            kind            : regressionsettings[i].kind,
-            //daysperround    : regressionsettings[i].daysperround,
-            //projectname     : regressionsettings[i],projectname,
-            //variantname     : regressionsettings[i].variantname,
-            //control         : regressionsettings[i].control
+            kind : regressionsettings[i].kind,
+            projectname : regressionsettings[i].projectname,
+            variantname : regressionsettings[i].variantname,
+            daysperround : regressionsettings[i].daysperround,
+            control : regressionsettings[i].control
           });
         }
       }
