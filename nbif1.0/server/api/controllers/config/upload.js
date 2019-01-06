@@ -176,6 +176,7 @@ module.exports = {
     //for Variants 
     ///////////////////
     else if(inputs.kind == 'regressionsettings'){
+      sails.log('aaaa');
       await Regressionsettings.destroy({
         //id: {'>=':0},
         projectname : inputs.projectname,
