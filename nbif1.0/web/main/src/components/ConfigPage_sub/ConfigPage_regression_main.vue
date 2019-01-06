@@ -138,7 +138,7 @@ export default {
         kind  : 'regressionsettingsupload',
         projectname : this.projectinfo.projectname,
         variantname : this.projectinfo.variantname,
-        regressionsettings : this.regressionsettings_display
+        regressionsettings : JSON.stringify(this.regressionsettings_display)
       }).then(
         function(response){
           if(response.body.ok ==  'ok'){

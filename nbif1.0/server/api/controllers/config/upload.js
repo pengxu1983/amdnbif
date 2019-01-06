@@ -36,7 +36,7 @@ module.exports = {
       type  : 'string'
     },
     regressionsettings  :{
-      type  : 'ref'
+      type  : 'string'
     }
 
   },
@@ -181,17 +181,18 @@ module.exports = {
         projectname : inputs.projectname,
         variantname : inputs.variantname
       });
-      for(var i=0;i<inputs.regressionsettings.length;i++){
-        if(inputs.regressionsettings[i].kind== ''){
+      var regressionsettings  = JSON.parse(inputs.regressionsettings);
+      for(var i=0;i<regressionsettings.length;i++){
+        if(regressionsettings[i].kind== ''){
           //Do nothing
         }
         else {
           await Regressionsettings.create({
-            kind            : inputs.regressionsettings[i].kind,
-            daysperround    : inputs.regressionsettings[i].daysperround,
-            projectname     : inputs.regressionsettings[i],projectname,
-            variantname     : inputs.regressionsettings[i].variantname,
-            control         : inputs.regressionsettings[i].control
+            kind            : regressionsettings[i].kind,
+            daysperround    : regressionsettings[i].daysperround,
+            projectname     : regressionsettings[i],projectname,
+            variantname     : regressionsettings[i].variantname,
+            control         : regressionsettings[i].control
           });
         }
       }
