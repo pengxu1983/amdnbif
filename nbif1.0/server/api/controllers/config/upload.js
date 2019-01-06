@@ -169,7 +169,31 @@ module.exports = {
       }
       return exits.success({ok:'ok'});
     }
-
+    ///////////////////
+    //for Variants 
+    ///////////////////
+    else if(inputs.kind == 'regressionsettings'){
+      await Regressionsettings.destroy({
+        //id: {'>=':0},
+        projectname : inputs.projectname,
+        variantname : inputs.variantname
+      });
+      for(var i=0;i<inputs.regressionsettings.length;i++){
+        if(inputs.regressionsettings[i].kind== ''){
+          //Do nothing
+        }
+        else {
+          await Regressionsettings.create({
+            kind            : inputs.regressionsettings[i].kind,
+            daysperround    : inputs.regressionsettings[i].daysperround,
+            projectname     : inputs.regressionsettings[i],projectname,
+            variantname     : inputs.regressionsettings[i].variantname,
+            control         : inputs.regressionsettings[i].control
+          });
+        }
+      }
+      return exits.success({ok:'ok'});
+    }
     // All done.
     //return exits.success({});
 
