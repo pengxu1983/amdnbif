@@ -191,10 +191,10 @@ module.exports = {
         else {
           await Regressionsettings.create({
             kind            : regressionsettings[i].kind,
-            daysperround    : regressionsettings[i].daysperround,
-            projectname     : regressionsettings[i],projectname,
-            variantname     : regressionsettings[i].variantname,
-            control         : regressionsettings[i].control
+            //daysperround    : regressionsettings[i].daysperround,
+            //projectname     : regressionsettings[i],projectname,
+            //variantname     : regressionsettings[i].variantname,
+            //control         : regressionsettings[i].control
           });
         }
       }
