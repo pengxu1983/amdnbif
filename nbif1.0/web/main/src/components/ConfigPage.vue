@@ -38,6 +38,11 @@
               <i class="el-icon-menu"></i>
               <span slot="title">Machine</span>
             </el-menu-item>
+            <el-menu-item index="regressionsettings" 
+              @click="currentTab = 'ConfigPage_regression_main'">
+              <i class="el-icon-menu"></i>
+              <span slot="title">Regression Settings</span>
+            </el-menu-item>
           </el-menu>
         </el-col>
         <el-col :span="20">
@@ -58,6 +63,7 @@ import ConfigPage_users_main      from '@/components/ConfigPage_sub/ConfigPage_u
 import ConfigPage_testplans_main  from '@/components/ConfigPage_sub/ConfigPage_testplans_main.vue'
 import ConfigPage_variants_main   from '@/components/ConfigPage_sub/ConfigPage_variants_main.vue'
 import ConfigPage_machine_main    from '@/components/ConfigPage_sub/ConfigPage_machine_main.vue'
+import ConfigPage_regression_main from '@/components/ConfigPage_sub/ConfigPage_regression_main.vue'
 
 export default {
   name: 'ConfigPage',
@@ -69,6 +75,7 @@ export default {
     ConfigPage_testplans_main,
     ConfigPage_variants_main,
     ConfigPage_machine_main,
+    ConfigPage_regression_main,
   },
   data() {
     return {
