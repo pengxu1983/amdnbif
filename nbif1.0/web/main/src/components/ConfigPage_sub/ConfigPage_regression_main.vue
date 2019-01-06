@@ -134,6 +134,7 @@ export default {
     },
     upload () {
       console.log('upload');
+      console.log(this.regressionsettings_display);
       this.$http.post('/config/upload',{
         kind  : 'regressionsettingsupload',
         projectname : this.projectinfo.projectname,
