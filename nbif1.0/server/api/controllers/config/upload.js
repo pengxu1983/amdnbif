@@ -34,6 +34,9 @@ module.exports = {
     },
     machines  : {
       type  : 'string'
+    },
+    regressionsettings  :{
+      type  : 'ref'
     }
 
   },
