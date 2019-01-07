@@ -67,6 +67,15 @@ module.exports = {
         machines : allmachines
       });
     }
+    else if(inputs.kind  ==  'allregressionsettingsget'){
+      var allregressionsettings= await Regressionsettings.find({
+        id  : {'>=':0}
+      });
+      return exits.success({
+        ok  : 'ok',
+        machines : allregressionsettings
+      });
+    }
 
     else{
       return exits.success({

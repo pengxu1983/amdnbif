@@ -162,6 +162,7 @@ export default {
     },
     get () {
       //regressionstatus info
+      console.log('get');
       this.$http.post('/config/get',{
         kind  : 'allregressionsettingsget'
       }).then(
