@@ -22,6 +22,9 @@ module.exports = {
   fn: async function (inputs,exits) {
     sails.log('/config/get');
     sails.log(inputs);
+    ///////////////////
+    //for Users
+    ///////////////////
     if(inputs.kind  ==  'allusersget'){
       var allusers = await Users.find({
         id  : {'>=':0}
@@ -31,6 +34,9 @@ module.exports = {
         users : allusers
       })
     }
+    ///////////////////
+    //for Projects
+    ///////////////////
     else if(inputs.kind  ==  'allprojectsget'){
       var allprojects = await Projects.find({
         id  : {'>=':0}
@@ -40,6 +46,9 @@ module.exports = {
         projects  : JSON.stringify(allprojects)
       });
     }
+    ///////////////////
+    //for Variants
+    ///////////////////
     else if(inputs.kind  ==  'allvariantsget'){
       var allvariants= await Variants.find({
         id  : {'>=':0}
@@ -49,6 +58,9 @@ module.exports = {
         variants  : allvariants
       });
     }
+    ///////////////////
+    //for Testplans
+    ///////////////////
     else if(inputs.kind  ==  'alltestplansget'){
       var alltestplans= await Testplans.find({
         id  : {'>=':0}
@@ -58,6 +70,9 @@ module.exports = {
         testplans : alltestplans
       });
     }
+    ///////////////////
+    //for Machines
+    ///////////////////
     else if(inputs.kind  ==  'allmachinesget'){
       var allmachines= await Machines.find({
         id  : {'>=':0}
@@ -67,13 +82,16 @@ module.exports = {
         machines : allmachines
       });
     }
+    ///////////////////
+    //for Regressionsettings
+    ///////////////////
     else if(inputs.kind  ==  'allregressionsettingsget'){
       var allregressionsettings= await Regressionsettings.find({
         id  : {'>=':0}
       });
       return exits.success({
         ok  : 'ok',
-        machines : allregressionsettings
+        regressionsettings : allregressionsettings
       });
     }
 
