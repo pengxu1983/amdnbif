@@ -167,6 +167,8 @@ export default {
         kind  : 'allregressionsettingsget'
       }).then(
         function(response){
+          console.log('abc');
+          console.log(response.body);
           if(response.body.ok ==  'ok'){
             this.regressionsettings = [];
             for(var index = 0; index < response.body.regressionsettings.length; index++){
