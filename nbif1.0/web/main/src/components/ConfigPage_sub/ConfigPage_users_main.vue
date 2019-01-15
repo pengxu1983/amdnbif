@@ -109,7 +109,7 @@ export default {
       );
     },
     add () {
-      this.users.push({
+      this.users.unshift({
         realname  : '',
         email     : '',
         groupname : ''
