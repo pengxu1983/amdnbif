@@ -20,8 +20,8 @@ module.exports.routes = {
   ***************************************************************************/
 
   '/': { view: 'pages/homepage' },
-  'GET /regressionstart' : {
-    action  : 'regression-control'
+  'GET /sanitystart' : {
+    action  : 'sanity-control'
   },
 
   /***************************************************************************
