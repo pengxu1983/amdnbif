@@ -43,6 +43,9 @@ module.exports = {
     operator          : {
       type            : 'string'
     },
+    variantname       : {
+      type            : 'string'
+    }
 
   },
 
@@ -64,6 +67,7 @@ module.exports = {
       await Regression_log.create({
         batchname         : inputs.batchname          ,
         projectname       : inputs.projectname        ,
+        variantname       : inputs.variantname        ,
         mode              : inputs.mode               ,
         isofficial        : inputs.isofficial         ,
         testlist          : inputs.testlist           ,
@@ -93,6 +97,7 @@ module.exports = {
       },{
         batchname         : inputs.batchname          ,
         projectname       : inputs.projectname        ,
+        variantname       : inputs.variantname        ,
         mode              : inputs.mode               ,
         isofficial        : inputs.isofficial         ,
         testlist          : inputs.testlist           ,
