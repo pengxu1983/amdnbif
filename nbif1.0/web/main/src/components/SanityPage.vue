@@ -67,7 +67,7 @@ export default {
   },
   computed: {
     currentTabComponent: function () {
-      console.log(this.currentTab);
+      //console.log(this.currentTab);
       return this.currentTab;
       //return 'tab-' + this.currentTab.toLowerCase()
     }
@@ -85,10 +85,10 @@ export default {
       }
     },
     handleOpen(key, keyPath) {
-      console.log(key, keyPath);
+      //console.log(key, keyPath);
     },
     handleClose(key, keyPath) {
-      console.log(key, keyPath);
+      //console.log(key, keyPath);
     },
     get () {
       //Variants get info
@@ -141,8 +141,8 @@ export default {
                 Projlead          : allprojects[index].Projlead,
                 availablevariants : JSON.parse(allprojects[index].availablevariants)
               });
-            console.log(allprojects[index].availablevariants);
-            console.log(typeof(allprojects[index].availablevariants));
+              //console.log(allprojects[index].availablevariants);
+              //console.log(typeof(allprojects[index].availablevariants));
             }
           }
         },
