@@ -82,7 +82,7 @@ export default {
         'SanityPage_status_main',
         'SanityPage_config_main',
       ],
-      currentTab  : 'SanityPage_config_main',
+      currentTab  : 'SanityPage_status_main',
     }
   },
   components  : {

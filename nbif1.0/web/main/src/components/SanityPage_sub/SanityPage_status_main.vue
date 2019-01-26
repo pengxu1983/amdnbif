@@ -40,6 +40,7 @@ export default {
   },
   watch : {
     projectinfo : function(val,oldval){
+      console.log('abc');
       this.$http.post('/sanitys/get',{
         kind  : 'allsanitysget'
       }).then(
