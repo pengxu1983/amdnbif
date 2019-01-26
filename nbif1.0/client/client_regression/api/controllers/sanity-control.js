@@ -95,8 +95,13 @@ module.exports = {
         encoding  : 'utf8'
       }).split('\n');
       R.pop();
-      sails.log(R);
-      var passlist = R;
+      var RR = [];
+      for(var j=0;j<R.length;j++){
+        var tmp = R[j].split('.');
+        RR.push(tmp[0]);
+      }
+      var passlist = RR;
+      sails.log(passlist);
       var postData = querystring.stringify({
         'passlist'    : passlist,
         'projectname' : 'MERO',
