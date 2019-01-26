@@ -1,5 +1,26 @@
 <template>
   <el-container>
+    <el-table
+      :data="sanityStatus"
+      border
+      style="width: 100%"
+    >
+      <el-table-column
+        prop="testname"
+        label="Test Name"
+      >
+      </el-table-column>
+      <el-table-column
+        prop="lastCL"
+        label="Last Changelist"
+      >
+      </el-table-column>
+      <el-table-column
+        prop="lastpassCL"
+        label="Last Passing Changelist"
+      >
+      </el-table-column>
+    </el-table>
   </el-container>
 </template>
 
@@ -14,6 +35,20 @@ export default {
   },
   data() {
     return {
+      sanityStatus  : [],
+    }
+  },
+  watch : {
+    projectinfo : function(val,oldval){
+      this.$http.post('/sanitys/get',{
+        kind  : 'allsanitysget'
+      }).then(
+        function(response){
+          if(response.body.ok ==  'ok'){
+          }
+        },
+        function(){}
+      );
     }
   },
   methods : {

@@ -22,9 +22,6 @@ module.exports = {
     variantname   : {
       type        : 'string'
     },
-    seed          : {
-      type        : 'string'
-    },
     lastpassCL    : {
       type        : 'string'
     },
