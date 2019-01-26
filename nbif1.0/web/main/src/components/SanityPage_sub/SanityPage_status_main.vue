@@ -56,7 +56,8 @@ export default {
   },
   mounted : function(){
     console.log('mounted');
-    console.log(this.projectinfo);
+    console.log(this.projectinfo.projectname);
+    console.log(this.projectinfo.variantname);
   }
 }
 </script>

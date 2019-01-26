@@ -32,7 +32,7 @@
       <el-container style="border: 1px solid #eee">
         <el-aside width="300px">
           <el-menu
-            default-active="status"
+            default-active="SanityPage_status_main"
             class="el-menu-vertical-demo"
             @open="handleOpen"
             @close="handleClose"
