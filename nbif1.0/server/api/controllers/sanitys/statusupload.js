@@ -12,7 +12,7 @@ module.exports = {
       type  : 'string'
     },
     passlist :{
-      type  : 'string'
+      type  : 'ref'
     },
     projectname : {
       type  : 'string'

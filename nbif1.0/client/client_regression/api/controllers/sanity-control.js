@@ -98,7 +98,7 @@ module.exports = {
       sails.log(R);
       var passlist = R;
       var postData = querystring.stringify({
-        'passlist': passlist,
+        'passlist'    : passlist,
         'projectname' : 'MERO',
         'variantname' : 'nbif_al_gpu',
         'changelist'  : changelist
