@@ -5,30 +5,6 @@
       <a class="navbar-brand col-sm-3 col-md-2 mr-0" href="#">SanityPage</a>
     </nav>
     <el-container style="height: 1000px; border: 1px solid #eee">
-      <el-header>
-        <el-form :inline="true" :model="projectinfo" class="demo-form-inline">
-          <el-form-item label="ProjectName">
-            <el-select v-model="projectinfo.projectname" placeholder="ProjectName">
-              <el-option 
-                v-for="oneproject in projects" 
-                :label="oneproject.name" 
-                :value="oneproject.name"
-              >
-              </el-option>
-            </el-select>
-          </el-form-item>
-          <el-form-item label="VariantName">
-            <el-select v-model="projectinfo.variantname" placeholder="VariantName">
-              <el-option 
-                v-for="onevariant in variants" 
-                :label="onevariant.variantname" 
-                :value="onevariant.variantname"
-              >
-              </el-option>
-            </el-select>
-          </el-form-item>
-        </el-form>
-      </el-header>
       <el-container style="border: 1px solid #eee">
         <el-aside width="300px">
           <el-menu
