@@ -53,6 +53,10 @@ export default {
     }
   },
   methods : {
+  },
+  mounted : function(){
+    console.log('mounted');
+    console.log(this.projectinfo);
   }
 }
 </script>
