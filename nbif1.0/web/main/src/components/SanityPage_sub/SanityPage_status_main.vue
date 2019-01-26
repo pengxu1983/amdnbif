@@ -103,7 +103,7 @@ export default {
                 lastpassCL  : response.body.sanitys[i].lastpassCL
               });
             }
-            console.log(sanitys);
+            console.log(this.sanitys);
           }
         },
         function(){}
