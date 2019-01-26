@@ -26,6 +26,7 @@ module.exports = {
       var result = await Sanity_tests.find({
         id  : {'>=':0}
       });
+      sails.log(result);
       return exits.success({
         ok  : 'ok',
         sanitys : result

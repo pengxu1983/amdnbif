@@ -71,20 +71,6 @@ export default {
       variants    : [],
     }
   },
-  watch : {
-    projectinfo : function(val,oldval){
-      console.log('abc');
-      this.$http.post('/sanitys/get',{
-        kind  : 'allsanitysget'
-      }).then(
-        function(response){
-          if(response.body.ok ==  'ok'){
-          }
-        },
-        function(){}
-      );
-    }
-  },
   methods : {
     get () {
       //Sanitys get info
@@ -158,8 +144,8 @@ export default {
                 Projlead          : allprojects[index].Projlead,
                 availablevariants : JSON.parse(allprojects[index].availablevariants)
               });
-            console.log(allprojects[index].availablevariants);
-            console.log(typeof(allprojects[index].availablevariants));
+              //console.log(allprojects[index].availablevariants);
+              //console.log(typeof(allprojects[index].availablevariants));
             }
           }
         },
@@ -189,9 +175,9 @@ export default {
     }
   },
   mounted : function(){
-    console.log('mounted');
-    console.log(this.projectinfo.projectname);
-    console.log(this.projectinfo.variantname);
+    //console.log('mounted');
+    //console.log(this.projectinfo.projectname);
+    //console.log(this.projectinfo.variantname);
     this.get();
   }
 }
