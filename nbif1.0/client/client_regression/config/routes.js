@@ -20,7 +20,7 @@ module.exports.routes = {
   ***************************************************************************/
 
   '/': { view: 'pages/homepage' },
-  'GET /sanitystart' : {
+  'GET /sanity/:kind' : {
     action  : 'sanity-control'
   },
 
