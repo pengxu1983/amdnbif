@@ -98,9 +98,12 @@ export default {
               this.sanitys.push({
                 testname    : response.body.sanitys[i].testname,
                 projectname : response.body.sanitys[i].projectname,
-                variantname : response.body.sanitys[i].variantname
+                variantname : response.body.sanitys[i].variantname,
+                lastCL      : response.body.sanitys[i].lastCL,
+                lastpassCL  : response.body.sanitys[i].lastpassCL
               });
             }
+            console.log(sanitys);
           }
         },
         function(){}
