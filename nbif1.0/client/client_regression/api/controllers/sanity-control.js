@@ -1,4 +1,6 @@
 var moment = require('moment');
+var querystring = require('querystring');
+var http = require('http');
 var fs= require('fs');
 var cronJob = require("cron").CronJob;
 var child_process = require('child_process');
@@ -97,9 +99,9 @@ module.exports = {
       var passlist = R;
       var postData = querystring.stringify({
         'passlist': passlist,
-        projectname : 'MERO',
-        variantname : 'nbif_al_gpu',
-        changelist  : changelist
+        'projectname' : 'MERO',
+        'variantname' : 'nbif_al_gpu',
+        'changelist'  : changelist
       });
       
       var options = {

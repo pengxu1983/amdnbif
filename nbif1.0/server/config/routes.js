@@ -84,6 +84,9 @@ module.exports.routes = {
   'POST /sanitys/get'  :{
     action  : 'sanitys/get'
   },
+  'POST /sanitys/statusupload': {
+    action  : 'sanitys/statusupload'
+  }
   //  ╔═╗╔═╗╦  ╔═╗╔╗╔╔╦╗╔═╗╔═╗╦╔╗╔╔╦╗╔═╗
   //  ╠═╣╠═╝║  ║╣ ║║║ ║║╠═╝║ ║║║║║ ║ ╚═╗
   //  ╩ ╩╩  ╩  ╚═╝╝╚╝═╩╝╩  ╚═╝╩╝╚╝ ╩ ╚═╝
