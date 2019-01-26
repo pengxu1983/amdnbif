@@ -3,7 +3,9 @@
     <el-header>
       <el-form :inline="true" :model="projectinfo" class="demo-form-inline">
         <el-form-item label="ProjectName">
-          <el-select v-model="projectinfo.projectname" placeholder="ProjectName">
+          <el-select v-model="projectinfo.projectname" placeholder="ProjectName"
+            @change="get()"
+          >
             <el-option 
               v-for="oneproject in projects" 
               :label="oneproject.name" 
@@ -13,7 +15,9 @@
           </el-select>
         </el-form-item>
         <el-form-item label="VariantName">
-          <el-select v-model="projectinfo.variantname" placeholder="VariantName">
+          <el-select v-model="projectinfo.variantname" placeholder="VariantName"
+            @change="get()"
+          >
             <el-option 
               v-for="onevariant in variants" 
               :label="onevariant.variantname" 
@@ -58,6 +62,7 @@ export default {
   data() {
     return {
       sanityStatus  : [],
+      sanitys     : [],
       projectinfo : {
         projectname : 'NV21',
         variantname : 'nbif_nv10_gpu'
@@ -82,6 +87,24 @@ export default {
   },
   methods : {
     get () {
+      //Sanitys get info
+      this.$http.post('/sanitys/get',{
+        kind  : 'allsanitysget'
+      }).then(
+        function(response){
+          if(response.body.ok =='ok'){
+            this.sanitys  =[];
+            for(var i = 0; i<response.body.sanitys.length; i++){
+              this.sanitys.push({
+                testname    : response.body.sanitys[i].testname,
+                projectname : response.body.sanitys[i].projectname,
+                variantname : response.body.sanitys[i].variantname
+              });
+            }
+          }
+        },
+        function(){}
+      );
       //Variants get info
       this.$http.post('/config/get',{
         kind  : 'allvariantsget'
