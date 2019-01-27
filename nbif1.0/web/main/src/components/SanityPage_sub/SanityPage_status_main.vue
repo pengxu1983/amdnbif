@@ -41,7 +41,7 @@
         </el-table-column>
         <el-table-column
           prop="lastCL"
-          label="Last Changelist"
+          label="Last Checked Changelist"
         >
         </el-table-column>
         <el-table-column
