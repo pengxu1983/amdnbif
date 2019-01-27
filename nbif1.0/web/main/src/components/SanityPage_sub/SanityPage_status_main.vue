@@ -30,7 +30,7 @@
     </el-header>
     <el-main>
       <el-table
-        :data="sanityStatus"
+        :data="sanitys_display"
         border
         style="width: 100%"
       >
@@ -61,7 +61,6 @@ export default {
   },
   data() {
     return {
-      sanityStatus  : [],
       sanitys     : [],
       projectinfo : {
         projectname : 'NV21',
@@ -69,6 +68,20 @@ export default {
       },
       projects    : [],
       variants    : [],
+    }
+  },
+  computed:{
+    sanitys_display : function(){
+      var result  = [];
+      for(var k=0;k<this.sanitys.length;k++){
+        console.log('aaaaa');
+        console.log(k);
+        console.log(this.sanitys[k]);
+        if((this.sanitys[k].projectname == this.projectinfo.projectname)&&(this.sanitys[k].variantname == this.projectinfo.variantname)){
+          result.push(this.sanitys[k]);
+        }
+      }
+      return result;
     }
   },
   methods : {
@@ -88,8 +101,9 @@ export default {
                 lastCL      : response.body.sanitys[i].lastCL,
                 lastpassCL  : response.body.sanitys[i].lastpassCL
               });
+              console.log('testname');
+              console.log(response.body.sanitys[i].testname)
             }
-            console.log(this.sanitys);
           }
         },
         function(){}
