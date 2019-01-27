@@ -63,8 +63,8 @@ export default {
     return {
       sanitys     : [],
       projectinfo : {
-        projectname : 'NV21',
-        variantname : 'nbif_nv10_gpu'
+        projectname : 'MERO',
+        variantname : 'nbif_al_gpu'
       },
       projects    : [],
       variants    : [],
@@ -74,9 +74,9 @@ export default {
     sanitys_display : function(){
       var result  = [];
       for(var k=0;k<this.sanitys.length;k++){
-        console.log('aaaaa');
-        console.log(k);
-        console.log(this.sanitys[k]);
+        //console.log('aaaaa');
+        //console.log(k);
+        //console.log(this.sanitys[k]);
         if((this.sanitys[k].projectname == this.projectinfo.projectname)&&(this.sanitys[k].variantname == this.projectinfo.variantname)){
           result.push(this.sanitys[k]);
         }
