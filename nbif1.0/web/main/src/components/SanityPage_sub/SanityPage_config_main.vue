@@ -127,6 +127,7 @@ export default {
   },
   computed  : {
     sanitys_display () {
+      console.log('sanitys_display computed');
       var items = [];
       console.log(this.sanitys);
       for(var i=0;i<this.sanitys.length;i++){
