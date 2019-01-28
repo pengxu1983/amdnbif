@@ -257,8 +257,8 @@ export default {
       }
       this.$http.post('/sanitys/upload',{
         kind    : 'sanity_test_upload',
-        projectname : projectinfo.projectname,
-        variantname : projectinfo.variantname,
+        projectname : this.projectinfo.projectname,
+        variantname : this.projectinfo.variantname,
         sanitys : JSON.stringify(this.sanitys_display)
       }).then(
         function(response){
