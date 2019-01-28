@@ -5,7 +5,7 @@ var fs= require('fs');
 var cronJob = require("cron").CronJob;
 var child_process = require('child_process');
 var workspace = '/local_vol1_nobackup/benpeng';
-var jobid_sanity_mero = new cronJob('0 * * * * *',function(){
+var jobid_sanity_mero = new cronJob('0 0 * * * *',function(){
   var today = moment().format('YYYYMMDD');
   var text  = '';
   //Remove previous tree
