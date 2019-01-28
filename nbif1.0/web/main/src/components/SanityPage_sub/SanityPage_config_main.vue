@@ -4,7 +4,6 @@
         <el-form :inline="true" :model="projectinfo" class="demo-form-inline">
           <el-form-item label="ProjectName">
             <el-select v-model="projectinfo.projectname" placeholder="ProjectName"
-              @change="get()"
             >
               <el-option 
                 v-for="oneproject in projects" 
@@ -16,7 +15,6 @@
           </el-form-item>
           <el-form-item label="VariantName">
             <el-select v-model="projectinfo.variantname" placeholder="VariantName"
-              @change="get()"
             >
               <el-option 
                 v-for="onevariant in variants" 
