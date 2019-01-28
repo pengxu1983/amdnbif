@@ -252,11 +252,13 @@ export default {
     },
     upload () {
       console.log('upload');
-      for(var i=0;i<this.sanitys.length;i++){
+      for(var i=0;i<this.sanitys_display.length;i++){
         console.log(this.sanitys_display[i].testname);
       }
       this.$http.post('/sanitys/upload',{
         kind    : 'sanity_test_upload',
+        projectname : projectinfo.projectname,
+        variantname : projectinfo.variantname,
         sanitys : JSON.stringify(this.sanitys_display)
       }).then(
         function(response){
