@@ -4,11 +4,11 @@ var http = require('http');
 var fs= require('fs');
 var cronJob = require("cron").CronJob;
 var child_process = require('child_process');
-var workspace = '/local_vol1_nobackup/benpeng';
-var jobid_sanity_mero = new cronJob('0 0 * * * *',function(){
-  var today = moment().format('YYYYMMDD');
+var workspace = '/local_vol1_nobackup/benpeng/amdnbif/nbif1.0/client/client_regression/assets/static/trees';
+var jobid_sanity_mero = new cronJob('0 * * * * *',function(){
   var text  = '';
   //Remove previous tree
+  sails.log(moment().format('HH:mm:ss'));
   sails.log('Checking if Dir already exists');
   if(fs.existsSync(workspace+'/nbif_main_sanity_mero')){
     sails.log('TreeDir already exists');
@@ -42,6 +42,7 @@ var jobid_sanity_mero = new cronJob('0 0 * * * *',function(){
   sails.log('Execute the script');
   child_process.execFileSync(workspace+'/nbif_main_sanity_mero_script');
   sails.log('Execute done');
+  sails.log(moment().format('hh:mm:ss'));
   //To Check Sanity result
   sails.log('Check The sanity result');
   //check changelist
