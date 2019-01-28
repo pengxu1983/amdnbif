@@ -25,7 +25,7 @@
         </el-form>
       </el-header>
       <el-header>
-        <el-form :inline="true" :model="projectinfo" class="demo-form-inline">
+        <el-form :inline="true" :model="projectinfo_source" class="demo-form-inline">
           <el-form-item>
             <el-button type="primary"
               @click="add()"
@@ -46,7 +46,7 @@
             </el-button>
           </el-form-item>
           <el-form-item label="ProjectName">
-            <el-select v-model="projectinfo.projectname" placeholder="ProjectName">
+            <el-select v-model="projectinfo_source.projectname" placeholder="ProjectName">
               <el-option 
                 v-for="oneproject in projects" 
                 :label="oneproject.name" 
@@ -56,7 +56,7 @@
             </el-select>
           </el-form-item>
           <el-form-item label="VariantName">
-            <el-select v-model="projectinfo.variantname" placeholder="VariantName">
+            <el-select v-model="projectinfo_source.variantname" placeholder="VariantName">
               <el-option 
                 v-for="onevariant in variants" 
                 :label="onevariant.variantname" 
@@ -113,8 +113,12 @@ export default {
     return {
       sanitys : [],
       projectinfo : {
-        projectname : 'NV21',
-        variantname : 'nbif_nv10_gpu'
+        projectname : 'MERO',
+        variantname : 'nbif_al_gpu'
+      },
+      projectinfo_source : {
+        projectname : 'MERO',
+        variantname : 'nbif_al_gpu'
       },
       projects    : [],
       variants    : [],
