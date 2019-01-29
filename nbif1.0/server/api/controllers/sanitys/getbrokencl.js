@@ -33,13 +33,14 @@ module.exports = {
         variantname : inputs.variantname
       });
       sails.log('DBG');
-      var lastpassCLs = [];
+      var lastpassCLs ;
       for(var i=0;i<sanity_tests.length;i++){
         sails.log(parseInt(sanity_tests[i].lastpassCL));
         lastpassCLs.push(parseInt(sanity_tests[i].lastpassCL));
       }
+      sails.log(typeOf(lastpassCLs));
       sails.log('lastpassCLs :'+lastpassCLs);
-      var lastCLs = [];
+      var lastCLs ;
       for(var i=0;i<sanity_tests.length;i++){
         lastCLs.push(parseInt(sanity_tests[i].lastCL));
         sails.log(parseInt(sanity_tests[i].lastCL));

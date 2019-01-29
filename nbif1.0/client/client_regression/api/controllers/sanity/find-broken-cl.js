@@ -38,7 +38,7 @@ var jobid_checkIfSanityBroken = new cronJob('*/10 * * * * *',function(){
   });
   
   req.on('error', (e) => {
-    sails.error(`problem with request: ${e.message}`);
+    console.error(`problem with request: ${e.message}`);
   });
   
   // write data to request body
