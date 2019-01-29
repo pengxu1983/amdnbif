@@ -33,21 +33,30 @@ module.exports = {
         variantname : inputs.variantname
       });
       sails.log('DBG');
-      var lastpassCLs ;
+      var lastCLs_max ;
+      var lastpassCLs_min ;
       for(var i=0;i<sanity_tests.length;i++){
+        if(i==0){
+          lastpassCLs_min = parseInt(sanity_tests[i].lastpassCL);
+        }
+        else {
+          if(parseInt(sanity_tests[i].lastpassCL) < lastpassCLs_min){
+            lastpassCLs_min = parseInt(sanity_tests[i].lastpassCL);
+          }
+        }
         sails.log(parseInt(sanity_tests[i].lastpassCL));
-        lastpassCLs.push(parseInt(sanity_tests[i].lastpassCL));
       }
-      sails.log(typeOf(lastpassCLs));
-      sails.log('lastpassCLs :'+lastpassCLs);
-      var lastCLs ;
       for(var i=0;i<sanity_tests.length;i++){
-        lastCLs.push(parseInt(sanity_tests[i].lastCL));
+        if(i==0){
+          lastCLs_max = parseInt(sanity_tests[i].lastCL);
+        }
+        else {
+          if(parseInt(sanity_tests[i].lastCL) > lastCLs_max){
+            lastCLs_max = parseInt(sanity_tests[i].lastCL);
+          }
+        }
         sails.log(parseInt(sanity_tests[i].lastCL));
       }
-      sails.log('lastCLs :'+lastCLs);
-      var lastCLs_max = Math.max(10,11);
-      var lastpassCLs_min = Math.min(lastpassCLs);
       sails.log('Max lastCL');
       sails.log(lastCLs_max);
       sails.log('Min lastpassCL');
