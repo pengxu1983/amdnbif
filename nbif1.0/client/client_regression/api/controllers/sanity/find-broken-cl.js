@@ -31,6 +31,11 @@ var jobid_checkIfSanityBroken = new cronJob('*/10 * * * * *',function(){
       sails.log(`BODY: ${chunk}`);
       sails.log('abc');
       sails.log(JSON.parse(chunk).lastpassCL);
+      if(JSON.parse(chunk).ok == 'ok'){
+      }
+      else if(JSON.parse(chunk).ok == 'notok'){
+        jobid_checkIfSanityBroken.stop();
+      }
     });
     res.on('end', () => {
       sails.log('No more data in response.');

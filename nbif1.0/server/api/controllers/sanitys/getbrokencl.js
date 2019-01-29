@@ -63,7 +63,7 @@ module.exports = {
       sails.log(lastpassCLs_min);
       if(lastCLs_max > lastpassCLs_min){
         return exits.success({
-          ok  : 'ok',
+          ok  : 'notok',
           lastpassCL : lastpassCLs_min
         });
       }
