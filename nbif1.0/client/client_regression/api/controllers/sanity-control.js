@@ -5,7 +5,7 @@ var fs= require('fs');
 var cronJob = require("cron").CronJob;
 var child_process = require('child_process');
 var workspace = '/local_vol1_nobackup/benpeng/amdnbif/nbif1.0/client/client_regression/assets/static/trees';
-var jobid_sanity_mero = new cronJob('0 * * * * *',function(){
+var jobid_sanity_mero = new cronJob('0 0 */3 * * *',function(){
   var text  = '';
   //Remove previous tree
   sails.log(moment().format('HH:mm:ss'));
