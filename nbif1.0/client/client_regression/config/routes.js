@@ -23,6 +23,9 @@ module.exports.routes = {
   'GET /sanity/:kind' : {
     action  : 'sanity-control'
   },
+  'GET /sanity/findbrokencl/:kind':{
+    action  : 'sanity/find-broken-cl'
+  }
 
   /***************************************************************************
   *                                                                          *
