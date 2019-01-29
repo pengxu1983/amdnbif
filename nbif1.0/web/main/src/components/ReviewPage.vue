@@ -7,12 +7,18 @@
     <div>
       <el-row class="tac">
         <el-col :span="4">
-          <h5>NV21</h5>
           <el-menu
-            default-active="PA"
+            default-active="HD_TOOLS"
             class="el-menu-vertical-demo"
             @open="handleOpen"
-            @close="handleClose">
+            @close="handleClose"
+          >
+            <el-menu-item index="HD_TOOLS" 
+              @click="currentTab = 'ReviewPage_HD_TOOLS_main'"
+            >
+              <i class="el-icon-menu"></i>
+              <span slot="title">HD_TOOLS</span>
+            </el-menu-item>
             <el-menu-item index="Coverage"
               @click="currentTab = 'ReviewPage_Coverage_main'"
             >
@@ -20,7 +26,8 @@
               <span slot="title">Coverage</span>
             </el-menu-item>
             <el-menu-item index="PA" 
-              @click="currentTab = 'ReviewPage_PA_main'">
+              @click="currentTab = 'ReviewPage_PA_main'"
+            >
               <i class="el-icon-menu"></i>
               <span slot="title">PA</span>
             </el-menu-item>
@@ -42,6 +49,7 @@
 // @ is an alias to /src
 import ReviewPage_Coverage_main from '@/components/ReviewPage_sub/ReviewPage_Coverage_main.vue'
 import ReviewPage_PA_main from '@/components/ReviewPage_sub/ReviewPage_PA_main.vue'
+import ReviewPage_HD_TOOLS_main from '@/components/ReviewPage_sub/ReviewPage_HD_TOOLS_main.vue'
 
 export default {
   name: 'ReviewPage',
@@ -49,18 +57,21 @@ export default {
   },
   components  : {
     ReviewPage_PA_main,
-    ReviewPage_Coverage_main
+    ReviewPage_Coverage_main,
+    ReviewPage_HD_TOOLS_main
   },
   data() {
     return {
       review_title  : [
         'PA',
-        'Coverage'
+        'Coverage',
+        'HD_TOOLS'
       ],
-      currentTab: 'ReviewPage_PA_main',
+      currentTab: 'ReviewPage_HD_TOOLS_main',
       tabs: [
         'ReviewPage_PA_main', 
         'ReviewPage_Coverage_main', 
+        'ReviewPage_HD_TOOLS_main'
       ],
     }
   },
