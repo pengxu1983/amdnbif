@@ -45,7 +45,7 @@ module.exports = {
         sails.log(parseInt(sanity_tests[i].lastCL));
       }
       sails.log('lastCLs :'+lastCLs);
-      var lastCLs_max = Math.max(lastCLs);
+      var lastCLs_max = Math.max(10,11);
       var lastpassCLs_min = Math.min(lastpassCLs);
       sails.log('Max lastCL');
       sails.log(lastCLs_max);
