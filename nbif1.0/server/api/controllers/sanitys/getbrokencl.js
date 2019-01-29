@@ -32,14 +32,19 @@ module.exports = {
         projectname : inputs.projectname,
         variantname : inputs.variantname
       });
+      sails.log('DBG');
       var lastpassCLs = [];
       for(var i=0;i<sanity_tests.length;i++){
+        sails.log(parseInt(sanity_tests[i].lastpassCL));
         lastpassCLs.push(parseInt(sanity_tests[i].lastpassCL));
       }
+      sails.log('lastpassCLs :'+lastpassCLs);
       var lastCLs = [];
       for(var i=0;i<sanity_tests.length;i++){
         lastCLs.push(parseInt(sanity_tests[i].lastCL));
+        sails.log(parseInt(sanity_tests[i].lastCL));
       }
+      sails.log('lastCLs :'+lastCLs);
       var lastCLs_max = Math.max(lastCLs);
       var lastpassCLs_min = Math.min(lastpassCLs);
       sails.log('Max lastCL');

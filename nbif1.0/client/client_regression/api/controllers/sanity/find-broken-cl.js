@@ -29,7 +29,8 @@ var jobid_checkIfSanityBroken = new cronJob('*/10 * * * * *',function(){
     res.setEncoding('utf8');
     res.on('data', (chunk) => {
       sails.log(`BODY: ${chunk}`);
-      sails.log(chunk.lastpassCL);
+      sails.log('abc');
+      sails.log(JSON.parse(chunk).lastpassCL);
     });
     res.on('end', () => {
       sails.log('No more data in response.');
@@ -43,7 +44,7 @@ var jobid_checkIfSanityBroken = new cronJob('*/10 * * * * *',function(){
   // write data to request body
   req.write(postData);
   req.end();
-},null,false,'Asia/Chongqing');
+},null,true,'Asia/Chongqing');
 module.exports = {
 
 
