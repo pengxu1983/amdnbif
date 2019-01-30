@@ -2,17 +2,12 @@
   <el-container>
     <el-table
       v-for="onevariant in variants"
-      :data="sanitys"
+      :data="sanityStatus(onevariant)"
       border
       style="width: 100%"
     >
       <el-table-column
-        prop="onevariant"
-        label="Variant"
-      >
-      </el-table-column>
-      <el-table-column
-        label="Details"
+        :label="onevariant"
       >
         <el-table-column
           prop="testname"
@@ -46,7 +41,7 @@ export default {
         variantname : 'nbif_al_gpu'
       },
       projects    : [],
-      variants    : ['nbif_al_gpu'],
+      variants    : [],
     }
   },
   computed:{
@@ -61,6 +56,15 @@ export default {
     }
   },
   methods : {
+    sanityStatus(variantname){
+      var items=[];
+      for(var k=0;k<this.sanitys.length;k++){
+        if(this.sanitys[k].variantname == variantname){
+          items.push(this.sanitys[k]);
+        }
+      }
+      return items;
+    },
     get () {
       //Sanitys get info
       this.$http.post('/sanitys/get',{
