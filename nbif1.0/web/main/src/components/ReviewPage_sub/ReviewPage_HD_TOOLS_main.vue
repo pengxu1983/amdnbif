@@ -24,7 +24,7 @@
         </el-form-item>
         <el-form-item>
           <a target="abc" 
-            :href="'http://srdcws704:1337/static/trees/nbif_main_sanity_mero/out/linux_2.6.32_64.VCS/nbif_al_gpu/config/nbif_all_rtl/pub/sim/mixed.msg_sort.html'"
+            :href="'http://srdcws704:9001/static/trees/nbif_main_sanity_mero/out/linux_2.6.32_64.VCS/nbif_al_gpu/config/nbif_all_rtl/pub/sim/mixed.msg_sort.html'"
           >
            <el-button>Confirm</el-button>
           </a>
