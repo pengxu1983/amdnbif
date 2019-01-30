@@ -1,38 +1,18 @@
 <template>
   <el-container>
-    <el-header>
-      <el-form :inline="true" :model="projectinfo" class="demo-form-inline">
-        <el-form-item label="ProjectName">
-          <el-select v-model="projectinfo.projectname" placeholder="ProjectName"
-            @change="get()"
-          >
-            <el-option 
-              v-for="oneproject in projects" 
-              :label="oneproject.name" 
-              :value="oneproject.name"
-            >
-            </el-option>
-          </el-select>
-        </el-form-item>
-        <el-form-item label="VariantName">
-          <el-select v-model="projectinfo.variantname" placeholder="VariantName"
-            @change="get()"
-          >
-            <el-option 
-              v-for="onevariant in variants" 
-              :label="onevariant.variantname" 
-              :value="onevariant.variantname"
-            >
-            </el-option>
-          </el-select>
-        </el-form-item>
-      </el-form>
-    </el-header>
-    <el-main>
-      <el-table
-        :data="sanitys_display"
-        border
-        style="width: 100%"
+    <el-table
+      v-for="onevariant in variants"
+      :data="sanitys"
+      border
+      style="width: 100%"
+    >
+      <el-table-column
+        prop="onevariant"
+        label="Variant"
+      >
+      </el-table-column>
+      <el-table-column
+        label="Details"
       >
         <el-table-column
           prop="testname"
@@ -40,17 +20,16 @@
         >
         </el-table-column>
         <el-table-column
-          prop="lastCL"
-          label="Last Checked Changelist"
-        >
-        </el-table-column>
-        <el-table-column
           prop="lastpassCL"
           label="Last Passing Changelist"
         >
         </el-table-column>
-      </el-table>
-    </el-main>
+        <el-table-column
+          prop="brokenCL"
+          label="Broken Changelist">
+        </el-table-column>
+      </el-table-column>
+    </el-table>
   </el-container>
 </template>
 
@@ -67,16 +46,13 @@ export default {
         variantname : 'nbif_al_gpu'
       },
       projects    : [],
-      variants    : [],
+      variants    : ['nbif_al_gpu'],
     }
   },
   computed:{
     sanitys_display : function(){
       var result  = [];
       for(var k=0;k<this.sanitys.length;k++){
-        //console.log('aaaaa');
-        //console.log(k);
-        //console.log(this.sanitys[k]);
         if((this.sanitys[k].projectname == this.projectinfo.projectname)&&(this.sanitys[k].variantname == this.projectinfo.variantname)){
           result.push(this.sanitys[k]);
         }
