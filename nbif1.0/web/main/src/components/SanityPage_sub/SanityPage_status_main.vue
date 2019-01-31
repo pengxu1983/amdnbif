@@ -1,9 +1,8 @@
 <template>
   <el-container>
-    <el-main
-      v-for="onevariant in variants"
-    >
+    <el-main >
       <el-table
+        v-for="onevariant in variants"
         :data="sanityStatus(onevariant.variantname)"
         border
         style="width: 100%"
