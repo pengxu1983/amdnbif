@@ -3,12 +3,12 @@
     <el-main>
       <el-table
         v-for="onevariant in variants"
-        :data="sanityStatus(onevariant)"
+        :data="sanityStatus(onevariant.variantname)"
         border
         style="width: 100%"
       >
         <el-table-column
-          :label="onevariant"
+          :label="onevariant.variantname"
         >
           <el-table-column
             prop="testname"
