@@ -130,6 +130,7 @@ module.exports = {
 
   fn: async function (inputs,exits) {
     sails.log('sanity-control');
+    var variants  = [];
     var variantname;
     var variantname = 'nbif_al_gpu';
     var jobid_sanityrun_nbif_al_gpu   = new cronJob('0 0 0/3 * * *',function(variantname){
