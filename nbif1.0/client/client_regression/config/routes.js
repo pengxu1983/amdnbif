@@ -21,7 +21,7 @@ module.exports.routes = {
 
   '/': { view: 'pages/homepage' },
   'GET /sanity_nbif_al_gpu/:kind' : {
-    action  : 'sanity/nbif_al_gpu-control'
+    action  : 'sanity/nbif-al-gpu-control'
   },
   'GET /sanity/findbrokencl/:kind':{
     action  : 'sanity/find-broken-cl'
