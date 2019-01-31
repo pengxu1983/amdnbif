@@ -49,7 +49,7 @@ var jobid_checkIfSanityBroken = new cronJob('*/10 * * * * *',function(){
   // write data to request body
   req.write(postData);
   req.end();
-},null,true,'Asia/Chongqing');
+},null,false,'Asia/Chongqing');
 module.exports = {
 
 

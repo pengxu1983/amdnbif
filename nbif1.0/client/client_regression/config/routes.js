@@ -20,8 +20,8 @@ module.exports.routes = {
   ***************************************************************************/
 
   '/': { view: 'pages/homepage' },
-  'GET /sanitystart/:kind' : {
-    action  : 'sanity-control'
+  'GET /sanity_nbif_al_gpu/:kind' : {
+    action  : 'sanity/nbif_al_gpu-control'
   },
   'GET /sanity/findbrokencl/:kind':{
     action  : 'sanity/find-broken-cl'
