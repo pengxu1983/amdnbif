@@ -101,6 +101,7 @@ export default {
               this.variants.push({
                 variantname : response.body.variants[index].variantname,
               });
+              console.log('variantname : '+response.body.variants[index].variantname);
             }
           }
         },
@@ -171,9 +172,6 @@ export default {
     }
   },
   mounted : function(){
-    //console.log('mounted');
-    //console.log(this.projectinfo.projectname);
-    //console.log(this.projectinfo.variantname);
     this.get();
   }
 }
