@@ -1,30 +1,32 @@
 <template>
   <el-container>
-    <el-table
-      v-for="onevariant in variants"
-      :data="sanityStatus(onevariant)"
-      border
-      style="width: 100%"
-    >
-      <el-table-column
-        :label="onevariant"
+    <el-main>
+      <el-table
+        v-for="onevariant in variants"
+        :data="sanityStatus(onevariant)"
+        border
+        style="width: 100%"
       >
         <el-table-column
-          prop="testname"
-          label="Test Name"
+          :label="onevariant"
         >
+          <el-table-column
+            prop="testname"
+            label="Test Name"
+          >
+          </el-table-column>
+          <el-table-column
+            prop="lastpassCL"
+            label="Last Passing Changelist"
+          >
+          </el-table-column>
+          <el-table-column
+            prop="brokenCL"
+            label="Broken Changelist">
+          </el-table-column>
         </el-table-column>
-        <el-table-column
-          prop="lastpassCL"
-          label="Last Passing Changelist"
-        >
-        </el-table-column>
-        <el-table-column
-          prop="brokenCL"
-          label="Broken Changelist">
-        </el-table-column>
-      </el-table-column>
-    </el-table>
+      </el-table>
+    </el-main>
   </el-container>
 </template>
 
