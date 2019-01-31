@@ -31,6 +31,9 @@ module.exports = {
     lastStatus    : {
       type        : 'string'
     },
+    brokenCL      : {
+      type        : 'string'
+    }
 
     //  ╔═╗╔╦╗╔╗ ╔═╗╔╦╗╔═╗
     //  ║╣ ║║║╠╩╗║╣  ║║╚═╗
