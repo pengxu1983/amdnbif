@@ -11,12 +11,12 @@ module.exports = {
     kind  : {
       type  : 'string'
     },
-    projectname : {
-      type  : 'string'
-    },
-    variantname : {
-      type  : 'string'
-    }
+    //projectname : {
+    //  type  : 'string'
+    //},
+    //variantname : {
+    //  type  : 'string'
+    //}
   },
 
 
@@ -29,8 +29,9 @@ module.exports = {
     sails.log('sanitys/getbrokencl');
     if(inputs.kind == 'getbrokencl'){
       var sanity_tests = await Sanity_tests.find({
-        projectname : inputs.projectname,
-        variantname : inputs.variantname
+        //projectname : inputs.projectname,
+        //variantname : inputs.variantname,
+        id : {'>=':0}
       });
       sails.log('DBG');
       var lastCLs_max ;
@@ -70,7 +71,7 @@ module.exports = {
       else {
         return exits.success({
           ok  : 'ok',
-          lastpassCL  : 'NA'
+          lastpassCL  : lastpassCLs_min
         });
       }
     }
