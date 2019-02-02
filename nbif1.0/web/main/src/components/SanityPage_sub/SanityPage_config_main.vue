@@ -1,109 +1,162 @@
 <template>
-  <el-container>
-      <el-header>
-        <el-form :inline="true" :model="projectinfo" class="demo-form-inline">
-          <el-form-item label="ProjectName">
-            <el-select v-model="projectinfo.projectname" placeholder="ProjectName"
+  <el-tabs v-model="activeTab" type="card" @tab-click="handleClick">
+    <el-tab-pane label="Common for All Variants" name="byVariant">
+      <template>
+        <el-container>
+          <el-header>
+            <el-row>
+              <el-button type="primary" round>Add</el-button>
+              <el-button type="primary" round>Upload</el-button>
+            </el-row>
+          </el-header>
+          <el-main>
+            <el-table
+              :data="common_sanitys"
+              border
+              style="width: 100%"
             >
-              <el-option 
-                v-for="oneproject in projects" 
-                :label="oneproject.name" 
-                :value="oneproject.name"
+              <el-table-column
+                prop="testname"
+                label="TestName"
               >
-              </el-option>
-            </el-select>
-          </el-form-item>
-          <el-form-item label="VariantName">
-            <el-select v-model="projectinfo.variantname" placeholder="VariantName"
-            >
-              <el-option 
-                v-for="onevariant in variants" 
-                :label="onevariant.variantname" 
-                :value="onevariant.variantname"
+                <template slot-scope="scope">
+                  <el-input
+                    placeholder="TestName"
+                    v-model="scope.row.testname"
+                    clearable>
+                  </el-input>
+                </template>
+                </el-table-column>
+              <el-table-column
+                fixed="right"
+                label="operation"
+                width="120"
               >
-              </el-option>
-            </el-select>
-          </el-form-item>
-        </el-form>
-      </el-header>
-      <el-header>
-        <el-form :inline="true" :model="projectinfo_source" class="demo-form-inline">
-          <el-form-item>
-            <el-button type="primary"
-              @click="add()"
-            >
-            Add
-            </el-button>
-          </el-form-item>
-          <el-form-item>
-            <el-button type="primary"
-              @click="upload()"
-            >
-            Upload
-            </el-button>
-          </el-form-item>
-          <el-form-item>
-            <el-button type="primary">
-            CloneFrom:
-            </el-button>
-          </el-form-item>
-          <el-form-item label="ProjectName">
-            <el-select v-model="projectinfo_source.projectname" placeholder="ProjectName">
-              <el-option 
-                v-for="oneproject in projects" 
-                :label="oneproject.name" 
-                :value="oneproject.name"
+                <template slot-scope="scope">
+                  <el-button
+                    @click.native.prevent="deleteRow(scope.$index, common_sanitys)"
+                    type="text"
+                    size="small"
+                  >
+                    Delete
+                  </el-button>
+                </template>
+              </el-table-column>
+            </el-table>
+          </el-main>
+        </el-container>
+      </template>
+    </el-tab-pane>
+    <el-tab-pane label="Select by Project(TODO)" name="byProject">
+      <template>
+        <el-container>
+            <el-header>
+              <el-form :inline="true" :model="projectinfo" class="demo-form-inline">
+                <el-form-item label="ProjectName">
+                  <el-select v-model="projectinfo.projectname" placeholder="ProjectName"
+                  >
+                    <el-option 
+                      v-for="oneproject in projects" 
+                      :label="oneproject.name" 
+                      :value="oneproject.name"
+                    >
+                    </el-option>
+                  </el-select>
+                </el-form-item>
+                <el-form-item label="VariantName">
+                  <el-select v-model="projectinfo.variantname" placeholder="VariantName"
+                  >
+                    <el-option 
+                      v-for="onevariant in variants" 
+                      :label="onevariant.variantname" 
+                      :value="onevariant.variantname"
+                    >
+                    </el-option>
+                  </el-select>
+                </el-form-item>
+              </el-form>
+            </el-header>
+            <el-header>
+              <el-form :inline="true" :model="projectinfo_source" class="demo-form-inline">
+                <el-form-item>
+                  <el-button type="primary"
+                    @click="add()"
+                  >
+                  Add
+                  </el-button>
+                </el-form-item>
+                <el-form-item>
+                  <el-button type="primary"
+                    @click="upload()"
+                  >
+                  Upload
+                  </el-button>
+                </el-form-item>
+                <el-form-item>
+                  <el-button type="primary">
+                  CloneFrom:
+                  </el-button>
+                </el-form-item>
+                <el-form-item label="ProjectName">
+                  <el-select v-model="projectinfo_source.projectname" placeholder="ProjectName">
+                    <el-option 
+                      v-for="oneproject in projects" 
+                      :label="oneproject.name" 
+                      :value="oneproject.name"
+                    >
+                    </el-option>
+                  </el-select>
+                </el-form-item>
+                <el-form-item label="VariantName">
+                  <el-select v-model="projectinfo_source.variantname" placeholder="VariantName">
+                    <el-option 
+                      v-for="onevariant in variants" 
+                      :label="onevariant.variantname" 
+                      :value="onevariant.variantname"
+                    >
+                    </el-option>
+                  </el-select>
+                </el-form-item>
+              </el-form>
+            </el-header>
+            <el-main>
+              <el-table
+                :data="sanitys_display"
+                border
+                style="width: 100%"
               >
-              </el-option>
-            </el-select>
-          </el-form-item>
-          <el-form-item label="VariantName">
-            <el-select v-model="projectinfo_source.variantname" placeholder="VariantName">
-              <el-option 
-                v-for="onevariant in variants" 
-                :label="onevariant.variantname" 
-                :value="onevariant.variantname"
+                <el-table-column
+                  prop="testname"
+                  label="TestName"
+                >
+                  <template slot-scope="scope">
+                    <el-input
+                      placeholder="TestName"
+                      v-model="scope.row.testname"
+                      clearable>
+                    </el-input>
+                  </template>
+                </el-table-column>
+                <el-table-column
+                fixed="right"
+                label="operation"
+                width="120"
               >
-              </el-option>
-            </el-select>
-          </el-form-item>
-        </el-form>
-      </el-header>
-      <el-main>
-        <el-table
-          :data="sanitys_display"
-          border
-          style="width: 100%"
-        >
-          <el-table-column
-            prop="testname"
-            label="TestName"
-          >
-            <template slot-scope="scope">
-              <el-input
-                placeholder="TestName"
-                v-model="scope.row.testname"
-                clearable>
-              </el-input>
-            </template>
-          </el-table-column>
-          <el-table-column
-          fixed="right"
-          label="operation"
-          width="120"
-        >
-          <template slot-scope="scope">
-            <el-button
-              @click.native.prevent="deleteRow(scope.$index, sanitys_display)"
-              type="text"
-              size="small">
-              Delete
-            </el-button>
-          </template>
-        </el-table-column>
-        </el-table>
-      </el-main>
-  </el-container>
+                <template slot-scope="scope">
+                  <el-button
+                    @click.native.prevent="deleteRow(scope.$index, sanitys_display)"
+                    type="text"
+                    size="small">
+                    Delete
+                  </el-button>
+                </template>
+              </el-table-column>
+              </el-table>
+            </el-main>
+        </el-container>
+      </template>
+    </el-tab-pane>
+  </el-tabs>
 </template>
 
 <script>
@@ -113,6 +166,18 @@ export default {
   },
   data() {
     return {
+      common_sanitys  : [
+        {
+          testname : 'demo_test_0'
+        },
+        {
+          testname : 'demo_test_1'
+        },
+        {
+          testname : 'demo_test_2'
+        }
+      ],
+      activeTab : 'byVariant',
       sanitys : [],
       projectinfo : {
         projectname : 'MERO',
@@ -144,6 +209,9 @@ export default {
   methods : {
     deleteRow(index, rows) {
       rows.splice(index, 1);
+    },
+    handleClick(tab, event) {
+      console.log(tab, event);
     },
     get () {
       //Variants get info

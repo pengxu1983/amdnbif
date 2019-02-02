@@ -1,34 +1,43 @@
 <template>
-  <el-container>
-    <el-main >
-      <el-table
-        v-for="onevariant in variants"
-        :data="sanityStatus(onevariant.variantname)"
-        border
-        style="width: 100%"
-      >
-        <el-table-column
-          :label="onevariant.variantname"
-        >
-          <el-table-column
-            prop="testname"
-            label="Test Name"
-          >
-          </el-table-column>
-          <el-table-column
-            prop="lastpassCL"
-            label="Last Passing Changelist"
-          >
-          </el-table-column>
-          <el-table-column
-            prop="brokenCL"
-            label="Broken Changelist">
-          </el-table-column>
-        </el-table-column>
-      </el-table>
-    </el-main>
-  </el-container>
+  <el-tabs v-model="activeTab" type="card" @tab-click="handleClick">
+    <el-tab-pane label="Common Sanity Tests Status" name="byVariant">
+      <template>
+        <el-container>
+          <el-main >
+            <el-table
+              v-for="onevariant in variants"
+              :data="commonSanityStatus(onevariant.variantname)"
+              border
+              style="width: 100%"
+            >
+              <el-table-column
+                :label="onevariant.variantname"
+              >
+                <el-table-column
+                  prop="testname"
+                  label="Test Name"
+                >
+                </el-table-column>
+                <el-table-column
+                  prop="lastpassCL"
+                  label="Last Passing Changelist"
+                >
+                </el-table-column>
+                <el-table-column
+                  prop="brokenCL"
+                  label="Broken Changelist">
+                </el-table-column>
+              </el-table-column>
+            </el-table>
+          </el-main>
+        </el-container>
+      </template>
+    </el-tab-pane>
+    <el-tab-pane label="Sanity Tests Status by Project" name="byProject">
+    </el-tab-pane>
+  </el-tabs>
 </template>
+
 
 <script>
 export default {
@@ -58,11 +67,11 @@ export default {
     }
   },
   methods : {
-    sanityStatus(variantname){
+    commonSanityStatus(variantname){
       var items=[];
-      for(var k=0;k<this.sanitys.length;k++){
-        if(this.sanitys[k].variantname == variantname){
-          items.push(this.sanitys[k]);
+      for(var k=0;k<this.common_sanitys.length;k++){
+        if(this.common_sanitys[k].variantname == variantname){
+          items.push(this.common_sanitys[k]);
         }
       }
       return items;
