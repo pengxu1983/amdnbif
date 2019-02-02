@@ -6,7 +6,7 @@ var cronJob = require("cron").CronJob;
 var child_process = require('child_process');
 var workspace = '/proj/bif_nbio_vol1_backup/benpeng';
 var jobid_sanityrun_allvariant_status = 'stopped';
-var jobid_sanityrun_allvariant  = new cronJob('0 55 13 * * *',function(){
+var jobid_sanityrun_allvariant  = new cronJob('0 22 14 * * *',function(){
   let variants = [];
   /////////////////
   //Get all valid variants
@@ -167,6 +167,7 @@ var jobid_sanityrun_allvariant  = new cronJob('0 55 13 * * *',function(){
         res.on('data', (chunk) => {
           sails.log(`BODY: ${chunk}`);
           let lastpassCL= JSON.parse(chunk).lastpassCL;
+          let lastCL= JSON.parse(chunk).lastCL;
           let sanityStatus= JSON.parse(chunk).ok;
           let brokenCL =JSON.parse(chunk).brokenCL;
           sails.log('lastpassCL:');
@@ -208,7 +209,7 @@ var jobid_sanityrun_allvariant  = new cronJob('0 55 13 * * *',function(){
           }
           sails.log('aaa');
           sails.log(changelists1);
-          child_process.execSync('rm -rf '+workspace+'/nbif_main_*');
+          child_process.exec('rm -rf '+workspace+'/nbif_main_*');
           for(let i=0;i<changelists1.length;i++){
             for(let k=0;k<variants.length;k++){
               let text = '';

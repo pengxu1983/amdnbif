@@ -16,9 +16,6 @@ module.exports = {
     testname      : {
       type        : 'string'
     },
-    projectname   : {
-      type        : 'string'
-    },
     variantname   : {
       type        : 'string'
     },
