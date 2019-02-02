@@ -55,7 +55,8 @@ module.exports = {
         if(oneTest){
           //older cl not broken
           if(oneTest.brokenCL == 'NA'){
-            if(inputs.changelist > oneTest.lastpassCL){//inputs result is newer than db
+            if(parseInt(inputs.changelist) > parseInt(oneTest.lastpassCL)){//inputs result is newer than db
+              sails.log('processing '+inputs.changelist);
               if(inputs.result == 'PASS'){//inputs result is pass
                 await Sanity_tests.update({
                   variantname : inputs.variantname,
@@ -82,7 +83,7 @@ module.exports = {
           }
           //older cl broken
           else{
-            if(inputs.changelist > oneTest.lastpassCL){//inputs result is newer than db
+            if(parseInt(inputs.changelist) > parseInt(oneTest.lastpassCL)){//inputs result is newer than db
               if(inputs.result  ==  'PASS'){//inputs result is pass
                 await Sanity_tests.update({
                   variantname : inputs.variantname,
@@ -110,7 +111,7 @@ module.exports = {
           //No test found return error
           return exits.success({
             ok  : 'notok',
-            msg : 'no such test found as'+inputs.testname
+            msg : 'no such test found as '+inputs.testname
           });
         }
       }

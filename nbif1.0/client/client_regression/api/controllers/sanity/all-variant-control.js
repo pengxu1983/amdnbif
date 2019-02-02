@@ -6,7 +6,7 @@ var cronJob = require("cron").CronJob;
 var child_process = require('child_process');
 var workspace = '/proj/bif_nbio_vol1_backup/benpeng';
 var jobid_sanityrun_allvariant_status = 'stopped';
-var jobid_sanityrun_allvariant  = new cronJob('0 30 13 * * *',function(){
+var jobid_sanityrun_allvariant  = new cronJob('0 55 13 * * *',function(){
   let variants = [];
   /////////////////
   //Get all valid variants
