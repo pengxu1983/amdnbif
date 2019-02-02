@@ -6,7 +6,7 @@ var cronJob = require("cron").CronJob;
 var child_process = require('child_process');
 var workspace = '/proj/bif_nbio_vol1_backup/benpeng';
 var jobid_sanityrun_allvariant_status = 'stopped';
-var jobid_sanityrun_allvariant  = new cronJob('0 22 14 * * *',function(){
+var jobid_sanityrun_allvariant  = new cronJob('00 04 21 * * *',function(){
   let variants = [];
   /////////////////
   //Get all valid variants
@@ -38,106 +38,106 @@ var jobid_sanityrun_allvariant  = new cronJob('0 22 14 * * *',function(){
       /////////////////
       //Checking result
       /////////////////
-      sails.log('checking');
-      //FAILLIST
-      let FAILLIST = child_process.execSync('grep "dj exited with errors" '+workspace+'/*/demo_test_*.* -l',{
-        encoding  : 'utf8'
-      }).split('\n');
-      FAILLIST.pop();
-      for(let i=0;i<FAILLIST.length;i++){
-        let tmp1 = FAILLIST[i].split('.');
-        tmp1.reverse();
-        let tmp2 = tmp1[2].split('/')
-        let postData = querystring.stringify({
-          'kind'        : 'singletest',
-          'changelist'  : tmp1[0],
-          'testname'    : tmp2[1],
-          'variantname' : tmp1[1],
-          'result'      : 'FAIL'
-        });
-        
-        let options = {
-          hostname: 'amdnbif.thehunters.club',
-          port: 80,
-          path: '/sanitys/statusupload',
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/x-www-form-urlencoded',
-            'Content-Length': Buffer.byteLength(postData)
-          }
-        };
-        
-        let req = http.request(options, (res) => {
-          console.log(`STATUS: ${res.statusCode}`);
-          console.log(`HEADERS: ${JSON.stringify(res.headers)}`);
-          res.setEncoding('utf8');
-          res.on('data', (chunk) => {
-            console.log(`BODY: ${chunk}`);
-          });
-          res.on('end', () => {
-            console.log('No more data in response.');
-          });
-        });
-        
-        req.on('error', (e) => {
-          console.error(`problem with request: ${e.message}`);
-        });
-        
-        // write data to request body
-        req.write(postData);
-        req.end();
+      //sails.log('checking');
+      ////FAILLIST
+      //let FAILLIST = child_process.execSync('grep "dj exited with errors" '+workspace+'/*/demo_test_*.* -l',{
+      //  encoding  : 'utf8'
+      //}).split('\n');
+      //FAILLIST.pop();
+      //for(let i=0;i<FAILLIST.length;i++){
+      //  let tmp1 = FAILLIST[i].split('.');
+      //  tmp1.reverse();
+      //  let tmp2 = tmp1[2].split('/')
+      //  let postData = querystring.stringify({
+      //    'kind'        : 'singletest',
+      //    'changelist'  : tmp1[0],
+      //    'testname'    : tmp2[1],
+      //    'variantname' : tmp1[1],
+      //    'result'      : 'FAIL'
+      //  });
+      //  
+      //  let options = {
+      //    hostname: 'amdnbif.thehunters.club',
+      //    port: 80,
+      //    path: '/sanitys/statusupload',
+      //    method: 'POST',
+      //    headers: {
+      //      'Content-Type': 'application/x-www-form-urlencoded',
+      //      'Content-Length': Buffer.byteLength(postData)
+      //    }
+      //  };
+      //  
+      //  let req = http.request(options, (res) => {
+      //    console.log(`STATUS: ${res.statusCode}`);
+      //    console.log(`HEADERS: ${JSON.stringify(res.headers)}`);
+      //    res.setEncoding('utf8');
+      //    res.on('data', (chunk) => {
+      //      console.log(`BODY: ${chunk}`);
+      //    });
+      //    res.on('end', () => {
+      //      console.log('No more data in response.');
+      //    });
+      //  });
+      //  
+      //  req.on('error', (e) => {
+      //    console.error(`problem with request: ${e.message}`);
+      //  });
+      //  
+      //  // write data to request body
+      //  req.write(postData);
+      //  req.end();
 
-      }
-      //////////////
-      //PASSLIST
-      let PASSLIST  = child_process.execSync('grep "dj exited successfully" '+workspace+'/*/demo_test_*.* -l',{
-        encoding  : 'utf8'
-      }).split('\n');
-      PASSLIST.pop();
-      for(let i=0;i<PASSLIST.length;i++){
-        let tmp1 = PASSLIST[i].split('.');
-        tmp1.reverse();
-        let tmp2 = tmp1[2].split('/')
-        let postData = querystring.stringify({
-          'kind'        : 'singletest',
-          'changelist'  : tmp1[0],
-          'testname'    : tmp2[1],
-          'variantname' : tmp1[1],
-          'result'      : 'PASS'
-        });
-        
-        let options = {
-          hostname: 'amdnbif.thehunters.club',
-          port: 80,
-          path: '/sanitys/statusupload',
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/x-www-form-urlencoded',
-            'Content-Length': Buffer.byteLength(postData)
-          }
-        };
-        
-        let req = http.request(options, (res) => {
-          console.log(`STATUS: ${res.statusCode}`);
-          console.log(`HEADERS: ${JSON.stringify(res.headers)}`);
-          res.setEncoding('utf8');
-          res.on('data', (chunk) => {
-            console.log(`BODY: ${chunk}`);
-          });
-          res.on('end', () => {
-            console.log('No more data in response.');
-          });
-        });
-        
-        req.on('error', (e) => {
-          console.error(`problem with request: ${e.message}`);
-        });
-        
-        // write data to request body
-        req.write(postData);
-        req.end();
+      //}
+      ////////////////
+      ////PASSLIST
+      //let PASSLIST  = child_process.execSync('grep "dj exited successfully" '+workspace+'/*/demo_test_*.* -l',{
+      //  encoding  : 'utf8'
+      //}).split('\n');
+      //PASSLIST.pop();
+      //for(let i=0;i<PASSLIST.length;i++){
+      //  let tmp1 = PASSLIST[i].split('.');
+      //  tmp1.reverse();
+      //  let tmp2 = tmp1[2].split('/')
+      //  let postData = querystring.stringify({
+      //    'kind'        : 'singletest',
+      //    'changelist'  : tmp1[0],
+      //    'testname'    : tmp2[1],
+      //    'variantname' : tmp1[1],
+      //    'result'      : 'PASS'
+      //  });
+      //  
+      //  let options = {
+      //    hostname: 'amdnbif.thehunters.club',
+      //    port: 80,
+      //    path: '/sanitys/statusupload',
+      //    method: 'POST',
+      //    headers: {
+      //      'Content-Type': 'application/x-www-form-urlencoded',
+      //      'Content-Length': Buffer.byteLength(postData)
+      //    }
+      //  };
+      //  
+      //  let req = http.request(options, (res) => {
+      //    console.log(`STATUS: ${res.statusCode}`);
+      //    console.log(`HEADERS: ${JSON.stringify(res.headers)}`);
+      //    res.setEncoding('utf8');
+      //    res.on('data', (chunk) => {
+      //      console.log(`BODY: ${chunk}`);
+      //    });
+      //    res.on('end', () => {
+      //      console.log('No more data in response.');
+      //    });
+      //  });
+      //  
+      //  req.on('error', (e) => {
+      //    console.error(`problem with request: ${e.message}`);
+      //  });
+      //  
+      //  // write data to request body
+      //  req.write(postData);
+      //  req.end();
 
-      }
+      //}
       //////////////
     });
     res.on('end', () => {
@@ -169,10 +169,8 @@ var jobid_sanityrun_allvariant  = new cronJob('0 22 14 * * *',function(){
           let lastpassCL= JSON.parse(chunk).lastpassCL;
           let lastCL= JSON.parse(chunk).lastCL;
           let sanityStatus= JSON.parse(chunk).ok;
-          let brokenCL =JSON.parse(chunk).brokenCL;
           sails.log('lastpassCL:');
           sails.log(lastpassCL);
-          sails.log(brokenCL);
           let R = child_process.execSync('cd '+workspace+'/nbif_main && p4 changes -m30 ...#head',{
             encoding  : 'utf8'
           }).split('\n');
@@ -209,6 +207,16 @@ var jobid_sanityrun_allvariant  = new cronJob('0 22 14 * * *',function(){
           }
           sails.log('aaa');
           sails.log(changelists1);
+          let dirToRemove = child_process.execSync('ls -d '+workspace+'/nbif_main_*/',{
+            encoding : 'utf8'
+          }).split('\n');
+          dirToRemove.pop();
+          sails.log(dirToRemove);
+          let filesToRemove = child_process.execSync('ls '+workspace+'/nbif_main_*.script',{
+            encoding : 'utf8'
+          }).split('\n');
+          filesToRemove.pop();
+          sails.log(filesToRemove);
           child_process.exec('rm -rf '+workspace+'/nbif_main_*');
           for(let i=0;i<changelists1.length;i++){
             for(let k=0;k<variants.length;k++){
@@ -220,6 +228,7 @@ var jobid_sanityrun_allvariant  = new cronJob('0 22 14 * * *',function(){
               text += 'cd /proj/bif_nbio_vol1_backup/benpeng/nbif_main_'+variants[k].variantname+'.'+changelists1[i]+'\n';
               text += 'p4_mkwa -codeline nbif2_0 -cl '+changelists1[i]+'\n';
               text += 'bootenv -v '+variants[k].variantname+'\n';
+              //TODO TestName should be gotten from DB
               text += 'bsub -P BIF-SHUB -q normal -Is -J nbif_san -R \'rusage[mem=10000] select[type==RHEL6_64]\' dj -l build.log -DUVM_VERBOSITY=UVM_LOW -m4 -DUSE_VRQ -DCGM -DSEED=12345678  run_test -s nbiftdl demo_test_0_nbif_all_rtl -a execute=off\n';
               text += 'bsub -P BIF-SHUB -q normal     -J nbif_san -R \'rusage[mem=10000] select[type==RHEL6_64]\' dj -l demo_test_0.'+variants[k].variantname+'.'+changelists1[i]+' -DUVM_VERBOSITY=UVM_LOW -m4 -DUSE_VRQ -DCGM -DSEED=12345678  run_test -s nbiftdl demo_test_0_nbif_all_rtl -a run=only\n';
               text += 'bsub -P BIF-SHUB -q normal     -J nbif_san -R \'rusage[mem=10000] select[type==RHEL6_64]\' dj -l demo_test_1.'+variants[k].variantname+'.'+changelists1[i]+' -DUVM_VERBOSITY=UVM_LOW -m4 -DUSE_VRQ -DCGM -DSEED=12345678  run_test -s nbiftdl demo_test_1_nbif_all_rtl -a run=only\n';

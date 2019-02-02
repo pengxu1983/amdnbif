@@ -11,12 +11,6 @@ module.exports = {
     kind  : {
       type  : 'string'
     },
-    //projectname : {
-    //  type  : 'string'
-    //},
-    //variantname : {
-    //  type  : 'string'
-    //}
   },
 
 
@@ -28,22 +22,11 @@ module.exports = {
   fn: async function (inputs,exits) {
     sails.log('sanitys/getbrokencl');
     if(inputs.kind == 'getbrokencl'){
-      var sanity_tests = await Sanity_tests.find({
-        //projectname : inputs.projectname,
-        //variantname : inputs.variantname,
+      var sanity_tests = await Common_sanitys.find({
         id : {'>=':0}
       });
-      sails.log('DBG');
       var lastCLs_max ;
       var lastpassCLs_min ;
-      var brokenCL = 'NA'; 
-      for(var i=0;i<sanity_tests.length;i++){
-        if(sanity_tests[i].brokenCL == 'NA'){
-        }
-        else{
-          brokenCL = sanity_tests[i].brokenCL;
-        }
-      }
       for(var i=0;i<sanity_tests.length;i++){
         if(i==0){
           lastpassCLs_min = parseInt(sanity_tests[i].lastpassCL);
@@ -70,20 +53,11 @@ module.exports = {
       sails.log(lastCLs_max);
       sails.log('Min lastpassCL');
       sails.log(lastpassCLs_min);
-      if(lastCLs_max > lastpassCLs_min){
-        return exits.success({
-          ok  : 'notok',
-          lastpassCL : lastpassCLs_min,
-          brokenCL  : brokenCL
-        });
-      }
-      else {
-        return exits.success({
-          ok  : 'ok',
-          lastpassCL  : lastpassCLs_min,
-          brokenCL : brokenCL
-        });
-      }
+      return exits.success({
+        ok          : 'ok',
+        lastpassCL  : lastpassCLs_min,
+        lastCL      : lastCLs_max
+      });
     }
     // All done.
     //return exits.success({

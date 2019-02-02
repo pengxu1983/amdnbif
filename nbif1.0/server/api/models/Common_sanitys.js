@@ -16,9 +16,6 @@ module.exports = {
     testname      : {
       type        : 'string'
     },
-    variantname   : {
-      type        : 'string'
-    },
     lastpassCL    : {
       type        : 'string'
     },
