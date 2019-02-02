@@ -36,7 +36,7 @@ module.exports = {
       sails.log('DBG');
       var lastCLs_max ;
       var lastpassCLs_min ;
-      var brokenCL == 'NA'; 
+      var brokenCL = 'NA'; 
       for(var i=0;i<sanity_tests.length;i++){
         if(sanity_tests[i].brokenCL == 'NA'){
         }
