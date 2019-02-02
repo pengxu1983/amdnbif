@@ -4,10 +4,9 @@ var http = require('http');
 var fs= require('fs');
 var cronJob = require("cron").CronJob;
 var child_process = require('child_process');
-var workspace = '/local_vol1_nobackup/benpeng/';
+var workspace = '/proj/bif_nbio_vol1_backup/benpeng';
 var jobid_sanityrun_allvariant_status = 'stopped';
-var jobid_sanityrun_allvariant  = new cronJob('0 18 10 * * *',function(){
-  let text  = '';
+var jobid_sanityrun_allvariant  = new cronJob('0 30 13 * * *',function(){
   let variants = [];
   /////////////////
   //Get all valid variants
@@ -36,6 +35,110 @@ var jobid_sanityrun_allvariant  = new cronJob('0 18 10 * * *',function(){
       variants = JSON.parse(chunk).variants;
       sails.log('variants:');
       sails.log(variants);
+      /////////////////
+      //Checking result
+      /////////////////
+      sails.log('checking');
+      //FAILLIST
+      let FAILLIST = child_process.execSync('grep "dj exited with errors" '+workspace+'/*/demo_test_*.* -l',{
+        encoding  : 'utf8'
+      }).split('\n');
+      FAILLIST.pop();
+      for(let i=0;i<FAILLIST.length;i++){
+        let tmp1 = FAILLIST[i].split('.');
+        tmp1.reverse();
+        let tmp2 = tmp1[2].split('/')
+        let postData = querystring.stringify({
+          'kind'        : 'singletest',
+          'changelist'  : tmp1[0],
+          'testname'    : tmp2[1],
+          'variantname' : tmp1[1],
+          'result'      : 'FAIL'
+        });
+        
+        let options = {
+          hostname: 'amdnbif.thehunters.club',
+          port: 80,
+          path: '/sanitys/statusupload',
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/x-www-form-urlencoded',
+            'Content-Length': Buffer.byteLength(postData)
+          }
+        };
+        
+        let req = http.request(options, (res) => {
+          console.log(`STATUS: ${res.statusCode}`);
+          console.log(`HEADERS: ${JSON.stringify(res.headers)}`);
+          res.setEncoding('utf8');
+          res.on('data', (chunk) => {
+            console.log(`BODY: ${chunk}`);
+          });
+          res.on('end', () => {
+            console.log('No more data in response.');
+          });
+        });
+        
+        req.on('error', (e) => {
+          console.error(`problem with request: ${e.message}`);
+        });
+        
+        // write data to request body
+        req.write(postData);
+        req.end();
+
+      }
+      //////////////
+      //PASSLIST
+      let PASSLIST  = child_process.execSync('grep "dj exited successfully" '+workspace+'/*/demo_test_*.* -l',{
+        encoding  : 'utf8'
+      }).split('\n');
+      PASSLIST.pop();
+      for(let i=0;i<PASSLIST.length;i++){
+        let tmp1 = PASSLIST[i].split('.');
+        tmp1.reverse();
+        let tmp2 = tmp1[2].split('/')
+        let postData = querystring.stringify({
+          'kind'        : 'singletest',
+          'changelist'  : tmp1[0],
+          'testname'    : tmp2[1],
+          'variantname' : tmp1[1],
+          'result'      : 'PASS'
+        });
+        
+        let options = {
+          hostname: 'amdnbif.thehunters.club',
+          port: 80,
+          path: '/sanitys/statusupload',
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/x-www-form-urlencoded',
+            'Content-Length': Buffer.byteLength(postData)
+          }
+        };
+        
+        let req = http.request(options, (res) => {
+          console.log(`STATUS: ${res.statusCode}`);
+          console.log(`HEADERS: ${JSON.stringify(res.headers)}`);
+          res.setEncoding('utf8');
+          res.on('data', (chunk) => {
+            console.log(`BODY: ${chunk}`);
+          });
+          res.on('end', () => {
+            console.log('No more data in response.');
+          });
+        });
+        
+        req.on('error', (e) => {
+          console.error(`problem with request: ${e.message}`);
+        });
+        
+        // write data to request body
+        req.write(postData);
+        req.end();
+
+      }
+      //////////////
     });
     res.on('end', () => {
       sails.log('No more data in response.');
@@ -64,8 +167,74 @@ var jobid_sanityrun_allvariant  = new cronJob('0 18 10 * * *',function(){
         res.on('data', (chunk) => {
           sails.log(`BODY: ${chunk}`);
           let lastpassCL= JSON.parse(chunk).lastpassCL;
+          let sanityStatus= JSON.parse(chunk).ok;
+          let brokenCL =JSON.parse(chunk).brokenCL;
           sails.log('lastpassCL:');
           sails.log(lastpassCL);
+          sails.log(brokenCL);
+          let R = child_process.execSync('cd '+workspace+'/nbif_main && p4 changes -m30 ...#head',{
+            encoding  : 'utf8'
+          }).split('\n');
+          sails.log(R);
+          R.pop();
+          let RR=[];
+          let changelists = [];
+          for(let i=0;i<R.length;i++){
+            let tmp = {
+              changelist  : '',
+              name        : ''
+            };
+            let tmp1 = R[i].split(' ');
+            tmp.changelist  = tmp1[1];
+            let tmp2 = tmp1[5];
+            let tmp3 = tmp2.split('@');
+            sails.log(tmp.changelist);
+            sails.log(tmp2);
+            sails.log(tmp3[0]);
+            tmp.name = tmp3[0];
+            RR.push(tmp);
+            changelists.push(tmp.changelist);
+          }
+          sails.log(RR);
+          sails.log(changelists);
+          let changelists1 = [];
+          for(let i=0;i<changelists.length;i++){
+            if(changelists[i] == lastpassCL){
+              break;
+            }
+            else{
+              changelists1.push(changelists[i]);
+            }
+          }
+          sails.log('aaa');
+          sails.log(changelists1);
+          child_process.execSync('rm -rf '+workspace+'/nbif_main_*');
+          for(let i=0;i<changelists1.length;i++){
+            for(let k=0;k<variants.length;k++){
+              let text = '';
+              text += '#!/tool/pandora64/bin/tcsh\n';
+              text += 'source /proj/verif_release_ro/cbwa_initscript/current/cbwa_init.csh\n';
+              text += 'rm -rf '+workspace+'/nbif_main_'+variants[k].variantname+'.'+changelists1[i]+'\n';
+              text += 'mkdir  '+workspace+'/nbif_main_'+variants[k].variantname+'.'+changelists1[i]+'\n';
+              text += 'cd /proj/bif_nbio_vol1_backup/benpeng/nbif_main_'+variants[k].variantname+'.'+changelists1[i]+'\n';
+              text += 'p4_mkwa -codeline nbif2_0 -cl '+changelists1[i]+'\n';
+              text += 'bootenv -v '+variants[k].variantname+'\n';
+              text += 'bsub -P BIF-SHUB -q normal -Is -J nbif_san -R \'rusage[mem=10000] select[type==RHEL6_64]\' dj -l build.log -DUVM_VERBOSITY=UVM_LOW -m4 -DUSE_VRQ -DCGM -DSEED=12345678  run_test -s nbiftdl demo_test_0_nbif_all_rtl -a execute=off\n';
+              text += 'bsub -P BIF-SHUB -q normal     -J nbif_san -R \'rusage[mem=10000] select[type==RHEL6_64]\' dj -l demo_test_0.'+variants[k].variantname+'.'+changelists1[i]+' -DUVM_VERBOSITY=UVM_LOW -m4 -DUSE_VRQ -DCGM -DSEED=12345678  run_test -s nbiftdl demo_test_0_nbif_all_rtl -a run=only\n';
+              text += 'bsub -P BIF-SHUB -q normal     -J nbif_san -R \'rusage[mem=10000] select[type==RHEL6_64]\' dj -l demo_test_1.'+variants[k].variantname+'.'+changelists1[i]+' -DUVM_VERBOSITY=UVM_LOW -m4 -DUSE_VRQ -DCGM -DSEED=12345678  run_test -s nbiftdl demo_test_1_nbif_all_rtl -a run=only\n';
+              text += 'bsub -P BIF-SHUB -q normal     -J nbif_san -R \'rusage[mem=10000] select[type==RHEL6_64]\' dj -l demo_test_2.'+variants[k].variantname+'.'+changelists1[i]+' -DUVM_VERBOSITY=UVM_LOW -m4 -DUSE_VRQ -DCGM -DSEED=12345678  run_test -s nbiftdl demo_test_1_nbif_all_rtl -a run=only\n';
+              fs.writeFileSync(workspace+'/nbif_main_sanity_'+variants[k].variantname+'.'+changelists1[i]+'.script',text,{
+                encoding  : 'utf8',
+                mode      : '0700',
+                flag      : 'w'
+              });
+              child_process.execFile(workspace+'/nbif_main_sanity_'+variants[k].variantname+'.'+changelists1[i]+'.script',function(error,stdout,stderr){
+                if(error){
+                  sails.log(error);
+                }
+              });
+            }
+          }
         });
         res.on('end', () => {
           sails.log('No more data in response.');
@@ -90,7 +259,7 @@ var jobid_sanityrun_allvariant  = new cronJob('0 18 10 * * *',function(){
   req.write(postData);
   req.end();
   /////////////////
-  //All variant get
+  //All variant gotten
   /////////////////
 
   /////////////////

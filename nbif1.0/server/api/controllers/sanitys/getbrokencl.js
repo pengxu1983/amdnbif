@@ -36,6 +36,14 @@ module.exports = {
       sails.log('DBG');
       var lastCLs_max ;
       var lastpassCLs_min ;
+      var brokenCL == 'NA'; 
+      for(var i=0;i<sanity_tests.length;i++){
+        if(sanity_tests[i].brokenCL == 'NA'){
+        }
+        else{
+          brokenCL = sanity_tests[i].brokenCL;
+        }
+      }
       for(var i=0;i<sanity_tests.length;i++){
         if(i==0){
           lastpassCLs_min = parseInt(sanity_tests[i].lastpassCL);
@@ -65,13 +73,15 @@ module.exports = {
       if(lastCLs_max > lastpassCLs_min){
         return exits.success({
           ok  : 'notok',
-          lastpassCL : lastpassCLs_min
+          lastpassCL : lastpassCLs_min,
+          brokenCL  : brokenCL
         });
       }
       else {
         return exits.success({
           ok  : 'ok',
-          lastpassCL  : lastpassCLs_min
+          lastpassCL  : lastpassCLs_min,
+          brokenCL : brokenCL
         });
       }
     }
