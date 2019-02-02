@@ -93,7 +93,7 @@ module.exports = {
                   lastCL      : inputs.changelist
                 });
               }
-              else if(){//inputs result is fail
+              else if(inputs.result == 'FAIL'){//inputs result is fail
                 await Sanity_tests.update({
                   variantname : inputs.variantname,
                   testname    : inputs.testname
