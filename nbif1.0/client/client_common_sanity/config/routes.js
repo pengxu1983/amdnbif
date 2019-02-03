@@ -20,7 +20,9 @@ module.exports.routes = {
   ***************************************************************************/
 
   '/': { view: 'pages/homepage' },
-
+  'POST /common-sanity/process/:kind' : {
+    action  : 'common-sanity/process'
+  },
 
   /***************************************************************************
   *                                                                          *
