@@ -41,7 +41,8 @@ module.exports = {
         sails.log('DBG2');
         sails.log(changelists);
         //Find latest
-        let latestchangelist ={};
+        let latestchangelist ;
+        let owner;
         for(let i=0;i<changelists.length;i++){
           if(i==0){
             latestchangelist  = changelists[i].changelist;
@@ -63,8 +64,8 @@ module.exports = {
         sails.log(latestchangelist);
         return exits.success({
           ok          : 'ok',
-          changelist  : latestchangelist.changelist,
-          owner       : latestchangelist.owner
+          changelist  : latestchangelist,
+          owner       : owner
         });
       }
     }
