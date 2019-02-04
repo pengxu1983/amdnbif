@@ -5,7 +5,7 @@ var fs            = require('fs');
 var child_process = require('child_process');
 var cronJob       = require("cron").CronJob;
 var workspace     = '/local_vol1_nobackup/benpeng'
-var jobid_common_sanity_pushNewChangelists  = new cronJob('0 53 10 * * *',function(){
+var jobid_common_sanity_pushNewChangelists  = new cronJob('0 0 11 * * *',function(){
   //////////////////////////////////////////////
   //Get changelist to push to DB
   //////////////////////////////////////////////
@@ -37,7 +37,9 @@ var jobid_common_sanity_pushNewChangelists  = new cronJob('0 53 10 * * *',functi
         let changelists = [];
         if(JSON.parse(chunk).changelist =='NA'){
           sails.log('DB is empty');
-          let R = child_process.execSync('cd '+workspace+'/nbif_main && p4 changes -m1 ...#head').split(' ');
+          let R = child_process.execSync('cd '+workspace+'/nbif_main && p4 changes -m1 ...#head',{
+            encoding  : 'utf8'
+          }).split(' ');
           let RR = R[5].split('@');
           changelists.push({
             changelist  : R[1],
@@ -47,7 +49,9 @@ var jobid_common_sanity_pushNewChangelists  = new cronJob('0 53 10 * * *',functi
         }
         else{
           let dbLatestChangelist = JSON.parse(chunk).changelist;
-          let R = child_process.execSync('cd '+workspace+'/nbif_main && p4 changes -m10 ...#head').split('\n');
+          let R = child_process.execSync('cd '+workspace+'/nbif_main && p4 changes -m10 ...#head',{
+            encoding  : 'utf8'
+          }).split('\n');
           R.pop();
           for(let i=0;i<R.length;i++){
             let RR = R[i].split(' ');
@@ -72,7 +76,7 @@ var jobid_common_sanity_pushNewChangelists  = new cronJob('0 53 10 * * *',functi
         let options = {
           hostname: 'amdnbif.thehunters.club',
           port: 80,
-          path: '/sanitys/common-sanity/popchangelist',
+          path: '/sanitys/common-sanity/pushchangelist',
           method: 'POST',
           headers: {
             'Content-Type': 'application/x-www-form-urlencoded',

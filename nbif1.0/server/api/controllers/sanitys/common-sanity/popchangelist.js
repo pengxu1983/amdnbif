@@ -43,20 +43,20 @@ module.exports = {
           }
         }
       }
-    }
-    if(changelists = []){
-      return exits.success({
-        ok          : 'ok',
-        changelist  : 'NA',
-        owner       : 'NA'
-      });
-    }
-    else {
-      return exits.success({
-        ok          : 'ok',
-        changelist  : latestchangelist.changelist,
-        owner       : latestchangelist.owner
-      });
+      if(changelists = []){
+        return exits.success({
+          ok          : 'ok',
+          changelist  : 'NA',
+          owner       : 'NA'
+        });
+      }
+      else {
+        return exits.success({
+          ok          : 'ok',
+          changelist  : latestchangelist.changelist,
+          owner       : latestchangelist.owner
+        });
+      }
     }
   }
 
