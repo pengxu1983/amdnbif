@@ -44,13 +44,16 @@ module.exports = {
         let latestchangelist ={};
         for(let i=0;i<changelists.length;i++){
           if(i==0){
-            latestchangelist.changelist   = changelists[i].changelist;
-            latestchangelist.owner        = changelists[i].owner;
+            latestchangelist  = changelists[i].changelist;
+            owner             = changelists[i].owner;
           }
           else{
+            sails.log('DBG3');
+            sails.log(parseInt(changelists[i].changelist));
+            sails.log(parseInt(latestchangelist));
             if(parseInt(changelists[i].changelist) > parseInt(latestchangelist)){
-              latestchangelist.changelist   = changelists[i].changelist;
-              latestchangelist.owner        = changelists[i].owner;
+              latestchangelist  = changelists[i].changelist;
+              owner             = changelists[i].owner;
             }
             else {
               //ignore

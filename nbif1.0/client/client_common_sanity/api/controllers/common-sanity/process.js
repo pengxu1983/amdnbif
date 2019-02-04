@@ -123,7 +123,7 @@ var jobid_common_sanity_pushNewChangelists  = new cronJob('*/10 * * * * *',funct
   //END 
   //////////////////////////////////////////////
   let time  = moment().format('YYYY/MM/DD HH:mm:ss');
-  sails.log('getChangelistsToRun start at '+time);
+  sails.log('jobid_common_sanity_pushNewChangelists start at '+time);
 },null,true,'Asia/Chongqing');
 module.exports = {
 
