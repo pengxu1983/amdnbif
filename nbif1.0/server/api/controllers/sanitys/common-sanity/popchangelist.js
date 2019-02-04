@@ -69,6 +69,45 @@ module.exports = {
         });
       }
     }
+    else if(inputs.kind == 'popearliest'){
+      let earliestchangelist;
+      let owner;
+      let changelists = await Buffer_changelists.find({
+        id : {'>=': 0}
+      });
+      sails.log('DBG4');
+      if(changelists.length == 0){
+        sails.log('DBG5');
+        return exits.success({
+          ok          : 'ok',
+          changelist  : 'NA',
+          owner       : 'NA'
+        });
+      }
+      else{
+        sails.log('DBG6');
+        sails.log(changelists);
+        for(let i=0;i<changelists.length;i++){
+          if(i==0){
+            earliestchangelist  = changelists[i].changelist;
+            owner               = changelists[i].owner;
+          }
+          else{
+            if(parseInt(changelists[i].changelist) < parseInt(earliestchangelist)){
+              earliestchangelist  = changelists[i].changelist;
+              owner               = changelists[i].owner;
+            }
+          }
+        }
+        sails.log('DBG7');
+        sails.log(earliestchangelist);
+        return exits.success({
+          ok          : 'ok',
+          changelist  : earliestchangelist,
+          owner       : owner
+        });
+      }
+    }
   }
 
 

@@ -4,8 +4,60 @@ var http          = require('http');
 var fs            = require('fs');
 var child_process = require('child_process');
 var cronJob       = require("cron").CronJob;
-var workspace     = '/local_vol1_nobackup/benpeng'
-var jobid_common_sanity_pushNewChangelists  = new cronJob('*/10 * * * * *',function(){
+var workspace     = '/local_vol1_nobackup/benpeng';
+var jobid_common_sanity_getChangelistToRun  = new cronJob('*/5 * * * * *',function(){
+  let earliestchangelist;
+  let owner
+  let postData = querystring.stringify({
+    'kind': 'popearliest'
+  });
+  
+  let options = {
+    hostname: 'amdnbif.thehunters.club',
+    port: 80,
+    path: '/sanitys/common-sanity/popchangelist',
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/x-www-form-urlencoded',
+      'Content-Length': Buffer.byteLength(postData)
+    }
+  };
+  
+  let req = http.request(options, (res) => {
+    console.log(`STATUS: ${res.statusCode}`);
+    console.log(`HEADERS: ${JSON.stringify(res.headers)}`);
+    res.setEncoding('utf8');
+    res.on('data', (chunk) => {
+      console.log(`BODY: ${chunk}`);
+      if(JSON.parse(chunk).ok == 'ok'){
+        earliestchangelist  = JSON.parse(chunk).changelist;
+        owner               = JSON.parse(chunk).owner;
+        sails.log('aaaa');
+        sails.log(earliestchangelist);
+        sails.log(owner);
+        if(earliestchangelist == 'NA'){
+          //do nothing
+        }
+        else{
+          sails.helpers.common-sanity.run();
+        }
+      }
+    });
+    res.on('end', () => {
+      console.log('No more data in response.');
+    });
+  });
+  
+  req.on('error', (e) => {
+    console.error(`problem with request: ${e.message}`);
+  });
+  
+  // write data to request body
+  req.write(postData);
+  req.end();
+  
+},null,true,'Asia/Chongqing');
+var jobid_common_sanity_pushNewChangelists  = new cronJob('0 0 * * * *',function(){
   //////////////////////////////////////////////
   //Get changelist to push to DB
   //////////////////////////////////////////////
@@ -151,11 +203,11 @@ module.exports = {
     sails.log(inputs);
     if(inputs.kind  ==  'start'){
       sails.log('starting');
-      jobid_common_sanity_getChangelistsToRun.start();
+      jobid_common_sanity_pushNewChangelists.start();
     }
     else if(inputs.kind == 'stop'){
       sails.log('stopping');
-      jobid_common_sanity_getChangelistsToRun.stop();
+      jobid_common_sanity_pushNewChangelists.stop();
     }
     // All done.
     return exits.success({
