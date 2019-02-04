@@ -7,7 +7,7 @@ var cronJob       = require("cron").CronJob;
 var workspace     = '/local_vol1_nobackup/benpeng';
 var jobid_common_sanity_getChangelistToRun  = new cronJob('*/5 * * * * *',function(){
   let earliestchangelist;
-  let owner
+  let owner;
   let postData = querystring.stringify({
     'kind': 'popearliest'
   });
@@ -41,6 +41,8 @@ var jobid_common_sanity_getChangelistToRun  = new cronJob('*/5 * * * * *',functi
         else{
           sails.log('bbb');
           // Get info from DB
+          // stop the job
+          jobid_common_sanity_getChangelistToRun.stop();
           let postData = querystring.stringify({
             'kind': 'commonsanityinfo'
           });
@@ -66,6 +68,40 @@ var jobid_common_sanity_getChangelistToRun  = new cronJob('*/5 * * * * *',functi
               sails.log(JSON.parse(chunk).ok);
               sails.log(JSON.parse(chunk).variants);
               sails.log(JSON.parse(chunk).tests);
+              let variants  = JSON.parse(chunk).variants;
+              let tests     = JSON.parse(chunk).tests;
+              //clean up disk
+              child_process.execSync('mkdir '+workspace+'/nbif_main.sanity.zombie');
+              let toRemove = child_process.execSync('ls -d '+workspace+'/nbif_main.sanity.*',{
+                encoding  : 'utf8'
+              }).split('\n');
+              toRemove.pop();
+              for(let i=0;i<toRemove.length;i++){
+                sails.log('Remove '+toRemove[i]);
+                child_process.exec('rm -rf '+toRemove[i]);
+              }
+              for(let i=0;i<variants.length;i++){
+                child_process.execSync('mkdir '+workspace+'/nbif_main.sanity.'+variants[i].variantname+'.'+earliestchangelist);
+                let text  = '';
+                text += '#!/tool/pandora64/bin/tcsh\n';
+                text += 'source /proj/verif_release_ro/cbwa_initscript/current/cbwa_init.csh\n';
+                text += 'mkdir '+workspace+'/nbif_main.'+variants[i].variantname+'.'+earliestchangelist+'\n';
+                text += 'p4_mkwa -codeline nbif2_0 -cl '+earliestchangelist+'\n';
+                text += 'bootenv -v '+variants[i].variantname+'\n';
+                for(let k=0;k<tests.length;k++){
+                  if(k==0){
+                    text  += 'dj -l '+tests[k].testname+'.'+variants[i].variantname+'.'+earliestchangelist+'.log -DUVM_VERBOSITY=UVM_LOW -m4 -DUSE_VRQ -DCGM -DSEED=12345678  run_test -s nbiftdl '+tests[k].testname+'_nbif_all_rtl\n'
+                  }
+                  else {
+                    text  += 'dj -l '+tests[k].testname+'.'+variants[i].variantname+'.'+earliestchangelist+'.log -DUVM_VERBOSITY=UVM_LOW -m4 -DUSE_VRQ -DCGM -DSEED=12345678  run_test -s nbiftdl '+tests[k].testname+'_nbif_all_rtl -a run=only\n'
+                  }
+                }
+                fs.writeFileSync(workspace+'/nbif_main.sanity.'+variants[i].variantname+'.'+earliestchangelist+'.script',text,{
+                  encoding  : 'utf8',
+                  mode      : '0700',
+                  flag      : 'w'
+                });
+              }
             });
             res.on('end', () => {
               console.log('No more data in response.');
