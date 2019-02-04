@@ -28,7 +28,7 @@ module.exports = {
       });
         sails.log('DBG0');
         sails.log(changelists);
-      if(changelists = []){
+      if(changelists == []){
         sails.log('DBG1');
         sails.log(changelists);
         return exits.success({
