@@ -5,7 +5,7 @@ var fs            = require('fs');
 var child_process = require('child_process');
 var cronJob       = require("cron").CronJob;
 var workspace     = '/local_vol1_nobackup/benpeng'
-var jobid_common_sanity_pushNewChangelists  = new cronJob('0 0 11 * * *',function(){
+var jobid_common_sanity_pushNewChangelists  = new cronJob('*/10 * * * * *',function(){
   //////////////////////////////////////////////
   //Get changelist to push to DB
   //////////////////////////////////////////////
