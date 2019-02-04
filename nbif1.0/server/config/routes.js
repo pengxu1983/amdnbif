@@ -89,7 +89,14 @@ module.exports.routes = {
   },
   'POST /sanitys/getbrokencl': {
     action  : 'sanitys/getbrokencl'
-  }
+  },
+  'POST /sanitys/common-sanity/popchangelist' : {
+    action  : 'sanitys/common-sanity/popchangelist'
+  },
+  'POST /sanitys/common-sanity/pushchangelist' : {
+    action  : 'sanitys/common-sanity/pushchangelist'
+  },
+
   //  ╔═╗╔═╗╦  ╔═╗╔╗╔╔╦╗╔═╗╔═╗╦╔╗╔╔╦╗╔═╗
   //  ╠═╣╠═╝║  ║╣ ║║║ ║║╠═╝║ ║║║║║ ║ ╚═╗
   //  ╩ ╩╩  ╩  ╚═╝╝╚╝═╩╝╩  ╚═╝╩╝╚╝ ╩ ╚═╝
