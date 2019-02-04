@@ -26,7 +26,11 @@ module.exports = {
       let changelists = await Buffer_changelists.find({
         id : {'>=': 0}
       });
+        sails.log('DBG0');
+        sails.log(changelists);
       if(changelists = []){
+        sails.log('DBG1');
+        sails.log(changelists);
         return exits.success({
           ok          : 'ok',
           changelist  : 'NA',
@@ -34,7 +38,7 @@ module.exports = {
         });
       }
       else {
-        sails.log('DBG1');
+        sails.log('DBG2');
         sails.log(changelists);
         //Find latest
         let latestchangelist ={};
