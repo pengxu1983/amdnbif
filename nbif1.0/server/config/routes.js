@@ -96,7 +96,9 @@ module.exports.routes = {
   'POST /sanitys/common-sanity/pushchangelist' : {
     action  : 'sanitys/common-sanity/pushchangelist'
   },
-
+  'POST /sanitys/common-sanity/info' : {
+    action  : 'sanitys/common-sanity/info'
+  },
   //  ╔═╗╔═╗╦  ╔═╗╔╗╔╔╦╗╔═╗╔═╗╦╔╗╔╔╦╗╔═╗
   //  ╠═╣╠═╝║  ║╣ ║║║ ║║╠═╝║ ║║║║║ ║ ╚═╗
   //  ╩ ╩╩  ╩  ╚═╝╝╚╝═╩╝╩  ╚═╝╩╝╚╝ ╩ ╚═╝

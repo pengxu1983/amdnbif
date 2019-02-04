@@ -39,7 +39,48 @@ var jobid_common_sanity_getChangelistToRun  = new cronJob('*/5 * * * * *',functi
           //do nothing
         }
         else{
-          sails.helpers.common-sanity.run();
+          sails.log('bbb');
+          // Get info from DB
+          let postData = querystring.stringify({
+            'kind': 'commonsanityinfo'
+          });
+          
+          let options = {
+            hostname: 'amdnbif.thehunters.club',
+            port: 80,
+            path: '/sanitys/common-sanity/info',
+            method: 'POST',
+            headers: {
+              'Content-Type': 'application/x-www-form-urlencoded',
+              'Content-Length': Buffer.byteLength(postData)
+            }
+          };
+          
+          let req = http.request(options, (res) => {
+            console.log(`STATUS: ${res.statusCode}`);
+            console.log(`HEADERS: ${JSON.stringify(res.headers)}`);
+            res.setEncoding('utf8');
+            res.on('data', (chunk) => {
+              console.log(`BODY: ${chunk}`);
+              sails.log('DBG');
+              sails.log(JSON.parse(chunk).ok);
+              sails.log(JSON.parse(chunk).variants);
+              sails.log(JSON.parse(chunk).tests);
+            });
+            res.on('end', () => {
+              console.log('No more data in response.');
+            });
+          });
+          
+          req.on('error', (e) => {
+            console.error(`problem with request: ${e.message}`);
+          });
+          
+          // write data to request body
+          req.write(postData);
+          req.end();
+          
+          // end
         }
       }
     });
@@ -57,7 +98,7 @@ var jobid_common_sanity_getChangelistToRun  = new cronJob('*/5 * * * * *',functi
   req.end();
   
 },null,true,'Asia/Chongqing');
-var jobid_common_sanity_pushNewChangelists  = new cronJob('0 0 * * * *',function(){
+var jobid_common_sanity_pushNewChangelists  = new cronJob('*/10 * * * * *',function(){
   //////////////////////////////////////////////
   //Get changelist to push to DB
   //////////////////////////////////////////////
@@ -176,7 +217,7 @@ var jobid_common_sanity_pushNewChangelists  = new cronJob('0 0 * * * *',function
   //////////////////////////////////////////////
   let time  = moment().format('YYYY/MM/DD HH:mm:ss');
   sails.log('jobid_common_sanity_pushNewChangelists start at '+time);
-},null,true,'Asia/Chongqing');
+},null,false,'Asia/Chongqing');
 module.exports = {
 
 
