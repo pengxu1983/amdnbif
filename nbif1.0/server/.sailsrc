@@ -1,4 +1,10 @@
 {
+  "hooks": {
+    "grunt": false
+  },
+  "paths": {
+    "public": "assets"
+  },
   "generators": {
     "modules": {}
   },
