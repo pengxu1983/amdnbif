@@ -73,7 +73,8 @@ module.exports = {
       let earliestchangelist;
       let owner;
       let changelists = await Buffer_changelists.find({
-        id : {'>=': 0}
+        ischecked : 'no'
+        //id : {'>=': 0}
       });
       sails.log('DBG4');
       if(changelists.length == 0){
@@ -101,8 +102,10 @@ module.exports = {
         }
         sails.log('DBG7');
         sails.log(earliestchangelist);
-        await Buffer_changelists.destroy({
+        await Buffer_changelists.update({
           changelist  : earliestchangelist
+        },{
+          ischecked   : 'yes'
         });
         return exits.success({
           ok          : 'ok',

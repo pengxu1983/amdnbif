@@ -30,7 +30,8 @@ module.exports = {
       for(let i=0;i<changelists.length;i++){
         await Buffer_changelists.create({
           changelist  : changelists[i].changelist,
-          owner       : changelists[i].owner
+          owner       : changelists[i].owner,
+          ischecked   : 'no'
         });
       }
     }

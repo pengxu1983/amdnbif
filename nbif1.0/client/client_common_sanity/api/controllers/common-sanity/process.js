@@ -144,8 +144,8 @@ var jobid_common_sanity_getChangelistToRun  = new cronJob('*/5 * * * * *',functi
   req.write(postData);
   req.end();
   
-},null,true,'Asia/Chongqing');
-var jobid_common_sanity_pushNewChangelists  = new cronJob('0 0 * * * *',function(){
+},null,false,'Asia/Chongqing');
+var jobid_common_sanity_pushNewChangelists  = new cronJob('*/5 * * * * *',function(){
   //////////////////////////////////////////////
   //Get changelist to push to DB
   //////////////////////////////////////////////

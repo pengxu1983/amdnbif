@@ -16,6 +16,9 @@ module.exports = {
     },
     owner       : {
       type  : 'string'
+    },
+    ischecked : {
+      type  : 'string'
     }
 
 
