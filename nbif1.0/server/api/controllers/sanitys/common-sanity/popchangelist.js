@@ -101,6 +101,9 @@ module.exports = {
         }
         sails.log('DBG7');
         sails.log(earliestchangelist);
+        await Buffer_changelists.destroy({
+          changelist  : earliestchangelist
+        });
         return exits.success({
           ok          : 'ok',
           changelist  : earliestchangelist,

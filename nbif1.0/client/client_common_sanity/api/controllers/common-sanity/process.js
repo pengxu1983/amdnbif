@@ -102,7 +102,10 @@ var jobid_common_sanity_getChangelistToRun  = new cronJob('*/5 * * * * *',functi
                   mode      : '0700',
                   flag      : 'w'
                 });
-                child_process.execFile(workspace+'/nbif_main.sanity.'+variants[i].variantname+'.'+earliestchangelist+'.script',function(error){
+                child_process.execFile(workspace+'/nbif_main.sanity.'+variants[i].variantname+'.'+earliestchangelist+'.script',{
+                  encoding  : 'utf8',
+                  maxBuffer : 1024*1000
+                },function(error){
                   if(error){
                     sails.log(error);
                   }
