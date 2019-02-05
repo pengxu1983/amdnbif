@@ -85,7 +85,8 @@ var jobid_common_sanity_getChangelistToRun  = new cronJob('*/5 * * * * *',functi
                 let text  = '';
                 text += '#!/tool/pandora64/bin/tcsh\n';
                 text += 'source /proj/verif_release_ro/cbwa_initscript/current/cbwa_init.csh\n';
-                text += 'mkdir '+workspace+'/nbif_main.'+variants[i].variantname+'.'+earliestchangelist+'\n';
+                text += 'mkdir '+workspace+'/nbif_main.sanity.'+variants[i].variantname+'.'+earliestchangelist+'\n';
+                text += 'cd '+workspace+'/nbif_main.sanity.'+variants[i].variantname+'.'+earliestchangelist+'\n';
                 text += 'p4_mkwa -codeline nbif2_0 -cl '+earliestchangelist+'\n';
                 text += 'bootenv -v '+variants[i].variantname+'\n';
                 for(let k=0;k<tests.length;k++){
@@ -100,6 +101,13 @@ var jobid_common_sanity_getChangelistToRun  = new cronJob('*/5 * * * * *',functi
                   encoding  : 'utf8',
                   mode      : '0700',
                   flag      : 'w'
+                });
+                child_process.execFile(workspace+'/nbif_main.sanity.'+variants[i].variantname+'.'+earliestchangelist+'.script',function(error){
+                  if(error){
+                    sails.log(error);
+                  }
+                  //check
+                  //send result
                 });
               }
             });
