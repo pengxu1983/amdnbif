@@ -22,7 +22,7 @@ module.exports = {
     lastCL        : {
       type        : 'string'
     },
-    lastStatus    : {
+    variantname   : {
       type        : 'string'
     },
     brokenCL      : {

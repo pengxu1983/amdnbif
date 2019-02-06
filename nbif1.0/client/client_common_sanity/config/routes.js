@@ -23,6 +23,8 @@ module.exports.routes = {
   'POST /common-sanity/process/:kind' : {
     action  : 'common-sanity/process'
   },
+  //'POST /common-sanity/run' : {
+  //}
 
   /***************************************************************************
   *                                                                          *

@@ -4,8 +4,10 @@ var http          = require('http');
 var fs            = require('fs');
 var child_process = require('child_process');
 var cronJob       = require("cron").CronJob;
-var workspace     = '/local_vol1_nobackup/benpeng';
+var workspace     = '/local_vol1_nobackup/benpeng/';
 var jobid_common_sanity_getChangelistToRun  = new cronJob('*/5 * * * * *',function(){
+  sails.log(moment().format('YYYY-MM-DD HH:mm:ss'));
+  sails.log('jobid_common_sanity_getChangelistToRun start');
   let earliestchangelist;
   let owner;
   let postData = querystring.stringify({
@@ -41,7 +43,6 @@ var jobid_common_sanity_getChangelistToRun  = new cronJob('*/5 * * * * *',functi
         else{
           sails.log('bbb');
           // Get info from DB
-          // stop the job
           jobid_common_sanity_getChangelistToRun.stop();
           let postData = querystring.stringify({
             'kind': 'commonsanityinfo'
@@ -85,7 +86,7 @@ var jobid_common_sanity_getChangelistToRun  = new cronJob('*/5 * * * * *',functi
                 let text  = '';
                 text += '#!/tool/pandora64/bin/tcsh\n';
                 text += 'source /proj/verif_release_ro/cbwa_initscript/current/cbwa_init.csh\n';
-                text += 'mkdir '+workspace+'/nbif_main.sanity.'+variants[i].variantname+'.'+earliestchangelist+'\n';
+                //text += 'mkdir '+workspace+'/nbif_main.sanity.'+variants[i].variantname+'.'+earliestchangelist+'\n';
                 text += 'cd '+workspace+'/nbif_main.sanity.'+variants[i].variantname+'.'+earliestchangelist+'\n';
                 text += 'p4_mkwa -codeline nbif2_0 -cl '+earliestchangelist+'\n';
                 text += 'bootenv -v '+variants[i].variantname+'\n';
@@ -106,10 +107,43 @@ var jobid_common_sanity_getChangelistToRun  = new cronJob('*/5 * * * * *',functi
                   encoding  : 'utf8',
                   maxBuffer : 1024*1000
                 },function(error){
-                  if(error){
-                    sails.log(error);
-                  }
+                  //if(error){
+                  //  sails.log(error);
+                  //}
                   //check
+                  for(let j=0;j<tests.length;j++){
+                    let testResult ='FAIL';
+                    if(fs.exitsSync(workspace+'/nbif_main.sanity.'+variants[i].variantname+'.'+earliestchangelist+'/'+tests[j].testname+'.'+variants[i].variantname+'.'+earliestchangelist+'.log')){
+                      fs.readFile(workspace+'/nbif_main.sanity.'+variants[i].variantname+'.'+earliestchangelist+'/'+tests[j].testname+'.'+variants[i].variantname+'.'+earliestchangelist+'.log',{
+                        encoding : 'utf8'
+                      },(err,data) => {
+                        if(err){
+                          sails.log(err);
+                        }
+                        else{
+                          let R = data.split('\n');
+                          R.pop();
+                          for(let ii=0;ii<R.length;ii++){
+                            let reg=/dj exited successfully/;
+                            if(reg.test(R[ii])){
+                              testResult  = 'PASS';
+                              break;
+                            }
+                            //reg=/dj exited with errors/;
+                            //if(reg.test(RR[ii])){
+                            //  testResult  = 'FAIL';
+                            //  break;
+                            //}
+                          }
+                        }
+                      });
+
+                    }
+                    sails.log(tests[j].testname);
+                    sails.log(testResult);
+                    sails.log(earliestchangelist);
+                    sails.log(variants[i].variantname);
+                  }
                   //send result
                 });
               }
@@ -144,8 +178,8 @@ var jobid_common_sanity_getChangelistToRun  = new cronJob('*/5 * * * * *',functi
   req.write(postData);
   req.end();
   
-},null,false,'Asia/Chongqing');
-var jobid_common_sanity_pushNewChangelists  = new cronJob('*/5 * * * * *',function(){
+},null,true,'Asia/Chongqing');
+var jobid_common_sanity_pushNewChangelists  = new cronJob('0 0 * * * *',function(){
   //////////////////////////////////////////////
   //Get changelist to push to DB
   //////////////////////////////////////////////
@@ -264,7 +298,7 @@ var jobid_common_sanity_pushNewChangelists  = new cronJob('*/5 * * * * *',functi
   //////////////////////////////////////////////
   let time  = moment().format('YYYY/MM/DD HH:mm:ss');
   sails.log('jobid_common_sanity_pushNewChangelists start at '+time);
-},null,true,'Asia/Chongqing');
+},null,false,'Asia/Chongqing');
 module.exports = {
 
 
