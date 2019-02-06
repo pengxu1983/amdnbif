@@ -23,7 +23,8 @@ module.exports = {
       type        : 'string'
     },
     variantname   : {
-      type        : 'string'
+      type        : 'string',
+      columnType  : 'longtext'
     },
     brokenCL      : {
       type        : 'string'

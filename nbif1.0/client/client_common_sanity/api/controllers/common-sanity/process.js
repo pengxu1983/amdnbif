@@ -113,36 +113,32 @@ var jobid_common_sanity_getChangelistToRun  = new cronJob('*/5 * * * * *',functi
                   //check
                   for(let j=0;j<tests.length;j++){
                     let testResult ='FAIL';
-                    if(fs.exitsSync(workspace+'/nbif_main.sanity.'+variants[i].variantname+'.'+earliestchangelist+'/'+tests[j].testname+'.'+variants[i].variantname+'.'+earliestchangelist+'.log')){
+                    if(fs.existsSync(workspace+'/nbif_main.sanity.'+variants[i].variantname+'.'+earliestchangelist+'/'+tests[j].testname+'.'+variants[i].variantname+'.'+earliestchangelist+'.log')){
                       fs.readFile(workspace+'/nbif_main.sanity.'+variants[i].variantname+'.'+earliestchangelist+'/'+tests[j].testname+'.'+variants[i].variantname+'.'+earliestchangelist+'.log',{
                         encoding : 'utf8'
                       },(err,data) => {
-                        if(err){
-                          sails.log(err);
-                        }
-                        else{
-                          let R = data.split('\n');
-                          R.pop();
-                          for(let ii=0;ii<R.length;ii++){
-                            let reg=/dj exited successfully/;
-                            if(reg.test(R[ii])){
-                              testResult  = 'PASS';
-                              break;
-                            }
-                            //reg=/dj exited with errors/;
-                            //if(reg.test(RR[ii])){
-                            //  testResult  = 'FAIL';
-                            //  break;
-                            //}
+                        let R = data.split('\n');
+                        R.pop();
+                        for(let ii=0;ii<R.length;ii++){
+                          sails.log(ii);
+                          sails.log(R[ii]);
+                          let reg=/dj exited successfully/;
+                          if(reg.test(R[ii])){
+                            testResult  = 'PASS';
                           }
+                          //reg=/dj exited with errors/;
+                          //if(reg.test(RR[ii])){
+                          //  testResult  = 'FAIL';
+                          //  break;
+                          //}
                         }
+                        sails.log(tests[j].testname);
+                        sails.log(testResult);
+                        sails.log(earliestchangelist);
+                        sails.log(variants[i].variantname);
                       });
 
                     }
-                    sails.log(tests[j].testname);
-                    sails.log(testResult);
-                    sails.log(earliestchangelist);
-                    sails.log(variants[i].variantname);
                   }
                   //send result
                 });
