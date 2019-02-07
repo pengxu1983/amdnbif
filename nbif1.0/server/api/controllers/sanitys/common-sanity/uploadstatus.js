@@ -39,6 +39,8 @@ module.exports = {
       let singletest = await Common_sanitys.find({
         testname  : inputs.testname
       });
+      sails.log(singletest.variantname);
+      sails.log(typeOf(singletest.variantname));
       let resultbyvariant = [];
       resultbyvariant.push(JSON.parse(singletest.variantname));
       if(singletest.lastCL=='NA'){// db is empty
