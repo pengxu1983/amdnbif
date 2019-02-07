@@ -66,16 +66,12 @@ module.exports = {
         if(inputs.result == 'PASS'){//incoming is pass
           // if newer is pass just override
           await Common_sanitys.update({
-            testname  : inputs.testname
+            testname    : inputs.testname,
           },{
-            await Common_sanitys.update({
-              testname    : inputs.testname,
-            },{
-              lastCL      : inputs.changelist,
-              lastpassCL  : inputs.changelist,
-              brokenCL    : 'NA',
-              variantname : JSON.stringify([])
-            });
+            lastCL      : inputs.changelist,
+            lastpassCL  : inputs.changelist,
+            brokenCL    : 'NA',
+            variantname : JSON.stringify([])
           });
         }
         else if(inputs.result == 'FAIL'){//incomming is fail
