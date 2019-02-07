@@ -41,8 +41,6 @@ module.exports = {
       });
       sails.log(singletest.variantname);
       sails.log(typeOf(singletest.variantname));
-      let resultbyvariant = [];
-      resultbyvariant.push(JSON.parse(singletest.variantname));
       if(singletest.lastCL=='NA'){// db is empty
       sails.log('DBG2');
         if(inputs.result == 'PASS'){
