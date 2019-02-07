@@ -39,18 +39,18 @@ module.exports.routes = {
   *                                                                          *
   ***************************************************************************/
 
-  'POST /regression/start'  : {
-    action  : 'regression/start'
-  },
-  'POST /regression/ongoing'  : {
-    action  : 'regression/ongoing'
-  },
-  'POST /regression/stop'  : {
-    action  : 'regression/stop'
-  },
-  'POST /regression/check'  : {
-    action  : 'regression/check'
-  },
+  //'POST /regression/start'  : {
+  //  action  : 'regression/start'
+  //},
+  //'POST /regression/ongoing'  : {
+  //  action  : 'regression/ongoing'
+  //},
+  //'POST /regression/stop'  : {
+  //  action  : 'regression/stop'
+  //},
+  //'POST /regression/check'  : {
+  //  action  : 'regression/check'
+  //},
   ///////////////////
   //internal
   ///////////////////
