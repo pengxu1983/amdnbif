@@ -35,12 +35,14 @@ module.exports = {
     sails.log('/sanitys/common-sanity/uploadstatus');
     sails.log(inputs);
     if(inputs.kind == 'singletest'){
+      sails.log('DBG1');
       let singletest = await Common_sanitys.find({
         testname  : inputs.testname
       });
       let resultbyvariant = [];
       resultbyvariant.push(JSON.parse(singletest.variantname));
       if(singletest.lastCL=='NA'){// db is empty
+      sails.log('DBG2');
         if(inputs.result == 'PASS'){
           await Common_sanitys.update({
             testname  : inputs.testname
@@ -63,6 +65,7 @@ module.exports = {
         }
       }
       else if(parseInt(inputs.changelist)>parseInt(singletest.lastCL)){// incomming CL is newer
+      sails.log('DBG3');
         if(inputs.result == 'PASS'){//incoming is pass
           // if newer is pass just override
           await Common_sanitys.update({
@@ -94,6 +97,7 @@ module.exports = {
         }
       }
       else if(parseInt(inputs.changelist)==parseInt(singletest.lastCL)){ //incomming CL is same
+      sails.log('DBG4');
         if(inputs.result == 'PASS'){//incomming is pass
           //nothing to 
         }

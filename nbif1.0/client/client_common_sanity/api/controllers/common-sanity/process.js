@@ -138,6 +138,7 @@ var jobid_common_sanity_getChangelistToRun  = new cronJob('*/5 * * * * *',functi
                         sails.log(variants[i].variantname);
                         //send result
                         let postData = querystring.stringify({
+                          'kind':'singletest',
                           'testname': tests[j].testname,
                           'result'  : testResult,
                           'changelist': earliestchangelist,
