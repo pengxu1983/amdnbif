@@ -34,8 +34,84 @@ module.exports = {
   fn: async function (inputs,exits) {
     sails.log('/sanitys/common-sanity/uploadstatus');
     sails.log(inputs);
-    if(inputs.kind == 'singlevariant'){
-      if(parseInt(inputs.changelist)>parseInt(singletest.lastCL)){
+    if(inputs.kind == 'singletest'){
+      let singletest = await Common_sanitys.find({
+        testname  : inputs.testname
+      });
+      let resultbyvariant = [];
+      resultbyvariant.push(JSON.parse(singletest.variantname));
+      if(singletest.lastCL=='NA'){// db is empty
+        if(inputs.result == 'PASS'){
+          await Common_sanitys.update({
+            testname  : inputs.testname
+          },{
+            lastCL    : inputs.changelist,
+            lastpassCL: inputs.changelist,
+            brokenCL  : 'NA',
+            variantname : JSON.stringify([])
+          });
+        }
+        else if (inputs.result=='FAIL'){
+          await Common_sanitys.update({
+            testname  : inputs.testname
+          },{
+            lastCL    : inputs.changelist,
+            lastpassCL: 'NA',
+            brokenCL  : inputs.changelist,
+            variantname : JSON.stringify([inputs.variantname])
+          });
+        }
+      }
+      else if(parseInt(inputs.changelist)>parseInt(singletest.lastCL)){// incomming CL is newer
+        if(inputs.result == 'PASS'){//incoming is pass
+          // if newer is pass just override
+          await Common_sanitys.update({
+            testname  : inputs.testname
+          },{
+            await Common_sanitys.update({
+              testname    : inputs.testname,
+            },{
+              lastCL      : inputs.changelist,
+              lastpassCL  : inputs.changelist,
+              brokenCL    : 'NA',
+              variantname : JSON.stringify([])
+            });
+          });
+        }
+        else if(inputs.result == 'FAIL'){//incomming is fail
+          if(singletest.brokenCL == 'NA'){//previous is pass
+            await Common_sanitys.update({
+              testname    : inputs.testname
+            },{
+              lastCL      : inputs.changelist,
+              brokenCL    : inputs.changelist,
+              variantname : JSON.stringify([inputs.variantname])
+            });
+          }
+        }
+        else{//previous is fail
+          await Common_sanitys.update({
+            testname    : inputs.testname
+          },{
+            lastCL      : inputs.changelist,
+          });
+        }
+      }
+      else if(parseInt(inputs.changelist)==parseInt(singletest.lastCL)){ //incomming CL is same
+        if(inputs.result == 'PASS'){//incomming is pass
+          //nothing to 
+        }
+        else if(inputs.result == 'FAIL'){//incomming is fail
+          if(singletest.brokenCL == 'NA'){//previous is pass
+            let tmp = JSON.parse(singletest.variantname);
+            tmp.push(inputs.variantname);
+            await Common_sanitys.update({
+              testname  : inputs.testname
+            },{
+              variantname : JSON.stringify(tmp)
+            });
+          }
+        }
       }
       else{
         //ignore
