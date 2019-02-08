@@ -5,7 +5,9 @@ var fs            = require('fs');
 var child_process = require('child_process');
 var cronJob       = require("cron").CronJob;
 var workspace     = '/local_vol1_nobackup/benpeng/';
+var jobid_common_sanity_getChangelistToRun_combined_status ='off';
 var jobid_common_sanity_getChangelistToRun  = new cronJob('*/5 * * * * *',function(){
+  let donevariant = [];
   sails.log(moment().format('YYYY-MM-DD HH:mm:ss'));
   sails.log('jobid_common_sanity_getChangelistToRun start');
   let earliestchangelist;
@@ -136,6 +138,15 @@ var jobid_common_sanity_getChangelistToRun  = new cronJob('*/5 * * * * *',functi
                         sails.log(testResult);
                         sails.log(earliestchangelist);
                         sails.log(variants[i].variantname);
+                        if(donevariant.indexOf(variants[i].variantname) == -1){
+                          donevariant.push(variants[i].variantname);
+                          if(donevariant.length == variants.length){
+                            jobid_common_sanity_getChangelistToRun.start();
+                          }
+                        }
+                        else {
+                          sails.log('ERROR : should not be dup variant');
+                        }
                         //send result
                         let postData = querystring.stringify({
                           'kind':'singletest',
