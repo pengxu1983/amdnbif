@@ -41,7 +41,7 @@ module.exports = {
       });
       sails.log(singletest);
       sails.log(singletest.variantname);
-      sails.log(typeOf(singletest.variantname));
+      sails.log(typeof(singletest.variantname));
       if(singletest.lastCL=='NA'){// db is empty
       sails.log('DBG2');
         if(inputs.result == 'PASS'){
