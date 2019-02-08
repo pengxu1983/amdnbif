@@ -141,12 +141,14 @@ var jobid_common_sanity_getChangelistToRun  = new cronJob('*/5 * * * * *',functi
                         sails.log(testResult);
                         sails.log(earliestchangelist);
                         sails.log(variants[i].variantname);
-                        if(donevariant.length == variants.length){
-                          jobid_common_sanity_getChangelistToRun.start();
-                          sails.log(moment().format('YYYY-MM-DD HH:mm:ss'));
-                          sails.log('jobid_common_sanity_getChangelistToRun start after done previous');
+                        sails.log('push test '+tests[j].testname);
+                        if(donetest.indexOf(tests[j].testname) == -1){
+                          donetest.push(tests[j].testname);
                         }
-                        else if(donetest.length == tests.length){
+                        else{
+                          sails.log('ERROR : dup test : '+tests[j].testname);
+                        }
+                        if(donetest.length == tests.length){
                           sails.log('push variant '+variants[i].variantname);
                           if(donevariant.indexOf(variants[i].variantname) == -1){
                             donevariant.push(variants[i].variantname);
@@ -154,15 +156,11 @@ var jobid_common_sanity_getChangelistToRun  = new cronJob('*/5 * * * * *',functi
                           else{
                             sails.log('ERROR : dup variant : '+variants[i].variantname);
                           }
-                          donevariant=[];
-                        }
-                        else{
-                          sails.log('push test '+tests[j].testname);
-                          if(donetest.indexOf(tests[j].testname) == -1){
-                            donetest.push(tests[j].testname);
-                          }
-                          else{
-                            sails.log('ERROR : dup test : '+tests[j].testname);
+                          donetest=[];
+                          if(donevariant.length == variants.length){
+                            jobid_common_sanity_getChangelistToRun.start();
+                            sails.log(moment().format('YYYY-MM-DD HH:mm:ss'));
+                            sails.log('jobid_common_sanity_getChangelistToRun start after done previous');
                           }
                         }
                         //send result
@@ -364,7 +362,7 @@ var jobid_common_sanity_pushNewChangelists  = new cronJob('*/5 * * * * *',functi
   //////////////////////////////////////////////
   let time  = moment().format('YYYY/MM/DD HH:mm:ss');
   sails.log('jobid_common_sanity_pushNewChangelists start at '+time);
-},null,false,'Asia/Chongqing');
+},null,true,'Asia/Chongqing');
 module.exports = {
 
 
