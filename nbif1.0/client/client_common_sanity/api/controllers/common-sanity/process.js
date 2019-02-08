@@ -7,7 +7,6 @@ var cronJob       = require("cron").CronJob;
 var workspace     = '/local_vol1_nobackup/benpeng/';
 var jobid_common_sanity_getChangelistToRun_combined_status ='off';
 var jobid_common_sanity_getChangelistToRun  = new cronJob('*/5 * * * * *',function(){
-  let donevariant = [];
   sails.log(moment().format('YYYY-MM-DD HH:mm:ss'));
   sails.log('jobid_common_sanity_getChangelistToRun start');
   let earliestchangelist;
@@ -46,6 +45,8 @@ var jobid_common_sanity_getChangelistToRun  = new cronJob('*/5 * * * * *',functi
           sails.log('bbb');
           // Get info from DB
           jobid_common_sanity_getChangelistToRun.stop();
+          sails.log(moment().format('YYYY-MM-DD HH:mm:ss'));
+          sails.log('jobid_common_sanity_getChangelistToRun stop');
           let postData = querystring.stringify({
             'kind': 'commonsanityinfo'
           });
@@ -83,6 +84,7 @@ var jobid_common_sanity_getChangelistToRun  = new cronJob('*/5 * * * * *',functi
                 sails.log('Remove '+toRemove[i]);
                 child_process.exec('rm -rf '+toRemove[i]);
               }
+              let donevariant = [];
               for(let i=0;i<variants.length;i++){
                 child_process.execSync('mkdir '+workspace+'/nbif_main.sanity.'+variants[i].variantname+'.'+earliestchangelist);
                 let text  = '';
@@ -113,6 +115,7 @@ var jobid_common_sanity_getChangelistToRun  = new cronJob('*/5 * * * * *',functi
                   //  sails.log(error);
                   //}
                   //check
+                  let donetest = [];
                   for(let j=0;j<tests.length;j++){
                     let testResult ='FAIL';
                     if(fs.existsSync(workspace+'/nbif_main.sanity.'+variants[i].variantname+'.'+earliestchangelist+'/'+tests[j].testname+'.'+variants[i].variantname+'.'+earliestchangelist+'.log')){
@@ -122,8 +125,8 @@ var jobid_common_sanity_getChangelistToRun  = new cronJob('*/5 * * * * *',functi
                         let R = data.split('\n');
                         R.pop();
                         for(let ii=0;ii<R.length;ii++){
-                          sails.log(ii);
-                          sails.log(R[ii]);
+                          //sails.log(ii);
+                          //sails.log(R[ii]);
                           let reg=/dj exited successfully/;
                           if(reg.test(R[ii])){
                             testResult  = 'PASS';
@@ -138,14 +141,29 @@ var jobid_common_sanity_getChangelistToRun  = new cronJob('*/5 * * * * *',functi
                         sails.log(testResult);
                         sails.log(earliestchangelist);
                         sails.log(variants[i].variantname);
-                        if(donevariant.indexOf(variants[i].variantname) == -1){
-                          donevariant.push(variants[i].variantname);
-                          if(donevariant.length == variants.length){
-                            jobid_common_sanity_getChangelistToRun.start();
-                          }
+                        if(donevariant.length == variants.length){
+                          jobid_common_sanity_getChangelistToRun.start();
+                          sails.log(moment().format('YYYY-MM-DD HH:mm:ss'));
+                          sails.log('jobid_common_sanity_getChangelistToRun start after done previous');
                         }
-                        else {
-                          sails.log('ERROR : should not be dup variant');
+                        else if(donetest.length == tests.length){
+                          sails.log('push variant '+variants[i].variantname);
+                          if(donevariant.indexOf(variants[i].variantname) == -1){
+                            donevariant.push(variants[i].variantname);
+                          }
+                          else{
+                            sails.log('ERROR : dup variant : '+variants[i].variantname);
+                          }
+                          donevariant=[];
+                        }
+                        else{
+                          sails.log('push test '+tests[j].testname);
+                          if(donetest.indexOf(tests[j].testname) == -1){
+                            donetest.push(tests[j].testname);
+                          }
+                          else{
+                            sails.log('ERROR : dup test : '+tests[j].testname);
+                          }
                         }
                         //send result
                         let postData = querystring.stringify({
