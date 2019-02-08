@@ -36,9 +36,10 @@ module.exports = {
     sails.log(inputs);
     if(inputs.kind == 'singletest'){
       sails.log('DBG1');
-      let singletest = await Common_sanitys.find({
+      let singletest = await Common_sanitys.findOne({
         testname  : inputs.testname
       });
+      sails.log(singletest);
       sails.log(singletest.variantname);
       sails.log(typeOf(singletest.variantname));
       if(singletest.lastCL=='NA'){// db is empty
