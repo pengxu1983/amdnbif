@@ -5,7 +5,6 @@ var fs            = require('fs');
 var child_process = require('child_process');
 var cronJob       = require("cron").CronJob;
 var workspace     = '/local_vol1_nobackup/benpeng/';
-var jobid_common_sanity_getChangelistToRun_combined_status ='off';
 var jobid_common_sanity_getChangelistToRun  = new cronJob('*/5 * * * * *',function(){
   sails.log(moment().format('YYYY-MM-DD HH:mm:ss'));
   sails.log('jobid_common_sanity_getChangelistToRun start');
@@ -28,7 +27,7 @@ var jobid_common_sanity_getChangelistToRun  = new cronJob('*/5 * * * * *',functi
   
   let req = http.request(options, (res) => {
     console.log(`STATUS: ${res.statusCode}`);
-    console.log(`HEADERS: ${JSON.stringify(res.headers)}`);
+    //console.log(`HEADERS: ${JSON.stringify(res.headers)}`);
     res.setEncoding('utf8');
     res.on('data', (chunk) => {
       console.log(`BODY: ${chunk}`);
@@ -64,7 +63,7 @@ var jobid_common_sanity_getChangelistToRun  = new cronJob('*/5 * * * * *',functi
           
           let req = http.request(options, (res) => {
             console.log(`STATUS: ${res.statusCode}`);
-            console.log(`HEADERS: ${JSON.stringify(res.headers)}`);
+            //console.log(`HEADERS: ${JSON.stringify(res.headers)}`);
             res.setEncoding('utf8');
             res.on('data', (chunk) => {
               console.log(`BODY: ${chunk}`);
@@ -185,7 +184,7 @@ var jobid_common_sanity_getChangelistToRun  = new cronJob('*/5 * * * * *',functi
                         
                         let req = http.request(options, (res) => {
                           console.log(`STATUS: ${res.statusCode}`);
-                          console.log(`HEADERS: ${JSON.stringify(res.headers)}`);
+                          //console.log(`HEADERS: ${JSON.stringify(res.headers)}`);
                           res.setEncoding('utf8');
                           res.on('data', (chunk) => {
                             console.log(`BODY: ${chunk}`);
@@ -265,7 +264,7 @@ var jobid_common_sanity_pushNewChangelists  = new cronJob('*/5 * * * * *',functi
   
   let req = http.request(options, (res) => {
     console.log(`STATUS: ${res.statusCode}`);
-    console.log(`HEADERS: ${JSON.stringify(res.headers)}`);
+    //console.log(`HEADERS: ${JSON.stringify(res.headers)}`);
     res.setEncoding('utf8');
     res.on('data', (chunk) => {
       console.log(`BODY: ${chunk}`);
@@ -324,7 +323,7 @@ var jobid_common_sanity_pushNewChangelists  = new cronJob('*/5 * * * * *',functi
         
         let req = http.request(options, (res) => {
           console.log(`STATUS: ${res.statusCode}`);
-          console.log(`HEADERS: ${JSON.stringify(res.headers)}`);
+          //console.log(`HEADERS: ${JSON.stringify(res.headers)}`);
           res.setEncoding('utf8');
           res.on('data', (chunk) => {
             console.log(`BODY: ${chunk}`);
@@ -360,8 +359,6 @@ var jobid_common_sanity_pushNewChangelists  = new cronJob('*/5 * * * * *',functi
   //////////////////////////////////////////////
   //END 
   //////////////////////////////////////////////
-  let time  = moment().format('YYYY/MM/DD HH:mm:ss');
-  sails.log('jobid_common_sanity_pushNewChangelists start at '+time);
 },null,true,'Asia/Chongqing');
 module.exports = {
 
