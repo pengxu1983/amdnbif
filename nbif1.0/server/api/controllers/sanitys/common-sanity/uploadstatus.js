@@ -22,6 +22,9 @@ module.exports = {
     },
     result  : {
       type  : 'string'
+    },
+    results : {
+      type  : 'string'
     }
   },
 
@@ -117,6 +120,16 @@ module.exports = {
       else{
         //ignore
       }
+    }
+    else if(inputs.kind == 'singlechangelist'){
+      let results = JSON.parse(inputs.results);
+      sails.log('singlechangelist');
+      sails.log(results);
+      await Buffer_changelists.update({
+        changelist  : inputs.changelist
+      },{
+        results : inputs.results
+      });
     }
     // All done.
     return exits.success({

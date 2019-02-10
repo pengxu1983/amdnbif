@@ -19,6 +19,10 @@ module.exports = {
     },
     ischecked : {
       type  : 'string'
+    },
+    results   : {
+      type        : 'string',
+      columnType  : 'longtext'
     }
 
 

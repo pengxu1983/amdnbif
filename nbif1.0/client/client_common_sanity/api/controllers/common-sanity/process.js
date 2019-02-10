@@ -84,7 +84,10 @@ var jobid_common_sanity_getChangelistToRun  = new cronJob('*/5 * * * * *',functi
                 child_process.exec('rm -rf '+toRemove[i]);
               }
               let donevariant = [];
+              let resultbychangelist = [];
+              let results = {};
               for(let i=0;i<variants.length;i++){
+                results[variants[i].variantname]={};
                 child_process.execSync('mkdir '+workspace+'/nbif_main.sanity.'+variants[i].variantname+'.'+earliestchangelist);
                 let text  = '';
                 text += '#!/tool/pandora64/bin/tcsh\n';
@@ -141,67 +144,85 @@ var jobid_common_sanity_getChangelistToRun  = new cronJob('*/5 * * * * *',functi
                         sails.log(earliestchangelist);
                         sails.log(variants[i].variantname);
                         sails.log('push test '+tests[j].testname);
-                        if(donetest.indexOf(tests[j].testname) == -1){
-                          donetest.push(tests[j].testname);
-                        }
-                        else{
-                          sails.log('ERROR : dup test : '+tests[j].testname);
-                        }
-                        if(donetest.length == tests.length){
-                          sails.log('push variant '+variants[i].variantname);
-                          if(donevariant.indexOf(variants[i].variantname) == -1){
-                            donevariant.push(variants[i].variantname);
-                          }
-                          else{
-                            sails.log('ERROR : dup variant : '+variants[i].variantname);
-                          }
-                          donetest=[];
-                          if(donevariant.length == variants.length){
-                            jobid_common_sanity_getChangelistToRun.start();
-                            sails.log(moment().format('YYYY-MM-DD HH:mm:ss'));
-                            sails.log('jobid_common_sanity_getChangelistToRun start after done previous');
-                          }
-                        }
-                        //send result
-                        let postData = querystring.stringify({
-                          'kind':'singletest',
-                          'testname': tests[j].testname,
-                          'result'  : testResult,
-                          'changelist': earliestchangelist,
+                        resultbychangelist.push({
+                          'kind'        : 'singletest',
+                          'testname'    : tests[j].testname,
+                          'result'      : testResult,
+                          'changelist'  : earliestchangelist,
                           'variantname' : variants[i].variantname
                         });
-                        
-                        let options = {
-                          hostname: 'amdnbif.thehunters.club',
-                          port: 80,
-                          path: '/sanitys/common-sanity/uploadstatus',
-                          method: 'POST',
-                          headers: {
-                            'Content-Type': 'application/x-www-form-urlencoded',
-                            'Content-Length': Buffer.byteLength(postData)
-                          }
-                        };
-                        
-                        let req = http.request(options, (res) => {
-                          console.log(`STATUS: ${res.statusCode}`);
-                          //console.log(`HEADERS: ${JSON.stringify(res.headers)}`);
-                          res.setEncoding('utf8');
-                          res.on('data', (chunk) => {
-                            console.log(`BODY: ${chunk}`);
+                        results[variants[i].variantname][tests[j].testname]=testResult;
+                        if(resultbychangelist.length == (variants.length * tests.length)){
+                          jobid_common_sanity_getChangelistToRun.start();
+                          sails.log(moment().format('YYYY-MM-DD HH:mm:ss'));
+                          sails.log('jobid_common_sanity_getChangelistToRun start after done previous');
+                          //if(donetest.indexOf(tests[j].testname) == -1){
+                          //  donetest.push(tests[j].testname);
+                          //}
+                          //else{
+                          //  sails.log('ERROR : dup test : '+tests[j].testname);
+                          //}
+                          //if(donetest.length == tests.length){
+                          //  sails.log('push variant '+variants[i].variantname);
+                          //  if(donevariant.indexOf(variants[i].variantname) == -1){
+                          //    donevariant.push(variants[i].variantname);
+                          //  }
+                          //  else{
+                          //    sails.log('ERROR : dup variant : '+variants[i].variantname);
+                          //  }
+                          //  donetest=[];
+                          //  if(donevariant.length == variants.length){
+                          //    jobid_common_sanity_getChangelistToRun.start();
+                          //    sails.log(moment().format('YYYY-MM-DD HH:mm:ss'));
+                          //    sails.log('jobid_common_sanity_getChangelistToRun start after done previous');
+                          //  }
+                          //}
+                          //send result
+                          //let postData = querystring.stringify({
+                          //  'kind':'singletest',
+                          //  'testname': tests[j].testname,
+                          //  'result'  : testResult,
+                          //  'changelist': earliestchangelist,
+                          //  'variantname' : variants[i].variantname
+                          //});
+                          let postData = querystring.stringify({
+                            'kind': 'singlechangelist',
+                            'changelist'  : earliestchangelist,
+                            'results'     : JSON.stringify(results)
                           });
-                          res.on('end', () => {
-                            console.log('No more data in response.');
+                          
+                          let options = {
+                            hostname: 'amdnbif.thehunters.club',
+                            port: 80,
+                            path: '/sanitys/common-sanity/uploadstatus',
+                            method: 'POST',
+                            headers: {
+                              'Content-Type': 'application/x-www-form-urlencoded',
+                              'Content-Length': Buffer.byteLength(postData)
+                            }
+                          };
+                          
+                          let req = http.request(options, (res) => {
+                            console.log(`STATUS: ${res.statusCode}`);
+                            //console.log(`HEADERS: ${JSON.stringify(res.headers)}`);
+                            res.setEncoding('utf8');
+                            res.on('data', (chunk) => {
+                              console.log(`BODY: ${chunk}`);
+                            });
+                            res.on('end', () => {
+                              console.log('No more data in response.');
+                            });
                           });
-                        });
-                        
-                        req.on('error', (e) => {
-                          console.error(`problem with request: ${e.message}`);
-                        });
-                        
-                        // write data to request body
-                        req.write(postData);
-                        req.end();
-
+                          
+                          req.on('error', (e) => {
+                            console.error(`problem with request: ${e.message}`);
+                          });
+                          
+                          // write data to request body
+                          req.write(postData);
+                          req.end();
+                          
+                        }
                       });
 
                     }
@@ -359,7 +380,7 @@ var jobid_common_sanity_pushNewChangelists  = new cronJob('*/5 * * * * *',functi
   //////////////////////////////////////////////
   //END 
   //////////////////////////////////////////////
-},null,true,'Asia/Chongqing');
+},null,false,'Asia/Chongqing');
 module.exports = {
 
 

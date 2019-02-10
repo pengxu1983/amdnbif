@@ -30,9 +30,9 @@ module.exports = {
         id  : {'>=':0}
       });
       return exits.success({
-        ok  : 'ok',
-        variants : variants,
-        tests     : common_sanity_tests
+        ok        : 'ok',
+        variants  : JSON.stringify(variants),
+        tests     : JSON.stringify(common_sanity_tests)
       });
     }
     // All done.
