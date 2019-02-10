@@ -6,8 +6,8 @@ var child_process = require('child_process');
 var cronJob       = require("cron").CronJob;
 var workspace     = '/local_vol1_nobackup/benpeng/';
 var jobid_common_sanity_getChangelistToRun  = new cronJob('*/5 * * * * *',function(){
-  sails.log(moment().format('YYYY-MM-DD HH:mm:ss'));
-  sails.log('jobid_common_sanity_getChangelistToRun start');
+  console.log(moment().format('YYYY-MM-DD HH:mm:ss'));
+  console.log('jobid_common_sanity_getChangelistToRun start');
   let earliestchangelist;
   let owner;
   let postData = querystring.stringify({
@@ -34,18 +34,18 @@ var jobid_common_sanity_getChangelistToRun  = new cronJob('*/5 * * * * *',functi
       if(JSON.parse(chunk).ok == 'ok'){
         earliestchangelist  = JSON.parse(chunk).changelist;
         owner               = JSON.parse(chunk).owner;
-        sails.log('aaaa');
-        sails.log(earliestchangelist);
-        sails.log(owner);
+        console.log('aaaa');
+        console.log(earliestchangelist);
+        console.log(owner);
         if(earliestchangelist == 'NA'){
           //do nothing
         }
         else{
-          sails.log('bbb');
+          console.log('bbb');
           // Get info from DB
           jobid_common_sanity_getChangelistToRun.stop();
-          sails.log(moment().format('YYYY-MM-DD HH:mm:ss'));
-          sails.log('jobid_common_sanity_getChangelistToRun stop');
+          console.log(moment().format('YYYY-MM-DD HH:mm:ss'));
+          console.log('jobid_common_sanity_getChangelistToRun stop');
           let postData = querystring.stringify({
             'kind': 'commonsanityinfo'
           });
@@ -67,10 +67,10 @@ var jobid_common_sanity_getChangelistToRun  = new cronJob('*/5 * * * * *',functi
             res.setEncoding('utf8');
             res.on('data', (chunk) => {
               console.log(`BODY: ${chunk}`);
-              sails.log('DBG');
-              sails.log(JSON.parse(chunk).ok);
-              sails.log(JSON.parse(chunk).variants);
-              sails.log(JSON.parse(chunk).tests);
+              console.log('DBG');
+              console.log(JSON.parse(chunk).ok);
+              console.log(JSON.parse(chunk).variants);
+              console.log(JSON.parse(chunk).tests);
               let variants  = JSON.parse(chunk).variants;
               let tests     = JSON.parse(chunk).tests;
               //clean up disk
@@ -80,7 +80,7 @@ var jobid_common_sanity_getChangelistToRun  = new cronJob('*/5 * * * * *',functi
               }).split('\n');
               toRemove.pop();
               for(let i=0;i<toRemove.length;i++){
-                sails.log('Remove '+toRemove[i]);
+                console.log('Remove '+toRemove[i]);
                 child_process.exec('rm -rf '+toRemove[i]);
               }
               let donevariant = [];
@@ -114,7 +114,7 @@ var jobid_common_sanity_getChangelistToRun  = new cronJob('*/5 * * * * *',functi
                   maxBuffer : 1024*1000
                 },function(error){
                   //if(error){
-                  //  sails.log(error);
+                  //  console.log(error);
                   //}
                   //check
                   let donetest = [];
@@ -127,8 +127,8 @@ var jobid_common_sanity_getChangelistToRun  = new cronJob('*/5 * * * * *',functi
                         let R = data.split('\n');
                         R.pop();
                         for(let ii=0;ii<R.length;ii++){
-                          //sails.log(ii);
-                          //sails.log(R[ii]);
+                          //console.log(ii);
+                          //console.log(R[ii]);
                           let reg=/dj exited successfully/;
                           if(reg.test(R[ii])){
                             testResult  = 'PASS';
@@ -139,11 +139,11 @@ var jobid_common_sanity_getChangelistToRun  = new cronJob('*/5 * * * * *',functi
                           //  break;
                           //}
                         }
-                        sails.log(tests[j].testname);
-                        sails.log(testResult);
-                        sails.log(earliestchangelist);
-                        sails.log(variants[i].variantname);
-                        sails.log('push test '+tests[j].testname);
+                        console.log(tests[j].testname);
+                        console.log(testResult);
+                        console.log(earliestchangelist);
+                        console.log(variants[i].variantname);
+                        console.log('push test '+tests[j].testname);
                         resultbychangelist.push({
                           'kind'        : 'singletest',
                           'testname'    : tests[j].testname,
@@ -154,27 +154,27 @@ var jobid_common_sanity_getChangelistToRun  = new cronJob('*/5 * * * * *',functi
                         results[variants[i].variantname][tests[j].testname]=testResult;
                         if(resultbychangelist.length == (variants.length * tests.length)){
                           jobid_common_sanity_getChangelistToRun.start();
-                          sails.log(moment().format('YYYY-MM-DD HH:mm:ss'));
-                          sails.log('jobid_common_sanity_getChangelistToRun start after done previous');
+                          console.log(moment().format('YYYY-MM-DD HH:mm:ss'));
+                          console.log('jobid_common_sanity_getChangelistToRun start after done previous');
                           //if(donetest.indexOf(tests[j].testname) == -1){
                           //  donetest.push(tests[j].testname);
                           //}
                           //else{
-                          //  sails.log('ERROR : dup test : '+tests[j].testname);
+                          //  console.log('ERROR : dup test : '+tests[j].testname);
                           //}
                           //if(donetest.length == tests.length){
-                          //  sails.log('push variant '+variants[i].variantname);
+                          //  console.log('push variant '+variants[i].variantname);
                           //  if(donevariant.indexOf(variants[i].variantname) == -1){
                           //    donevariant.push(variants[i].variantname);
                           //  }
                           //  else{
-                          //    sails.log('ERROR : dup variant : '+variants[i].variantname);
+                          //    console.log('ERROR : dup variant : '+variants[i].variantname);
                           //  }
                           //  donetest=[];
                           //  if(donevariant.length == variants.length){
                           //    jobid_common_sanity_getChangelistToRun.start();
-                          //    sails.log(moment().format('YYYY-MM-DD HH:mm:ss'));
-                          //    sails.log('jobid_common_sanity_getChangelistToRun start after done previous');
+                          //    console.log(moment().format('YYYY-MM-DD HH:mm:ss'));
+                          //    console.log('jobid_common_sanity_getChangelistToRun start after done previous');
                           //  }
                           //}
                           //send result
@@ -262,8 +262,8 @@ var jobid_common_sanity_getChangelistToRun  = new cronJob('*/5 * * * * *',functi
   
 },null,true,'Asia/Chongqing');
 var jobid_common_sanity_pushNewChangelists  = new cronJob('*/5 * * * * *',function(){
-  sails.log(moment().format('YYYY-MM-DD HH:mm:ss'));
-  sails.log('jobid_common_sanity_pushNewChangelists start');
+  console.log(moment().format('YYYY-MM-DD HH:mm:ss'));
+  console.log('jobid_common_sanity_pushNewChangelists start');
   //////////////////////////////////////////////
   //Get changelist to push to DB
   //////////////////////////////////////////////
@@ -289,12 +289,12 @@ var jobid_common_sanity_pushNewChangelists  = new cronJob('*/5 * * * * *',functi
     res.setEncoding('utf8');
     res.on('data', (chunk) => {
       console.log(`BODY: ${chunk}`);
-      sails.log(JSON.parse(chunk));
+      console.log(JSON.parse(chunk));
       if(JSON.parse(chunk).ok == 'ok'){
         //Step 2 get TOT latest Changelist till db one
         let changelists = [];
         if(JSON.parse(chunk).changelist =='NA'){
-          sails.log('DB is empty');
+          console.log('DB is empty');
           let R = child_process.execSync('cd '+workspace+'/nbif_main && p4 changes -m1 ...#head',{
             encoding  : 'utf8'
           }).split(' ');
@@ -303,7 +303,7 @@ var jobid_common_sanity_pushNewChangelists  = new cronJob('*/5 * * * * *',functi
             changelist  : R[1],
             owner       : RR[0]
           });
-          sails.log(changelists);
+          console.log(changelists);
         }
         else{
           let dbLatestChangelist = JSON.parse(chunk).changelist;
@@ -403,14 +403,14 @@ module.exports = {
 
 
   fn: async function (inputs,exits) {
-    sails.log('/common-sanity/process');
-    sails.log(inputs);
+    console.log('/common-sanity/process');
+    console.log(inputs);
     if(inputs.kind  ==  'start'){
-      sails.log('starting');
+      console.log('starting');
       jobid_common_sanity_pushNewChangelists.start();
     }
     else if(inputs.kind == 'stop'){
-      sails.log('stopping');
+      console.log('stopping');
       jobid_common_sanity_pushNewChangelists.stop();
     }
     // All done.

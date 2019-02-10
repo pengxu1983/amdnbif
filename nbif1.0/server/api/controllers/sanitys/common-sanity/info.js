@@ -29,11 +29,11 @@ module.exports = {
       let common_sanity_tests = await Common_sanitys.find({
         id  : {'>=':0}
       });
-      return exits.success({
+      return exits.success(JSON.stringify({
         ok        : 'ok',
-        variants  : JSON.stringify(variants),
-        tests     : JSON.stringify(common_sanity_tests)
-      });
+        variants  : variants,
+        tests     : common_sanity_tests
+      }));
     }
     // All done.
     //return;
