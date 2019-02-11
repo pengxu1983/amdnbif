@@ -121,6 +121,12 @@ module.exports = {
         //ignore
       }
     }
+    ///////////
+    ///////////
+    ///////////
+    ///////////
+    ///////////
+    ///////////
     else if(inputs.kind == 'singlechangelist'){
       let results = JSON.parse(inputs.results);
       sails.log('singlechangelist');
@@ -134,59 +140,67 @@ module.exports = {
         id  : {'>=':0}
       });
       //check if current CL is brocken
-      let currentChangelistStatus = 'no';
+      let currentChangelistIsBroken = 'no';
       for(let v=0;v<variants.length;v++){
         for(let t=0;t<tests.length;t++){
           if(results[variants[v].variantname][tests[t].testname] == 'FAIL'){
-            currentChangelistStatus = 'yes';
+            currentChangelistIsBroken = 'yes';
           }
         }
       }
       //check last CL if broken
-      let brokenCls = await Buffer_changelists.find({
+      let brokenCLs = await Buffer_changelists.find({
         isBroken  : {'!=':'NA'}
       });
-      let storedCLs = await Buffer_changelists.find({
-        id  : {'>=':0}
+      let checkedCLs = await Buffer_changelists.find({
+        ischecked : 'yes'
       });
-      if(brokenCls.length == 0){// no changelist broken before
-        if(currentChangelistStatus == 'FAIL'){
+      let brokenCL;
+      if(brokenCLs.length == 0){// no changelist broken before
+        if(currentChangelistIsBroken == 'yes'){
           //send email
+          //set brokenCL 
+          brokenCL = inputs.changelist;
         }
-        else if(currentChangelistStatus == 'PASS'){
+        else if(currentChangelistIsBroken == 'no'){
           //nothing
+          brokenCL = 'NA';
         }
       }
       else{
-        if(currentChangelistStatus == 'FAIL'){
-          //find stored latest CL
+        if(currentChangelistIsBroken == 'yes'){
+          //find checked latest CL
           let lastCL;
-          for(let s=0;s<storedCLs.length;s++){
+          for(let s=0;s<checkedCLs.length;s++){
             if(s==0){
-              lastCL = storedCLs[s];
+              lastCL = checkedCLs[s];
             }
             else{
-              if(parseInt(storedCLs[s].changelist)>parseInt(lastCL.changelist)){
-                lastCL = storedCLs[s];
+              if(parseInt(checkedCLs[s].changelist)>parseInt(lastCL.changelist)){
+                lastCL = checkedCLs[s];
               }
             }
           }
-          if(lastCL.isBroken == 'FAIL'){
+          if(lastCL.isBroken == 'yes'){
             //nothing since previous CL is broken and already send mail
+            brokenCL = lastCL.brokenCL;
           }
-          else if(lastCL.isBroken == 'PASS'){
+          else if(lastCL.isBroken == 'no'){
             //send email
+            brokenCL = inputs.changelist;
           }
         }
-        else if(currentChangelistStatus == 'PASS'){
+        else if(currentChangelistIsBroken == 'no'){
           //nothing
+          brokenCL = 'NA';
         }
       }
       await Buffer_changelists.update({
         changelist  : inputs.changelist
       },{
-        results : inputs.results,
-        isBroken  : currentChangelistStatus
+        results   : inputs.results,
+        isBroken  : currentChangelistIsBroken,
+        brokenCL  : brokenCL
       });
     }
     // All done.

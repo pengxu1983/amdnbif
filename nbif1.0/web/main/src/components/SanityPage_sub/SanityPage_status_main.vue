@@ -1,36 +1,42 @@
 <template>
   <el-tabs v-model="activeTab" type="card" @tab-click="handleClick">
-    <el-tab-pane label="Common Sanity Tests Status" name="byVariant">
+    <el-tab-pane label="Common Sanity Tests Status" name="commonSanity">
       <template>
-        <el-container>
-          <el-main >
-            <el-table
-              v-for="onevariant in variants"
-              :data="commonSanityStatus(onevariant.variantname)"
-              border
-              style="width: 100%"
-            >
-              <el-table-column
-                :label="onevariant.variantname"
-              >
-                <el-table-column
-                  prop="testname"
-                  label="Test Name"
-                >
-                </el-table-column>
-                <el-table-column
-                  prop="lastpassCL"
-                  label="Last Passing Changelist"
-                >
-                </el-table-column>
-                <el-table-column
-                  prop="brokenCL"
-                  label="Broken Changelist">
-                </el-table-column>
-              </el-table-column>
-            </el-table>
-          </el-main>
-        </el-container>
+        <el-table
+          :data="sanityStatus"
+          border
+          style="width: 100%"
+        >
+          <el-table-column
+            prop="lastCL"
+            label="Last Checked CL"
+            width="180"
+          >
+          </el-table-column>
+          <el-table-column
+            prop="result"
+            label="Status"
+            width="180"
+          >
+          </el-table-column>
+          <el-table-column
+            prop="brokenCL"
+            label="Broken CL"
+            width="180"
+          >
+          </el-table-column>
+          <el-table-column
+            prop="brokenCLowner"
+            label="Broken CL Owner"
+            width="180"
+          >
+          </el-table-column>
+          <el-table-column
+            prop="cmd"
+            label="Reproduce Command"
+          >
+          </el-table-column>
+        </el-table>
       </template>
     </el-tab-pane>
     <el-tab-pane label="Sanity Tests Status by Project" name="byProject">
@@ -46,6 +52,8 @@ export default {
   },
   data() {
     return {
+      activeTab   : 'commonSanity',
+      sanityStatus : [],
       sanitys     : [],
       projectinfo : {
         projectname : 'MERO',
@@ -75,6 +83,17 @@ export default {
         }
       }
       return items;
+    },
+    getCommonSanityStatus (){
+      this.$http.post('/sanitys/common-sanity/getcommonsanitystatus',{
+        kind  : 'sanityStatus'
+      }).then(
+        function(response){
+          if(response.body.ok == 'ok'){
+          }
+        },
+        function(){}
+      );
     },
     get () {
       //Sanitys get info

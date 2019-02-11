@@ -33,7 +33,8 @@ module.exports = {
           owner       : changelists[i].owner,
           ischecked   : 'no',
           results     : 'NA',
-          isBroken    : 'NA'
+          isBroken    : 'NA',
+          brokenCL    : 'NA'
         });
       }
     }

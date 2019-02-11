@@ -26,6 +26,9 @@ module.exports = {
     },
     isBroken  : {
       type    : 'string'
+    },
+    brokenCL  : {
+      type    : 'string'
     }
 
 
