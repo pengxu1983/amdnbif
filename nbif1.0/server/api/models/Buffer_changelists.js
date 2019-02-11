@@ -23,8 +23,10 @@ module.exports = {
     results   : {
       type        : 'string',
       columnType  : 'longtext'
+    },
+    isBroken  : {
+      type    : 'string'
     }
-
 
 
     //  ╔═╗╔╦╗╔╗ ╔═╗╔╦╗╔═╗

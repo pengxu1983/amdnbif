@@ -125,10 +125,68 @@ module.exports = {
       let results = JSON.parse(inputs.results);
       sails.log('singlechangelist');
       sails.log(results);
+      //all variants
+      let variants  = await Variants.find({
+        id  : {'>=':0}
+      });
+      //all tests
+      let tests = await Common_sanitys.find({
+        id  : {'>=':0}
+      });
+      //check if current CL is brocken
+      let currentChangelistStatus = 'no';
+      for(let v=0;v<variants.length;v++){
+        for(let t=0;t<tests.length;t++){
+          if(results[variants[v].variantname][tests[t].testname] == 'FAIL'){
+            currentChangelistStatus = 'yes';
+          }
+        }
+      }
+      //check last CL if broken
+      let brokenCls = await Buffer_changelists.find({
+        isBroken  : {'!=':'NA'}
+      });
+      let storedCLs = await Buffer_changelists.find({
+        id  : {'>=':0}
+      });
+      if(brokenCls.length == 0){// no changelist broken before
+        if(currentChangelistStatus == 'FAIL'){
+          //send email
+        }
+        else if(currentChangelistStatus == 'PASS'){
+          //nothing
+        }
+      }
+      else{
+        if(currentChangelistStatus == 'FAIL'){
+          //find stored latest CL
+          let lastCL;
+          for(let s=0;s<storedCLs.length;s++){
+            if(s==0){
+              lastCL = storedCLs[s];
+            }
+            else{
+              if(parseInt(storedCLs[s].changelist)>parseInt(lastCL.changelist)){
+                lastCL = storedCLs[s];
+              }
+            }
+          }
+          if(lastCL.isBroken == 'FAIL'){
+            //nothing since previous CL is broken and already send mail
+          }
+          else if(lastCL.isBroken == 'PASS'){
+            //send email
+          }
+        }
+        else if(currentChangelistStatus == 'PASS'){
+          //nothing
+        }
+      }
       await Buffer_changelists.update({
         changelist  : inputs.changelist
       },{
-        results : inputs.results
+        results : inputs.results,
+        isBroken  : currentChangelistStatus
       });
     }
     // All done.

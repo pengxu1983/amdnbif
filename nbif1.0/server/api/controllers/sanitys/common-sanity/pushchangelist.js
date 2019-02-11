@@ -31,7 +31,9 @@ module.exports = {
         await Buffer_changelists.create({
           changelist  : changelists[i].changelist,
           owner       : changelists[i].owner,
-          ischecked   : 'no'
+          ischecked   : 'no',
+          results     : 'NA',
+          isBroken    : 'NA'
         });
       }
     }
