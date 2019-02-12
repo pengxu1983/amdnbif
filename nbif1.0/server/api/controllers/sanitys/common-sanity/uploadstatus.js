@@ -153,7 +153,8 @@ module.exports = {
         isBroken  : {'!=':'NA'}
       });
       let checkedCLs = await Buffer_changelists.find({
-        ischecked : 'yes'
+        ischecked : 'yes',
+        results   : {'!=':'NA'}
       });
       let brokenCL;
       if(brokenCLs.length == 0){// no changelist broken before
