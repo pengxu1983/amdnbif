@@ -261,7 +261,7 @@ var jobid_common_sanity_getChangelistToRun  = new cronJob('*/5 * * * * *',functi
   req.end();
   
 },null,true,'Asia/Chongqing');
-var jobid_common_sanity_pushNewChangelists  = new cronJob('*/5 * * * * *',function(){
+var jobid_common_sanity_pushNewChangelists  = new cronJob('0 */5 * * * *',function(){
   console.log(moment().format('YYYY-MM-DD HH:mm:ss'));
   console.log('jobid_common_sanity_pushNewChangelists start');
   //////////////////////////////////////////////
@@ -380,7 +380,7 @@ var jobid_common_sanity_pushNewChangelists  = new cronJob('*/5 * * * * *',functi
   //////////////////////////////////////////////
   //END 
   //////////////////////////////////////////////
-},null,false,'Asia/Chongqing');
+},null,true,'Asia/Chongqing');
 module.exports = {
 
 
