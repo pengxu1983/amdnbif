@@ -93,9 +93,16 @@ export default {
           console.log(response);
           if(response.body.ok == 'ok'){
             this.sanityStatus = [];
+            let result;
+            if(response.body.result == 'no'){
+              result = 'PASS'
+            }
+            else if(response.body.result == 'yes'){
+              result = 'FAIL'
+            }
             this.sanityStatus.push({
               lastcheckedCL : response.body.lastcheckedCL,
-              result        : response.body.response,
+              result        : result,
               brokenCL      : response.body.brokenCL,
               brokenCLowner : response.body.brokenCLowner
             });

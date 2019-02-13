@@ -49,6 +49,11 @@ module.exports = {
         let brokenCLowner = await Buffer_changelists.findOne({
           changelist  : lastcheckedCL.changelist
         });
+        if(brokenCLowner){
+        }
+        else{
+          brokenCLowner = 'NA';
+        }
         return exits.success(JSON.stringify({
           ok  : 'ok',
           lastcheckedCL: lastcheckedCL.changelist,
