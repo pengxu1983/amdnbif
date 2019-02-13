@@ -8,14 +8,14 @@
           style="width: 100%"
         >
           <el-table-column
-            prop="lastCL"
+            prop="lastcheckedCL"
             label="Last Checked CL"
             width="180"
           >
           </el-table-column>
           <el-table-column
             prop="result"
-            label="Status"
+            label="CurrentCL Status"
             width="180"
           >
           </el-table-column>
@@ -92,7 +92,13 @@ export default {
           console.log('DBG1');
           console.log(response);
           if(response.body.ok == 'ok'){
-            this.sanityStatus = [lastcheckedCL];
+            this.sanityStatus = [];
+            this.sanityStatus.push({
+              lastcheckedCL : response.body.lastcheckedCL,
+              result        : response.body.response,
+              brokenCL      : response.body.brokenCL,
+              brokenCLowner : response.body.brokenCLowner
+            });
             console.log(this.sanityStatus);
           }
         },

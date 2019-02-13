@@ -51,7 +51,8 @@ module.exports = {
         });
         return exits.success(JSON.stringify({
           ok  : 'ok',
-          lastCL  : lastcheckedCL.changelist,
+          lastcheckedCL: lastcheckedCL.changelist,
+          result    : lastcheckedCL.isBroken,
           brokenCL  : lastcheckedCL.brokenCL,
           brokenCLowner : brokenCLowner
         }));
