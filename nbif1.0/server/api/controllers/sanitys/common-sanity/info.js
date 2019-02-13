@@ -24,7 +24,7 @@ module.exports = {
     sails.log(inputs);
     if(inputs.kind == 'commonsanityinfo'){
       let variants  = await Variants.find({
-        id  : {'>=':0}
+        id  : {'>=':0}//FIXME since variants will have sanity non-sanity tag
       });
       let common_sanity_tests = await Common_sanitys.find({
         id  : {'>=':0}

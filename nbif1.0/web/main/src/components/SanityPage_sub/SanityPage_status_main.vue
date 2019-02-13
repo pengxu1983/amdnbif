@@ -89,7 +89,11 @@ export default {
         kind  : 'sanityStatus'
       }).then(
         function(response){
-          if(response.body.ok == 'ok'){
+          console.log('DBG1');
+          res = JSON.parse(response);
+          console.log(res);
+          if(res.body.ok == 'ok'){
+            //this.sanityStatus = [lastcheckedCL];
           }
         },
         function(){}
