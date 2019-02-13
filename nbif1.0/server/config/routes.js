@@ -102,6 +102,9 @@ module.exports.routes = {
   'POST /sanitys/common-sanity/uploadstatus' : {
     action  : 'sanitys/common-sanity/uploadstatus'
   },
+  'POST /sanitys/common-sanity/getcommonsanitystatus' : {
+    action  : 'sanitys/common-sanity/getcommonsanitystatus'
+  },
   //  ╔═╗╔═╗╦  ╔═╗╔╗╔╔╦╗╔═╗╔═╗╦╔╗╔╔╦╗╔═╗
   //  ╠═╣╠═╝║  ║╣ ║║║ ║║╠═╝║ ║║║║║ ║ ╚═╗
   //  ╩ ╩╩  ╩  ╚═╝╝╚╝═╩╝╩  ╚═╝╩╝╚╝ ╩ ╚═╝
