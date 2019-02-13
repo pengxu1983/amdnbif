@@ -91,8 +91,9 @@ export default {
         function(response){
           console.log('DBG1');
           console.log(response);
-          if(res.body.ok == 'ok'){
-            //this.sanityStatus = [lastcheckedCL];
+          if(response.body.ok == 'ok'){
+            this.sanityStatus = [lastcheckedCL];
+            console.log(this.sanityStatus);
           }
         },
         function(){}
