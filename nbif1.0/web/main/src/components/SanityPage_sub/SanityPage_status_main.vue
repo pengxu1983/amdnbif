@@ -90,8 +90,7 @@ export default {
       }).then(
         function(response){
           console.log('DBG1');
-          res = JSON.parse(response);
-          console.log(res);
+          console.log(response);
           if(res.body.ok == 'ok'){
             //this.sanityStatus = [lastcheckedCL];
           }
