@@ -204,7 +204,7 @@ export default {
     }
   },
   mounted : function(){
-    this.get();
+    //this.get();
     this.getCommonSanityStatus();
   }
 }
