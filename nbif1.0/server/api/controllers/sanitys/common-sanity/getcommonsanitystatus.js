@@ -46,16 +46,27 @@ module.exports = {
             lastcheckedCL = results[r];
           }
         }
-        let brokenCLowner = await Buffer_changelists.findOne({
-          changelist  : lastcheckedCL.changelist
-        });
-        return exits.success(JSON.stringify({
-          ok  : 'ok',
-          lastcheckedCL: lastcheckedCL.changelist,
-          result    : lastcheckedCL.isBroken,
-          brokenCL  : lastcheckedCL.brokenCL,
-          brokenCLowner : brokenCLowner
-        }));
+        if(lastcheckedCL.brokenCL != 'NA'){
+          let brokenCL = await Buffer_changelists.findOne({
+            changelist  : lastcheckedCL.brokenCL
+          });
+          return exits.success(JSON.stringify({
+            ok  : 'ok',
+            lastcheckedCL: lastcheckedCL.changelist,
+            result    : lastcheckedCL.isBroken,
+            brokenCL  : lastcheckedCL.brokenCL,
+            brokenCLowner : brokenCL.owner
+          }));
+        }
+        else if(lastcheckedCL.brokenCL == 'NA'){
+          return exits.success(JSON.stringify({
+            ok  : 'ok',
+            lastcheckedCL: lastcheckedCL.changelist,
+            result    : lastcheckedCL.isBroken,
+            brokenCL  : lastcheckedCL.brokenCL,
+            brokenCLowner : 'NA'
+          }));
+        }
 
       }
     }

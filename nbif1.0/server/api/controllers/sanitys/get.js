@@ -23,7 +23,7 @@ module.exports = {
     sails.log('/sanitys/get');
     sails.log(inputs);
     if(inputs.kind=='allsanitysget'){
-      var result = await Sanity_tests.find({
+      var result = await Common_sanitys.find({
         id  : {'>=':0}
       });
       sails.log(result);
