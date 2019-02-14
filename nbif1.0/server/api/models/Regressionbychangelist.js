@@ -18,7 +18,7 @@ module.exports = {
     date        : {
       type      : 'string' 
     },
-    passtingrates : {
+    passingrates : {
       type      : 'number',
       columnType : 'longtext'
     },
