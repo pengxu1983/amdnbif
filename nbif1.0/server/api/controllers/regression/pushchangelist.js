@@ -10,6 +10,15 @@ module.exports = {
   inputs: {
     kind  : {
       type  : 'string'
+    },
+    changelist  : {
+      type    : 'string'
+    },
+    mode  : {
+      type  : 'string'
+    },
+    date : {
+      type  : 'date'
     }
   },
 
