@@ -38,8 +38,8 @@ module.exports = {
         changelist  : inputs.changelist
       });
       if(oneregression){
-        //already exists means no new kickoff
-        return exists.success(JSON.stringify({
+        //already Exists means no new kickoff
+        return exits.success(JSON.stringify({
           ok  : 'notok',
           msg : 'no new kick off of regression'
         }));
@@ -51,7 +51,7 @@ module.exports = {
           passingrates : 'NA',
           mode        : inputs.mode
         });
-        return exists.success(JSON.stringify({
+        return exits.success(JSON.stringify({
           ok  : 'ok'
         }));
       }
