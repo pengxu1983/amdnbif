@@ -19,6 +19,12 @@ module.exports = {
     },
     date : {
       type  : 'string'
+    },
+    projectname : {
+      type  : 'string'
+    },
+    variantname : {
+      type  : 'string'
     }
   },
 
@@ -49,7 +55,9 @@ module.exports = {
           changelist  : inputs.changelist,
           date        : inputs.date,
           passingrates : 'NA',
-          mode        : inputs.mode
+          mode        : inputs.mode,
+          projectname : inputs.projectname,
+          variantname : inputs.variantname
         });
         return exits.success(JSON.stringify({
           ok  : 'ok'

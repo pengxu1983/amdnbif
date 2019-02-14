@@ -24,6 +24,12 @@ module.exports = {
     },
     mode        : {
       type      : 'string'
+    },
+    projectname : {
+      type      : 'string'
+    },
+    variantname : {
+      type      : 'string'
     }
 
     //  ╔═╗╔╦╗╔╗ ╔═╗╔╦╗╔═╗

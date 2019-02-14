@@ -5,18 +5,26 @@ var fs            = require('fs');
 var child_process = require('child_process');
 var cronJob       = require("cron").CronJob;
 var workspace     = '/proj/bif_nbio_vol3_backup/benpeng/';
-var jobid_regression_checkresults = new cronJob('*/5 * * * * *',function(){
+var jobid_regression_check = new cronJob('* * * * * *',function(){
   console.log(moment().format('YYYY-MM-DD HH:mm:ss'));
-  console.log('jobid_regression_checkresults start');
+  console.log('jobid_regression_newkickoff_check start');
+  let dir = ['/proj/nbif_mero_regress1/ip_regress/anttili/branch_nv21_normal_split1/'];
+  let mode = 'normal';
+  let projectname = 'NV21';
+},null,false,'Asia/Chongqing');
+var jobid_regression_newkickoff = new cronJob('0 * * * * *',function(){
+  console.log(moment().format('YYYY-MM-DD HH:mm:ss'));
+  console.log('jobid_regression_newkickoff start');
   //get info from DB //TODO
   //Projects 
   //Dirs per project
-  let dir = '/proj/nbif_mero_regress1/ip_regress/anttili/branch_nv21_normal_split1/';
+  let dir = ['/proj/nbif_mero_regress1/ip_regress/anttili/branch_nv21_normal_split1/'];
   let mode = 'normal';
   let projectname = 'NV21';
+  let variantname = 'nbif_nv10_gpu';
   let changelist ;
   //get changelist that regression pick
-  let R = child_process.execSync('cd '+dir+' && p4 changes -m1 ...#have',{
+  let R = child_process.execSync('cd '+dir[0]+' && p4 changes -m1 ...#have',{
     encoding : 'utf8'
   }).split(' ');
   R.pop();
@@ -24,12 +32,15 @@ var jobid_regression_checkresults = new cronJob('*/5 * * * * *',function(){
   let date = R[3];
   console.log('changelist : '+changelist);
   console.log('date : '+date);
+  
   //Send to DB
   let postData = querystring.stringify({
     'kind'        : 'newkickoff',
     'changelist'  : changelist,
     'mode'        : 'normal',
-    'date'        : date
+    'date'        : date,
+    'projectname' : projectname,
+    'variantname' : variantname
   });
   
   let options = {
@@ -49,6 +60,41 @@ var jobid_regression_checkresults = new cronJob('*/5 * * * * *',function(){
     res.setEncoding('utf8');
     res.on('data', (chunk) => {
       console.log(`BODY: ${chunk}`);
+      if(JSON.parse(chunk).ok == 'ok'){
+        let text='';
+        text += '#!/tool/pandora64/bin/tcsh\n';
+        text += 'source /proj/verif_release_ro/cbwa_initscript/current/cbwa_init.csh\n';
+        text += 'bootenv -v '+variantname+'\n'
+        text += 'cd '+workspace+'/nbif_main\n';
+        text += 'dj -l testlist.log -DDEBUG -m run_test -s nbiftdl all -a print -w "group!=sanity && config==nbif_all_rtl && when=~/nbif_nightly/"\n';
+        fs.writeFileSync(workspace+'/nbif_main.script',text,{
+          encoding  : 'utf8',
+          mode      : '0700',
+          flag      : 'w'
+        });
+        child_process.execFile(workspace+'/nbif_main.script',{
+          encoding  : 'utf8',
+          maxBuffer : 1024*1024*200
+        },function(error){
+          //fs.readFile(workspace+'/nbif_main/testlist.log',{
+          //  encoding  : 'utf8',
+          //},(err,data) => {
+          //  let L = data.split('\n');
+          //  L.pop();
+          //  for(let l=0;l<L.length;l++){
+          //    let regx = /evaluation of 'testcase/;
+          //    if(regx.test(L[l])){
+          //      console.log(L[l]);
+          //      let R = L[l].split('::');
+          //      let RR = R[1].split('/');
+          //      let RRR = RR[1].split('_nbif_all_rtl');
+          //      console.log('testname:');
+          //      console.log(RRR[0]);
+          //    }
+          //  }
+          //});
+        });
+      }
     });
     res.on('end', () => {
       console.log('No more data in response.');
@@ -62,7 +108,9 @@ var jobid_regression_checkresults = new cronJob('*/5 * * * * *',function(){
   // write data to request body
   req.write(postData);
   req.end();
-  jobid_regression_checkresults.stop();
+  jobid_regression_newkickoff.stop();
+  console.log(moment().format('YYYY-MM-DD HH:mm:ss'));
+  console.log('jobid_regression_newkickoff stop');
 },null,true,'Asia/Chongqing');
 module.exports = {
 
