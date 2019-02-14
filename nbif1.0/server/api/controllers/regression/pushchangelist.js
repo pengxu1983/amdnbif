@@ -48,7 +48,7 @@ module.exports = {
         await Regressionbychangelist.create({
           changelist  : inputs.changelist,
           date        : inputs.date,
-          passtingrates : 'NA',
+          passingrates : 'NA',
           mode        : inputs.mode
         });
         return exists.success(JSON.stringify({
