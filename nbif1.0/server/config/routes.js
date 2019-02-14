@@ -105,6 +105,9 @@ module.exports.routes = {
   'POST /sanitys/common-sanity/getcommonsanitystatus' : {
     action  : 'sanitys/common-sanity/getcommonsanitystatus'
   },
+  'POST /regression/pushchangelist' : {
+    action  : 'regression/pushchangelist'
+  },
   //  ╔═╗╔═╗╦  ╔═╗╔╗╔╔╦╗╔═╗╔═╗╦╔╗╔╔╦╗╔═╗
   //  ╠═╣╠═╝║  ║╣ ║║║ ║║╠═╝║ ║║║║║ ║ ╚═╗
   //  ╩ ╩╩  ╩  ╚═╝╝╚╝═╩╝╩  ╚═╝╩╝╚╝ ╩ ╚═╝
@@ -112,7 +115,7 @@ module.exports.routes = {
   'GET /test/:kind':{
     action  : 'test'
   }
-
+  
   //  ╦ ╦╔═╗╔╗ ╦ ╦╔═╗╔═╗╦╔═╔═╗
   //  ║║║║╣ ╠╩╗╠═╣║ ║║ ║╠╩╗╚═╗
   //  ╚╩╝╚═╝╚═╝╩ ╩╚═╝╚═╝╩ ╩╚═╝

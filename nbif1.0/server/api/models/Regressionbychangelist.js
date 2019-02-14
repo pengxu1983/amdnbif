@@ -21,6 +21,9 @@ module.exports = {
     passtingrates : {
       type      : 'number',
       columnType : 'longtext'
+    },
+    mode        : {
+      type      : 'string'
     }
 
     //  ╔═╗╔╦╗╔╗ ╔═╗╔╦╗╔═╗

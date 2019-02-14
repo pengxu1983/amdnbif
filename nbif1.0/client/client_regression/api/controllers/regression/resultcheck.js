@@ -16,8 +16,53 @@ var jobid_regression_checkresults = new cronJob('*/5 * * * * *',function(){
   let projectname = 'NV21';
   let changelist ;
   //get changelist that regression pick
-  let R = child_process.execSync('cd '+dir+' && p4 changes -m1 ...#have');
-  console.log(R);
+  let R = child_process.execSync('cd '+dir+' && p4 changes -m1 ...#have',{
+    encoding : 'utf8'
+  }).split(' ');
+  R.pop();
+  changelist = R[1];
+  let date = R[3];
+  console.log('changelist : '+changelist);
+  console.log('date : '+date);
+  //Send to DB
+  let postData = querystring.stringify({
+    'kind'        : 'newkickoff',
+    'changelist'  : changelist,
+    'mode'        : 'normal',
+    'date'        : date
+  });
+  
+  let options = {
+    hostname: 'amdnbif.thehunters.club',
+    port: 80,
+    path: '/regression/pushchangelist',
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/x-www-form-urlencoded',
+      'Content-Length': Buffer.byteLength(postData)
+    }
+  };
+  
+  let req = http.request(options, (res) => {
+    console.log(`STATUS: ${res.statusCode}`);
+    //console.log(`HEADERS: ${JSON.stringify(res.headers)}`);
+    res.setEncoding('utf8');
+    res.on('data', (chunk) => {
+      console.log(`BODY: ${chunk}`);
+    });
+    res.on('end', () => {
+      console.log('No more data in response.');
+    });
+  });
+  
+  req.on('error', (e) => {
+    //console.error(`problem with request: ${e.message}`);
+  });
+  
+  // write data to request body
+  req.write(postData);
+  req.end();
+  jobid_regression_checkresults.stop();
 },null,true,'Asia/Chongqing');
 module.exports = {
 
