@@ -19,7 +19,7 @@ module.exports = {
       type      : 'string' 
     },
     passingrates : {
-      type      : 'number',
+      type      : 'string',
       columnType : 'longtext'
     },
     mode        : {
