@@ -5,6 +5,7 @@ var fs            = require('fs');
 var child_process = require('child_process');
 var cronJob       = require("cron").CronJob;
 var workspace     = '/proj/bif_nbio_vol3_backup/benpeng/';
+let testlist = [];
 var jobid_regression_check = new cronJob('* * * * * *',function(){
   console.log(moment().format('YYYY-MM-DD HH:mm:ss'));
   console.log('jobid_regression_newkickoff_check start');
@@ -12,13 +13,13 @@ var jobid_regression_check = new cronJob('* * * * * *',function(){
   let mode = 'normal';
   let projectname = 'NV21';
 },null,false,'Asia/Chongqing');
-var jobid_regression_newkickoff = new cronJob('0 * * * * *',function(){
+var jobid_regression_newkickoff = new cronJob('*/5 * * * * *',function(){
   console.log(moment().format('YYYY-MM-DD HH:mm:ss'));
   console.log('jobid_regression_newkickoff start');
   //get info from DB //TODO
   //Projects 
   //Dirs per project
-  let dir = ['/proj/nbif_mero_regress1/ip_regress/anttili/branch_nv21_normal_split1/'];
+  let dir = ['/proj/nbif_mero_regress1/ip_regress/anttili/branch_nv21_normal_split1/','/proj/nbif_mero_regress1/ip_regress/anttili/branch_nv21_normal_split2/'];
   let mode = 'normal';
   let projectname = 'NV21';
   let variantname = 'nbif_nv10_gpu';
@@ -63,10 +64,10 @@ var jobid_regression_newkickoff = new cronJob('0 * * * * *',function(){
       if(JSON.parse(chunk).ok == 'ok'){
         let text='';
         text += '#!/tool/pandora64/bin/tcsh\n';
+        text += 'cd '+dir[0]+'\n';
         text += 'source /proj/verif_release_ro/cbwa_initscript/current/cbwa_init.csh\n';
         text += 'bootenv -v '+variantname+'\n'
-        text += 'cd '+workspace+'/nbif_main\n';
-        text += 'dj -l testlist.log -DDEBUG -m run_test -s nbiftdl all -a print -w "group!=sanity && config==nbif_all_rtl && when=~/nbif_nightly/"\n';
+        text += 'dj -l '+workspace+'/testlist.'+variantname+'.'+projectname+'.log -DDEBUG -m run_test -s nbiftdl all -a print -w "group!=sanity && config==nbif_all_rtl && when=~/nbif_nightly/"\n';
         fs.writeFileSync(workspace+'/nbif_main.script',text,{
           encoding  : 'utf8',
           mode      : '0700',
@@ -76,23 +77,54 @@ var jobid_regression_newkickoff = new cronJob('0 * * * * *',function(){
           encoding  : 'utf8',
           maxBuffer : 1024*1024*200
         },function(error){
-          //fs.readFile(workspace+'/nbif_main/testlist.log',{
-          //  encoding  : 'utf8',
-          //},(err,data) => {
-          //  let L = data.split('\n');
-          //  L.pop();
-          //  for(let l=0;l<L.length;l++){
-          //    let regx = /evaluation of 'testcase/;
-          //    if(regx.test(L[l])){
-          //      console.log(L[l]);
-          //      let R = L[l].split('::');
-          //      let RR = R[1].split('/');
-          //      let RRR = RR[1].split('_nbif_all_rtl');
-          //      console.log('testname:');
-          //      console.log(RRR[0]);
-          //    }
-          //  }
-          //});
+          if(error){
+            console.log(error);
+            return;
+          }
+          fs.readFile(workspace+'/testlist.'+variantname+'.'+projectname+'.log',{
+            encoding  : 'utf8',
+          },(err,data) => {
+            let L = data.split('\n');
+            L.pop();
+            for(let l=0;l<L.length;l++){
+              let regx = /evaluation of 'testcase/;
+              if(regx.test(L[l])){
+                console.log(L[l]);
+                let R = L[l].split('::');
+                let RR = R[1].split('/');
+                let RRR = RR[1].split('_nbif_all_rtl');
+                //console.log('testname:');
+                //console.log(RRR[0]);
+                testlist.push(RRR[0]);
+              }
+            }
+            for(let t=0;t<testlist.length;t++){
+              if(fs.existsSync(dir[0]+'/out/linux_2.6.32_64.VCS/nbif_nv10_gpu/config/nbif_all_rtl/run/nbif-nv10_gpu-navi21/nbiftdl/'testlist[t]+'/REGRESS_PASS')){
+                //this test is passing
+                console.log(testlist[t]);
+                console.log('PASS');
+              }
+              else{
+                if(fs.existsSync(dir[0]+'/out/linux_2.6.32_64.VCS/nbif_nv10_gpu/config/nbif_all_rtl/run/nbif-nv10_gpu-navi21/nbiftdl/'testlist[t]+'/vcs_run.log')){
+                  console.log(testlist[t]);
+                  fs.readFile(dir[0]+'/out/linux_2.6.32_64.VCS/nbif_nv10_gpu/config/nbif_all_rtl/run/nbif-nv10_gpu-navi21/nbiftdl/'testlist[t]+'/vcs_run.log',{
+                    encoding  : 'utf8',
+                    maxBuffer : 1024*1024*100
+                  },(err,data) => {
+                    if(err){
+                      console.log(err);
+                    }
+                    else{
+                      let regx = /^UVM_ERROR\s+:\s+(\d+)/;
+                      let lines = data.split('\n');
+                      lines.pop();
+                        
+                    }
+                  });
+                }
+              }
+            }
+          });
         });
       }
     });

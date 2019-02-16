@@ -295,9 +295,24 @@ var jobid_common_sanity_pushNewChangelists  = new cronJob('0 */5 * * * *',functi
         let changelists = [];
         if(JSON.parse(chunk).changelist =='NA'){
           console.log('DB is empty');
-          let R = child_process.execSync('cd '+workspace+'/nbif_main && p4 changes -m1 ...#head',{
-            encoding  : 'utf8'
-          }).split(' ');
+          //let R = child_process.execSync('cd '+workspace+'/nbif_main && p4 changes -m1 ...#head',{
+          //  encoding  : 'utf8'
+          //}).split(' ');
+          let trytimes = 5;
+          let tmp ;
+          let R ;
+          while(trytimes > 0){
+            tmp = child_process.spawnSync('cd '+workspace+'/nbif_main && p4 changes -m1 ...#head',{
+              encoding  : 'utf8'
+            });
+            if(tmp.error){
+              trytimes--;
+            }
+            else{
+              trytimes = 0;
+              R = tmp.stdout;
+            }
+          }
           let RR = R[5].split('@');
           changelists.push({
             changelist  : R[1],
@@ -307,9 +322,24 @@ var jobid_common_sanity_pushNewChangelists  = new cronJob('0 */5 * * * *',functi
         }
         else{
           let dbLatestChangelist = JSON.parse(chunk).changelist;
-          let R = child_process.execSync('cd '+workspace+'/nbif_main && p4 changes -m10 ...#head',{
-            encoding  : 'utf8'
-          }).split('\n');
+          let trytimes = 5;
+          let tmp ;
+          let R ;
+          while(trytimes > 0){
+            tmp = child_process.spawnSync('cd '+workspace+'/nbif_main && p4 changes -m1 ...#head',{
+              encoding  : 'utf8'
+            });
+            if(tmp.error){
+              trytimes--;
+            }
+            else{
+              trytimes = 0;
+              R = tmp.stdout;
+            }
+          }
+          //let R = child_process.execSync('cd '+workspace+'/nbif_main && p4 changes -m10 ...#head',{
+          //  encoding  : 'utf8'
+          //}).split('\n');
           R.pop();
           for(let i=0;i<R.length;i++){
             let RR = R[i].split(' ');
