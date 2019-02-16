@@ -8,10 +8,8 @@ var workspace     = '/proj/bif_nbio_vol3_backup/benpeng/';
 var jobid_regression_newkickoff_daily = new cronJob('*/5 * * * * *',function(){
   console.log(moment().format('YYYY-MM-DD HH:mm:ss'));
   console.log('jobid_regression_newkickoff_daily start');
-  if(fs.existsSync(workspace+'/amdnbif_scripts/')){
-    child_process.execSync('rm -rf '+workspace+'/amdnbif_scripts/');
-  }
-  fs.mkdirSync(workspace+'/amdnbif_scripts/');
+  let projectname = 'mero';
+  let variantname = 'nbif_al_gpu';
   //find info from DB
   let postData = querystring.stringify({
     'kind': 'regressioninfo'
@@ -37,6 +35,30 @@ var jobid_regression_newkickoff_daily = new cronJob('*/5 * * * * *',function(){
       console.log(JSON.parse(chunk).ok);
       if(JSON.parse(chunk).ok == 'ok'){
         //ok to kick off regression
+        console.log('ok ot regression');
+        console.log(JSON.parse(chunk).changelist);
+        //prepare the script
+        let text = '';
+        text += '';
+        text += '#!/tool/pandora64/bin/tcsh\n';
+        text += 'source /proj/verif_release_ro/cbwa_initscript/current/cbwa_init.csh\n';
+        text += 'mkdir '+workspace+'/nbif_main.regression.'+variantname+'.'+projectname+'.'+JSON.parse(chunk).changelist+'\n';
+        text += 'cd '+workspace+'/nbif_main.regression.'+variantname+'.'+projectname+'.'+JSON.parse(chunk).changelist+'\n';
+        text += 'p4_mkwa -codeline nbif2_0 -cl '+JSON.parse(chunk).changelist+'\n';
+        text += 'bootenv -v '+variantname+'\n';
+        fs.writeFileSync(workspace+'/nbif_main.regression.'+variantname+'.'+projectname+'.'+JSON.parse(chunk).changelist+'.script',text,{
+          encoding  : 'utf8',
+          mode      : '0700',
+          flag      : 'w'
+        });
+        child_process.execFile(workspace+'/nbif_main.regression.'+variantname+'.'+projectname+'.'+JSON.parse(chunk).changelist+'.script',{
+          encoding  : 'utf8',
+          maxBuffer : 1024*1000
+        },function(error){
+          if(error){
+            console.log(error);
+          }
+        });
       }
       else if(JSON.parse(chunk).ok == 'notok'){
       }
