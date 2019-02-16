@@ -310,7 +310,9 @@ var jobid_common_sanity_pushNewChangelists  = new cronJob('0 */5 * * * *',functi
             }
             else{
               trytimes = 0;
-              R = tmp.stdout;
+              R = tmp.stdout.split(' ');
+              console.log('p4 stdout');
+              console.log(R);
             }
           }
           let RR = R[5].split('@');
@@ -326,7 +328,7 @@ var jobid_common_sanity_pushNewChangelists  = new cronJob('0 */5 * * * *',functi
           let tmp ;
           let R ;
           while(trytimes > 0){
-            tmp = child_process.spawnSync('cd '+workspace+'/nbif_main && p4 changes -m1 ...#head',{
+            tmp = child_process.spawnSync('cd '+workspace+'/nbif_main && p4 changes -m10 ...#head',{
               encoding  : 'utf8'
             });
             if(tmp.error){
@@ -334,7 +336,7 @@ var jobid_common_sanity_pushNewChangelists  = new cronJob('0 */5 * * * *',functi
             }
             else{
               trytimes = 0;
-              R = tmp.stdout;
+              R = tmp.stdout.split('\n');
             }
           }
           //let R = child_process.execSync('cd '+workspace+'/nbif_main && p4 changes -m10 ...#head',{

@@ -11,7 +11,7 @@ var jobid_regression_newkickoff = new cronJob('* * * * * *',function(){
   if(fs.existsSync(workspace+'/amdnbif_scripts/')){
   }
   else{
-    fs.mkdirSync('mkdir '+workspace+'/amdnbif_scripts/');
+    fs.mkdirSync(workspace+'/amdnbif_scripts/');
   }
   //find info from DB
   //changelist
@@ -56,7 +56,7 @@ var jobid_regression_newkickoff = new cronJob('* * * * * *',function(){
   text += '#!/tool/pandora64/bin/tcsh\n';
   text += 'cd '+workspace+'/nbif\n';
 
-},null,true,'Asia/Chongqing');
+},null,false,'Asia/Chongqing');
 module.exports = {
 
 
