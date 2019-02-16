@@ -5,16 +5,14 @@ var fs            = require('fs');
 var child_process = require('child_process');
 var cronJob       = require("cron").CronJob;
 var workspace     = '/proj/bif_nbio_vol3_backup/benpeng/';
-var jobid_regression_newkickoff = new cronJob('* * * * * *',function(){
+var jobid_regression_newkickoff_daily = new cronJob('*/5 * * * * *',function(){
   console.log(moment().format('YYYY-MM-DD HH:mm:ss'));
-  console.log('jobid_regression_newkickoff start');
+  console.log('jobid_regression_newkickoff_daily start');
   if(fs.existsSync(workspace+'/amdnbif_scripts/')){
+    child_process.execSync('rm -rf '+workspace+'/amdnbif_scripts/');
   }
-  else{
-    fs.mkdirSync(workspace+'/amdnbif_scripts/');
-  }
+  fs.mkdirSync(workspace+'/amdnbif_scripts/');
   //find info from DB
-  //changelist
   let postData = querystring.stringify({
     'kind': 'regressioninfo'
   });
@@ -36,6 +34,12 @@ var jobid_regression_newkickoff = new cronJob('* * * * * *',function(){
     res.setEncoding('utf8');
     res.on('data', (chunk) => {
       console.log(`BODY: ${chunk}`);
+      console.log(JSON.parse(chunk).ok);
+      if(JSON.parse(chunk).ok == 'ok'){
+        //ok to kick off regression
+      }
+      else if(JSON.parse(chunk).ok == 'notok'){
+      }
     });
     res.on('end', () => {
       console.log('No more data in response.');
@@ -50,11 +54,9 @@ var jobid_regression_newkickoff = new cronJob('* * * * * *',function(){
   req.write(postData);
   req.end();
 
+  //changelist
   //variant
   //project
-  let text = '';
-  text += '#!/tool/pandora64/bin/tcsh\n';
-  text += 'cd '+workspace+'/nbif\n';
 
 },null,false,'Asia/Chongqing');
 module.exports = {

@@ -108,6 +108,9 @@ module.exports.routes = {
   'POST /regression/pushchangelist' : {
     action  : 'regression/pushchangelist'
   },
+  'POST /regression/info' : {
+    action  : 'regression/info'
+  },
   //  ╔═╗╔═╗╦  ╔═╗╔╗╔╔╦╗╔═╗╔═╗╦╔╗╔╔╦╗╔═╗
   //  ╠═╣╠═╝║  ║╣ ║║║ ║║╠═╝║ ║║║║║ ║ ╚═╗
   //  ╩ ╩╩  ╩  ╚═╝╝╚╝═╩╝╩  ╚═╝╩╝╚╝ ╩ ╚═╝
