@@ -331,6 +331,8 @@ var jobid_common_sanity_pushNewChangelists  = new cronJob('0 */5 * * * *',functi
             tmp = child_process.spawnSync('cd '+workspace+'/nbif_main && p4 changes -m10 ...#head',{
               encoding  : 'utf8'
             });
+            console.log('p4 cmd log');
+            console.log(tmp);
             if(tmp.error){
               trytimes--;
             }
