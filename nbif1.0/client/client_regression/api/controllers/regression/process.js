@@ -58,7 +58,7 @@ var jobid_regression_newkickoff_daily = new cronJob('*/5 * * * * *',function(){
   //variant
   //project
 
-},null,false,'Asia/Chongqing');
+},null,true,'Asia/Chongqing');
 module.exports = {
 
 

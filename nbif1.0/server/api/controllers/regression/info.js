@@ -46,12 +46,13 @@ module.exports = {
             latestpasscl  = R[r];
           }
         }
+        //find project to kickoff//TODO
+        return exits.success(JSON.stringify({
+          ok  : 'ok',
+          changelist : latestpasscl
+        }));
       }
-      //find project to kickoff//TODO
-      return exits.success(JSON.stringify({
-        ok  : 'ok',
-        changelist : latestpasscl
-      }));
+      
     }
     // All done.
 
