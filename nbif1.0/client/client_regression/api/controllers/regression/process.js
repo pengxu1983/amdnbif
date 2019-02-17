@@ -5,11 +5,13 @@ var fs            = require('fs');
 var child_process = require('child_process');
 var cronJob       = require("cron").CronJob;
 var workspace     = '/proj/bif_nbio_vol3_backup/benpeng/';
-var jobid_regression_newkickoff_daily = new cronJob('*/5 * * * * *',function(){
+var jobid_regression_newkickoff_daily = new cronJob('0 20 11 * * *',function(){
   console.log(moment().format('YYYY-MM-DD HH:mm:ss'));
   console.log('jobid_regression_newkickoff_daily start');
   let projectname = 'mero';
   let variantname = 'nbif_al_gpu';
+  let mode  = 'normal';
+  let loop  = 'daily';
   //find info from DB
   let postData = querystring.stringify({
     'kind': 'regressioninfo'
@@ -37,21 +39,32 @@ var jobid_regression_newkickoff_daily = new cronJob('*/5 * * * * *',function(){
         //ok to kick off regression
         console.log('ok ot regression');
         console.log(JSON.parse(chunk).changelist);
+        //clean up the workspace
+        fs.mkdirSync(workspace+'/nbif_main.regression.'+loop+'.zombie');
+        let R = child_process.execSync('ls -d '+workspace+'/nbif_main.regression.'+loop+'.*',{
+          encoding : 'utf8'
+        }).split('\n');
+        R.pop();
+        console.log(R);
+        for(let r = 0;r<R.length;r++){
+          child_process.exec('rm -rf '+R[r]);
+          console.log('Removing '+R[r]);
+        }
         //prepare the script
         let text = '';
         text += '';
         text += '#!/tool/pandora64/bin/tcsh\n';
         text += 'source /proj/verif_release_ro/cbwa_initscript/current/cbwa_init.csh\n';
-        text += 'mkdir '+workspace+'/nbif_main.regression.'+variantname+'.'+projectname+'.'+JSON.parse(chunk).changelist+'\n';
-        text += 'cd '+workspace+'/nbif_main.regression.'+variantname+'.'+projectname+'.'+JSON.parse(chunk).changelist+'\n';
-        text += 'p4_mkwa -codeline nbif2_0 -cl '+JSON.parse(chunk).changelist+'\n';
+        text += 'mkdir '+workspace+'/nbif_main.regression.'+loop+'.'+variantname+'.'+projectname+'.'+JSON.parse(chunk).changelist.changelist+'.'+mode+'\n';
+        text += 'cd    '+workspace+'/nbif_main.regression.'+loop+'.'+variantname+'.'+projectname+'.'+JSON.parse(chunk).changelist.changelist+'.'+mode+'\n';
+        text += 'p4_mkwa -codeline nbif2_0 -cl '+JSON.parse(chunk).changelist.changelist+'\n';
         text += 'bootenv -v '+variantname+'\n';
-        fs.writeFileSync(workspace+'/nbif_main.regression.'+variantname+'.'+projectname+'.'+JSON.parse(chunk).changelist+'.script',text,{
+        fs.writeFileSync(workspace+'/nbif_main.regression.'+loop+'.'+variantname+'.'+projectname+'.'+JSON.parse(chunk).changelist.changelist+'.'+mode+'.script',text,{
           encoding  : 'utf8',
           mode      : '0700',
           flag      : 'w'
         });
-        child_process.execFile(workspace+'/nbif_main.regression.'+variantname+'.'+projectname+'.'+JSON.parse(chunk).changelist+'.script',{
+        child_process.execFile(workspace+'/nbif_main.regression.'+loop+'.'+variantname+'.'+projectname+'.'+JSON.parse(chunk).changelist.changelist+'.'+mode+'.script',{
           encoding  : 'utf8',
           maxBuffer : 1024*1000
         },function(error){
