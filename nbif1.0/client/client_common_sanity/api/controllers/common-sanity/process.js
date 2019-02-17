@@ -340,11 +340,11 @@ var jobid_common_sanity_pushNewChangelists  = new cronJob('0 */5 * * * *',functi
               R = tmp.stdout.split('\n');
             }
           }
-          console.log(R);
           //let R = child_process.execSync('cd '+workspace+'/nbif_main && p4 changes -m10 ...#head',{
           //  encoding  : 'utf8'
           //}).split('\n');
           R.pop();
+          console.log(R);
           for(let i=0;i<R.length;i++){
             let RR = R[i].split(' ');
             let RRR = RR[5].split('@');

@@ -66,7 +66,7 @@ module.exports = {
       }
       //check last CL if broken
       let brokenCLs = await Buffer_changelists.find({
-        isBroken  : {'==':'yes'}
+        isBroken  : 'yes'
       });
       let checkedCLs = await Buffer_changelists.find({
         ischecked : 'yes',
