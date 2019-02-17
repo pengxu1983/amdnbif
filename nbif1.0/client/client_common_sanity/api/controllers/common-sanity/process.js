@@ -34,14 +34,14 @@ var jobid_common_sanity_getChangelistToRun  = new cronJob('*/5 * * * * *',functi
       if(JSON.parse(chunk).ok == 'ok'){
         earliestchangelist  = JSON.parse(chunk).changelist;
         owner               = JSON.parse(chunk).owner;
-        console.log('aaaa');
+        console.log('earliestchangelist :');
         console.log(earliestchangelist);
         console.log(owner);
         if(earliestchangelist == 'NA'){
           //do nothing
         }
         else{
-          console.log('bbb');
+          console.log('get tests and variants info');
           // Get info from DB
           jobid_common_sanity_getChangelistToRun.stop();
           console.log(moment().format('YYYY-MM-DD HH:mm:ss'));
@@ -67,8 +67,7 @@ var jobid_common_sanity_getChangelistToRun  = new cronJob('*/5 * * * * *',functi
             res.setEncoding('utf8');
             res.on('data', (chunk) => {
               console.log(`BODY: ${chunk}`);
-              console.log('DBG');
-              console.log(JSON.parse(chunk).ok);
+              console.log('variants and tests :');
               console.log(JSON.parse(chunk).variants);
               console.log(JSON.parse(chunk).tests);
               let variants  = JSON.parse(chunk).variants;
@@ -333,8 +332,6 @@ var jobid_common_sanity_pushNewChangelists  = new cronJob('0 */5 * * * *',functi
               encoding  : 'utf8',
               shell : 'tcsh'
             });
-            console.log('p4 cmd log');
-            console.log(tmp);
             if(tmp.error){
               trytimes--;
             }
@@ -343,6 +340,7 @@ var jobid_common_sanity_pushNewChangelists  = new cronJob('0 */5 * * * *',functi
               R = tmp.stdout.split('\n');
             }
           }
+          console.log(R);
           //let R = child_process.execSync('cd '+workspace+'/nbif_main && p4 changes -m10 ...#head',{
           //  encoding  : 'utf8'
           //}).split('\n');
