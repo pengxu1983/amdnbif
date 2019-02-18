@@ -5,8 +5,9 @@ var fs            = require('fs');
 var child_process = require('child_process');
 var cronJob       = require("cron").CronJob;
 //var workspace     = '/proj/bif_nbio_vol3_backup/benpeng/';
-var workspace     = '/local_vol1_nobackup/benpeng/';
-var jobid_regression_newkickoff_daily = new cronJob('0 12 11 * * *',function(){
+//var workspace     = '/local_vol1_nobackup/benpeng/';
+var workspace     = '/proj/bif_nbio_vol1_backup/benpeng/'
+var jobid_regression_newkickoff_daily = new cronJob('0 44 11 * * *',function(){
   console.log(moment().format('YYYY-MM-DD HH:mm:ss'));
   console.log('jobid_regression_newkickoff_daily start');
   let projectname = 'mero';
@@ -61,7 +62,7 @@ var jobid_regression_newkickoff_daily = new cronJob('0 12 11 * * *',function(){
         text += 'cd    '+str+'\n';
         text += 'source /proj/verif_release_ro/cbwa_initscript/current/cbwa_init.csh\n';
         text += 'p4_mkwa -codeline nbif2_0 -cl '+JSON.parse(chunk).changelist.changelist+'\n';
-        text += 'source useful_cmd -proj '+projectname+'\n';
+        text += 'source useful_cmd -cyb -proj '+projectname+'\n';
         text += 'mdj_build demo_test_0 12345678\n';
         text += 'echo "done"\n';
         //text += 'bootenv -v '+variantname+'\n';
