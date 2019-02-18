@@ -4,8 +4,9 @@ var http          = require('http');
 var fs            = require('fs');
 var child_process = require('child_process');
 var cronJob       = require("cron").CronJob;
-var workspace     = '/proj/bif_nbio_vol3_backup/benpeng/';
-var jobid_regression_newkickoff_daily = new cronJob('0 30 14 * * *',function(){
+//var workspace     = '/proj/bif_nbio_vol3_backup/benpeng/';
+var workspace     = '/local_vol1_nobackup/benpeng/';
+var jobid_regression_newkickoff_daily = new cronJob('0 12 11 * * *',function(){
   console.log(moment().format('YYYY-MM-DD HH:mm:ss'));
   console.log('jobid_regression_newkickoff_daily start');
   let projectname = 'mero';
@@ -52,22 +53,24 @@ var jobid_regression_newkickoff_daily = new cronJob('0 30 14 * * *',function(){
           console.log('Removing '+R[r]);
         }
         //prepare the script
+        let str = workspace+'/nbif_main.regression.'+loop+'.'+variantname+'.'+projectname+'.'+JSON.parse(chunk).changelist.changelist+'.'+mode+'.'+time;
         let text = '';
         text += '';
         text += '#!/tool/pandora64/bin/tcsh\n';
+        text += 'mkdir '+str+'\n';
+        text += 'cd    '+str+'\n';
         text += 'source /proj/verif_release_ro/cbwa_initscript/current/cbwa_init.csh\n';
-        text += 'mkdir '+workspace+'/nbif_main.regression.'+loop+'.'+variantname+'.'+projectname+'.'+JSON.parse(chunk).changelist.changelist+'.'+mode+'.'+time+'\n';
-        text += 'cd    '+workspace+'/nbif_main.regression.'+loop+'.'+variantname+'.'+projectname+'.'+JSON.parse(chunk).changelist.changelist+'.'+mode+'.'+time+'\n';
         text += 'p4_mkwa -codeline nbif2_0 -cl '+JSON.parse(chunk).changelist.changelist+'\n';
+        text += 'source useful_cmd -proj '+projectname+'\n';
+        text += 'mdj_build demo_test_0 12345678\n';
+        text += 'echo "done"\n';
         //text += 'bootenv -v '+variantname+'\n';
-        text += 'source useful_cmd -cyb -proj '+projectname+'\n'
-        text += '${elsf_opts} dj -l '+workspace+'/nbif_main.regression.'+loop+'.'+variantname+'.'+projectname+'.'+JSON.parse(chunk).changelist.changelist+'.'+mode+'.'+time+'/build.log ${_run_opts} run_test -s ${suite} demo_test_0_${config} -a execute=off\n'
-        fs.writeFileSync(workspace+'/nbif_main.regression.'+loop+'.'+variantname+'.'+projectname+'.'+JSON.parse(chunk).changelist.changelist+'.'+mode+'.'+time+'.script',text,{
+        fs.writeFileSync(str+'.script',text,{
           encoding  : 'utf8',
           mode      : '0700',
           flag      : 'w'
         });
-        child_process.execFile(workspace+'/nbif_main.regression.'+loop+'.'+variantname+'.'+projectname+'.'+JSON.parse(chunk).changelist.changelist+'.'+mode+'.'+time+'.script',{
+        child_process.execFile(str+'.script',{
           encoding  : 'utf8',
           maxBuffer : 1024*1000
         },function(error,stdout,stderr){
