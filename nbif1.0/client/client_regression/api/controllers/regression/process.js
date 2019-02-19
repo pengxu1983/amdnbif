@@ -7,7 +7,7 @@ var cronJob       = require("cron").CronJob;
 //var workspace     = '/proj/bif_nbio_vol3_backup/benpeng/';
 //var workspace     = '/local_vol1_nobackup/benpeng/';
 var workspace     = '/proj/bif_nbio_vol1_backup/benpeng/'
-var jobid_regression_newkickoff_daily = new cronJob('0 44 11 * * *',function(){
+var jobid_regression_newkickoff_daily = new cronJob('0 0 18 * * *',function(){
   console.log(moment().format('YYYY-MM-DD HH:mm:ss'));
   console.log('jobid_regression_newkickoff_daily start');
   let projectname = 'mero';
@@ -15,6 +15,7 @@ var jobid_regression_newkickoff_daily = new cronJob('0 44 11 * * *',function(){
   let mode  = 'normal';
   let loop  = 'daily';
   let time  = moment().format('YYYYMMDDHHmmss');
+  let currentCL ;
   //find info from DB
   let postData = querystring.stringify({
     'kind': 'regressioninfo'
@@ -42,30 +43,38 @@ var jobid_regression_newkickoff_daily = new cronJob('0 44 11 * * *',function(){
         //ok to kick off regression
         console.log('ok ot regression');
         console.log(JSON.parse(chunk).changelist);
-        //clean up the workspace
-        fs.mkdirSync(workspace+'/nbif_main.regression.'+loop+'.zombie');
-        let R = child_process.execSync('ls -d '+workspace+'/nbif_main.regression.'+loop+'.*',{
-          encoding : 'utf8'
-        }).split('\n');
-        R.pop();
-        console.log(R);
-        for(let r = 0;r<R.length;r++){
-          child_process.exec('rm -rf '+R[r]);
-          console.log('Removing '+R[r]);
+        let currentCL = JSON.parse(chunk).changelist.changelist;
+        let str = workspace+'/nbif.regression.main.'+loop;
+        let text = '';
+        //prepare
+        if(fs.existsSync(str)){
+          if(fs.existsSync(str+'/out')){
+            child_process.execSync('mv '+str+'/out '+str+'/out.toRemove');
+            child_process.exec('rm -rf '+str+'/out.toRemove');
+          }
+          else{
+          }
         }
         //prepare the script
-        let str = workspace+'/nbif_main.regression.'+loop+'.'+variantname+'.'+projectname+'.'+JSON.parse(chunk).changelist.changelist+'.'+mode+'.'+time;
-        let text = '';
-        text += '';
         text += '#!/tool/pandora64/bin/tcsh\n';
-        text += 'mkdir '+str+'\n';
+        if(fs.existsSync(str)){
+        }
+        else{
+          text += 'mkdir '+str+'\n';
+        }
         text += 'cd    '+str+'\n';
         text += 'source /proj/verif_release_ro/cbwa_initscript/current/cbwa_init.csh\n';
-        text += 'p4_mkwa -codeline nbif2_0 -cl '+JSON.parse(chunk).changelist.changelist+'\n';
+        if(fs.existsSync(str)){
+          text += 'p4w sync_all @'+currentCL+'\n';
+        }
+        else{
+          text += 'p4_mkwa -codeline nbif2_0 -cl '+currentCL+'\n';
+        }
         text += 'source useful_cmd -cyb -proj '+projectname+'\n';
-        text += 'mdj_build demo_test_0 12345678\n';
+        text += 'dj -l testlist.log -DDEBUG -m run_test -s ${suite} all -a print -w "config==nbif_all_rtl && when=~/nbif_nightly/"\n';
+        text += 'bdji -l build.log -m -DREGRESS -DUSE_VRQ -DCGM run_test -s nbifall demo_test_0_nbif_all_rtl -a execute=off\n';
+        text += 'bdji -l run.log -m -DREGRESS -DUSE_VRQ -DCGM run_test -s nbifall all -b trs -A trs.batch=plsignore -A trs.environment=nbif_al_gpu -A trs.cec.logspec='+str+'/_env/local/nbif_logspec.xml -A trs.switches="-regr-no-results-copy" -w "config==nbif_all_rtl && when=~/nbif_nightly/" -a run_only\n';//FIXME about the -s arg
         text += 'echo "done"\n';
-        //text += 'bootenv -v '+variantname+'\n';
         fs.writeFileSync(str+'.script',text,{
           encoding  : 'utf8',
           mode      : '0700',
@@ -73,7 +82,7 @@ var jobid_regression_newkickoff_daily = new cronJob('0 44 11 * * *',function(){
         });
         child_process.execFile(str+'.script',{
           encoding  : 'utf8',
-          maxBuffer : 1024*1000
+          maxBuffer : 1024*1024*1024
         },function(error,stdout,stderr){
           if(error){
             console.log(error);
