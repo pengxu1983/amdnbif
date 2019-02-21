@@ -109,7 +109,7 @@ var jobid_regression_main_daily_check_status = new cronJob('0 0 * * * *',functio
   }
   //send result per test
 },null,false,'Asia/Chongqing');
-var jobid_regression_main_daily = new cronJob('0 19 21 * * *',function(){
+var jobid_regression_main_daily = new cronJob('0 23 13 * * *',function(){
   console.log('jobid_regression_main_daily start at '+moment().format('YYYY-MM-DD HH:mm:ss'));
   
   //find info from DB
@@ -140,44 +140,46 @@ var jobid_regression_main_daily = new cronJob('0 19 21 * * *',function(){
         console.log('ok ot regression');
         console.log(JSON.parse(chunk).changelist);
         let currentCL = JSON.parse(chunk).changelist.changelist;
-        let str = workspace+'/nbif.regression.main.'+loop;
+        let treeRoot = workspace+'/nbif.regression.main.'+loop;
         let text = '';
         //prepare
-        if(fs.existsSync(str)){
-          if(fs.existsSync(str+'/out')){
-            child_process.execSync('mv '+str+'/out '+str+'/out.toRemove');
-            child_process.exec('rm -rf '+str+'/out.toRemove');
+        if(fs.existsSync(treeRoot)){
+          if(fs.existsSync(treeRoot+'/out')){
+            child_process.execSync('mv '+treeRoot+'/out '+treeRoot+'/out.toRemove');
+            child_process.exec('rm -rf '+treeRoot+'/out.toRemove');
           }
           else{
           }
         }
         //prepare the script
         text += '#!/tool/pandora64/bin/tcsh\n';
-        if(fs.existsSync(str)){
+        if(fs.existsSync(treeRoot)){
         }
         else{
-          text += 'mkdir '+str+'\n';
+          text += 'mkdir '+treeRoot+'\n';
         }
-        text += 'cd    '+str+'\n';
+        text += 'cd    '+treeRoot+'\n';
         text += 'source /proj/verif_release_ro/cbwa_initscript/current/cbwa_init.csh\n';
-        if(fs.existsSync(str)){
+        let retrieveSeedCmd = '';
+        if(fs.existsSync(treeRoot)){
           text += 'p4w sync_all @'+currentCL+'\n';
         }
         else{
           text += 'p4_mkwa -codeline nbif2_0 -cl '+currentCL+'\n';
         }
         text += 'source useful_cmd -cyb -proj '+projectname+'\n';
+        text += 'set batch_name_v = `/tool/pandora64/.package/perl-5.24.0/bin/perl '+treeRoot+'/src/test/tools/scripts/get_latest_batch_name.pl -r -mode -p '+variantname+' -c nbif_all_rtl -m normal`\n';
         text += 'regrsys_prep_wa -no-chmod\n';
         text += 'dj -l testlist.log -DDEBUG -m run_test -s ${suite} all -a print -w "config==nbif_all_rtl && when=~/nbif_nightly/"\n';
         text += 'bdji -l build.log -m -DREGRESS -DUSE_VRQ -DCGM run_test -s nbifall demo_test_0_nbif_all_rtl -a execute=off\n';
-        text += 'bdji -l run.log -m -DREGRESS -DUSE_VRQ -DCGM run_test -s nbifall all -b trs -A trs.batch=plsignore -A trs.environment=nbif_al_gpu -A trs.cec.logspec='+str+'/_env/local/nbif_logspec.xml -A trs.switches="-regr-no-results-copy" -w "config==nbif_all_rtl && when=~/nbif_nightly/" -a run_only\n';//FIXME about the -s arg
+        text += 'bdji -l run.log -DRERUN_TDL_BATCH=$batch_name_v -m -DREGRESS -DUSE_VRQ -DCGM run_test -s nbifall all -b trs -A trs.batch=plsignore -A trs.environment=nbif_al_gpu -A trs.cec.logspec='+treeRoot+'/_env/local/nbif_logspec.xml -A trs.switches="-regr-no-results-copy" -w "config==nbif_all_rtl && when=~/nbif_nightly/" -a run_only\n';//FIXME about the -s arg
         text += 'echo "done"\n';
-        fs.writeFileSync(str+'.script',text,{
+        fs.writeFileSync(treeRoot+'.script',text,{
           encoding  : 'utf8',
           mode      : '0700',
           flag      : 'w'
         });
-        child_process.execFile(str+'.script',{
+        child_process.execFile(treeRoot+'.script',{
           encoding  : 'utf8',
           maxBuffer : 1024*1024*1024
         },function(error,stdout,stderr){
