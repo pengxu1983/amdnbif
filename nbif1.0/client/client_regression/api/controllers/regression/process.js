@@ -15,7 +15,7 @@ let time  = moment().format('YYYYMMDDHHmmss');
 let kickoffdate  = moment().format('YYYY-MM-DD');
 let currentCL ;
 var jobid_regression_main_daily_check_status = new cronJob('0 30 * * * *',function(){
-  console.log('jobid_regression_main_daily start at '+moment().format('YYYY-MM-DD HH:mm:ss'));
+  console.log('jobid_regression_main_daily_check_status start at '+moment().format('YYYY-MM-DD HH:mm:ss'));
   let treeRoot = workspace+'/nbif.regression.main.daily';
   let outDir  = {};
   let availableSuite = ['nbiftdl','nbifresize','nbifrandom','nbifgen4','nbifdummyf'];
@@ -79,7 +79,7 @@ var jobid_regression_main_daily_check_status = new cronJob('0 30 * * * *',functi
   }
   //send result per test
 },null,false,'Asia/Chongqing');
-var jobid_regression_main_daily = new cronJob('0 30 16 * * *',function(){
+var jobid_regression_main_daily = new cronJob('0 0 9 * * *',function(){
   console.log('jobid_regression_main_daily start at '+moment().format('YYYY-MM-DD HH:mm:ss'));
   jobid_regression_main_daily_check_status.stop();
   console.log('jobid_regression_main_daily_check_status stopped due to new kickoff at '+moment().format('YYYY-MM-DD HH:mm:ss'));
