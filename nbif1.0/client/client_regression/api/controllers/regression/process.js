@@ -50,8 +50,8 @@ var jobid_regression_main_daily_check_status = new cronJob('0 30 * * * *',functi
     console.log('T :'+t);
     console.log(testList[t]);
     testResult[testList[t]]['kickoffdate']= kickoffdate;
-    testResult[testList[t]][projectname]  = projectname;
-    testResult[testList[t]][variantname]  = variantname;
+    testResult[testList[t]]['projectname']  = projectname;
+    testResult[testList[t]]['variantname']  = variantname;
     testResult[testList[t]]['changelist'] = currentCL;
     testResult[testList[t]]['result']     = 'UNKNOWN';
     testResult[testList[t]]['seed']       = 'NA';
@@ -110,7 +110,7 @@ var jobid_regression_main_daily = new cronJob('0 30 16 * * *',function(){
         //ok to kick off regression
         console.log('ok ot regression');
         console.log(JSON.parse(chunk).changelist);
-        let currentCL = JSON.parse(chunk).changelist.changelist;
+        currentCL = JSON.parse(chunk).changelist.changelist;
         let treeRoot = workspace+'/nbif.regression.main.'+loop;
         let text = '';
         //prepare
