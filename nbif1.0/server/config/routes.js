@@ -111,6 +111,9 @@ module.exports.routes = {
   'POST /regression/info' : {
     action  : 'regression/info'
   },
+  'POST /regression/uploadstatus' : {
+    action  : 'regression/uploadstatus'
+  },
   //  ╔═╗╔═╗╦  ╔═╗╔╗╔╔╦╗╔═╗╔═╗╦╔╗╔╔╦╗╔═╗
   //  ╠═╣╠═╝║  ║╣ ║║║ ║║╠═╝║ ║║║║║ ║ ╚═╗
   //  ╩ ╩╩  ╩  ╚═╝╝╚╝═╩╝╩  ╚═╝╩╝╚╝ ╩ ╚═╝

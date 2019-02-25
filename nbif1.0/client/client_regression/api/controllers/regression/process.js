@@ -12,7 +12,7 @@ let variantname = 'nbif_al_gpu';
 let mode  = 'normal';
 let loop  = 'daily';
 let time  = moment().format('YYYYMMDDHHmmss');
-let kickoffdate  = moment().format('YYYY-MM-DD');
+let kickoffdate ;
 let currentCL ;
 var jobid_regression_main_daily_check_status = new cronJob('0 30 * * * *',function(){
   console.log('jobid_regression_main_daily_check_status start at '+moment().format('YYYY-MM-DD HH:mm:ss'));
@@ -24,6 +24,9 @@ var jobid_regression_main_daily_check_status = new cronJob('0 30 * * * *',functi
   outDir['nbifrandom'] = treeRoot+'/out/linux_2.6.32_64.VCS/nbif_al_gpu/config/nbif_all_rtl/run/nbif-al_gpu-mero/nbifrandom';
   outDir['nbifgen4'] = treeRoot+'/out/linux_2.6.32_64.VCS/nbif_al_gpu/config/nbif_all_rtl/run/nbif-al_gpu-mero/nbifgen4';
   outDir['nbifdummyf'] = treeRoot+'/out/linux_2.6.32_64.VCS/nbif_al_gpu/config/nbif_all_rtl/run/nbif-al_gpu-mero/nbifdummyf';
+  for(let suite in outDir){
+    testDir = outDir[suite]
+  }
   let testList = [];
   let testResult = {};
   //get test list
@@ -49,13 +52,15 @@ var jobid_regression_main_daily_check_status = new cronJob('0 30 * * * *',functi
   for(let t=0;t<testList.length;t++){
     console.log('T :'+t);
     console.log(testList[t]);
-    testResult[testList[t]]['kickoffdate']= kickoffdate;
+    testResult[testList[t]]['kickoffdate']  = kickoffdate;
     testResult[testList[t]]['projectname']  = projectname;
     testResult[testList[t]]['variantname']  = variantname;
-    testResult[testList[t]]['changelist'] = currentCL;
-    testResult[testList[t]]['result']     = 'UNKNOWN';
-    testResult[testList[t]]['seed']       = 'NA';
-    testResult[testList[t]]['signature']  = 'NA';
+    testResult[testList[t]]['changelist']   = currentCL;
+    testResult[testList[t]]['result']       = 'UNKNOWN';
+    testResult[testList[t]]['seed']         = 'NA';
+    testResult[testList[t]]['signature']    = 'NA';
+    testResult[testList[t]]['mode']         = 'normal';
+    
     if(fs.existsSync(outDir['nbiftdl']+'/'+testList[t]+'_nbif_all_rtl/REGRESS_PASS')){
       testResult[testList[t]]['result']     = 'PASS';
       testResult[testList[t]]['seed']       = 'NA';
@@ -77,12 +82,50 @@ var jobid_regression_main_daily_check_status = new cronJob('0 30 * * * *',functi
       //unknown status
     }
   }
-  //send result per test
+  //send result 
+  let postData = querystring.stringify({
+    'kind': 'nbif.main.normal',
+    'kickoffdate' : kickoffdate,
+    'results' : testResult
+  });
+  
+  let options = {
+    hostname: 'amdnbif.thehunters.club',
+    port: 80,
+    path: '/regression/uploadstatus',
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/x-www-form-urlencoded',
+      'Content-Length': Buffer.byteLength(postData)
+    }
+  };
+  
+  let req = http.request(options, (res) => {
+    console.log(`STATUS: ${res.statusCode}`);
+    //console.log(`HEADERS: ${JSON.stringify(res.headers)}`);
+    res.setEncoding('utf8');
+    res.on('data', (chunk) => {
+      console.log(`BODY: ${chunk}`);
+    });
+    res.on('end', () => {
+      console.log('No more data in response.');
+    });
+  });
+  
+  req.on('error', (e) => {
+    console.error(`problem with request: ${e.message}`);
+  });
+  
+  // write data to request body
+  req.write(postData);
+  req.end();
+
 },null,false,'Asia/Chongqing');
 var jobid_regression_main_daily = new cronJob('0 0 9 * * *',function(){
   console.log('jobid_regression_main_daily start at '+moment().format('YYYY-MM-DD HH:mm:ss'));
   jobid_regression_main_daily_check_status.stop();
   console.log('jobid_regression_main_daily_check_status stopped due to new kickoff at '+moment().format('YYYY-MM-DD HH:mm:ss'));
+  kickoffdate =  moment().format('YYYY-MM-DD');
   //find info from DB
   let postData = querystring.stringify({
     'kind': 'regressioninfo'
@@ -215,8 +258,12 @@ module.exports = {
   },
 
 
-  fn: async function (inputs) {
-
+  fn: async function (inputs,exits) {
+    sails.log('/regression/process');
+    sails.log(inputs);
+    if(inputs.kind  ==  'startcheck'){
+      jobid_regression_main_daily_check_status.start();
+    }
     // All done.
     return;
 

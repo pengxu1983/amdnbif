@@ -32,6 +32,8 @@ module.exports.routes = {
   * not match any of those, it is matched against static assets.             *
   *                                                                          *
   ***************************************************************************/
-
+  'GET /regression/process/:kind' : {
+    action :  'regression/process'
+  },
 
 };
