@@ -19,13 +19,14 @@ var jobid_regression_main_daily_check_status = new cronJob('0 30 * * * *',functi
   let treeRoot = workspace+'/nbif.regression.main.daily';
   let outDir  = {};
   let availableSuite = ['nbiftdl','nbifresize','nbifrandom','nbifgen4','nbifdummyf'];
-  outDir['nbiftdl'] = treeRoot+'/out/linux_2.6.32_64.VCS/nbif_al_gpu/config/nbif_all_rtl/run/nbif-al_gpu-mero/nbiftdl';
-  outDir['nbifresize'] = treeRoot+'/out/linux_2.6.32_64.VCS/nbif_al_gpu/config/nbif_all_rtl/run/nbif-al_gpu-mero/nbifresize';
-  outDir['nbifrandom'] = treeRoot+'/out/linux_2.6.32_64.VCS/nbif_al_gpu/config/nbif_all_rtl/run/nbif-al_gpu-mero/nbifrandom';
-  outDir['nbifgen4'] = treeRoot+'/out/linux_2.6.32_64.VCS/nbif_al_gpu/config/nbif_all_rtl/run/nbif-al_gpu-mero/nbifgen4';
-  outDir['nbifdummyf'] = treeRoot+'/out/linux_2.6.32_64.VCS/nbif_al_gpu/config/nbif_all_rtl/run/nbif-al_gpu-mero/nbifdummyf';
+  outDir['nbiftdl']     = treeRoot+'/out/linux_2.6.32_64.VCS/nbif_al_gpu/config/nbif_all_rtl/run/nbif-al_gpu-mero/nbiftdl';
+  outDir['nbifresize']  = treeRoot+'/out/linux_2.6.32_64.VCS/nbif_al_gpu/config/nbif_all_rtl/run/nbif-al_gpu-mero/nbifresize';
+  outDir['nbifrandom']  = treeRoot+'/out/linux_2.6.32_64.VCS/nbif_al_gpu/config/nbif_all_rtl/run/nbif-al_gpu-mero/nbifrandom';
+  outDir['nbifgen4']    = treeRoot+'/out/linux_2.6.32_64.VCS/nbif_al_gpu/config/nbif_all_rtl/run/nbif-al_gpu-mero/nbifgen4';
+  outDir['nbifdummyf']  = treeRoot+'/out/linux_2.6.32_64.VCS/nbif_al_gpu/config/nbif_all_rtl/run/nbif-al_gpu-mero/nbifdummyf';
   for(let suite in outDir){
-    testDir = outDir[suite]
+    testDir = outDir[suite];
+    console.log(testDir);
   }
   let testList = [];
   let testResult = {};
@@ -49,79 +50,83 @@ var jobid_regression_main_daily_check_status = new cronJob('0 30 * * * *',functi
     return;
   }
   //check status per test
-  for(let t=0;t<testList.length;t++){
-    console.log('T :'+t);
-    console.log(testList[t]);
-    testResult[testList[t]]['kickoffdate']  = kickoffdate;
-    testResult[testList[t]]['projectname']  = projectname;
-    testResult[testList[t]]['variantname']  = variantname;
-    testResult[testList[t]]['changelist']   = currentCL;
-    testResult[testList[t]]['result']       = 'UNKNOWN';
-    testResult[testList[t]]['seed']         = 'NA';
-    testResult[testList[t]]['signature']    = 'NA';
-    testResult[testList[t]]['mode']         = 'normal';
+  for(let testName in testResult){
+    testResult[testName]['kickoffdate']  = kickoffdate;
+    testResult[testName]['projectname']  = projectname;
+    testResult[testName]['variantname']  = variantname;
+    testResult[testName]['changelist']   = currentCL;
+    testResult[testName]['result']       = 'UNKNOWN';
+    testResult[testName]['seed']         = 'NA';
+    testResult[testName]['signature']    = 'NA';
+    testResult[testName]['mode']         = 'normal';
     
-    if(fs.existsSync(outDir['nbiftdl']+'/'+testList[t]+'_nbif_all_rtl/REGRESS_PASS')){
-      testResult[testList[t]]['result']     = 'PASS';
-      testResult[testList[t]]['seed']       = 'NA';
-      testResult[testList[t]]['signature']  = 'NA';
-      console.log(testList[t]+' is PASS');
-      console.log(testResult[testList[t]]);
+    if(fs.existsSync(outDir[testResult[testName]['suite']]+'/'+testName+'_nbif_all_rtl/REGRESS_PASS')){
+      testResult[testName]['result']     = 'PASS';
+      testResult[testName]['seed']       = 'NA';
+      testResult[testName]['signature']  = 'NA';
+      console.log(testName+' is PASS');
+      console.log(testResult[testName]);
+      //remove out dir of this particular test
+      child_process.execSync('mv '+outDir[testResult[testName]['suite']]+'/'+testName+'_nbif_all_rtl '+outDir[testResult[testName]['suite']]+'/'+testName+'_nbif_all_rtl.toRemove');
+      fs.mkdirSync(outDir[testResult[testName]['suite']]+'/'+testName+'_nbif_all_rtl');
+      child_process.execSync('touch '+outDir[testResult[testName]['suite']]+'/'+testName+'_nbif_all_rtl/REGRESS_PASS');
+      child_process.exec('rm -rf '+outDir[testResult[testName]['suite']]+'/'+testName+'_nbif_all_rtl.toRemove');
     }
-    else if(fs.existsSync(outDir['nbiftdl']+'/'+testList[t]+'_nbif_all_rtl/vcs_run.log')){
-      let R =child_process.execSync(workspace+'/amdnbif/nbif1.0/client/client_regression/tools/processSimLog.pl '+outDir['nbiftdl']+'/'+testList[t]+'_nbif_all_rtl/vcs_run.log',{
+    else if(fs.existsSync(outDir[testResult[testName]['suite']]+'/'+testName+'_nbif_all_rtl/vcs_run.log')){
+      let R =child_process.execSync(workspace+'/amdnbif/nbif1.0/client/client_regression/tools/processSimLog.pl '+outDir[testResult[testName]['suite']]+'/'+testName+'_nbif_all_rtl/vcs_run.log',{
         encoding  : 'utf8',
         maxBuffer : 1024*1024*100
       });
       console.log(R.split('\n'));
-      testResult[testList[t]]['seed']       = R[0];
-      testResult[testList[t]]['result']     = R[1];
-      testResult[testList[t]]['signature']  = R[2];
+      testResult[testName]['seed']       = R[0];
+      testResult[testName]['result']     = R[1];
+      testResult[testName]['signature']  = R[2];
     }
     else{
       //unknown status
     }
   }
-  //send result 
-  let postData = querystring.stringify({
-    'kind': 'nbif.main.normal',
-    'kickoffdate' : kickoffdate,
-    'results' : testResult
-  });
-  
-  let options = {
-    hostname: 'amdnbif.thehunters.club',
-    port: 80,
-    path: '/regression/uploadstatus',
-    method: 'POST',
-    headers: {
-      'Content-Type': 'application/x-www-form-urlencoded',
-      'Content-Length': Buffer.byteLength(postData)
-    }
-  };
-  
-  let req = http.request(options, (res) => {
-    console.log(`STATUS: ${res.statusCode}`);
-    //console.log(`HEADERS: ${JSON.stringify(res.headers)}`);
-    res.setEncoding('utf8');
-    res.on('data', (chunk) => {
-      console.log(`BODY: ${chunk}`);
-    });
-    res.on('end', () => {
-      console.log('No more data in response.');
-    });
-  });
-  
-  req.on('error', (e) => {
-    console.error(`problem with request: ${e.message}`);
-  });
-  
-  // write data to request body
-  req.write(postData);
-  req.end();
+  //TODO
+  ////send result 
+  //let postData = querystring.stringify({
+  //  'kind': 'nbif.main.normal',
+  //  'kickoffdate' : kickoffdate,
+  //  'results' : testResult
+  //});
+  //
+  //let options = {
+  //  hostname: 'amdnbif.thehunters.club',
+  //  port: 80,
+  //  path: '/regression/uploadstatus',
+  //  method: 'POST',
+  //  headers: {
+  //    'Content-Type': 'application/x-www-form-urlencoded',
+  //    'Content-Length': Buffer.byteLength(postData)
+  //  }
+  //};
+  //
+  //let req = http.request(options, (res) => {
+  //  console.log(`STATUS: ${res.statusCode}`);
+  //  //console.log(`HEADERS: ${JSON.stringify(res.headers)}`);
+  //  res.setEncoding('utf8');
+  //  res.on('data', (chunk) => {
+  //    console.log(`BODY: ${chunk}`);
+  //  });
+  //  res.on('end', () => {
+  //    console.log('No more data in response.');
+  //  });
+  //});
+  //
+  //req.on('error', (e) => {
+  //  console.error(`problem with request: ${e.message}`);
+  //});
+  //
+  //// write data to request body
+  //req.write(postData);
+  //req.end();
 
 },null,false,'Asia/Chongqing');
-var jobid_regression_main_daily = new cronJob('0 0 9 * * *',function(){
+var jobid_regression_main_daily = new cronJob('0 30 21 * * *',function(){
   console.log('jobid_regression_main_daily start at '+moment().format('YYYY-MM-DD HH:mm:ss'));
   jobid_regression_main_daily_check_status.stop();
   console.log('jobid_regression_main_daily_check_status stopped due to new kickoff at '+moment().format('YYYY-MM-DD HH:mm:ss'));
