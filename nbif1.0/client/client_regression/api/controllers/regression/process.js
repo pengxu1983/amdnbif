@@ -217,7 +217,7 @@ var jobid_regression_main_daily = new cronJob('0 30 21 * * *',function(){
           if(error){
             console.log(error);
           }
-          console.log(stdout);
+          //console.log(stdout);
           jobid_regression_main_daily_check_status.start();
         });
       }

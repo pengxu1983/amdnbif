@@ -34,7 +34,8 @@ module.exports = {
           ischecked   : 'no',
           results     : 'NA',
           isBroken    : 'NA',
-          brokenCL    : 'NA'
+          brokenCL    : 'NA',
+          dcelab      : 'NA'
         });
       }
     }

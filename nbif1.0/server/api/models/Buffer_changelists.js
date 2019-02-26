@@ -29,6 +29,9 @@ module.exports = {
     },
     brokenCL  : {
       type    : 'string'
+    },
+    dcelab    : {
+      type    : 'string'
     }
 
 
