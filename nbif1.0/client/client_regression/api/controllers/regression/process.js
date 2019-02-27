@@ -14,7 +14,7 @@ let loop  = 'daily';
 let time  = moment().format('YYYYMMDDHHmmss');
 let kickoffdate ;
 let currentCL ;
-var jobid_regression_main_daily_check_status = new cronJob('0 30 * * * *',function(){
+var jobid_regression_main_daily_check_status = new cronJob('0 0 * * * *',function(){
   console.log('jobid_regression_main_daily_check_status start at '+moment().format('YYYY-MM-DD HH:mm:ss'));
   let treeRoot = workspace+'/nbif.regression.main.daily';
   let outDir  = {};
@@ -77,7 +77,7 @@ var jobid_regression_main_daily_check_status = new cronJob('0 30 * * * *',functi
         encoding  : 'utf8',
         maxBuffer : 1024*1024*100
       });
-      console.log(R.split('\n'));
+      //console.log(R.split('\n'));
       testResult[testName]['seed']       = R[0];
       testResult[testName]['result']     = R[1];
       testResult[testName]['signature']  = R[2];
@@ -85,7 +85,16 @@ var jobid_regression_main_daily_check_status = new cronJob('0 30 * * * *',functi
     else{
       //unknown status
     }
-  }
+    console.log('TTT'+testName+':');
+    console.log(testResult[testName]['kickoffdate']);
+    console.log(testResult[testName]['projectname']);  
+    console.log(testResult[testName]['variantname']);  
+    console.log(testResult[testName]['changelist']);  
+    console.log(testResult[testName]['result']);     
+    console.log(testResult[testName]['seed']);       
+    console.log(testResult[testName]['signature']);   
+    console.log(testResult[testName]['mode']);        
+  };
   //TODO
   ////send result 
   //let postData = querystring.stringify({
@@ -126,7 +135,7 @@ var jobid_regression_main_daily_check_status = new cronJob('0 30 * * * *',functi
   //req.end();
 
 },null,false,'Asia/Chongqing');
-var jobid_regression_main_daily = new cronJob('0 30 21 * * *',function(){
+var jobid_regression_main_daily = new cronJob('0 0 13 * * *',function(){
   console.log('jobid_regression_main_daily start at '+moment().format('YYYY-MM-DD HH:mm:ss'));
   jobid_regression_main_daily_check_status.stop();
   console.log('jobid_regression_main_daily_check_status stopped due to new kickoff at '+moment().format('YYYY-MM-DD HH:mm:ss'));
