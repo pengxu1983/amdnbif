@@ -67,7 +67,8 @@ module.exports = {
             result    : lastcheckedCL.isBroken,
             brokenCL  : lastcheckedCL.brokenCL,
             brokenCLowner : 'NA',
-            dcelab    : lastcheckedCL.dcelab
+            dcelab    : lastcheckedCL.dcelab,
+            details   : lastcheckedCL.results
           }));
         }
 
