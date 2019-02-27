@@ -32,6 +32,11 @@
           >
           </el-table-column>
           <el-table-column
+            prop="details"
+            label="sanity details"
+          >
+          </el-table-column>
+          <el-table-column
             prop="cmd"
             label="Reproduce Command"
           >
@@ -104,7 +109,9 @@ export default {
               lastcheckedCL : response.body.lastcheckedCL,
               result        : result,
               brokenCL      : response.body.brokenCL,
-              brokenCLowner : response.body.brokenCLowner
+              brokenCLowner : response.body.brokenCLowner,
+              dcelab        : response.body.dcelab,
+              details       : response.body.details
             });
             console.log(this.sanityStatus);
           }
