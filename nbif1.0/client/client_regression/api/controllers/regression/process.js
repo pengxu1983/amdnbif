@@ -14,7 +14,7 @@ let loop  = 'daily';
 let time  = moment().format('YYYYMMDDHHmmss');
 let kickoffdate ;
 let currentCL ;
-var jobid_regression_main_daily_check_status = new cronJob('0 0 * * * *',function(){
+var jobid_regression_main_daily_check_status = new cronJob('0 */30 * * * *',function(){
   console.log('jobid_regression_main_daily_check_status start at '+moment().format('YYYY-MM-DD HH:mm:ss'));
   let treeRoot = workspace+'/nbif.regression.main.daily';
   let outDir  = {};
@@ -64,8 +64,6 @@ var jobid_regression_main_daily_check_status = new cronJob('0 0 * * * *',functio
       testResult[testName]['result']     = 'PASS';
       testResult[testName]['seed']       = 'NA';
       testResult[testName]['signature']  = 'NA';
-      console.log(testName+' is PASS');
-      console.log(testResult[testName]);
       //remove out dir of this particular test
       child_process.execSync('mv '+outDir[testResult[testName]['suite']]+'/'+testName+'_nbif_all_rtl '+outDir[testResult[testName]['suite']]+'/'+testName+'_nbif_all_rtl.toRemove');
       fs.mkdirSync(outDir[testResult[testName]['suite']]+'/'+testName+'_nbif_all_rtl');
@@ -77,15 +75,15 @@ var jobid_regression_main_daily_check_status = new cronJob('0 0 * * * *',functio
         encoding  : 'utf8',
         maxBuffer : 1024*1024*100
       });
-      //console.log(R.split('\n'));
-      testResult[testName]['seed']       = R[0];
-      testResult[testName]['result']     = R[1];
-      testResult[testName]['signature']  = R[2];
+      let RR = R.split('\n');
+      testResult[testName]['seed']       = RR[0];
+      testResult[testName]['result']     = RR[1];
+      testResult[testName]['signature']  = RR[2];
     }
     else{
       //unknown status
     }
-    console.log('TTT'+testName+':');
+    console.log('TTT : '+testName+':');
     console.log(testResult[testName]['kickoffdate']);
     console.log(testResult[testName]['projectname']);  
     console.log(testResult[testName]['variantname']);  
@@ -135,7 +133,7 @@ var jobid_regression_main_daily_check_status = new cronJob('0 0 * * * *',functio
   //req.end();
 
 },null,false,'Asia/Chongqing');
-var jobid_regression_main_daily = new cronJob('0 0 13 * * *',function(){
+var jobid_regression_main_daily = new cronJob('0 0 23 * * *',function(){
   console.log('jobid_regression_main_daily start at '+moment().format('YYYY-MM-DD HH:mm:ss'));
   jobid_regression_main_daily_check_status.stop();
   console.log('jobid_regression_main_daily_check_status stopped due to new kickoff at '+moment().format('YYYY-MM-DD HH:mm:ss'));
@@ -279,7 +277,9 @@ module.exports = {
       jobid_regression_main_daily_check_status.start();
     }
     // All done.
-    return;
+    return exits.success(JSON.stringify({
+      ok  : 'ok'
+    }));
 
   }
 
