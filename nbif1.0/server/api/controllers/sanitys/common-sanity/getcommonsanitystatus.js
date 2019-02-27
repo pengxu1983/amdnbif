@@ -56,7 +56,8 @@ module.exports = {
             result    : lastcheckedCL.isBroken,
             brokenCL  : lastcheckedCL.brokenCL,
             brokenCLowner : brokenCL.owner,
-            dcelab    : lastcheckedCL.dcelab
+            dcelab    : lastcheckedCL.dcelab,
+            details   : lastcheckedCL.results
           }));
         }
         else if(lastcheckedCL.brokenCL == 'NA'){
@@ -66,7 +67,8 @@ module.exports = {
             result    : lastcheckedCL.isBroken,
             brokenCL  : lastcheckedCL.brokenCL,
             brokenCLowner : 'NA',
-            dcelab    : lastcheckedCL.dcelab
+            dcelab    : lastcheckedCL.dcelab,
+            details   : lastcheckedCL.results
           }));
         }
 
