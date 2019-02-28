@@ -97,8 +97,6 @@ export default {
         kind  : 'sanityStatus'
       }).then(
         function(response){
-          console.log('DBG1');
-          console.log(response);
           if(response.body.ok == 'ok'){
             this.sanityStatus = [];
             let result;
@@ -132,7 +130,7 @@ export default {
               brokenCLowner : response.body.brokenCLowner,
               dcelab        : response.body.dcelab,
               //details       : response.body.details
-              details       : details
+              details       : JSON.stringify(details)
             });
             console.log(this.sanityStatus);
           }
