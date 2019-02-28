@@ -110,7 +110,11 @@ export default {
             }
             let details = {};
             let respdetails = response.body.details;
+            console.log('abc');
+            console.log(respdetails);
+            console.log(typeof(respdetails));
             for(let detailsvariant in respdetails){
+              console.log(detailsvariant);
               details[detailsvariant] = detailsvariant;
               for(let t=0;t<this.sanitys.length;t++){
                 details[this.sanitys[t]] = respdetails[detailsvariant][this.sanitys[t]];
