@@ -10,25 +10,25 @@
           <el-table-column
             prop="lastcheckedCL"
             label="Last Checked CL"
-            width="150"
+            width="130"
           >
           </el-table-column>
           <el-table-column
             prop="result"
             label="CurrentCL Status"
-            width="150"
+            width="130"
           >
           </el-table-column>
           <el-table-column
             prop="brokenCL"
             label="Broken CL"
-            width="150"
+            width="130"
           >
           </el-table-column>
           <el-table-column
             prop="brokenCLowner"
             label="Broken CL Owner"
-            width="150"
+            width="130"
           >
           </el-table-column>
           <el-table-column
