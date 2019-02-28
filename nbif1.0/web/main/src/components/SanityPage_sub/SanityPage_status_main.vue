@@ -108,21 +108,22 @@ export default {
             else if(response.body.result == 'yes'){
               result = 'FAIL'
             }
-            let details = {};
+            let details = [];
             let respdetails = response.body.details;
             console.log('abc');
             console.log(JSON.parse(respdetails));
             console.log(typeof(JSON.parse(respdetails)));
             let R = JSON.parse(respdetails);
-            for(let detailsvariant in JSON.parse(respdetails)){
-              console.log(detailsvariant);
-              details[detailsvariant] = detailsvariant;
-              let tests = ['demo_test_0','demo_test_1','demo_test_2'];//FIXME
-              console.log(R[detailsvariant]);
-              //for(let t=0;t<tests.length;t++){
-              //  details[tests[t]] = respdetails[detailsvariant][tests[t]];
-              //}
+            let tests = ['demo_test_0','demo_test_1','demo_test_2']
+            for(let detailsvariant in R){
+              let one = {};
+              one['variantname']  = detailsvariant;
+              for(let t=0;t<tests.length;t++){
+                one[tests[t]] = R[detailsvariant][tests[t]];
+              }
+              details.push(one);
             }
+            console.log(typeof(details));
             console.log(details);
             this.sanityStatus.push({
               lastcheckedCL : response.body.lastcheckedCL,
