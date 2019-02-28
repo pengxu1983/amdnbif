@@ -157,7 +157,7 @@ export default {
               brokenCLowner : response.body.brokenCLowner,
               dcelab        : response.body.dcelab,
               //details       : response.body.details
-              details       : JSON.stringify(details)
+              details       : details
             });
             console.log(this.sanityStatus);
           }
