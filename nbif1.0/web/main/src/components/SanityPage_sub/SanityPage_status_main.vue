@@ -117,9 +117,11 @@ export default {
               console.log(detailsvariant);
               details[detailsvariant] = detailsvariant;
               for(let t=0;t<this.sanitys.length;t++){
+                console.log(this.sanitys[t]);
                 details[this.sanitys[t]] = respdetails[detailsvariant][this.sanitys[t]];
               }
             }
+            console.log(details);
             this.sanityStatus.push({
               lastcheckedCL : response.body.lastcheckedCL,
               result        : result,
