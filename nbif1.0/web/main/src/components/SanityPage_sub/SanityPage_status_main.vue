@@ -35,6 +35,33 @@
             prop="details"
             label="sanity details"
           >
+            <template slot-scope="scope">
+              <el-table
+                :data="scope.row.details"
+                border
+              >
+                <el-table-column
+                  prop="variantname"
+                  label="VariantName"
+                >
+                </el-table-column>
+                <el-table-column
+                  prop="demo_test_0"
+                  label="demo_test_0"
+                >
+                </el-table-column>
+                <el-table-column
+                  prop="demo_test_1"
+                  label="demo_test_1"
+                >
+                </el-table-column>
+                <el-table-column
+                  prop="demo_test_2"
+                  label="demo_test_2"
+                >
+                </el-table-column>
+              </el-table>
+            </template>
           </el-table-column>
           <el-table-column
             prop="cmd"
