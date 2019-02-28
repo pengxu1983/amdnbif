@@ -111,9 +111,9 @@ export default {
             let details = {};
             let respdetails = response.body.details;
             console.log('abc');
-            console.log(respdetails);
-            console.log(typeof(respdetails));
-            for(let detailsvariant in respdetails){
+            console.log(JSON.parse(respdetails));
+            console.log(typeof(JSON.parse(respdetails)));
+            for(let detailsvariant in JSON.parse(respdetails)){
               console.log(detailsvariant);
               details[detailsvariant] = detailsvariant;
               for(let t=0;t<this.sanitys.length;t++){
