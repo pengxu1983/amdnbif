@@ -35,24 +35,6 @@
             prop="details"
             label="sanity details"
           >
-            <template slot-scope="scope">
-              <el-table
-                :data="scope.row.details"
-                border
-              >
-                <el-table-column
-                  prop="variantname"
-                  label="variantname"
-                >
-                </el-table-column>
-                <el-table-column
-                  for="onetest in sanitys"
-                  :prop="onetest.testname"
-                  :label="onetest.testname"
-                >
-                </el-table-column>
-              </el-table>
-            </template>
           </el-table-column>
           <el-table-column
             prop="cmd"
@@ -98,6 +80,9 @@ export default {
     }
   },
   methods : {
+    handleClick(tab, event) {
+      console.log(tab, event);
+    },
     commonSanityStatus(variantname){
       var items=[];
       for(var k=0;k<this.common_sanitys.length;k++){
@@ -128,7 +113,7 @@ export default {
             for(let detailsvariant in respdetails){
               details[detailsvariant] = detailsvariant;
               for(let t=0;t<sanitys.length;t++){
-                details[sanitys[t]] = detailsvariant
+                details[sanitys[t]] = respdetails[detailsvariant][sanitys[t]];
               }
             }
             this.sanityStatus.push({
@@ -137,7 +122,8 @@ export default {
               brokenCL      : response.body.brokenCL,
               brokenCLowner : response.body.brokenCLowner,
               dcelab        : response.body.dcelab,
-              details       : response.body.details
+              //details       : response.body.details
+              details       : details
             });
             console.log(this.sanityStatus);
           }
