@@ -113,11 +113,12 @@ export default {
             console.log('abc');
             console.log(JSON.parse(respdetails));
             console.log(typeof(JSON.parse(respdetails)));
+            let R = JSON.parse(respdetails);
             for(let detailsvariant in JSON.parse(respdetails)){
               console.log(detailsvariant);
               details[detailsvariant] = detailsvariant;
               let tests = ['demo_test_0','demo_test_1','demo_test_2'];//FIXME
-              console.log(respdetails[detailsvariant]);
+              console.log(R[detailsvariant]);
               //for(let t=0;t<tests.length;t++){
               //  details[tests[t]] = respdetails[detailsvariant][tests[t]];
               //}
