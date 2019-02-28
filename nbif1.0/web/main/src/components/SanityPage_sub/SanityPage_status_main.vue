@@ -116,9 +116,9 @@ export default {
             for(let detailsvariant in JSON.parse(respdetails)){
               console.log(detailsvariant);
               details[detailsvariant] = detailsvariant;
-              for(let t=0;t<this.sanitys.length;t++){
-                console.log(this.sanitys[t]);
-                details[this.sanitys[t]] = respdetails[detailsvariant][this.sanitys[t]];
+              let tests = ['demo_test_0','demo_test_1','demo_test_2'];//FIXME
+              for(let t=0;t<tests.length;t++){
+                details[tests[t]] = respdetails[detailsvariant][tests[t]];
               }
             }
             console.log(details);
