@@ -112,8 +112,8 @@ export default {
             let respdetails = response.body.details;
             for(let detailsvariant in respdetails){
               details[detailsvariant] = detailsvariant;
-              for(let t=0;t<sanitys.length;t++){
-                details[sanitys[t]] = respdetails[detailsvariant][sanitys[t]];
+              for(let t=0;t<this.sanitys.length;t++){
+                details[this.sanitys[t]] = respdetails[detailsvariant][this.sanitys[t]];
               }
             }
             this.sanityStatus.push({
