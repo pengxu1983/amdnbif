@@ -66,6 +66,7 @@
           <el-table-column
             prop="cmd"
             label="Reproduce Command"
+            width="130"
           >
           </el-table-column>
         </el-table>
