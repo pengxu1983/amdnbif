@@ -117,9 +117,10 @@ export default {
               console.log(detailsvariant);
               details[detailsvariant] = detailsvariant;
               let tests = ['demo_test_0','demo_test_1','demo_test_2'];//FIXME
-              for(let t=0;t<tests.length;t++){
-                details[tests[t]] = respdetails[detailsvariant][tests[t]];
-              }
+              console.log(respdetails[detailsvariant]);
+              //for(let t=0;t<tests.length;t++){
+              //  details[tests[t]] = respdetails[detailsvariant][tests[t]];
+              //}
             }
             console.log(details);
             this.sanityStatus.push({
