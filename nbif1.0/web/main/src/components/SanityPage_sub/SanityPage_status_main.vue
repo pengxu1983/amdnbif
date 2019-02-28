@@ -35,6 +35,24 @@
             prop="details"
             label="sanity details"
           >
+            <template slot-scope="scope">
+              <el-table
+                :data="scope.row.details"
+                border
+              >
+                <el-table-column
+                  prop="variantname"
+                  label="variantname"
+                >
+                </el-table-column>
+                <el-table-column
+                  for="onetest in sanitys"
+                  :prop="onetest.testname"
+                  :label="onetest.testname"
+                >
+                </el-table-column>
+              </el-table>
+            </template>
           </el-table-column>
           <el-table-column
             prop="cmd"
@@ -104,6 +122,14 @@ export default {
             }
             else if(response.body.result == 'yes'){
               result = 'FAIL'
+            }
+            let details = {};
+            let respdetails = response.body.details;
+            for(let detailsvariant in respdetails){
+              details[detailsvariant] = detailsvariant;
+              for(let t=0;t<sanitys.length;t++){
+                details[sanitys[t]] = detailsvariant
+              }
             }
             this.sanityStatus.push({
               lastcheckedCL : response.body.lastcheckedCL,
