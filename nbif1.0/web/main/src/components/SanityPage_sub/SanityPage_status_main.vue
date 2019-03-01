@@ -164,7 +164,6 @@ export default {
             }
             let details = [];
             let respdetails = response.body.details;
-            console.log('abc');
             console.log(JSON.parse(respdetails));
             console.log(typeof(JSON.parse(respdetails)));
             let R = JSON.parse(respdetails);
@@ -190,16 +189,16 @@ export default {
             });
             console.log(this.sanityStatus);
             let DCelabresult = [];
-            R = JSON.parse(response.body.dcelab);
-            console.log(R);
-            for(let onevariant in R){
-              DCelabresult.push({
-                variantname : onevariant,
-                result      : R[onevariant]
-              });
-            }
             console.log('aaa');
-
+            console.log(response.body.dcelab);
+            //R = JSON.parse(response.body.dcelab);
+            //console.log(R);
+            //for(let onevariant in R){
+            //  DCelabresult.push({
+            //    variantname : onevariant,
+            //    result      : R[onevariant]
+            //  });
+            //}
           }
         },
         function(){}
