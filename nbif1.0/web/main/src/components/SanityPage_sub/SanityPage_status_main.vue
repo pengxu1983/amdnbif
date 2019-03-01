@@ -191,14 +191,21 @@ export default {
             let DCelabresult = [];
             console.log('aaa');
             console.log(response.body.dcelab);
-            //R = JSON.parse(response.body.dcelab);
-            //console.log(R);
-            //for(let onevariant in R){
-            //  DCelabresult.push({
-            //    variantname : onevariant,
-            //    result      : R[onevariant]
-            //  });
-            //}
+            if(R == 'NA'){
+              DCelabresult.push({
+                variantname : 'Not Done',
+                result  : 'NOT Done'
+              });
+            }
+            else{
+              R = JSON.parse(response.body.dcelab);
+              for(let onevariant in R){
+                DCelabresult.push({
+                  variantname : onevariant,
+                  result      : R[onevariant]
+                });
+              }
+            }
           }
         },
         function(){}
