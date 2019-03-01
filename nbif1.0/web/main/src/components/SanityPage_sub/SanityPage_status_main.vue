@@ -73,28 +73,22 @@
       </template>
       <template>
         <el-table
+          :data="dcelabStatus"
           border
           style="width: 100%">
           <el-table-column
             label="DCelab Status"
           >
-            <template>
-              <el-table
-                :data="dcelabStatus"
-                border
-                style="width: 100%">
-                <el-table-column
-                  prop="variantname"
-                  label="VariantName"
-                >
-                </el-table-column>
-                <el-table-column
-                  prop="result"
-                  label="Result"
-                >
-                </el-table-column>
-              </el-table>
-            </template>
+            <el-table-column
+              prop="variantname"
+              label="VariantName"
+            >
+            </el-table-column>
+            <el-table-column
+              prop="result"
+              label="Result"
+            >
+            </el-table-column>
           </el-table-column>
         </el-table>
       </template>
