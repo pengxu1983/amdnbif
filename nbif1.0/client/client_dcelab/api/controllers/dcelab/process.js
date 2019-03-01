@@ -6,20 +6,21 @@ var child_process = require('child_process');
 var cronJob       = require("cron").CronJob;
 var workspace     = '/proj/bif_nbio_vol3_backup/benpeng/';
 let changelistToRun ;
-var jobid_dcelab_run = new cronJob('* */5 * * * *',function(){
+var jobid_dcelab_run = new cronJob('0 */5 * * * *',function(){
   console.log('jobid_dcelab_run start at '+moment().format('YYYY-MM-DD HH:mm:ss'));
   jobid_dcelab_run.stop();
   let variants  ;
   let projects  ;
   //get latest cl of main tree from DB
   let postData = querystring.stringify({
-    'kind': 'sanityStatus'
+    'kind': 'getcltorun'
   });
   
   let options = {
     hostname: 'amdnbif.thehunters.club',
     port: 80,
-    path: '/sanitys/common-sanity/getcommonsanitystatus',
+    //path: '/sanitys/common-sanity/getcommonsanitystatus',
+    path: '/sanitys/dcelab/getcltorun',
     method: 'POST',
     headers: {
       'Content-Type': 'application/x-www-form-urlencoded',
@@ -36,10 +37,12 @@ var jobid_dcelab_run = new cronJob('* */5 * * * *',function(){
 
       if(JSON.parse(chunk).ok == 'notok'){
         console.log(JSON.parse(chunk).msg);
+        jobid_dcelab_run.start();
         return;
       }
       if(JSON.parse(chunk).lastcheckedCL == changelistToRun){
         console.log('cl '+changelistToRun+' already have dcelab report');
+        jobid_dcelab_run.start();
         return;
       }
       changelistToRun = JSON.parse(chunk).lastcheckedCL;
@@ -83,6 +86,10 @@ var jobid_dcelab_run = new cronJob('* */5 * * * *',function(){
                 if(fs.existsSync(treeRoot+'/out')){
                   child_process.execSync('mv '+treeRoot+'/out'+' '+treeRoot+'/out.toRemove');
                   child_process.exec('rm -rf '+treeRoot+'/out.toRemove');
+                }
+                if(fs.existsSync(treeRoot+'/dcelab.log')){
+                  child_process.execSync('mv '+treeRoot+'/dcelab.log '+treeRoot+'/dcelab.log.toRemove');
+                  child_process.exec('rm -rf '+treeRoot+'/dcelab.log.toRemove');
                 }
                 text += 'bootenv -v '+variants[v].variantname+'\n';
                 text += 'p4w sync_all @'+changelistToRun+'\n';
@@ -137,12 +144,15 @@ var jobid_dcelab_run = new cronJob('* */5 * * * *',function(){
                     break;
                   }
                 }
+                console.log(variants[v].variantname + ' is '+results[variants[v].variantname]);
+                console.log(variants.length);
                 let readytosend = 0;
                 for(let vv = 0;vv<variants.length;vv++){
                   if(results.hasOwnProperty(variants[vv].variantname)){
                     readytosend += 1;
                   }
                 }
+                console.log('readytosend is '+readytosend);
                 if(readytosend != variants.length){
                 }
                 else{
@@ -150,7 +160,7 @@ var jobid_dcelab_run = new cronJob('* */5 * * * *',function(){
                   let postData = querystring.stringify({
                     'kind': 'dcelabuploadstatus',
                     'changelist'  : changelistToRun,
-                    'results' : results
+                    'results' : JSON.stringify(results)
                   });
                   
                   let options = {
@@ -170,6 +180,7 @@ var jobid_dcelab_run = new cronJob('* */5 * * * *',function(){
                     res.setEncoding('utf8');
                     res.on('data', (chunk) => {
                       console.log(`BODY: ${chunk}`);
+                      jobid_dcelab_run.start();
                     });
                     res.on('end', () => {
                       console.log('No more data in response.');

@@ -49,6 +49,11 @@ var jobid_regression_main_daily_check_status = new cronJob('0 */30 * * * *',func
   else {
     return;
   }
+  //get currentCL 
+  let R = child_process.execSync('cd '+treeRoot+' && p4 changes -m1 ...#have',{
+    encoding  : 'utf8'
+  }).split(' ');
+  let currentCL = R[1];
   //check status per test
   for(let testName in testResult){
     testResult[testName]['kickoffdate']  = kickoffdate;
@@ -133,7 +138,7 @@ var jobid_regression_main_daily_check_status = new cronJob('0 */30 * * * *',func
   //req.end();
 
 },null,false,'Asia/Chongqing');
-var jobid_regression_main_daily = new cronJob('0 0 23 * * *',function(){
+var jobid_regression_main_daily = new cronJob('0 30 20 * * *',function(){
   console.log('jobid_regression_main_daily start at '+moment().format('YYYY-MM-DD HH:mm:ss'));
   jobid_regression_main_daily_check_status.stop();
   console.log('jobid_regression_main_daily_check_status stopped due to new kickoff at '+moment().format('YYYY-MM-DD HH:mm:ss'));
@@ -210,7 +215,7 @@ var jobid_regression_main_daily = new cronJob('0 0 23 * * *',function(){
         text += 'regrsys_prep_wa -no-chmod\n';
         text += 'dj -l testlist.log -DDEBUG -m run_test -s nbifall all -a print -w "config==nbif_all_rtl && when=~/nbif_nightly/"\n';
         text += 'bdji -l build.log -m -DREGRESS -DUSE_VRQ -DCGM run_test -s nbifall demo_test_0_nbif_all_rtl -a execute=off\n';
-        text += 'bdji -l run.log -DRERUN_TDL_BATCH=$batch_name_v -m -DREGRESS -DUSE_VRQ -DCGM run_test -s nbifall all -b trs -A trs.batch=plsignore -A trs.environment=nbif_al_gpu -A trs.cec.logspec='+treeRoot+'/_env/local/nbif_logspec.xml -A trs.switches="-regr-no-results-copy" -w "config==nbif_all_rtl && when=~/nbif_nightly/" -a run_only\n';//FIXME about the -s arg
+        text += 'bdji -l run.log -DRERUN_TDL_BATCH=$batch_name_v -m -DREGRESS -DUSE_VRQ -DCGM run_test -s nbifall all -b trs -A trs.batch=NEXTRG -A trs.environment=nbif_al_gpu -A trs.cec.logspec='+treeRoot+'/_env/local/nbif_logspec.xml -A trs.switches="-regr-no-results-copy" -w "config==nbif_all_rtl && when=~/nbif_nightly/" -a run_only\n';//FIXME about the -s arg
         text += 'echo "done"\n';
         fs.writeFileSync(treeRoot+'.script',text,{
           encoding  : 'utf8',

@@ -31,7 +31,8 @@ module.exports = {
       type    : 'string'
     },
     dcelab    : {
-      type    : 'string'
+      type    : 'string',
+      columnType  : 'longtext'
     }
 
 
