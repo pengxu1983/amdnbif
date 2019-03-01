@@ -192,12 +192,14 @@ export default {
             console.log('aaa');
             console.log(response.body.dcelab);
             if(R == 'NA'){
+              console.log('bbb');
               DCelabresult.push({
                 variantname : 'Not Done',
                 result  : 'NOT Done'
               });
             }
             else{
+              console.log('ccc');
               R = JSON.parse(response.body.dcelab);
               for(let onevariant in R){
                 DCelabresult.push({
