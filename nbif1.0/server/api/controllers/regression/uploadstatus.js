@@ -84,6 +84,47 @@ module.exports = {
             result    : JSON.stringify(oneTestResultToStore)
           });
         }
+        for(let onetest in results){
+          let testname = onetest;
+          let recorddate = inputs.kickoffdate;
+          let result   = await Regressionresults.findOne({
+            testname  : testname
+          });
+          if(result){
+            sails.log('test exists');
+            let objresult = JSON.parse(result);
+            objresult[inputs.kickoffdate]['kickoffdate']  = inputs.kickoffdate;
+            objresult[inputs.kickoffdate]['projectname']  = results[testname]['projectname'];
+            objresult[inputs.kickoffdate]['variantname']  = results[testname]['variantname'];
+            objresult[inputs.kickoffdate]['changelist']   = results[testname]['changelist'] ;
+            objresult[inputs.kickoffdate]['result']       = results[testname]['result']     ;
+            objresult[inputs.kickoffdate]['seed']         = results[testname]['seed']       ;
+            objresult[inputs.kickoffdate]['signature']    = results[testname]['signature']  ;
+            objresult[inputs.kickoffdate]['mode']         = results[testname]['mode']       ;
+            await Regressionresults.update({
+              testname  : testname
+            },{
+              result    : JSON.stringify(objresult)
+            });
+          }
+          else{
+            sails.log('test not exists');
+            let objresult={};
+            objresult[inputs.kickoffdate]={};
+            objresult[inputs.kickoffdate]['kickoffdate']  = inputs.kickoffdate;
+            objresult[inputs.kickoffdate]['projectname']  = results[testname]['projectname'];
+            objresult[inputs.kickoffdate]['variantname']  = results[testname]['variantname'];
+            objresult[inputs.kickoffdate]['changelist']   = results[testname]['changelist'] ;
+            objresult[inputs.kickoffdate]['result']       = results[testname]['result']     ;
+            objresult[inputs.kickoffdate]['seed']         = results[testname]['seed']       ;
+            objresult[inputs.kickoffdate]['signature']    = results[testname]['signature']  ;
+            objresult[inputs.kickoffdate]['mode']         = results[testname]['mode']       ;
+            await Regressionresults.create({
+              testname  : testname,
+              result    : JSON.stringify(objresult)
+            });
+          }
+        }
         //put kick off date record into DB
       }
     }
