@@ -192,7 +192,7 @@ export default {
             console.log('aaa');
             console.log(response.body.dcelab);
             console.log(typeof(response.body.dcelab));
-            if(R == 'NA'){
+            if(response.body.dcelab == 'NA'){
               console.log('bbb');
               DCelabresult.push({
                 variantname : 'Not Done',
