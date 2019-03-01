@@ -10,25 +10,25 @@
           <el-table-column
             prop="lastcheckedCL"
             label="Last Checked CL"
-            width="130"
+            width="140"
           >
           </el-table-column>
           <el-table-column
             prop="result"
             label="CurrentCL Status"
-            width="130"
+            width="140"
           >
           </el-table-column>
           <el-table-column
             prop="brokenCL"
             label="Broken CL"
-            width="130"
+            width="140"
           >
           </el-table-column>
           <el-table-column
             prop="brokenCLowner"
             label="Broken CL Owner"
-            width="130"
+            width="140"
           >
           </el-table-column>
           <el-table-column
@@ -71,6 +71,33 @@
           </el-table-column>
         </el-table>
       </template>
+      <template>
+        <el-table
+          border
+          style="width: 100%">
+          <el-table-column
+            label="DCelab Status"
+          >
+            <template>
+              <el-table
+                :data="dcelabStatus"
+                border
+                style="width: 100%">
+                <el-table-column
+                  prop="variantname"
+                  label="VariantName"
+                >
+                </el-table-column>
+                <el-table-column
+                  prop="result"
+                  label="Result"
+                >
+                </el-table-column>
+              </el-table>
+            </template>
+          </el-table-column>
+        </el-table>
+      </template>
     </el-tab-pane>
     <el-tab-pane label="Sanity Tests Status by Project" name="byProject">
     </el-tab-pane>
@@ -88,6 +115,7 @@ export default {
       activeTab   : 'commonSanity',
       sanityStatus : [],
       sanitys     : [],
+      dcelabStatus:[],
       projectinfo : {
         projectname : 'MERO',
         variantname : 'nbif_al_gpu'
@@ -161,6 +189,17 @@ export default {
               details       : details
             });
             console.log(this.sanityStatus);
+            let DCelabresult = [];
+            R = JSON.parse(response.body.dcelab);
+            console.log(R);
+            for(let onevariant in R){
+              DCelabresult.push({
+                variantname : onevariant,
+                result      : R[onevariant]
+              });
+            }
+            console.log('aaa');
+
           }
         },
         function(){}
