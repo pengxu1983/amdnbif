@@ -191,6 +191,7 @@ export default {
             let DCelabresult = [];
             console.log('aaa');
             console.log(response.body.dcelab);
+            console.log(typeof(response.body.dcelab));
             if(R == 'NA'){
               console.log('bbb');
               DCelabresult.push({
