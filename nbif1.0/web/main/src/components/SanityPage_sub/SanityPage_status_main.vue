@@ -209,6 +209,7 @@ export default {
                 });
               }
             }
+            this.dcelabStatus = DCelabresult;
           }
         },
         function(){}
