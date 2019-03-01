@@ -127,9 +127,11 @@ module.exports = {
         }
         //put kick off date record into DB
       }
+      return exists.success(JSON.stringify({
+        ok  : 'ok'
+      }));
     }
     // All done.
-    return;
 
   }
 

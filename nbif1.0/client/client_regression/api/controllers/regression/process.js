@@ -98,43 +98,43 @@ var jobid_regression_main_daily_check_status = new cronJob('0 0 * * * *',functio
     console.log(testResult[testName]['signature']);   
     console.log(testResult[testName]['mode']);        
   };
-  //send result 
-  let postData = querystring.stringify({
-    'kind': 'nbif.main.normal',
-    'kickoffdate' : kickoffdate,
-    'results' : testResult
-  });
-  
-  let options = {
-    hostname: 'amdnbif.thehunters.club',
-    port: 80,
-    path: '/regression/uploadstatus',
-    method: 'POST',
-    headers: {
-      'Content-Type': 'application/x-www-form-urlencoded',
-      'Content-Length': Buffer.byteLength(postData)
-    }
-  };
-  
-  let req = http.request(options, (res) => {
-    console.log(`STATUS: ${res.statusCode}`);
-    //console.log(`HEADERS: ${JSON.stringify(res.headers)}`);
-    res.setEncoding('utf8');
-    res.on('data', (chunk) => {
-      console.log(`BODY: ${chunk}`);
-    });
-    res.on('end', () => {
-      console.log('No more data in response.');
-    });
-  });
-  
-  req.on('error', (e) => {
-    console.error(`problem with request: ${e.message}`);
-  });
-  
-  // write data to request body
-  req.write(postData);
-  req.end();
+  ////send result 
+  //let postData = querystring.stringify({
+  //  'kind': 'nbif.main.normal',
+  //  'kickoffdate' : kickoffdate,
+  //  'results' : testResult
+  //});
+  //
+  //let options = {
+  //  hostname: 'amdnbif.thehunters.club',
+  //  port: 80,
+  //  path: '/regression/uploadstatus',
+  //  method: 'POST',
+  //  headers: {
+  //    'Content-Type': 'application/x-www-form-urlencoded',
+  //    'Content-Length': Buffer.byteLength(postData)
+  //  }
+  //};
+  //
+  //let req = http.request(options, (res) => {
+  //  console.log(`STATUS: ${res.statusCode}`);
+  //  //console.log(`HEADERS: ${JSON.stringify(res.headers)}`);
+  //  res.setEncoding('utf8');
+  //  res.on('data', (chunk) => {
+  //    console.log(`BODY: ${chunk}`);
+  //  });
+  //  res.on('end', () => {
+  //    console.log('No more data in response.');
+  //  });
+  //});
+  //
+  //req.on('error', (e) => {
+  //  console.error(`problem with request: ${e.message}`);
+  //});
+  //
+  //// write data to request body
+  //req.write(postData);
+  //req.end();
 
 },null,false,'Asia/Chongqing');
 var jobid_regression_main_daily = new cronJob('0 30 16 * * *',function(){
