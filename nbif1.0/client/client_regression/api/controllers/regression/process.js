@@ -14,7 +14,7 @@ let loop  = 'daily';
 let time  = moment().format('YYYYMMDDHHmmss');
 let kickoffdate ;
 let currentCL ;
-var jobid_regression_main_daily_check_status = new cronJob('0 0 */2 * * *',function(){
+var jobid_regression_main_daily_check_status = new cronJob('0 0 */4 * * *',function(){
   console.log('jobid_regression_main_daily_check_status start at '+moment().format('YYYY-MM-DD HH:mm:ss'));
   let treeRoot = workspace+'/nbif.regression.main.daily';
   let outDir  = {};
@@ -98,46 +98,46 @@ var jobid_regression_main_daily_check_status = new cronJob('0 0 */2 * * *',funct
     console.log(testResult[testName]['signature']);   
     console.log(testResult[testName]['mode']);        
   };
-  ////send result 
-  //let postData = querystring.stringify({
-  //  'kind': '',
-  //  'kickoffdate' : kickoffdate,
-  //  'results' : testResult
-  //});
-  //
-  //let options = {
-  //  hostname: 'amdnbif.thehunters.club',
-  //  port: 80,
-  //  path: '/regression/uploadstatus',
-  //  method: 'POST',
-  //  headers: {
-  //    'Content-Type': 'application/x-www-form-urlencoded',
-  //    'Content-Length': Buffer.byteLength(postData)
-  //  }
-  //};
-  //
-  //let req = http.request(options, (res) => {
-  //  console.log(`STATUS: ${res.statusCode}`);
-  //  //console.log(`HEADERS: ${JSON.stringify(res.headers)}`);
-  //  res.setEncoding('utf8');
-  //  res.on('data', (chunk) => {
-  //    console.log(`BODY: ${chunk}`);
-  //  });
-  //  res.on('end', () => {
-  //    console.log('No more data in response.');
-  //  });
-  //});
-  //
-  //req.on('error', (e) => {
-  //  console.error(`problem with request: ${e.message}`);
-  //});
-  //
-  //// write data to request body
-  //req.write(postData);
-  //req.end();
+  //send result 
+  let postData = querystring.stringify({
+    'kind': '',
+    'kickoffdate' : kickoffdate,
+    'results' : testResult
+  });
+  
+  let options = {
+    hostname: 'amdnbif.thehunters.club',
+    port: 80,
+    path: '/regression/uploadstatus',
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/x-www-form-urlencoded',
+      'Content-Length': Buffer.byteLength(postData)
+    }
+  };
+  
+  let req = http.request(options, (res) => {
+    console.log(`STATUS: ${res.statusCode}`);
+    //console.log(`HEADERS: ${JSON.stringify(res.headers)}`);
+    res.setEncoding('utf8');
+    res.on('data', (chunk) => {
+      console.log(`BODY: ${chunk}`);
+    });
+    res.on('end', () => {
+      console.log('No more data in response.');
+    });
+  });
+  
+  req.on('error', (e) => {
+    console.error(`problem with request: ${e.message}`);
+  });
+  
+  // write data to request body
+  req.write(postData);
+  req.end();
 
 },null,false,'Asia/Chongqing');
-var jobid_regression_main_daily = new cronJob('0 5 12 * * *',function(){
+var jobid_regression_main_daily = new cronJob('0 0 21 * * *',function(){
   console.log('jobid_regression_main_daily start at '+moment().format('YYYY-MM-DD HH:mm:ss'));
   jobid_regression_main_daily_check_status.stop();
   console.log('jobid_regression_main_daily_check_status stopped due to new kickoff at '+moment().format('YYYY-MM-DD HH:mm:ss'));
@@ -175,22 +175,30 @@ var jobid_regression_main_daily = new cronJob('0 5 12 * * *',function(){
         //prepare
         if(fs.existsSync(treeRoot)){
           if(fs.existsSync(treeRoot+'/out')){
-            child_process.execSync('mv '+treeRoot+'/out '+treeRoot+'/out.toRemove');
-            child_process.exec('rm -rf '+treeRoot+'/out.toRemove');
+            //child_process.execSync('mv '+treeRoot+'/out '+treeRoot+'/out.toRemove');
+            //child_process.exec('rm -rf '+treeRoot+'/out.toRemove');
+            fs.renameSync(treeRoot+'/out',treeRoot+'/out.toRemove');
+            fs.rmdir(treeRoot+'/out.toRemove');
           }
           else{
           }
           if(fs.existsSync(treeRoot+'/build.log')){
-            child_process.execSync('mv '+treeRoot+'/build.log'+' '+treeRoot+'/build.log.toRemove');
-            child_process.exec('rm -rf '+treeRoot+'/build.log.toRemove');
+            //child_process.execSync('mv '+treeRoot+'/build.log'+' '+treeRoot+'/build.log.toRemove');
+            //child_process.exec('rm -rf '+treeRoot+'/build.log.toRemove');
+            fs.renameSync(treeRoot+'/build.log',treeRoot+'/build.log.toRemove');
+            fs.rmdir(treeRoot+'/build.log.toRemove');
           }
           if(fs.existsSync(treeRoot+'/run.log')){
-            child_process.execSync('mv '+treeRoot+'/run.log'+' '+treeRoot+'/run.log.toRemove');
-            child_process.exec('rm -rf '+treeRoot+'/run.log.toRemove');
+            //child_process.execSync('mv '+treeRoot+'/run.log'+' '+treeRoot+'/run.log.toRemove');
+            //child_process.exec('rm -rf '+treeRoot+'/run.log.toRemove');
+            fs.renameSync(treeRoot+'/run.log',treeRoot+'/run.log.toRemove');
+            fs.rmdir(treeRoot+'/run.log.toRemove');
           }
           if(fs.existsSync(treeRoot+'/testlist.log')){
-            child_process.execSync('mv '+treeRoot+'/testlist.log'+' '+treeRoot+'/testlist.log.toRemove');
-            child_process.exec('rm -rf '+treeRoot+'/testlist.log.toRemove');
+            //child_process.execSync('mv '+treeRoot+'/testlist.log'+' '+treeRoot+'/testlist.log.toRemove');
+            //child_process.exec('rm -rf '+treeRoot+'/testlist.log.toRemove');
+            fs.renameSync(treeRoot+'/testlist.log',treeRoot+'/testlist.log.toRemove');
+            fs.rmdir(treeRoot+'/testlist.log.toRemove');
           }
         }
         //prepare the script
