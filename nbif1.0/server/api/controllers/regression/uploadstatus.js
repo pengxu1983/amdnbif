@@ -70,10 +70,33 @@ module.exports = {
             //per test
             let onetestresult = JSON.parse(resultToStore[r]);
             for(let date in onetestresult){
-
+              if(moment(date).add(15,'days').isBefore(inputs.kickoffdate)){
+                delete onetestresult[date];
+                resultToStore[r]  = onetestresult;
+              }
+            }
+            //store new
+            for(let onetest in results){//onetest means testname
+              resultToStore[inputs.kickoffdate]={}
+              resultToStore[inputs.kickoffdate]['changelist'] = results[testname]['changelist'] ;
+              resultToStore[inputs.kickoffdate]['result']     = results[testname]['result']     ;
+              resultToStore[inputs.kickoffdate]['seed']       = results[testname]['seed']       ;
+              resultToStore[inputs.kickoffdate]['signature']  = results[testname]['signature']  ;
+              resultToStore[inputs.kickoffdate]['mode']       = results[testname]['mode']       ;
+              resultToStore[inputs.kickoffdate]['suite']      = results[testname]['suite']      ;
+              let R = await DB.findOne({
+                testname  : onetest
+              });
+              if(R){
+                await DB.update({
+                  testname  : onetest
+                },{
+                  resultbyday : JSON.stringify(resultToStore)
+                });
+              }
             }
           }
-          //store new
+          
 
         }
       }
