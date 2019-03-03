@@ -137,7 +137,7 @@ var jobid_regression_main_daily_check_status = new cronJob('0 0 */4 * * *',funct
   req.end();
 
 },null,false,'Asia/Chongqing');
-var jobid_regression_main_daily = new cronJob('0 0 21 * * *',function(){
+var jobid_regression_main_daily = new cronJob('0 0 22 * * *',function(){
   console.log('jobid_regression_main_daily start at '+moment().format('YYYY-MM-DD HH:mm:ss'));
   jobid_regression_main_daily_check_status.stop();
   console.log('jobid_regression_main_daily_check_status stopped due to new kickoff at '+moment().format('YYYY-MM-DD HH:mm:ss'));
