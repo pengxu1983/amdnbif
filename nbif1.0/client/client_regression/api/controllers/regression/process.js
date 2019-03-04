@@ -14,8 +14,10 @@ let loop  = 'daily';
 let time  = moment().format('YYYYMMDDHHmmss');
 let kickoffdate ;
 let currentCL ;
-var jobid_regression_main_daily_check_status = new cronJob('0 0 */4 * * *',function(){
+var jobid_regression_main_daily_check_status = new cronJob('* * * * * *',function(){
+
   console.log('jobid_regression_main_daily_check_status start at '+moment().format('YYYY-MM-DD HH:mm:ss'));
+  jobid_regression_main_daily_check_status.stop();
   let treeRoot = workspace+'/nbif.regression.main.daily';
   let outDir  = {};
   let availableSuite = ['nbiftdl','nbifresize','nbifrandom','nbifgen4','nbifdummyf'];
@@ -70,10 +72,17 @@ var jobid_regression_main_daily_check_status = new cronJob('0 0 */4 * * *',funct
       testResult[testName]['seed']       = 'NA';
       testResult[testName]['signature']  = 'NA';
       //remove out dir of this particular test
-      child_process.execSync('mv '+outDir[testResult[testName]['suite']]+'/'+testName+'_nbif_all_rtl '+outDir[testResult[testName]['suite']]+'/'+testName+'_nbif_all_rtl.toRemove');
+      //child_process.execSync('mv '+outDir[testResult[testName]['suite']]+'/'+testName+'_nbif_all_rtl '+outDir[testResult[testName]['suite']]+'/'+testName+'_nbif_all_rtl.toRemove');
+      fs.renameSync(outDir[testResult[testName]['suite']]+'/'+testName+'_nbif_all_rtl',outDir[testResult[testName]['suite']]+'/'+testName+'_nbif_all_rtl.toRemove');
       fs.mkdirSync(outDir[testResult[testName]['suite']]+'/'+testName+'_nbif_all_rtl');
-      child_process.execSync('touch '+outDir[testResult[testName]['suite']]+'/'+testName+'_nbif_all_rtl/REGRESS_PASS');
-      child_process.exec('rm -rf '+outDir[testResult[testName]['suite']]+'/'+testName+'_nbif_all_rtl.toRemove');
+      //child_process.execSync('touch '+outDir[testResult[testName]['suite']]+'/'+testName+'_nbif_all_rtl/REGRESS_PASS');
+      fs.writeFileSync(outDir[testResult[testName]['suite']]+'/'+testName+'_nbif_all_rtl/REGRESS_PASS','',{
+        encoding  : 'utf8',
+        mode      : '0600',
+        flag      : 'w'
+      })
+      //child_process.execSync('rm -rf '+outDir[testResult[testName]['suite']]+'/'+testName+'_nbif_all_rtl.toRemove');
+      fs.rmdir(outDir[testResult[testName]['suite']]+'/'+testName+'_nbif_all_rtl.toRemove',(err)=>{});
     }
     else if(fs.existsSync(outDir[testResult[testName]['suite']]+'/'+testName+'_nbif_all_rtl/vcs_run.log')){
       let R =child_process.execSync(workspace+'/amdnbif/nbif1.0/client/client_regression/tools/processSimLog.pl '+outDir[testResult[testName]['suite']]+'/'+testName+'_nbif_all_rtl/vcs_run.log',{
@@ -88,6 +97,7 @@ var jobid_regression_main_daily_check_status = new cronJob('0 0 */4 * * *',funct
     else{
       //unknown status
     }
+    console.log(moment().format('YYYY MM DD HH:mm:ss'));
     console.log('TTT : '+testName+':');
     console.log(testResult[testName]['kickoffdate']);
     console.log(testResult[testName]['projectname']);  
@@ -104,8 +114,9 @@ var jobid_regression_main_daily_check_status = new cronJob('0 0 */4 * * *',funct
   //send result 
   let postData = querystring.stringify({
     'kind': variantname,
-    'kickoffdate' : kickoffdate,
-    'results' : testResult
+    //'kickoffdate' : kickoffdate,
+    'kickoffdate' : moment().format('YYYY-MM-DD'),
+    'results' : JSON.stringify(testResult)
   });
   
   let options = {

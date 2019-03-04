@@ -109,6 +109,9 @@ module.exports = {
         }
       }
     }
+    return exists.success(JSON.stringify({
+      ok  : 'notok'
+    }));
     // All done.
 
   }
