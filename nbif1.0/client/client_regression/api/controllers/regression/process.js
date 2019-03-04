@@ -14,10 +14,10 @@ let loop  = 'daily';
 let time  = moment().format('YYYYMMDDHHmmss');
 let kickoffdate ;
 let currentCL ;
-var jobid_regression_main_daily_check_status = new cronJob('* * * * * *',function(){
+var jobid_regression_main_daily_check_status = new cronJob('0 0 */3 * * *',function(){
 
   console.log('jobid_regression_main_daily_check_status start at '+moment().format('YYYY-MM-DD HH:mm:ss'));
-  jobid_regression_main_daily_check_status.stop();
+  //jobid_regression_main_daily_check_status.stop();
   let treeRoot = workspace+'/nbif.regression.main.daily';
   let outDir  = {};
   let availableSuite = ['nbiftdl','nbifresize','nbifrandom','nbifgen4','nbifdummyf'];
@@ -29,6 +29,14 @@ var jobid_regression_main_daily_check_status = new cronJob('* * * * * *',functio
   for(let suite in outDir){
     testDir = outDir[suite];
     console.log(testDir);
+    child_process.exec('bsub -P BIF-SHUB -q normal -J NBIFrg -R \'rusage[mem=40000] select[type==RHEL6_64]\' rm -rf '+testDir+'/*.toRemove',{
+      encoding  : 'utf8'
+    },(error,stdout,stderr) =>{
+      if(error){
+        console.log(error);
+      }
+      console.log(stdout);
+    });
   }
   let testList = [];
   let testResult = {};
@@ -58,6 +66,12 @@ var jobid_regression_main_daily_check_status = new cronJob('* * * * * *',functio
   let currentCL = R[1];
   //check status per test
   for(let testName in testResult){
+    if(testResult[testName]['result'] == 'PASS'){
+      continue;
+    }
+    if(testResult[testName]['result'] == 'FAIL'){
+      continue;
+    }
     testResult[testName]['kickoffdate']  = kickoffdate;
     testResult[testName]['projectname']  = projectname;
     testResult[testName]['variantname']  = variantname;
@@ -66,23 +80,19 @@ var jobid_regression_main_daily_check_status = new cronJob('* * * * * *',functio
     testResult[testName]['seed']         = 'NA';
     testResult[testName]['signature']    = 'NA';
     testResult[testName]['mode']         = 'normal';
-    
     if(fs.existsSync(outDir[testResult[testName]['suite']]+'/'+testName+'_nbif_all_rtl/REGRESS_PASS')){
       testResult[testName]['result']     = 'PASS';
       testResult[testName]['seed']       = 'NA';
       testResult[testName]['signature']  = 'NA';
       //remove out dir of this particular test
-      //child_process.execSync('mv '+outDir[testResult[testName]['suite']]+'/'+testName+'_nbif_all_rtl '+outDir[testResult[testName]['suite']]+'/'+testName+'_nbif_all_rtl.toRemove');
       fs.renameSync(outDir[testResult[testName]['suite']]+'/'+testName+'_nbif_all_rtl',outDir[testResult[testName]['suite']]+'/'+testName+'_nbif_all_rtl.toRemove');
+      child_process.execSync('rm -rf '+outDir[testResult[testName]['suite']]+'/'+testName+'_nbif_all_rtl.toRemove');
       fs.mkdirSync(outDir[testResult[testName]['suite']]+'/'+testName+'_nbif_all_rtl');
-      //child_process.execSync('touch '+outDir[testResult[testName]['suite']]+'/'+testName+'_nbif_all_rtl/REGRESS_PASS');
       fs.writeFileSync(outDir[testResult[testName]['suite']]+'/'+testName+'_nbif_all_rtl/REGRESS_PASS','',{
         encoding  : 'utf8',
         mode      : '0600',
         flag      : 'w'
       })
-      //child_process.execSync('rm -rf '+outDir[testResult[testName]['suite']]+'/'+testName+'_nbif_all_rtl.toRemove');
-      fs.rmdir(outDir[testResult[testName]['suite']]+'/'+testName+'_nbif_all_rtl.toRemove',(err)=>{});
     }
     else if(fs.existsSync(outDir[testResult[testName]['suite']]+'/'+testName+'_nbif_all_rtl/vcs_run.log')){
       let R =child_process.execSync(workspace+'/amdnbif/nbif1.0/client/client_regression/tools/processSimLog.pl '+outDir[testResult[testName]['suite']]+'/'+testName+'_nbif_all_rtl/vcs_run.log',{
@@ -106,52 +116,91 @@ var jobid_regression_main_daily_check_status = new cronJob('* * * * * *',functio
     console.log(testResult[testName]['result']);     
     console.log(testResult[testName]['seed']);       
     console.log(testResult[testName]['signature']);   
-    console.log(testResult[testName]['mode']);        
+    console.log(testResult[testName]['mode']);     
+    //send one test result
+    let postData = querystring.stringify({
+      'kind': 'singletest',
+      'variantname' : variantname,
+      'testname'  : testName,
+      'onetestresult' : JSON.stringify(testResult[testName])
+    });
+    
+    let options = {
+      hostname: 'www.google.com',
+      port: 80,
+      path: '/upload',
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/x-www-form-urlencoded',
+        'Content-Length': Buffer.byteLength(postData)
+      }
+    };
+    
+    let req = http.request(options, (res) => {
+      console.log(`STATUS: ${res.statusCode}`);
+      console.log(`HEADERS: ${JSON.stringify(res.headers)}`);
+      res.setEncoding('utf8');
+      res.on('data', (chunk) => {
+        console.log(`BODY: ${chunk}`);
+      });
+      res.on('end', () => {
+        console.log('No more data in response.');
+      });
+    });
+    
+    req.on('error', (e) => {
+      console.error(`problem with request: ${e.message}`);
+    });
+    
+    // write data to request body
+    req.write(postData);
+    req.end();
+    
   };
   console.log('DBG111');
   console.log(testResult);
 
   //send result 
-  let postData = querystring.stringify({
-    'kind': variantname,
-    //'kickoffdate' : kickoffdate,
-    'kickoffdate' : moment().format('YYYY-MM-DD'),
-    'results' : JSON.stringify(testResult)
-  });
-  
-  let options = {
-    hostname: 'amdnbif.thehunters.club',
-    port: 80,
-    path: '/regression/uploadstatus',
-    method: 'POST',
-    headers: {
-      'Content-Type': 'application/x-www-form-urlencoded',
-      'Content-Length': Buffer.byteLength(postData)
-    }
-  };
-  
-  let req = http.request(options, (res) => {
-    console.log(`STATUS: ${res.statusCode}`);
-    //console.log(`HEADERS: ${JSON.stringify(res.headers)}`);
-    res.setEncoding('utf8');
-    res.on('data', (chunk) => {
-      console.log(`BODY: ${chunk}`);
-    });
-    res.on('end', () => {
-      console.log('No more data in response.');
-    });
-  });
-  
-  req.on('error', (e) => {
-    console.error(`problem with request: ${e.message}`);
-  });
-  
-  // write data to request body
-  req.write(postData);
-  req.end();
+  //let postData = querystring.stringify({
+  //  'kind': variantname,
+  //  //'kickoffdate' : kickoffdate,
+  //  'kickoffdate' : moment().format('YYYY-MM-DD'),
+  //  'results' : JSON.stringify(testResult)
+  //});
+  //
+  //let options = {
+  //  hostname: 'amdnbif.thehunters.club',
+  //  port: 80,
+  //  path: '/regression/uploadstatus',
+  //  method: 'POST',
+  //  headers: {
+  //    'Content-Type': 'application/x-www-form-urlencoded',
+  //    'Content-Length': Buffer.byteLength(postData)
+  //  }
+  //};
+  //
+  //let req = http.request(options, (res) => {
+  //  console.log(`STATUS: ${res.statusCode}`);
+  //  //console.log(`HEADERS: ${JSON.stringify(res.headers)}`);
+  //  res.setEncoding('utf8');
+  //  res.on('data', (chunk) => {
+  //    console.log(`BODY: ${chunk}`);
+  //  });
+  //  res.on('end', () => {
+  //    console.log('No more data in response.');
+  //  });
+  //});
+  //
+  //req.on('error', (e) => {
+  //  console.error(`problem with request: ${e.message}`);
+  //});
+  //
+  //// write data to request body
+  //req.write(postData);
+  //req.end();
 
 },null,false,'Asia/Chongqing');
-var jobid_regression_main_daily = new cronJob('0 0 0 * * *',function(){
+var jobid_regression_main_daily = new cronJob('0 0 19 * * *',function(){
   console.log('jobid_regression_main_daily start at '+moment().format('YYYY-MM-DD HH:mm:ss'));
   jobid_regression_main_daily_check_status.stop();
   console.log('jobid_regression_main_daily_check_status stopped due to new kickoff at '+moment().format('YYYY-MM-DD HH:mm:ss'));
@@ -189,30 +238,37 @@ var jobid_regression_main_daily = new cronJob('0 0 0 * * *',function(){
         //prepare
         if(fs.existsSync(treeRoot)){
           if(fs.existsSync(treeRoot+'/out')){
-            //child_process.execSync('mv '+treeRoot+'/out '+treeRoot+'/out.toRemove');
-            //child_process.exec('rm -rf '+treeRoot+'/out.toRemove');
             fs.renameSync(treeRoot+'/out',treeRoot+'/out.toRemove');
-            fs.rmdir(treeRoot+'/out.toRemove',(err) =>{});
+            child_process.exec('bsub -P BIF-SHUB -q normal -J NBIFrg -R \'rusage[mem=40000] select[type==RHEL6_64]\' rm -rf '+treeRoot+'/out.toRemove',{
+              encoding  : 'utf8'
+            },(error,stdout,stderr)=>{
+              if(error){
+                console.log(error);
+              }
+            });
           }
           else{
           }
           if(fs.existsSync(treeRoot+'/build.log')){
-            //child_process.execSync('mv '+treeRoot+'/build.log'+' '+treeRoot+'/build.log.toRemove');
-            //child_process.exec('rm -rf '+treeRoot+'/build.log.toRemove');
+            if(fs.existsSync(treeRoot+'/build.log.toRemove')){
+              fs.unlinkSync(treeRoot+'/build.log.toRemove');
+            }
             fs.renameSync(treeRoot+'/build.log',treeRoot+'/build.log.toRemove');
-            fs.rmdir(treeRoot+'/build.log.toRemove',(err) =>{});
+            fs.unlink(treeRoot+'/build.log.toRemove',(err) =>{});
           }
           if(fs.existsSync(treeRoot+'/run.log')){
-            //child_process.execSync('mv '+treeRoot+'/run.log'+' '+treeRoot+'/run.log.toRemove');
-            //child_process.exec('rm -rf '+treeRoot+'/run.log.toRemove');
+            if(fs.existsSync(treeRoot+'/run.log.toRemove')){
+              fs.unlinkSync(treeRoot+'/run.log.toRemove');
+            }
             fs.renameSync(treeRoot+'/run.log',treeRoot+'/run.log.toRemove');
-            fs.rmdir(treeRoot+'/run.log.toRemove',(err) =>{});
+            fs.unlink(treeRoot+'/run.log.toRemove',(err) =>{});
           }
           if(fs.existsSync(treeRoot+'/testlist.log')){
-            //child_process.execSync('mv '+treeRoot+'/testlist.log'+' '+treeRoot+'/testlist.log.toRemove');
-            //child_process.exec('rm -rf '+treeRoot+'/testlist.log.toRemove');
+            if(fs.existsSync(treeRoot+'/testlist.log.toRemove')){
+              fs.unlinkSync(treeRoot+'/testlist.log.toRemove');
+            }
             fs.renameSync(treeRoot+'/testlist.log',treeRoot+'/testlist.log.toRemove');
-            fs.rmdir(treeRoot+'/testlist.log.toRemove',(err) =>{});
+            fs.unlink(treeRoot+'/testlist.log.toRemove',(err) =>{});
           }
         }
         //prepare the script
