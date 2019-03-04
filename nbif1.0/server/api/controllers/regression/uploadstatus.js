@@ -76,28 +76,36 @@ module.exports = {
               }
             }
             //store new
-            for(let onetest in results){//onetest means testname
-              resultToStore[inputs.kickoffdate]={}
-              resultToStore[inputs.kickoffdate]['changelist'] = results[testname]['changelist'] ;
-              resultToStore[inputs.kickoffdate]['result']     = results[testname]['result']     ;
-              resultToStore[inputs.kickoffdate]['seed']       = results[testname]['seed']       ;
-              resultToStore[inputs.kickoffdate]['signature']  = results[testname]['signature']  ;
-              resultToStore[inputs.kickoffdate]['mode']       = results[testname]['mode']       ;
-              resultToStore[inputs.kickoffdate]['suite']      = results[testname]['suite']      ;
+            for(let testname in results){
+              onetestresult[inputs.kickoffdate]={}
+              onetestresult[inputs.kickoffdate]['changelist'] = results[testname]['changelist'] ;
+              onetestresult[inputs.kickoffdate]['result']     = results[testname]['result']     ;
+              onetestresult[inputs.kickoffdate]['seed']       = results[testname]['seed']       ;
+              onetestresult[inputs.kickoffdate]['signature']  = results[testname]['signature']  ;
+              onetestresult[inputs.kickoffdate]['mode']       = results[testname]['mode']       ;
+              onetestresult[inputs.kickoffdate]['suite']      = results[testname]['suite']      ;
               let R = await DB.findOne({
-                testname  : onetest
+                testname  : testname
               });
               if(R){
                 await DB.update({
-                  testname  : onetest
+                  testname  : testname
                 },{
-                  resultbyday : JSON.stringify(resultToStore)
+                  resultbyday : JSON.stringify(onetestresult)
+                });
+              }
+              else{
+                await DB.create({
+                  testname  : testname,
+                  testplan  : 'NA',
+                  resultbyday : JSON.stringify(onetestresult)
                 });
               }
             }
           }
-          
-
+          return exists.success(JSON.stringify({
+            ok  : 'ok'
+          }));
         }
       }
     }

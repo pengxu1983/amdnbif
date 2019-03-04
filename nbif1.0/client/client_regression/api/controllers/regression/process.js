@@ -98,9 +98,12 @@ var jobid_regression_main_daily_check_status = new cronJob('0 0 */4 * * *',funct
     console.log(testResult[testName]['signature']);   
     console.log(testResult[testName]['mode']);        
   };
+  console.log('DBG111');
+  console.log(testResult);
+
   //send result 
   let postData = querystring.stringify({
-    'kind': '',
+    'kind': variantname,
     'kickoffdate' : kickoffdate,
     'results' : testResult
   });
@@ -137,7 +140,7 @@ var jobid_regression_main_daily_check_status = new cronJob('0 0 */4 * * *',funct
   req.end();
 
 },null,false,'Asia/Chongqing');
-var jobid_regression_main_daily = new cronJob('0 0 22 * * *',function(){
+var jobid_regression_main_daily = new cronJob('0 0 0 * * *',function(){
   console.log('jobid_regression_main_daily start at '+moment().format('YYYY-MM-DD HH:mm:ss'));
   jobid_regression_main_daily_check_status.stop();
   console.log('jobid_regression_main_daily_check_status stopped due to new kickoff at '+moment().format('YYYY-MM-DD HH:mm:ss'));
@@ -178,7 +181,7 @@ var jobid_regression_main_daily = new cronJob('0 0 22 * * *',function(){
             //child_process.execSync('mv '+treeRoot+'/out '+treeRoot+'/out.toRemove');
             //child_process.exec('rm -rf '+treeRoot+'/out.toRemove');
             fs.renameSync(treeRoot+'/out',treeRoot+'/out.toRemove');
-            fs.rmdir(treeRoot+'/out.toRemove');
+            fs.rmdir(treeRoot+'/out.toRemove',(err) =>{});
           }
           else{
           }
@@ -186,19 +189,19 @@ var jobid_regression_main_daily = new cronJob('0 0 22 * * *',function(){
             //child_process.execSync('mv '+treeRoot+'/build.log'+' '+treeRoot+'/build.log.toRemove');
             //child_process.exec('rm -rf '+treeRoot+'/build.log.toRemove');
             fs.renameSync(treeRoot+'/build.log',treeRoot+'/build.log.toRemove');
-            fs.rmdir(treeRoot+'/build.log.toRemove');
+            fs.rmdir(treeRoot+'/build.log.toRemove',(err) =>{});
           }
           if(fs.existsSync(treeRoot+'/run.log')){
             //child_process.execSync('mv '+treeRoot+'/run.log'+' '+treeRoot+'/run.log.toRemove');
             //child_process.exec('rm -rf '+treeRoot+'/run.log.toRemove');
             fs.renameSync(treeRoot+'/run.log',treeRoot+'/run.log.toRemove');
-            fs.rmdir(treeRoot+'/run.log.toRemove');
+            fs.rmdir(treeRoot+'/run.log.toRemove',(err) =>{});
           }
           if(fs.existsSync(treeRoot+'/testlist.log')){
             //child_process.execSync('mv '+treeRoot+'/testlist.log'+' '+treeRoot+'/testlist.log.toRemove');
             //child_process.exec('rm -rf '+treeRoot+'/testlist.log.toRemove');
             fs.renameSync(treeRoot+'/testlist.log',treeRoot+'/testlist.log.toRemove');
-            fs.rmdir(treeRoot+'/testlist.log.toRemove');
+            fs.rmdir(treeRoot+'/testlist.log.toRemove',(err) =>{});
           }
         }
         //prepare the script
