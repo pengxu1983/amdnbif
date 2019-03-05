@@ -15,7 +15,7 @@
           </el-table-column>
           <el-table-column
             prop="result"
-            label="CurrentCL Status"
+            label="Status"
             width="140"
           >
           </el-table-column>
