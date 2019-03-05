@@ -29,7 +29,7 @@ var jobid_regression_main_daily_check_status = new cronJob('0 0 */3 * * *',funct
   for(let suite in outDir){
     testDir = outDir[suite];
     console.log(testDir);
-    child_process.exec('bsub -P BIF-SHUB -q normal -J NBIFrg -R \'rusage[mem=40000] select[type==RHEL6_64]\' rm -rf '+testDir+'/*.toRemove',{
+    child_process.exec('bsub -P BIF-SHUB -q normal -J NBIFrg -R \'rusage[mem=4000] select[type==RHEL6_64]\' rm -rf '+testDir+'/*.toRemove',{
       encoding  : 'utf8'
     },(error,stdout,stderr) =>{
       if(error){
@@ -67,9 +67,11 @@ var jobid_regression_main_daily_check_status = new cronJob('0 0 */3 * * *',funct
   //check status per test
   for(let testName in testResult){
     if(testResult[testName]['result'] == 'PASS'){
+      console.log(testName+' is already checked');
       continue;
     }
     if(testResult[testName]['result'] == 'FAIL'){
+      console.log(testName+' is already checked');
       continue;
     }
     testResult[testName]['kickoffdate']  = kickoffdate;
@@ -86,7 +88,7 @@ var jobid_regression_main_daily_check_status = new cronJob('0 0 */3 * * *',funct
       testResult[testName]['signature']  = 'NA';
       //remove out dir of this particular test
       fs.renameSync(outDir[testResult[testName]['suite']]+'/'+testName+'_nbif_all_rtl',outDir[testResult[testName]['suite']]+'/'+testName+'_nbif_all_rtl.toRemove');
-      child_process.execSync('rm -rf '+outDir[testResult[testName]['suite']]+'/'+testName+'_nbif_all_rtl.toRemove');
+      child_process.execSync('bsub -P BIF-SHUB -q normal -J NBIFrg -R \'rusage[mem=200] select[type==RHEL6_64]\' rm -rf '+outDir[testResult[testName]['suite']]+'/'+testName+'_nbif_all_rtl.toRemove');
       fs.mkdirSync(outDir[testResult[testName]['suite']]+'/'+testName+'_nbif_all_rtl');
       fs.writeFileSync(outDir[testResult[testName]['suite']]+'/'+testName+'_nbif_all_rtl/REGRESS_PASS','',{
         encoding  : 'utf8',
@@ -119,16 +121,16 @@ var jobid_regression_main_daily_check_status = new cronJob('0 0 */3 * * *',funct
     console.log(testResult[testName]['mode']);     
     //send one test result
     let postData = querystring.stringify({
-      'kind': 'singletest',
-      'variantname' : variantname,
-      'testname'  : testName,
+      'kind'          : 'singletest',
+      'variantname'   : variantname,
+      'testname'      : testName,
       'onetestresult' : JSON.stringify(testResult[testName])
     });
     
     let options = {
-      hostname: 'www.google.com',
+      hostname: 'amdnbif.thehunters.club',
       port: 80,
-      path: '/upload',
+      path: '/regression/uploadstatus',
       method: 'POST',
       headers: {
         'Content-Type': 'application/x-www-form-urlencoded',
@@ -138,7 +140,7 @@ var jobid_regression_main_daily_check_status = new cronJob('0 0 */3 * * *',funct
     
     let req = http.request(options, (res) => {
       console.log(`STATUS: ${res.statusCode}`);
-      console.log(`HEADERS: ${JSON.stringify(res.headers)}`);
+      //console.log(`HEADERS: ${JSON.stringify(res.headers)}`);
       res.setEncoding('utf8');
       res.on('data', (chunk) => {
         console.log(`BODY: ${chunk}`);
@@ -158,7 +160,7 @@ var jobid_regression_main_daily_check_status = new cronJob('0 0 */3 * * *',funct
     
   };
   console.log('DBG111');
-  console.log(testResult);
+  console.log(testResult[testName]);
 
   //send result 
   //let postData = querystring.stringify({
@@ -200,7 +202,7 @@ var jobid_regression_main_daily_check_status = new cronJob('0 0 */3 * * *',funct
   //req.end();
 
 },null,false,'Asia/Chongqing');
-var jobid_regression_main_daily = new cronJob('0 0 19 * * *',function(){
+var jobid_regression_main_daily = new cronJob('0 30 19 * * *',function(){
   console.log('jobid_regression_main_daily start at '+moment().format('YYYY-MM-DD HH:mm:ss'));
   jobid_regression_main_daily_check_status.stop();
   console.log('jobid_regression_main_daily_check_status stopped due to new kickoff at '+moment().format('YYYY-MM-DD HH:mm:ss'));
