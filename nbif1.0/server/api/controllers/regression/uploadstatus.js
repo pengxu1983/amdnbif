@@ -75,7 +75,7 @@ module.exports = {
           testname  : inputs.testname
         },{
           testplan  : 'NA',//TODO
-          resultbyday : onetestresultToStore
+          resultbyday : JSON.stringify(onetestresultToStore)
         });
       }
       //test no previous record
@@ -89,7 +89,7 @@ module.exports = {
         await DB.create({
           testname  : inputs.testname,
           testplan  : 'NA',//TODO
-          resultbyday : onetestresultToStore
+          resultbyday : JSON.stringify(onetestresultToStore)
         });
       }
 
