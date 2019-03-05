@@ -15,6 +15,12 @@ module.exports = {
     variantname : {
       type  : 'string'
     },
+    testname  : {
+      type  : 'string'
+    },
+    onetestresult : {
+      type  : 'string'
+    },
     results : {
       type  : 'string'
     },
@@ -35,7 +41,58 @@ module.exports = {
     let variants = await Variants.find({
       id  : {'>=':0}
     });
+    let DB;
     if(inputs.kind  ==  'singletest'){
+      //clean up too early
+      if(inputs.variantname ==  'nbif_all_rtl'){
+        DB =  Teststatusvariant01;
+      }
+      let onetestresultfrominput  = JSON.parse(onetestresult);
+      let R     = await DB.findOne({
+        testname  : inputs.testname
+      });
+      let onetestresultToStore  = {};
+      onetestresultToStore[inputs.kickoffdate]={};
+      //test already exists
+      if(R){
+        let onetestresultfromDB = JSON.parse(R);
+        let resultbyday = JSON.parse(onetestresultfromDB.resultbyday);
+        //Clean up too old record
+        for(let storeddate in resultbyday){
+          if(moment(storeddate).add(15,'days').isBefore(inputs.kickoffdate)){
+            delete resultbyday[storeddate];
+          }
+        }
+        onetestresultToStore[inputs.kickoffdate]= resultbyday;
+        //store new record
+        onetestresultToStore[inputs.kickoffdate]['changelist']  = onetestresultfrominput[inputs.testname]['changelist'];
+        onetestresultToStore[inputs.kickoffdate]['result']      = onetestresultfrominput[inputs.testname]['result']    ;
+        onetestresultToStore[inputs.kickoffdate]['seed']        = onetestresultfrominput[inputs.testname]['seed']      ;
+        onetestresultToStore[inputs.kickoffdate]['signature']   = onetestresultfrominput[inputs.testname]['signature'] ;
+        onetestresultToStore[inputs.kickoffdate]['mode']        = onetestresultfrominput[inputs.testname]['mode']      ;
+        onetestresultToStore[inputs.kickoffdate]['suite']       = onetestresultfrominput[inputs.testname]['suite']     ;
+        await DB.update({
+          testname  : inputs.testname
+        },{
+          testplan  : 'NA',//TODO
+          resultbyday : onetestresultToStore
+        });
+      }
+      //test no previous record
+      else{
+        onetestresultToStore[inputs.kickoffdate]['changelist']  = onetestresultfrominput[inputs.testname]['changelist'];
+        onetestresultToStore[inputs.kickoffdate]['result']      = onetestresultfrominput[inputs.testname]['result']    ;
+        onetestresultToStore[inputs.kickoffdate]['seed']        = onetestresultfrominput[inputs.testname]['seed']      ;
+        onetestresultToStore[inputs.kickoffdate]['signature']   = onetestresultfrominput[inputs.testname]['signature'] ;
+        onetestresultToStore[inputs.kickoffdate]['mode']        = onetestresultfrominput[inputs.testname]['mode']      ;
+        onetestresultToStore[inputs.kickoffdate]['suite']       = onetestresultfrominput[inputs.testname]['suite']     ;
+        await DB.create({
+          testname  : inputs.testname,
+          testplan  : 'NA',//TODO
+          resultbyday : onetestresultToStore
+        });
+      }
+
     }
     //for(let v=0;v<variants.length;v++){//TODO suite?
     //  if(inputs.variantname == variants[v].variantname){
