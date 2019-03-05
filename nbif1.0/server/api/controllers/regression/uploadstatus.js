@@ -65,12 +65,12 @@ module.exports = {
         }
         onetestresultToStore[inputs.kickoffdate]= resultbyday;
         //store new record
-        onetestresultToStore[inputs.kickoffdate]['changelist']  = onetestresultfrominput[inputs.testname]['changelist'];
-        onetestresultToStore[inputs.kickoffdate]['result']      = onetestresultfrominput[inputs.testname]['result']    ;
-        onetestresultToStore[inputs.kickoffdate]['seed']        = onetestresultfrominput[inputs.testname]['seed']      ;
-        onetestresultToStore[inputs.kickoffdate]['signature']   = onetestresultfrominput[inputs.testname]['signature'] ;
-        onetestresultToStore[inputs.kickoffdate]['mode']        = onetestresultfrominput[inputs.testname]['mode']      ;
-        onetestresultToStore[inputs.kickoffdate]['suite']       = onetestresultfrominput[inputs.testname]['suite']     ;
+        onetestresultToStore[inputs.kickoffdate]['changelist']  = onetestresultfrominput['changelist'];
+        onetestresultToStore[inputs.kickoffdate]['result']      = onetestresultfrominput['result']    ;
+        onetestresultToStore[inputs.kickoffdate]['seed']        = onetestresultfrominput['seed']      ;
+        onetestresultToStore[inputs.kickoffdate]['signature']   = onetestresultfrominput['signature'] ;
+        onetestresultToStore[inputs.kickoffdate]['mode']        = onetestresultfrominput['mode']      ;
+        onetestresultToStore[inputs.kickoffdate]['suite']       = onetestresultfrominput['suite']     ;
         await DB.update({
           testname  : inputs.testname
         },{
@@ -80,12 +80,12 @@ module.exports = {
       }
       //test no previous record
       else{
-        onetestresultToStore[inputs.kickoffdate]['changelist']  = onetestresultfrominput[inputs.testname]['changelist'];
-        onetestresultToStore[inputs.kickoffdate]['result']      = onetestresultfrominput[inputs.testname]['result']    ;
-        onetestresultToStore[inputs.kickoffdate]['seed']        = onetestresultfrominput[inputs.testname]['seed']      ;
-        onetestresultToStore[inputs.kickoffdate]['signature']   = onetestresultfrominput[inputs.testname]['signature'] ;
-        onetestresultToStore[inputs.kickoffdate]['mode']        = onetestresultfrominput[inputs.testname]['mode']      ;
-        onetestresultToStore[inputs.kickoffdate]['suite']       = onetestresultfrominput[inputs.testname]['suite']     ;
+        onetestresultToStore[inputs.kickoffdate]['changelist']  = onetestresultfrominput['changelist'];
+        onetestresultToStore[inputs.kickoffdate]['result']      = onetestresultfrominput['result']    ;
+        onetestresultToStore[inputs.kickoffdate]['seed']        = onetestresultfrominput['seed']      ;
+        onetestresultToStore[inputs.kickoffdate]['signature']   = onetestresultfrominput['signature'] ;
+        onetestresultToStore[inputs.kickoffdate]['mode']        = onetestresultfrominput['mode']      ;
+        onetestresultToStore[inputs.kickoffdate]['suite']       = onetestresultfrominput['suite']     ;
         await DB.create({
           testname  : inputs.testname,
           testplan  : 'NA',//TODO
