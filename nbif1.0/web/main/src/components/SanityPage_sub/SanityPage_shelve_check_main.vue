@@ -83,7 +83,7 @@ export default {
             var allprojects = JSON.parse(response.body.projects);
             for(var index = 0; index < allprojects.length; index++){
               this.projects.push({
-                name              : allprojects[index].name,
+                projectname       : allprojects[index].name,
                 DVlead            : allprojects[index].DVlead,
                 DElead            : allprojects[index].DElead,
                 Projlead          : allprojects[index].Projlead,
