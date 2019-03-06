@@ -3,7 +3,7 @@
     <el-main>
       <el-container >
         <el-main>
-          <el-row >
+          <el-row :gutter="20">
             <el-col :span="12">
               <el-form ref="form" :model="shelveinfo" label-width="80px">
                 <el-form-item label="shelveID">
@@ -112,6 +112,9 @@ export default {
         function(){}
       );
     },
+  },
+  mounted  () {
+    this.get();
   }
 }
 </script>
