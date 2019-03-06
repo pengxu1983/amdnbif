@@ -31,6 +31,9 @@ module.exports = {
         shelveID  : data.shelveID
       });
       if(R){
+        return exits.success(JSON.stringify({
+          ok  : 'notok'
+        }));
       }
       else{
         let projects  = Projects.find({
@@ -51,14 +54,17 @@ module.exports = {
           initresults[variants[v].variantname]['dcelab']='notrun';
         }
         await Buffer_shelves.create({
-          shelveID        :   data.shelveID      
-          username        :   data.username      
-          basechangelist  :   data.basechangelist
-          projectname     :   data.projectname   
-          variantname     :   data.variantname   
-          password        :   data.password      
+          shelveID        :   data.shelveID      ,
+          username        :   data.username      ,
+          basechangelist  :   data.basechangelist,
+          projectname     :   data.projectname   ,
+          variantname     :   data.variantname   ,
+          password        :   data.password      ,
           results         :   JSON.stringify(initresults)
         });
+        return exits.success(JSON.stringify({
+          ok  : 'ok'
+        }));
       }
     }
     // All done.

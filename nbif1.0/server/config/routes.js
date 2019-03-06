@@ -114,6 +114,9 @@ module.exports.routes = {
   'POST /sanitys/dcelab/getcltorun' : {
     action  : 'sanitys/dcelab/getcltorun'
   },
+  'POST /sanitys/checkbeforesubmit/addjob' : {
+    action  : 'sanitys/checkbeforesubmit/addjob'
+  },
   'POST /regression/pushchangelist' : {
     action  : 'regression/pushchangelist'
   },

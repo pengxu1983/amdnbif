@@ -5,7 +5,7 @@
         <el-main>
           <el-row :gutter="20">
             <el-col :span="12">
-              <el-form ref="form" :model="shelveinfo" label-width="80px">
+              <el-form ref="form" :model="shelveinfo" label-width="120px">
                 <el-form-item label="shelveID">
                   <el-input v-model="shelveinfo.shelveID"></el-input>
                 </el-form-item>
@@ -18,7 +18,7 @@
                 <el-form-item label="baseCL">
                   <el-input v-model="shelveinfo.basechangelist"></el-input>
                 </el-form-item>
-                <el-form-item label="project">
+                <el-form-item label="project(TODO)">
                   <el-select v-model="shelveinfo.projectname" placeholder="Please select project">
                     <el-option 
                       v-for="oneproject in projects"
@@ -28,7 +28,7 @@
                     </el-option>
                   </el-select>
                 </el-form-item>
-                <el-form-item label="variant">
+                <el-form-item label="variant(TODO)">
                   <el-select v-model="shelveinfo.variantname" placeholder="Please select variant">
                     <el-option 
                       v-for="onevariant in variants"
@@ -39,7 +39,7 @@
                   </el-select>
                 </el-form-item>
                 <el-form-item>
-                  <el-button type="primary">Submit</el-button>
+                  <el-button type="primary" @click="addjob()">Submit</el-button>
                 </el-form-item>
               </el-form>
             </el-col>
@@ -72,6 +72,19 @@ export default {
     }
   },
   methods : {
+    addjob () {
+      this.$http.post('/sanitys/checkbeforesubmit/addjob',{
+        kind  : 'oneshelve',
+        data  : JSON.stringify(this.shelveinfo)
+      }).then(
+        function(response){
+          if(response.body.ok ==  'ok'){
+            alert('job added');
+          }
+        },
+        function(){}
+      );
+    },
     get () {
       //Projects get info
       this.$http.post('/config/get',{
