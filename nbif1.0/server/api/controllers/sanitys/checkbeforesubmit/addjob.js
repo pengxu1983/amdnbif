@@ -36,13 +36,13 @@ module.exports = {
         }));
       }
       else{
-        let projects  = Projects.find({
+        let projects  = await Projects.find({
           id  : {'>=':0}
         });
-        let variants  = Variants.find({
+        let variants  = await Variants.find({
           id  : {'>=':0}
         });
-        let common_sanitys = Common_sanitys.find({
+        let common_sanitys = await Common_sanitys.find({
           id  : {'>=':0}
         }); 
         let initresults = {};
