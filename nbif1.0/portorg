@@ -1,4 +1,5 @@
 for "client" 9xxx
-client/client_common_sanity   9001
-client/client_regression      9002
-client/client_dcelab          9003
+client/client_common_sanity       9001
+client/client_regression          9002
+client/client_dcelab              9003
+client/client_check_before_submit 9004
