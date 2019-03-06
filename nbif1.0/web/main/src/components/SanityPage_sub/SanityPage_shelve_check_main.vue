@@ -2,55 +2,50 @@
   <el-container>
     <el-main>
       <el-container >
-        <el-header>
-          <h5>Shelve To Check</h5>
-        </el-header>
         <el-main>
-          <el-form ref="form" :model="shelveinfo" label-width="80px">
-            <el-form-item label="shelveID">
-              <el-input v-model="shelveinfo.shelveID"></el-input>
-            </el-form-item>
-            <el-form-item label="username">
-              <el-input v-model="shelveinfo.username"></el-input>
-            </el-form-item>
-            <el-form-item label="password">
-              <el-input type="password" v-model="shelveinfo.password" :disabled="true"></el-input>
-            </el-form-item>
-            <el-form-item label="baseCL">
-              <el-input v-model="shelveinfo.basechangelist"></el-input>
-            </el-form-item>
-            <el-form-item label="project">
-              <el-select v-model="shelveinfo.projectname" placeholder="Please select project">
-                <el-option 
-                  v-for="oneproject in projects"
-                  :label="oneproject.projectname" 
-                  :value="oneproject.projectname"
-                >
-                </el-option>
-              </el-select>
-            </el-form-item>
-            <el-form-item label="variant">
-              <el-select v-model="shelveinfo.variantname" placeholder="Please select variant">
-                <el-option 
-                  v-for="onevariant in variants"
-                  :label="onevariant.variantname" 
-                  :value="onevariant.variantname"
-                >
-                </el-option>
-              </el-select>
-            </el-form-item>
-            <el-form-item>
-              <el-button type="primary">Submit</el-button>
-            </el-form-item>
-          </el-form>
-          <hr />
-        </el-main>
-      </el-container>
-      <el-container>
-        <el-header>
-          <h5>Latest Check Result</h5>
-        </el-header>
-        <el-main>
+          <el-row >
+            <el-col :span="12">
+              <el-form ref="form" :model="shelveinfo" label-width="80px">
+                <el-form-item label="shelveID">
+                  <el-input v-model="shelveinfo.shelveID"></el-input>
+                </el-form-item>
+                <el-form-item label="username">
+                  <el-input v-model="shelveinfo.username"></el-input>
+                </el-form-item>
+                <el-form-item label="password">
+                  <el-input type="password" v-model="shelveinfo.password" :disabled="true"></el-input>
+                </el-form-item>
+                <el-form-item label="baseCL">
+                  <el-input v-model="shelveinfo.basechangelist"></el-input>
+                </el-form-item>
+                <el-form-item label="project">
+                  <el-select v-model="shelveinfo.projectname" placeholder="Please select project">
+                    <el-option 
+                      v-for="oneproject in projects"
+                      :label="oneproject.projectname" 
+                      :value="oneproject.projectname"
+                    >
+                    </el-option>
+                  </el-select>
+                </el-form-item>
+                <el-form-item label="variant">
+                  <el-select v-model="shelveinfo.variantname" placeholder="Please select variant">
+                    <el-option 
+                      v-for="onevariant in variants"
+                      :label="onevariant.variantname" 
+                      :value="onevariant.variantname"
+                    >
+                    </el-option>
+                  </el-select>
+                </el-form-item>
+                <el-form-item>
+                  <el-button type="primary">Submit</el-button>
+                </el-form-item>
+              </el-form>
+            </el-col>
+            <el-col :span="12">
+            </el-col>
+          </el-row>
         </el-main>
       </el-container>
     </el-main>
