@@ -25,7 +25,7 @@ module.exports = {
   fn: async function (inputs,exits) {
     sails.log('/sanitys/checkbeforesubmit/addjob');
     sails.log(inputs);
-    let data = JSON.parse(data);
+    let data = JSON.parse(inputs.data);
     if(inputs.kind  ==  'oneshelve'){
       let R = await Buffer_shelves.findOne({
         shelveID  : data.shelveID
