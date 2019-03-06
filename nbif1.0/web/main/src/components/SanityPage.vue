@@ -38,8 +38,9 @@
 </template>
 
 <script>
-import SanityPage_status_main   from '@/components/SanityPage_sub/SanityPage_status_main.vue'
-import SanityPage_config_main   from '@/components/SanityPage_sub/SanityPage_config_main.vue'
+import SanityPage_status_main         from '@/components/SanityPage_sub/SanityPage_status_main.vue'
+import SanityPage_config_main         from '@/components/SanityPage_sub/SanityPage_config_main.vue'
+import SanityPage_shelve_check_main   from '@/components/SanityPage_sub/SanityPage_shelve_check_main.vue'
 
 export default {
   name: 'SanityPage',
@@ -48,8 +49,8 @@ export default {
   data() {
     return {
       projectinfo : {
-        projectname : 'NV21',
-        variantname : 'nbif_nv10_gpu'
+        projectname : 'MERO',
+        variantname : 'nbif_al_gpu'
       },
       projects    : [],
       variants    : [],
@@ -57,6 +58,7 @@ export default {
       kinds       : [
         'SanityPage_status_main',
         'SanityPage_config_main',
+        'SanityPage_shelve_check_main',
       ],
       currentTab  : 'SanityPage_status_main',
     }
@@ -64,6 +66,7 @@ export default {
   components  : {
     SanityPage_status_main,
     SanityPage_config_main,
+    SanityPage_shelve_check_main,
   },
   computed: {
     currentTabComponent: function () {
@@ -80,8 +83,8 @@ export default {
       else if(name == 'SanityPage_config_main'){
         return 'Config';
       }
-      else if(name == 'SanityPage_machines_main'){
-        return 'Machines';
+      else if(name == 'SanityPage_shelve_check_main'){
+        return 'Check';
       }
     },
     handleOpen(key, keyPath) {
