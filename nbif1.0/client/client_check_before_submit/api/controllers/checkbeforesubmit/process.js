@@ -4,8 +4,10 @@ var http          = require('http');
 var fs            = require('fs');
 var child_process = require('child_process');
 var cronJob       = require("cron").CronJob;
-var workspace     = '/proj/bif_nbio_vol1_backup/benpeng/';
+var username      = 'benpeng';
+var workspace     = '/proj/bif_nbio_vol1_backup/'+username+'/';
 var jobid_checkbeforesubmit_run = new cronJob('* * * * * *',function(){
+
 },null,true,'Asia/Chongqing');
 module.exports = {
 
