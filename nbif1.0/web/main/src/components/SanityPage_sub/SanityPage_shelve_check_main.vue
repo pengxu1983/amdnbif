@@ -18,26 +18,6 @@
                 <el-form-item label="baseCL">
                   <el-input v-model="shelveinfo.basechangelist"></el-input>
                 </el-form-item>
-                <el-form-item label="project(TODO)">
-                  <el-select v-model="shelveinfo.projectname" placeholder="Please select project">
-                    <el-option 
-                      v-for="oneproject in projects"
-                      :label="oneproject.projectname" 
-                      :value="oneproject.projectname"
-                    >
-                    </el-option>
-                  </el-select>
-                </el-form-item>
-                <el-form-item label="variant(TODO)">
-                  <el-select v-model="shelveinfo.variantname" placeholder="Please select variant">
-                    <el-option 
-                      v-for="onevariant in variants"
-                      :label="onevariant.variantname" 
-                      :value="onevariant.variantname"
-                    >
-                    </el-option>
-                  </el-select>
-                </el-form-item>
                 <el-form-item>
                   <el-button type="primary" @click="addjob()">Submit</el-button>
                 </el-form-item>
@@ -73,6 +53,18 @@ export default {
   },
   methods : {
     addjob () {
+      if(this.shelveinfo.username == ''){
+        alert('username is blank');
+        return;
+      }
+      if(this.shelveinfo.shelveID == ''){
+        alert('shelveID is blank');
+        return;
+      }
+      if(this.shelveinfo.basechangelist == ''){
+        alert('base changelist is blank');
+        return;
+      }
       this.$http.post('/sanitys/checkbeforesubmit/addjob',{
         kind  : 'oneshelve',
         data  : JSON.stringify(this.shelveinfo)
