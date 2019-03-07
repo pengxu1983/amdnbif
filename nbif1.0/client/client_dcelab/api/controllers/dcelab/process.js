@@ -84,12 +84,16 @@ var jobid_dcelab_run = new cronJob('0 */5 * * * *',function(){
               text += 'source /proj/verif_release_ro/cbwa_initscript/current/cbwa_init.csh\n';
               if(fs.existsSync(treeRoot)){
                 if(fs.existsSync(treeRoot+'/out')){
-                  child_process.execSync('mv '+treeRoot+'/out'+' '+treeRoot+'/out.toRemove');
+                  //child_process.execSync('mv '+treeRoot+'/out'+' '+treeRoot+'/out.toRemove');
+                  //child_process.exec('rm -rf '+treeRoot+'/out.toRemove');
+                  fs.renameSync(reeRoot+'/out',treeRoot+'/out.toRemove');
                   child_process.exec('rm -rf '+treeRoot+'/out.toRemove');
                 }
                 if(fs.existsSync(treeRoot+'/dcelab.log')){
-                  child_process.execSync('mv '+treeRoot+'/dcelab.log '+treeRoot+'/dcelab.log.toRemove');
-                  child_process.exec('rm -rf '+treeRoot+'/dcelab.log.toRemove');
+                  //child_process.execSync('mv '+treeRoot+'/dcelab.log '+treeRoot+'/dcelab.log.toRemove');
+                  //child_process.exec('rm -rf '+treeRoot+'/dcelab.log.toRemove');
+                  fs.renameSync(treeRoot+'/dcelab.log',treeRoot+'/dcelab.log.toRemove');
+                  fs.unlinkSync(treeRoot+'/dcelab.log.toRemove');
                 }
                 text += 'bootenv -v '+variants[v].variantname+'\n';
                 text += 'p4w sync_all @'+changelistToRun+'\n';
@@ -99,7 +103,7 @@ var jobid_dcelab_run = new cronJob('0 */5 * * * *',function(){
                 text += 'p4_mkwa -codeline nbif2_0 -cl '+changelistToRun+'\n';
                 text += 'bootenv -v '+variants[v].variantname+'\n';
               }
-              text += 'bsub -P BIF-SHUB -q normal -Is -J nbif_test -R \'rusage[mem=40000] select[type==RHEL6_64]\' dj -v -l dc_elab.log -e \'releaseflow::dropflow(:rtl_drop).build(:rhea_drop,:rhea_dc)\' -DPUBLISH_BLKS=nbif_shub_wrap_';//TODO need to fix algfs
+              text += 'bsub -P BIF-SHUB -q normal -Is -J NBIFdcelab -R \'rusage[mem=40000] select[type==RHEL6_64]\' dj -v -l dc_elab.log -e \'releaseflow::dropflow(:rtl_drop).build(:rhea_drop,:rhea_dc)\' -DPUBLISH_BLKS=nbif_shub_wrap_';//TODO need to fix algfs
               if(variants[v].variantname == 'nbif_al_gpu'){
                 text += 'algfx\n';
               }
