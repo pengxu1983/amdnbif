@@ -41,14 +41,11 @@ module.exports = {
     let variants = await Variants.find({
       id  : {'>=':0}
     });
-    let DB;
+    let Teststatusvariant01;
     if(inputs.kind  ==  'singletest'){
       //clean up too early
-      if(inputs.variantname ==  'nbif_all_rtl'){
-        DB =  Teststatusvariant01;
-      }
       let onetestresultfrominput  = JSON.parse(inputs.onetestresult);
-      let R     = await DB.findOne({
+      let R     = await Teststatusvariant01.findOne({
         testname  : inputs.testname
       });
       let onetestresultToStore  = {};
@@ -71,7 +68,7 @@ module.exports = {
         onetestresultToStore[inputs.kickoffdate]['signature']   = onetestresultfrominput['signature'] ;
         onetestresultToStore[inputs.kickoffdate]['mode']        = onetestresultfrominput['mode']      ;
         onetestresultToStore[inputs.kickoffdate]['suite']       = onetestresultfrominput['suite']     ;
-        await DB.update({
+        await Teststatusvariant01.update({
           testname  : inputs.testname
         },{
           testplan  : 'NA',//TODO
@@ -86,7 +83,7 @@ module.exports = {
         onetestresultToStore[inputs.kickoffdate]['signature']   = onetestresultfrominput['signature'] ;
         onetestresultToStore[inputs.kickoffdate]['mode']        = onetestresultfrominput['mode']      ;
         onetestresultToStore[inputs.kickoffdate]['suite']       = onetestresultfrominput['suite']     ;
-        await DB.create({
+        await Teststatusvariant01.create({
           testname  : inputs.testname,
           testplan  : 'NA',//TODO
           resultbyday : JSON.stringify(onetestresultToStore)
