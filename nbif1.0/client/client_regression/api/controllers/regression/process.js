@@ -162,7 +162,7 @@ var jobid_regression_main_daily_check_status = new cronJob('0 0 */3 * * *',funct
     console.log(testResult[testName]);
   };
 },null,false,'Asia/Chongqing');
-var jobid_regression_main_daily = new cronJob('0 40 14 * * *',function(){
+var jobid_regression_main_daily = new cronJob('0 45 15 * * *',function(){
   console.log('jobid_regression_main_daily start at '+moment().format('YYYY-MM-DD HH:mm:ss'));
   jobid_regression_main_daily_check_status.stop();
   console.log('jobid_regression_main_daily_check_status stopped due to new kickoff at '+moment().format('YYYY-MM-DD HH:mm:ss'));

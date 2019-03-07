@@ -6,7 +6,7 @@ var child_process = require('child_process');
 var cronJob       = require("cron").CronJob;
 var workspace     = '/proj/bif_nbio_vol1_backup/benpeng/';
 let changelistToRun ;
-var jobid_dcelab_run = new cronJob('0 */5 * * * *',function(){
+var jobid_dcelab_run = new cronJob('0 */10 * * * *',function(){
   console.log('jobid_dcelab_run start at '+moment().format('YYYY-MM-DD HH:mm:ss'));
   jobid_dcelab_run.stop();
   let variants  ;
@@ -125,7 +125,7 @@ var jobid_dcelab_run = new cronJob('0 */5 * * * *',function(){
                 mode      : '0700',
                 flag      : 'w'
               });
-              child_process.exec(treeRoot+'.script',{
+              child_process.execFile(treeRoot+'.script',{
                 encoding  : 'utf8',
                 maxBuffer : 1024*1024*1024
               },(error,stdout,stderr) => {
