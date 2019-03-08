@@ -86,7 +86,7 @@ var jobid_dcelab_run = new cronJob('0 */10 * * * *',function(){
                 if(fs.existsSync(treeRoot+'/out')){
                   //child_process.execSync('mv '+treeRoot+'/out'+' '+treeRoot+'/out.toRemove');
                   //child_process.exec('rm -rf '+treeRoot+'/out.toRemove');
-                  fs.renameSync(reeRoot+'/out',treeRoot+'/out.toRemove');
+                  fs.renameSync(treeRoot+'/out',treeRoot+'/out.toRemove');
                   child_process.exec('rm -rf '+treeRoot+'/out.toRemove');
                 }
                 if(fs.existsSync(treeRoot+'/dcelab.log')){
