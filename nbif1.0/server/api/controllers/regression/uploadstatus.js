@@ -41,7 +41,6 @@ module.exports = {
     let variants = await Variants.find({
       id  : {'>=':0}
     });
-    let Teststatusvariant01;
     if(inputs.kind  ==  'singletest'){
       //clean up too early
       let onetestresultfrominput  = JSON.parse(inputs.onetestresult);
