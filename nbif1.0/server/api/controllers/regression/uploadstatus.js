@@ -90,7 +90,7 @@ module.exports = {
       }
 
     }
-    return exists.success(JSON.stringify({
+    return exits.success(JSON.stringify({
       ok  : 'notok'
     }));
   }

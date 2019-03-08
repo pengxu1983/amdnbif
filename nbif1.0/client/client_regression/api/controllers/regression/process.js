@@ -14,10 +14,10 @@ let loop  = 'daily';
 let time  = moment().format('YYYYMMDDHHmmss');
 let kickoffdate ;
 let currentCL ;
-var jobid_regression_main_daily_check_status = new cronJob('0 0 */3 * * *',function(){
+var jobid_regression_main_daily_check_status = new cronJob('* */5 * * * *',function(){
 
   console.log('jobid_regression_main_daily_check_status start at '+moment().format('YYYY-MM-DD HH:mm:ss'));
-  //jobid_regression_main_daily_check_status.stop();
+  jobid_regression_main_daily_check_status.stop();
   let treeRoot = workspace+'/nbif.regression.main.daily';
   let outDir  = {};
   let availableSuite = ['nbiftdl','nbifresize','nbifrandom','nbifgen4','nbifdummyf'];
@@ -111,14 +111,14 @@ var jobid_regression_main_daily_check_status = new cronJob('0 0 */3 * * *',funct
     }
     console.log(moment().format('YYYY MM DD HH:mm:ss'));
     console.log('TTT : '+testName+':');
-    console.log(testResult[testName]['kickoffdate']);
-    console.log(testResult[testName]['projectname']);  
-    console.log(testResult[testName]['variantname']);  
-    console.log(testResult[testName]['changelist']);  
-    console.log(testResult[testName]['result']);     
-    console.log(testResult[testName]['seed']);       
-    console.log(testResult[testName]['signature']);   
-    console.log(testResult[testName]['mode']);     
+    //console.log(testResult[testName]['kickoffdate']);
+    //console.log(testResult[testName]['projectname']);  
+    //console.log(testResult[testName]['variantname']);  
+    //console.log(testResult[testName]['changelist']);  
+    //console.log(testResult[testName]['result']);     
+    //console.log(testResult[testName]['seed']);       
+    //console.log(testResult[testName]['signature']);   
+    //console.log(testResult[testName]['mode']);     
     //send one test result
     let postData = querystring.stringify({
       'kind'          : 'singletest',
@@ -162,7 +162,7 @@ var jobid_regression_main_daily_check_status = new cronJob('0 0 */3 * * *',funct
     console.log(testResult[testName]);
   };
 },null,false,'Asia/Chongqing');
-var jobid_regression_main_daily = new cronJob('0 45 15 * * *',function(){
+var jobid_regression_main_daily = new cronJob('0 0 20 * * *',function(){
   console.log('jobid_regression_main_daily start at '+moment().format('YYYY-MM-DD HH:mm:ss'));
   jobid_regression_main_daily_check_status.stop();
   console.log('jobid_regression_main_daily_check_status stopped due to new kickoff at '+moment().format('YYYY-MM-DD HH:mm:ss'));
