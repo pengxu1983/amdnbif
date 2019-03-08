@@ -14,6 +14,86 @@ let loop  = 'daily';
 let time  = moment().format('YYYYMMDDHHmmss');
 let kickoffdate ;
 let currentCL ;
+let postQ=[];
+let postQlimit=5;
+var jobid_send_request = new cronJob('* * * * * *',function(){
+  if(postQ.length == 0){
+    jobid_send_request.stop();
+    return;
+  }
+  else if(postQ.length <= postQlimit){
+    console.log('DBG222');
+    for(let onereq=0;onereq<postQ.length;onereq++){
+      let postData  = querystring.stringify(postQ[onereq].data);
+      console.log('To send : '+);
+      console.log(postQ[onereq].data);
+      let options = {
+        hostname: 'amdnbif.thehunters.club',
+        port: 80,
+        //path: '/regression/uploadstatus',
+        path: postQ[onereq].url,
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/x-www-form-urlencoded',
+          'Content-Length': Buffer.byteLength(postData)
+        }
+      };
+      
+      let req = http.request(options, (res) => {
+        console.log(`STATUS: ${res.statusCode}`);
+        //console.log(`HEADERS: ${JSON.stringify(res.headers)}`);
+        res.setEncoding('utf8');
+        res.on('data', (chunk) => {
+          console.log(`BODY: ${chunk}`);
+        });
+        res.on('end', () => {
+          console.log('No more data in response.');
+        });
+      });
+      
+      req.on('error', (e) => {
+        console.error(`problem with request: ${e.message}`);
+      });
+    }
+    postQ=[];
+  }
+  else{
+    console.log('DBG333');
+    for(let onereq=0;onereq<postQlimit;onereq++){
+      let postData  = querystring.stringify(postQ[onereq].data);
+      console.log('To send : '+);
+      console.log(postQ[onereq].data);
+      let options = {
+        hostname: 'amdnbif.thehunters.club',
+        port: 80,
+        //path: '/regression/uploadstatus',
+        path: postQ[onereq].url,
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/x-www-form-urlencoded',
+          'Content-Length': Buffer.byteLength(postData)
+        }
+      };
+      
+      let req = http.request(options, (res) => {
+        console.log(`STATUS: ${res.statusCode}`);
+        //console.log(`HEADERS: ${JSON.stringify(res.headers)}`);
+        res.setEncoding('utf8');
+        res.on('data', (chunk) => {
+          console.log(`BODY: ${chunk}`);
+        });
+        res.on('end', () => {
+          console.log('No more data in response.');
+        });
+      });
+      
+      req.on('error', (e) => {
+        console.error(`problem with request: ${e.message}`);
+      });
+    }
+    postQ.splice(0,postQlimit);
+  }
+},null,false,'Asia/Chongqing');
 var jobid_regression_main_daily_check_status = new cronJob('* */5 * * * *',function(){
 
   console.log('jobid_regression_main_daily_check_status start at '+moment().format('YYYY-MM-DD HH:mm:ss'));
@@ -109,58 +189,23 @@ var jobid_regression_main_daily_check_status = new cronJob('* */5 * * * *',funct
     else{
       //unknown status
     }
+    jobid_send_request.stop();
     console.log(moment().format('YYYY MM DD HH:mm:ss'));
     console.log('TTT : '+testName+':');
-    //console.log(testResult[testName]['kickoffdate']);
-    //console.log(testResult[testName]['projectname']);  
-    //console.log(testResult[testName]['variantname']);  
-    //console.log(testResult[testName]['changelist']);  
-    //console.log(testResult[testName]['result']);     
-    //console.log(testResult[testName]['seed']);       
-    //console.log(testResult[testName]['signature']);   
-    //console.log(testResult[testName]['mode']);     
-    //send one test result
-    let postData = querystring.stringify({
-      'kind'          : 'singletest',
-      'variantname'   : variantname,
-      'testname'      : testName,
-      'onetestresult' : JSON.stringify(testResult[testName])
-    });
-    
-    let options = {
-      hostname: 'amdnbif.thehunters.club',
-      port: 80,
-      path: '/regression/uploadstatus',
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/x-www-form-urlencoded',
-        'Content-Length': Buffer.byteLength(postData)
+    postQ.push({
+      url : '/regression/uploadstatus',
+      data  : {
+        'kind'          : 'singletest',
+        'variantname'   : variantname,
+        'testname'      : testName,
+        'onetestresult' : JSON.stringify(testResult[testName])
       }
-    };
-    
-    let req = http.request(options, (res) => {
-      console.log(`STATUS: ${res.statusCode}`);
-      //console.log(`HEADERS: ${JSON.stringify(res.headers)}`);
-      res.setEncoding('utf8');
-      res.on('data', (chunk) => {
-        console.log(`BODY: ${chunk}`);
-      });
-      res.on('end', () => {
-        console.log('No more data in response.');
-      });
     });
-    
-    req.on('error', (e) => {
-      console.error(`problem with request: ${e.message}`);
-    });
-    
-    // write data to request body
-    req.write(postData);
-    req.end();
 
     console.log('DBG111');
     console.log(testResult[testName]);
   };
+  jobid_send_request.start();
 },null,false,'Asia/Chongqing');
 var jobid_regression_main_daily = new cronJob('0 0 20 * * *',function(){
   console.log('jobid_regression_main_daily start at '+moment().format('YYYY-MM-DD HH:mm:ss'));

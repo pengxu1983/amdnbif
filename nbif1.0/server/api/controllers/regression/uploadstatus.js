@@ -47,11 +47,12 @@ module.exports = {
       let R     = await Teststatusvariant01.findOne({
         testname  : inputs.testname
       });
+      sails.log(R);
       let onetestresultToStore  = {};
       onetestresultToStore[inputs.kickoffdate]={};
       //test already exists
       if(R){
-        let onetestresultfromDB = JSON.parse(R);
+        let onetestresultfromDB = R;
         let resultbyday = JSON.parse(onetestresultfromDB.resultbyday);
         //Clean up too old record
         for(let storeddate in resultbyday){
