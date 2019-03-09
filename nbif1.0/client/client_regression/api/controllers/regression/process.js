@@ -212,7 +212,7 @@ var jobid_regression_main_daily_check_status = new cronJob('* * * * * *',functio
       url : '/regression/uploadstatus',
       data  : {
         'kind'          : 'singletest',
-        'kickoffdate'   : kickoffdate,
+        'kickoffdate'   : treeInfo['kickoffdate'],
         'variantname'   : variantname,
         'testname'      : testName,
         'onetestresult' : JSON.stringify(testResult[testName])

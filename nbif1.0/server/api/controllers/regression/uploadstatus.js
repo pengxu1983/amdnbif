@@ -60,7 +60,8 @@ module.exports = {
             delete resultbyday[storeddate];
           }
         }
-        onetestresultToStore[inputs.kickoffdate]= resultbyday;
+        onetestresultToStore  = resultbyday;
+        onetestresultToStore[inputs.kickoffdate]= {};
         //store new record
         onetestresultToStore[inputs.kickoffdate]['changelist']  = onetestresultfrominput['changelist'];
         onetestresultToStore[inputs.kickoffdate]['result']      = onetestresultfrominput['result']    ;
