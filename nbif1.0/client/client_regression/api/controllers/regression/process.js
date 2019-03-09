@@ -25,12 +25,12 @@ var jobid_send_request = new cronJob('* * * * * *',function(){
     console.log('DBG222');
     for(let onereq=0;onereq<postQ.length;onereq++){
       let postData  = querystring.stringify(postQ[onereq].data);
-      console.log('To send : '+);
+      console.log('To send : ');
       console.log(postQ[onereq].data);
+      console.log(postQ[onereq].url);
       let options = {
         hostname: 'amdnbif.thehunters.club',
         port: 80,
-        //path: '/regression/uploadstatus',
         path: postQ[onereq].url,
         method: 'POST',
         headers: {
@@ -54,6 +54,10 @@ var jobid_send_request = new cronJob('* * * * * *',function(){
       req.on('error', (e) => {
         console.error(`problem with request: ${e.message}`);
       });
+      
+      // write data to request body
+      req.write(postData);
+      req.end();
     }
     postQ=[];
   }
@@ -61,12 +65,12 @@ var jobid_send_request = new cronJob('* * * * * *',function(){
     console.log('DBG333');
     for(let onereq=0;onereq<postQlimit;onereq++){
       let postData  = querystring.stringify(postQ[onereq].data);
-      console.log('To send : '+);
+      console.log('To send : ');
       console.log(postQ[onereq].data);
+      console.log(postQ[onereq].url);
       let options = {
         hostname: 'amdnbif.thehunters.club',
         port: 80,
-        //path: '/regression/uploadstatus',
         path: postQ[onereq].url,
         method: 'POST',
         headers: {
@@ -90,14 +94,19 @@ var jobid_send_request = new cronJob('* * * * * *',function(){
       req.on('error', (e) => {
         console.error(`problem with request: ${e.message}`);
       });
+      
+      // write data to request body
+      req.write(postData);
+      req.end();
+
     }
     postQ.splice(0,postQlimit);
   }
 },null,false,'Asia/Chongqing');
-var jobid_regression_main_daily_check_status = new cronJob('* */5 * * * *',function(){
+var jobid_regression_main_daily_check_status = new cronJob('* * */3 * * *',function(){
 
   console.log('jobid_regression_main_daily_check_status start at '+moment().format('YYYY-MM-DD HH:mm:ss'));
-  jobid_regression_main_daily_check_status.stop();
+  //jobid_regression_main_daily_check_status.stop();
   let treeRoot = workspace+'/nbif.regression.main.daily';
   let outDir  = {};
   let availableSuite = ['nbiftdl','nbifresize','nbifrandom','nbifgen4','nbifdummyf'];
@@ -139,11 +148,18 @@ var jobid_regression_main_daily_check_status = new cronJob('* */5 * * * *',funct
   else {
     return;
   }
-  //get currentCL 
+  //get currentCL, kickoffdate, projectname, variantname
   let R = child_process.execSync('cd '+treeRoot+' && p4 changes -m1 ...#have',{
     encoding  : 'utf8'
   }).split(' ');
   let currentCL = R[1];
+  let lines = fs.readFileSync(treeRoot+'/PXinfo','utf8').split('\n');
+  lines.pop();
+  let treeInfo={};
+  for(let l=0;l<lines.length;l++){
+    let R = lines[l].split(':::');
+    treeInfo[R[0]]=R[1];
+  }
   //check status per test
   for(let testName in testResult){
     if(testResult[testName]['result'] == 'PASS'){
@@ -154,10 +170,10 @@ var jobid_regression_main_daily_check_status = new cronJob('* */5 * * * *',funct
       console.log(testName+' is already checked');
       continue;
     }
-    testResult[testName]['kickoffdate']  = kickoffdate;
-    testResult[testName]['projectname']  = projectname;
-    testResult[testName]['variantname']  = variantname;
-    testResult[testName]['changelist']   = currentCL;
+    testResult[testName]['kickoffdate']  = treeInfo['kickoffdate'];
+    testResult[testName]['projectname']  = treeInfo['projectname'];
+    testResult[testName]['variantname']  = treeInfo['variantname'];
+    testResult[testName]['changelist']   = treeInfo['changelist'];
     testResult[testName]['result']       = 'UNKNOWN';
     testResult[testName]['seed']         = 'NA';
     testResult[testName]['signature']    = 'NA';
@@ -207,7 +223,7 @@ var jobid_regression_main_daily_check_status = new cronJob('* */5 * * * *',funct
   };
   jobid_send_request.start();
 },null,false,'Asia/Chongqing');
-var jobid_regression_main_daily = new cronJob('0 0 20 * * *',function(){
+var jobid_regression_main_daily = new cronJob('0 0 0 * * *',function(){
   console.log('jobid_regression_main_daily start at '+moment().format('YYYY-MM-DD HH:mm:ss'));
   jobid_regression_main_daily_check_status.stop();
   console.log('jobid_regression_main_daily_check_status stopped due to new kickoff at '+moment().format('YYYY-MM-DD HH:mm:ss'));
@@ -313,6 +329,17 @@ var jobid_regression_main_daily = new cronJob('0 0 20 * * *',function(){
           if(error){
             console.log(error);
           }
+          text = '';
+          text += 'changelist:::'+currentCL+'\n';
+          text += 'projectname:::'+projectname+'\n';
+          text += 'treeRoot:::'+treeRoot+'\n';
+          text += 'variantname:::'+variantname+'\n';
+          text += 'kickoffdate:::'+kickoffdate+'\n';
+          fs.writeFileSync(treeRoot+'/PXinfo',text,{
+            encoding  : 'utf8',
+            mode      : '0600',
+            flag      : 'w'
+          });
           //console.log(stdout);
           jobid_regression_main_daily_check_status.start();
         });
