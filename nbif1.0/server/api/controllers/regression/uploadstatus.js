@@ -89,7 +89,9 @@ module.exports = {
           resultbyday : JSON.stringify(onetestresultToStore)
         });
       }
-
+      return exits.success(JSON.stringify({
+        ok  : 'ok'
+      }));
     }
     return exits.success(JSON.stringify({
       ok  : 'notok'

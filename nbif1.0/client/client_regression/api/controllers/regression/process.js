@@ -103,10 +103,10 @@ var jobid_send_request = new cronJob('* * * * * *',function(){
     postQ.splice(0,postQlimit);
   }
 },null,false,'Asia/Chongqing');
-var jobid_regression_main_daily_check_status = new cronJob('* * */3 * * *',function(){
+var jobid_regression_main_daily_check_status = new cronJob('* * * * * *',function(){
 
   console.log('jobid_regression_main_daily_check_status start at '+moment().format('YYYY-MM-DD HH:mm:ss'));
-  //jobid_regression_main_daily_check_status.stop();
+  jobid_regression_main_daily_check_status.stop();
   let treeRoot = workspace+'/nbif.regression.main.daily';
   let outDir  = {};
   let availableSuite = ['nbiftdl','nbifresize','nbifrandom','nbifgen4','nbifdummyf'];
@@ -212,6 +212,7 @@ var jobid_regression_main_daily_check_status = new cronJob('* * */3 * * *',funct
       url : '/regression/uploadstatus',
       data  : {
         'kind'          : 'singletest',
+        'kickoffdate'   : kickoffdate,
         'variantname'   : variantname,
         'testname'      : testName,
         'onetestresult' : JSON.stringify(testResult[testName])
