@@ -27,7 +27,7 @@ module.exports = {
     });
     if(all.length == 0){
     }
-    else if(all.length > 100){
+    else if(all.length > 50){
       let changelist ;
       for(let a=0;a<all.length;a++){
         if(a==0){
