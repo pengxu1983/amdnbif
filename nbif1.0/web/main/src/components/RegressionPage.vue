@@ -68,11 +68,6 @@
               >
               </el-table-column>
               <el-table-column
-                prop="totalnumdelta"
-                label="TotalNumDelta"
-              >
-              </el-table-column>
-              <el-table-column
                 prop="passednum"
                 label="PassedNum"
               >
@@ -118,11 +113,6 @@
               <el-table-column
                 prop="totalnum"
                 label="TotalNum"
-              >
-              </el-table-column>
-              <el-table-column
-                prop="totalnumdelta"
-                label="TotalNumDelta"
               >
               </el-table-column>
               <el-table-column
@@ -174,11 +164,6 @@
               >
               </el-table-column>
               <el-table-column
-                prop="totalnumdelta"
-                label="TotalNumDelta"
-              >
-              </el-table-column>
-              <el-table-column
                 prop="passednum"
                 label="PassedNum"
               >
@@ -224,11 +209,6 @@
               <el-table-column
                 prop="totalnum"
                 label="TotalNum"
-              >
-              </el-table-column>
-              <el-table-column
-                prop="totalnumdelta"
-                label="TotalNumDelta"
               >
               </el-table-column>
               <el-table-column
@@ -364,7 +344,8 @@ export default {
         dateend     : dateend,
         projectname : projectname,
         variantname : variantname,
-        testplanname  : 'NA'
+        mode        : 'normal',
+        testplanname  : 'all'
       }).then(
         function(response){
           if(response.body.ok ==  'ok'){
