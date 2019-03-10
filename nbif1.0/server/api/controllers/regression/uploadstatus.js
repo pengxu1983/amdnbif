@@ -1,4 +1,8 @@
 var moment        = require('moment');
+var cronJob       = require("cron").CronJob;
+var jobid_cal_passingrates  = new cronJob('0 10 * * * *',function(){
+  console.log('jobid_cal_passingrates start at '+moment().format('YYYY-MM-DD HH:mm:ss'));
+},null,true,'Asia/Chongqing');
 module.exports = {
 
 
@@ -41,7 +45,26 @@ module.exports = {
     let variants = await Variants.find({
       id  : {'>=':0}
     });
-    if(inputs.kind  ==  'singletest'){
+    if(inputs.kind  ==  'basictreeinfoall'){
+      let onebasicinfoall = await Teststatusvariant01_summary.findOne({
+        mode          : inputs.mode,
+        kickoffdate   : inputs.kickoffdate,
+        changelist    : inputs.changelist,
+        testplanname  : 'all'
+      });
+      if(onebasicinfoall){
+      }
+      else{
+        await Teststatusvariant01_summary.create({
+          mode          : inputs.mode,
+          kickoffdate   : inputs.kickoffdate,
+          changelist    : inputs.changelist,
+          testplanname  : 'all',
+          testlist      : inputs.testlist
+        });
+      }
+    }
+    else if(inputs.kind  ==  'singletest'){
       //clean up too early
       let onetestresultfrominput  = JSON.parse(inputs.onetestresult);
       let R     = await Teststatusvariant01.findOne({
