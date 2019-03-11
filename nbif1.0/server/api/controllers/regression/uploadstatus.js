@@ -30,6 +30,15 @@ module.exports = {
     },
     kickoffdate : {
       type  : 'string'
+    },
+    testlist  : {
+      type  : 'string'
+    },
+    mode  : {
+      type  : 'string'
+    },
+    changelist  : {
+      type  : 'string'
     }
   },
 
