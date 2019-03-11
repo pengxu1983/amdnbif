@@ -268,7 +268,7 @@ var jobid_regression_main_daily_check_status = new cronJob('0 0 */3 * * *',funct
   };
   jobid_send_request.start();
 },null,false,'Asia/Chongqing');
-var jobid_regression_main_daily = new cronJob('0 10 18 * * *',function(){
+var jobid_regression_main_daily = new cronJob('0 30 13 * * *',function(){
   console.log('jobid_regression_main_daily start at '+moment().format('YYYY-MM-DD HH:mm:ss'));
   jobid_regression_main_daily_check_status.stop();
   console.log('jobid_regression_main_daily_check_status stopped due to new kickoff at '+moment().format('YYYY-MM-DD HH:mm:ss'));
@@ -364,6 +364,8 @@ var jobid_regression_main_daily = new cronJob('0 10 18 * * *',function(){
         text += 'bsub -P BIF-SHUB -q normal -Is -J NBIFrg -R \'rusage[mem=5000] select[type==RHEL6_64]\' dj -l testlist.log -DDEBUG -m run_test -s nbifall all -a print -w "config==nbif_all_rtl && when=~/nbif_nightly/"\n';
         text += 'bdji -l build.log -m -DREGRESS -DUSE_VRQ -DCGM run_test -s nbifall demo_test_0_nbif_all_rtl -a execute=off\n';
         text += 'bdji -l run.log -DRERUN_TDL_BATCH=$batch_name_v -m -DREGRESS -DUSE_VRQ -DCGM run_test -s nbifall all -b trs -A trs.batch=NEXTRG -A trs.environment=nbif_al_gpu -A trs.cec.logspec='+treeRoot+'/_env/local/nbif_logspec.xml -A trs.switches="-regr-no-results-copy" -w "config==nbif_all_rtl && when=~/nbif_nightly/" -a run_only\n';//FIXME about the -s arg
+        text += 'trs kb -b $batch_name_v\n';
+        text += 'echo $batch_name_v\n';
         text += 'echo "done"\n';
         fs.writeFileSync(treeRoot+'.script',text,{
           encoding  : 'utf8',
