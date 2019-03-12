@@ -270,19 +270,19 @@ export default {
   },
   methods : {
     handleClickNormal(tab, event) {
-      console.log(tab, event);
+      //console.log(tab, event);
     },
     handleClickBaco(tab, event) {
-      console.log(tab, event);
+      //console.log(tab, event);
     },
     handleClickLong(tab, event) {
-      console.log(tab, event);
+      //console.log(tab, event);
     },
     handleClickPG(tab, event) {
-      console.log(tab, event);
+      //console.log(tab, event);
     },
     onSubmit  : function(){
-      console.log(this.projectinfo.timewindow);
+      //console.log(this.projectinfo.timewindow);
       var i = 1;
       var item = "";
       if(this.projectinfo.timewindow == 'week'){

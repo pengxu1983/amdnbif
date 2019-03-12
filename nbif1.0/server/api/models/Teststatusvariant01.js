@@ -15,7 +15,7 @@ module.exports = {
     testname  : {
       type    : 'string'
     },
-    testplan  : {
+    testplanname  : {
       type    : 'string'
     },
     resultbyday : {

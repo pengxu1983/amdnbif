@@ -1,7 +1,10 @@
 var moment        = require('moment');
 var cronJob       = require("cron").CronJob;
-var jobid_cal_passingrates  = new cronJob('0 10 * * * *',function(){
+var jobid_cal_passingrates  = new cronJob('0 0 * * * *',function(){
   console.log('jobid_cal_passingrates start at '+moment().format('YYYY-MM-DD HH:mm:ss'));
+  await Teststatusvariant01.find({
+    id  : {'>=':0}
+  });
 },null,true,'Asia/Chongqing');
 module.exports = {
 
@@ -104,7 +107,7 @@ module.exports = {
         await Teststatusvariant01.update({
           testname  : inputs.testname
         },{
-          testplan  : 'NA',//TODO
+          testplanname  : 'NA',//TODO
           resultbyday : JSON.stringify(onetestresultToStore)
         });
       }
@@ -118,7 +121,7 @@ module.exports = {
         onetestresultToStore[inputs.kickoffdate]['suite']       = onetestresultfrominput['suite']     ;
         await Teststatusvariant01.create({
           testname  : inputs.testname,
-          testplan  : 'NA',//TODO
+          testplanname  : 'NA',//TODO
           resultbyday : JSON.stringify(onetestresultToStore)
         });
       }
