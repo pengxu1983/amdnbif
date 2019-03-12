@@ -2,9 +2,6 @@ var moment        = require('moment');
 var cronJob       = require("cron").CronJob;
 var jobid_cal_passingrates  = new cronJob('0 0 * * * *',function(){
   console.log('jobid_cal_passingrates start at '+moment().format('YYYY-MM-DD HH:mm:ss'));
-  await Teststatusvariant01.find({
-    id  : {'>=':0}
-  });
 },null,true,'Asia/Chongqing');
 module.exports = {
 
