@@ -56,7 +56,7 @@ module.exports = {
     var onetestplan;
     let detailsinfo ={};
     let passingrates_official = {};
-    if(inputs.kind  = 'rangepassingrate'){
+    if(inputs.kind  == 'rangepassingrate'){
       let date = inputs.datestart;
       while (moment(date).isSameOrBefore(inputs.dateend)){
         console.log('DBG1')
@@ -64,7 +64,7 @@ module.exports = {
         let onedaypassingrate = await Teststatusvariant01_summary.findOne({
           variantname : inputs.variantname,
           kickoffdate : date,
-          mode        : inputs.mode,
+          mode        : 'normal',
           testplanname: inputs.testplanname
         });
         let totalnum  = 0;
@@ -73,7 +73,7 @@ module.exports = {
         let unknownnum= 0;
         if(onedaypassingrate){
           //record exists
-
+          passingrates_official[inputs.mode]=[];
           passingrates_official[inputs.mode].push(onedaypassingrate.passingrate);
           testlist    = JSON.parse(onedaypassingrate.testlist);
           passlist    = JSON.parse(onedaypassingrate.passlist);
@@ -490,7 +490,7 @@ module.exports = {
     //}
     return exits.success({
       ok  : 'ok',
-      PassingRate_his_normal  : passingrates_official_normal,
+      PassingRate_his_normal  : passingrates_official[inputs.mode],
       PassingRate_his_long    : passingrates_official_long,
       PassingRate_his_pg      : passingrates_official_pg,
       PassingRate_his_baco    : passingrates_official_baco,
