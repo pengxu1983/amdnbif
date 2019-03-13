@@ -42,6 +42,9 @@ module.exports = {
     },
     testplanname  : {
       type  : 'string'
+    },
+    variantname : {
+      type  : 'string'
     }
 
 

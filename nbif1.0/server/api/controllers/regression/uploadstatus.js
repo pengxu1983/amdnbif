@@ -94,7 +94,8 @@ module.exports = {
         mode          : inputs.mode,
         kickoffdate   : inputs.kickoffdate,
         changelist    : inputs.changelist,
-        testplanname  : 'all'
+        testplanname  : 'all',
+        variantname   : inputs.variantname
       });
       if(onebasicinfoall){
       }
@@ -104,7 +105,8 @@ module.exports = {
           kickoffdate   : inputs.kickoffdate,
           changelist    : inputs.changelist,
           testplanname  : 'all',
-          testlist      : inputs.testlist
+          testlist      : inputs.testlist,
+          variantname   : inputs.variantname
         });
       }
     }
@@ -164,7 +166,8 @@ module.exports = {
     else if(inputs.kind ==  'calpassingrate'){
       let checkingdate = moment().subtract(1,'days').format('YYYY-MM-DD');
       let R1 =  await Teststatusvariant01_summary.findOne({
-        kickoffdate : checkingdate
+        kickoffdate : checkingdate,
+        variantname : 'nbif_al_gpu'
       });
       if(R1){
         let testlist    = JSON.parse(R1.testlist);
