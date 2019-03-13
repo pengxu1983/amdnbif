@@ -10,7 +10,7 @@ var jobid_cal_passingrates  = new cronJob('0 30 * * * *',function(){
   let options = {
     hostname: 'localhost',
     port: 7001,
-    path: '/regression/calpassingrate',
+    path: '/regression/checkstatus',
     method: 'POST',
     headers: {
       'Content-Type': 'application/x-www-form-urlencoded',
