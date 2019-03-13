@@ -51,6 +51,9 @@ module.exports = {
     let PassingRate = [];
     if(inputs.kind  ==  'rangepassingrate'){
       let date = datestart;
+      console.log('ddd');
+      console.log(date);
+      console.log(typeof(date));
       while(moment(date).isSameOrBefore(dateend)){
         let R = await Teststatusvariant01_summary.findOne({
           kickoffdate : date,
