@@ -1,3 +1,4 @@
+var querystring   = require('querystring');
 var moment        = require('moment');
 var cronJob       = require("cron").CronJob;
 var jobid_cal_passingrates  = new cronJob('0 30 * * * *',function(){
