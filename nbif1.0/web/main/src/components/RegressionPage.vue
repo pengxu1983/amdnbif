@@ -244,9 +244,9 @@ export default {
   data() {
     return {
       projectinfo : {
-        projectname : 'NV21',
+        projectname : 'MERO',
         timewindow  : 'week',
-        variantname : 'nbif_nv10_gpu'
+        variantname : 'nbif_al_gpu'
       },
       xAxislist             : [],
       PassingRate_his_normal: [],
@@ -338,7 +338,7 @@ export default {
       console.log(dateend);
       console.log(projectname);
       console.log(variantname);
-      this.$http.post('/regression/check',{
+      this.$http.post('/regression/checkstatus',{
         kind  : 'rangepassingrate',
         datestart   : datestart,
         dateend     : dateend,
@@ -349,26 +349,26 @@ export default {
       }).then(
         function(response){
           if(response.body.ok ==  'ok'){
-            console.log('passingratenormal');
-            console.log(response.body.PassingRate_his_normal);
-            console.log('passingratelong');
-            console.log(response.body.PassingRate_his_long);
-            console.log('passingratepg');
-            console.log(response.body.PassingRate_his_pg);
-            console.log('passingratebaco');
-            console.log(response.body.PassingRate_his_baco);
-            this.PassingRate_his_normal   = response.body.PassingRate_his_normal;
-            this.PassingRate_his_long     = response.body.PassingRate_his_long;
-            this.PassingRate_his_pg       = response.body.PassingRate_his_pg;
-            this.PassingRate_his_baco     = response.body.PassingRate_his_baco;
-            this.detailsinfonormal        = response.body.detailsinfonormal;
-            this.detailsinfolong          = response.body.detailsinfolong;
-            this.detailsinfopg            = response.body.detailsinfopg;
-            this.detailsinfobaco          = response.body.detailsinfobaco;
+            console.log('AAABBB');
+            console.log(response.body.PassingRate);
+            //console.log('passingratelong');
+            //console.log(response.body.PassingRate_his_long);
+            //console.log('passingratepg');
+            //console.log(response.body.PassingRate_his_pg);
+            //console.log('passingratebaco');
+            //console.log(response.body.PassingRate_his_baco);
+            this.PassingRate_his_normal   = JSON.parse(response.body.PassingRate);
+            //this.PassingRate_his_long     = response.body.PassingRate_his_long;
+            //this.PassingRate_his_pg       = response.body.PassingRate_his_pg;
+            //this.PassingRate_his_baco     = response.body.PassingRate_his_baco;
+            this.detailsinfonormal        = response.body.detailsinfo;
+            //this.detailsinfolong          = response.body.detailsinfolong;
+            //this.detailsinfopg            = response.body.detailsinfopg;
+            //this.detailsinfobaco          = response.body.detailsinfobaco;
             this.drawLine('chartRegressionNormal');
-            this.drawLine('chartRegressionLong');
-            this.drawLine('chartRegressionPG');
-            this.drawLine('chartRegressionBaco');
+            //this.drawLine('chartRegressionLong');
+            //this.drawLine('chartRegressionPG');
+            //this.drawLine('chartRegressionBaco');
           }
           else if(response.body.ok  ==  'notok'){
           }
