@@ -5,7 +5,7 @@ var fs            = require('fs');
 var child_process = require('child_process');
 var cronJob       = require("cron").CronJob;
 var workspace     = '/local_vol1_nobackup/benpeng/';
-var jobid_common_sanity_getChangelistToRun  = new cronJob('*/5 * * * * *',function(){
+var jobid_common_sanity_getChangelistToRun  = new cronJob('* */5 * * * *',function(){
   console.log(moment().format('YYYY-MM-DD HH:mm:ss'));
   console.log('jobid_common_sanity_getChangelistToRun start');
   let earliestchangelist;
