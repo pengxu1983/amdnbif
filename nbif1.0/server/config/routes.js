@@ -48,8 +48,8 @@ module.exports.routes = {
   //'POST /regression/stop'  : {
   //  action  : 'regression/stop'
   //},
-  'POST /regression/check'  : {
-    action  : 'regression/check'
+  'POST /regression/checkstatus'  : {
+    action  : 'regression/checkstatus'
   },
   ///////////////////
   //internal
