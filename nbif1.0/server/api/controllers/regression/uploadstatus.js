@@ -1,7 +1,42 @@
 var moment        = require('moment');
 var cronJob       = require("cron").CronJob;
-var jobid_cal_passingrates  = new cronJob('0 0 * * * *',function(){
+var jobid_cal_passingrates  = new cronJob('0 30 * * * *',function(){
   console.log('jobid_cal_passingrates start at '+moment().format('YYYY-MM-DD HH:mm:ss'));
+  let postData = querystring.stringify({
+    'kind': 'calpassingrate'
+  });
+  
+  let options = {
+    hostname: 'localhost',
+    port: 7001,
+    path: '/regression/calpassingrate',
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/x-www-form-urlencoded',
+      'Content-Length': Buffer.byteLength(postData)
+    }
+  };
+  
+  let req = http.request(options, (res) => {
+    console.log(`STATUS: ${res.statusCode}`);
+    //console.log(`HEADERS: ${JSON.stringify(res.headers)}`);
+    res.setEncoding('utf8');
+    res.on('data', (chunk) => {
+      console.log(`BODY: ${chunk}`);
+    });
+    res.on('end', () => {
+      console.log('No more data in response.');
+    });
+  });
+  
+  req.on('error', (e) => {
+    console.error(`problem with request: ${e.message}`);
+  });
+  
+  // write data to request body
+  req.write(postData);
+  req.end();
+
 },null,true,'Asia/Chongqing');
 module.exports = {
 
@@ -125,6 +160,61 @@ module.exports = {
       return exits.success(JSON.stringify({
         ok  : 'ok'
       }));
+    }
+    else if(inputs.kind ==  'calpassingrate'){
+      let checkingdate = moment().subtract(1,'days').format('YYYY-MM-DD');
+      let R1 =  await Teststatusvariant01_summary.findOne({
+        kickoffdate : checkingdate
+      });
+      if(R1){
+        let testlist    = JSON.parse(R1.testlist);
+        let passingrate;
+        let passlist  = [];
+        let faillist  = [];
+        let unknownlist = [];
+        for(let t=0;t<testlist.length;t++){
+          let R2 = await Teststatusvariant01.findOne({
+            testname  : testlist[t]
+          });
+          if(R2){
+            let resultbyday = JSON.parse(R2.resultbyday);
+            if(resultbyday.hasOwnProperty(checkingdate)){
+              if(resultbyday[checkingdate]['result'] == 'PASS'){
+                passlist.push(testlist[t]);
+              }
+              if(resultbyday[checkingdate]['result'] == 'FAIL'){
+                faillist.push(testlist[t]);
+              }
+              if(resultbyday[checkingdate]['result'] == 'UNKNOWN'){
+                unknownlist.push(testlist[t]);
+              }
+            }
+          }
+          else{
+            unknownlist.push(testlist[t]);
+          }
+        }
+        if(passlist.length == 0){
+          passingrate = 0.00;
+        }
+        else{
+          passingrate = 100*(passlist.length)/(testlist.length);
+          passingrate = passingrate.toFixed(2);
+        }
+        await Teststatusvariant01_summary.update({
+          kickoffdate : checkingdate
+        },{
+          passingrate : passingrate,
+          passlist    : JSON.stringify(passlist),
+          faillist    : JSON.stringify(faillist),
+          unknownlist : JSON.stringify(unknownlist)
+        });
+        return exits.success(JSON.stringify({
+          ok  : 'ok'
+        }));
+      }
+      else{
+      }
     }
     return exits.success(JSON.stringify({
       ok  : 'notok'
