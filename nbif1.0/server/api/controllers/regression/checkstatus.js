@@ -62,7 +62,7 @@ module.exports = {
         }
         else{
           R = await Teststatusvariant01_summary.findOne({
-            kickoffdate : moment(date).subtract(1,'days'),
+            kickoffdate : moment(date).subtract(1,'days').format('YYYY-MM-DD'),
             variantname : variantname,
             mode  : mode,
             testplanname  : testplanname
