@@ -56,7 +56,7 @@ module.exports = {
       console.log(typeof(date));
       while(moment(date).isSameOrBefore(dateend)){
         let R = await Teststatusvariant01_summary.findOne({
-          kickoffdate : date,
+          kickoffdate : moment(date).format('YYYY-MM-DD'),
           variantname : variantname,
           mode  : mode,
           testplanname  : testplanname
