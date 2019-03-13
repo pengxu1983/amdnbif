@@ -68,7 +68,12 @@ module.exports = {
             testplanname  : testplanname
           });
         }
-        PassingRate.push(R.passingrate);
+        if(R){
+          PassingRate.push(R.passingrate);
+        }
+        else{
+          PassingRate.push(0.00);
+        }
         date = moment(date).add(1,'days');
       }
       return exits.success(JSON.stringify({
