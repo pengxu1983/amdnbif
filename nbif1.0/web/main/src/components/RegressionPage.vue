@@ -351,20 +351,8 @@ export default {
           if(response.body.ok ==  'ok'){
             console.log('AAABBB');
             console.log(response.body.PassingRate);
-            //console.log('passingratelong');
-            //console.log(response.body.PassingRate_his_long);
-            //console.log('passingratepg');
-            //console.log(response.body.PassingRate_his_pg);
-            //console.log('passingratebaco');
-            //console.log(response.body.PassingRate_his_baco);
             this.PassingRate_his_normal   = JSON.parse(response.body.PassingRate);
-            //this.PassingRate_his_long     = response.body.PassingRate_his_long;
-            //this.PassingRate_his_pg       = response.body.PassingRate_his_pg;
-            //this.PassingRate_his_baco     = response.body.PassingRate_his_baco;
             this.detailsinfonormal        = response.body.detailsinfo;
-            //this.detailsinfolong          = response.body.detailsinfolong;
-            //this.detailsinfopg            = response.body.detailsinfopg;
-            //this.detailsinfobaco          = response.body.detailsinfobaco;
             this.drawLine('chartRegressionNormal');
             //this.drawLine('chartRegressionLong');
             //this.drawLine('chartRegressionPG');

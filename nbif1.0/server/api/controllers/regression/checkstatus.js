@@ -42,13 +42,14 @@ module.exports = {
   fn: async function (inputs,exits) {
     sails.log('/regression/checkstatus');
     sails.log(inputs);
-    let datestart = inputs.datestart;
-    let dateend   = inputs.dateend;
+    let datestart   = inputs.datestart;
+    let dateend     = inputs.dateend;
     let variantname = inputs.variantname;
     let projectname = inputs.projectname;
-    let mode  = inputs.mode;
+    let mode        = inputs.mode;
     let testplanname  = inputs.testplanname;
     let PassingRate = [];
+    let detailsinfo = [];
     if(inputs.kind  ==  'rangepassingrate'){
       let date = datestart;
       while(moment(date).isSameOrBefore(dateend)){
@@ -70,15 +71,36 @@ module.exports = {
         }
         if(R){
           PassingRate.push(R.passingrate);
+          let testlist  = JSON.parse(R.testlist);
+          let passlist  = JSON.parse(R.passlist);
+          let faillist  = JSON.parse(R.faillist);
+          let unknownlist = JSON.parse(R.unknownlist);
+          detailsinfo.unshift({
+            date  : moment(date).format('YYYY-MM-DD'),
+            changelist  : R.changelist,
+            totalnum  : testlist.length,
+            passednum : passlist.length,
+            failednum : faillist.length,
+            unknownnum: unknownlist.length
+          });
         }
         else{
           PassingRate.push(0.00);
+          detailsinfo.unshift({
+            date      : moment(date).format('YYYY-MM-DD'),
+            changelist: 'NA',
+            totalnum  : 'NA',
+            passednum : 'NA',
+            failednum : 'NA',
+            unknownnum: 'NA'
+          });
         }
         date = moment(date).add(1,'days');
       }
       return exits.success(JSON.stringify({
         ok  : 'ok',
-        PassingRate : JSON.stringify(PassingRate)
+        PassingRate : JSON.stringify(PassingRate).
+        detailsinfo : JSON.stringify()
       }));
     }
     // All done.
