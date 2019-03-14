@@ -82,11 +82,18 @@
             <el-table-column
               prop="variantname"
               label="VariantName"
+              width="150"
             >
             </el-table-column>
             <el-table-column
               prop="result"
               label="Result"
+              width="150"
+            >
+            </el-table-column>
+            <el-table-column
+              prop="command"
+              label="Run Command"
             >
             </el-table-column>
           </el-table-column>
@@ -197,9 +204,26 @@ export default {
               console.log('ccc');
               R = JSON.parse(response.body.dcelab);
               for(let onevariant in R){
+                let cmd = 'dj -v -l dc_elab.log -e \'releaseflow::dropflow(:rtl_drop).build(:rhea_drop,:rhea_dc)\' -DPUBLISH_BLKS=nbif_shub_wrap_';
+                if(onevariant == 'nbif_al_gpu'){
+                  cmd += 'algfx\n';
+                }
+                if(onevariant == 'nbif_oak_gpu'){
+                  cmd += 'oakgfx\n';
+                }
+                if(onevariant == 'nbif_nv10_gpu'){
+                  cmd += 'gfx -DDISABLE_VDCI2 -DDISABLE_REGSLICE\n';
+                }
+                if(onevariant == 'nbif_ssp_ntb'){
+                  cmd += 'ntb\n';
+                }
+                if(onevariant == 'nbif_ssp_generic_a'){
+                  cmd += 'rc_a\n';
+                }
                 DCelabresult.push({
                   variantname : onevariant,
-                  result      : R[onevariant]
+                  result      : R[onevariant],
+                  command     : cmd
                 });
               }
             }
