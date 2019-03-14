@@ -99,8 +99,8 @@ module.exports = {
       }
       return exits.success(JSON.stringify({
         ok  : 'ok',
-        PassingRate : JSON.stringify(PassingRate).
-        detailsinfo : JSON.stringify()
+        PassingRate : JSON.stringify(PassingRate),
+        detailsinfo : JSON.stringify(detailsinfo)
       }));
     }
     // All done.
