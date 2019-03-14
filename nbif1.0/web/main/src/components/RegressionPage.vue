@@ -352,7 +352,7 @@ export default {
             console.log('AAABBB');
             console.log(response.body.PassingRate);
             this.PassingRate_his_normal   = JSON.parse(response.body.PassingRate);
-            this.detailsinfonormal        = response.body.detailsinfo;
+            this.detailsinfonormal        = JSON.parse(response.body.detailsinfo);
             this.drawLine('chartRegressionNormal');
             //this.drawLine('chartRegressionLong');
             //this.drawLine('chartRegressionPG');
