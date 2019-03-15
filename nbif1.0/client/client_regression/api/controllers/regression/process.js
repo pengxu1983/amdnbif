@@ -403,7 +403,7 @@ var jobid_regression_main_daily = new cronJob('0 0 18 * * *',function(){
             for(let l=0;l<lines.length;l++){
               if(regx.test(lines[l])){
                 lines[l].replace(regx,function(rs,$1,$2){
-                  if(moment($1).add(2.'days').isSameOrBefore(moment().format('YYYY-MM-DD'))){
+                  if(moment($1).add(2,'days').isSameOrBefore(moment().format('YYYY-MM-DD'))){
                     text += 'trs kb -b '+$1+'_'+$2+'\n';//FIXME
                   }
                 });
