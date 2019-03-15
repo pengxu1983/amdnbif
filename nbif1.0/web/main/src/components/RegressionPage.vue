@@ -82,6 +82,15 @@
                 label="UnknownNum"
               >
               </el-table-column>
+              <el-table-column
+                label="Details"
+              >
+              <template slot-scope="scope">
+                <el-button type="text" @click="dispdetails('normal',scope.row.changelist)">Testdetails</el-button>
+                <el-dialog title="" :visible.sync="dialogTableVisible">
+                </el-dialog>
+              </template>
+              </el-table-column>
             </el-table>
           </el-container>
         </el-tab-pane>
@@ -265,10 +274,17 @@ export default {
       detailsinfopg         : [],
       projects              : [],
       users                 : [],
-      variants              : []
+      variants              : [],
+      dialogTableVisible    : false
     }
   },
   methods : {
+    dispdetails (mode,changelist) {
+      this.dialogTableVisible = true;
+      console.log('dispdetails');
+      console.log(mode);
+      console.log(changelist)
+    },
     handleClickNormal(tab, event) {
       //console.log(tab, event);
     },
