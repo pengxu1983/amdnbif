@@ -127,6 +127,34 @@ var jobid_regression_main_daily_check_status = new cronJob('0 0 */3 * * *',funct
       console.log(stdout);
     });
   }
+  //get batch name
+  let batch_names_inflight= [];
+  let batch_names_tokill = [];
+  if(fs.existsSync(treeRoot+'/batchinfo')){
+    let lines = fs.readFileSync(treeRoot+'batchinfo','utf8').split('\n');
+    lines.pop();
+    let regx = /^Batch name: /;
+    let regx1 = /regr_normal  KILLED/;
+    for(let l=0;l<lines.length;l++){
+      if(regx.test(lines[l])){
+        let R = lines[l].split(': ');
+        batch_names_inflight.push(R[1]);
+      }
+      if(regx1.test(lines[l])){
+        batch_names_inflight.pop();
+      }
+    }
+    for(let b=0;b<batch_names_inflight.length;b++){
+      batch_names_inflight[b].replace(/Batch name: (\d+)_/g,function(rs,$1){
+        if(moment($1).add(2,'days').isSameOrBefore(moment().format('YYYYMMDD'))){
+          batch_names_tokill.push();
+          console.log('to kill');
+          console.log(batch_names_tokill[b]);
+        }
+      });
+    }
+  }
+
   let testList = [];
   let testResult = {};
   //get test list
@@ -307,10 +335,10 @@ var jobid_regression_main_daily = new cronJob('0 0 14 * * *',function(){
         if(fs.existsSync(treeRoot)){
           if(fs.existsSync(treeRoot+'/out')){
             if(fs.existsSync(treeRoot+'/out.toRemove')){
-              child_process.execSync('bsub -P BIF-SHUB -q normal -Is -J NBIFrg -R \'rusage[mem=40000] select[type==RHEL6_64]\' rm -rf '+treeRoot+'/out.toRemove');
+              child_process.execSync('bsub -P BIF-SHUB -q normal -Is -J NBIFrg -R \'rusage[mem=4000] select[type==RHEL6_64]\' rm -rf '+treeRoot+'/out.toRemove');
             }
             fs.renameSync(treeRoot+'/out',treeRoot+'/out.toRemove');
-            child_process.exec('bsub -P BIF-SHUB -q normal -J NBIFrg -R \'rusage[mem=40000] select[type==RHEL6_64]\' rm -rf '+treeRoot+'/out.toRemove',{
+            child_process.exec('bsub -P BIF-SHUB -q normal -J NBIFrg -R \'rusage[mem=4000] select[type==RHEL6_64]\' rm -rf '+treeRoot+'/out.toRemove',{
               encoding  : 'utf8'
             },(error,stdout,stderr)=>{
               if(error){
@@ -360,12 +388,11 @@ var jobid_regression_main_daily = new cronJob('0 0 14 * * *',function(){
         }
         text += 'source useful_cmd -cyb -proj '+projectname+'\n';
         text += 'set batch_name_v = `/tool/pandora64/.package/perl-5.24.0/bin/perl '+treeRoot+'/src/test/tools/scripts/get_latest_batch_name.pl -r -mode -p '+variantname+' -c nbif_all_rtl -m normal`\n';
+        text += 'trs fb -o benpeng > batchinfo\n';
         text += 'regrsys_prep_wa -no-chmod\n';
         text += 'bsub -P BIF-SHUB -q normal -Is -J NBIFrg -R \'rusage[mem=5000] select[type==RHEL6_64]\' dj -l testlist.log -DDEBUG -m run_test -s nbifall all -a print -w "config==nbif_all_rtl && when=~/nbif_nightly/"\n';
         text += 'bdji -l build.log -m -DREGRESS -DUSE_VRQ -DCGM run_test -s nbifall demo_test_0_nbif_all_rtl -a execute=off\n';
-        text += 'bdji -l run.log -DRERUN_TDL_BATCH=$batch_name_v -m -DREGRESS -DUSE_VRQ -DCGM run_test -s nbifall all -b trs -A trs.batch=NEXTRG -A trs.environment=nbif_al_gpu -A trs.cec.logspec='+treeRoot+'/_env/local/nbif_logspec.xml -A trs.switches="-regr-no-results-copy" -w "config==nbif_all_rtl && when=~/nbif_nightly/" -a run_only\n';//FIXME about the -s arg
-        text += 'trs kb -b $batch_name_v\n';
-        text += 'echo $batch_name_v\n';
+        text += 'bdji -l run.log -DRERUN_TDL_BATCH=$batch_name_v -m -DREGRESS -DUSE_VRQ -DCGM run_test -s nbifall all -b trs -A trs.batch=NBIFRG_'+loop+' -A trs.environment=nbif_al_gpu -A trs.cec.logspec='+treeRoot+'/_env/local/nbif_logspec.xml -A trs.switches="-regr-no-results-copy" -w "config==nbif_all_rtl && when=~/nbif_nightly/" -a run_only\n';//FIXME about the -s arg
         text += 'echo "done"\n';
         fs.writeFileSync(treeRoot+'.script',text,{
           encoding  : 'utf8',
