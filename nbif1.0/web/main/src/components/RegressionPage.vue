@@ -88,40 +88,13 @@
               <template slot-scope="scope">
                 <el-button type="text" @click="dispdetails('normal',scope.row.changelist,scope.row.date)">Testdetails</el-button>
                 <el-dialog title="Normal" :visible.sync="dialogTableVisible">
-                  <el-table
-                    :data="testdetails"
-                    style="width: 100%"
-                    height="1000">
-                    <el-table-column
-                      fixed
-                      prop="testname"
-                      label="TestName"
-                      width="150"
-                    >
-                    </el-table-column>
-                    <el-table-column
-                      prop="result"
-                      label="Result"
-                      width="120"
-                    >
-                    </el-table-column>
-                    <el-table-column
-                      prop="seed"
-                      label="Seed"
-                      width="120">
-                    </el-table-column>
-                    <el-table-column
-                      prop="signature"
-                      label="Signature"
-                      width="120"
-                    >
-                    </el-table-column>
-                    <el-table-column
-                      prop="suite"
-                      label="Suite"
-                      width="300">
-                    </el-table-column>
-                  </el-table>
+                  <div class="block">
+                    <span class="demonstration"></span>
+                    <el-pagination
+                      layout="prev, pager, next"
+                      :total="1000">
+                    </el-pagination>
+                  </div>
                 </el-dialog>
               </template>
               </el-table-column>
