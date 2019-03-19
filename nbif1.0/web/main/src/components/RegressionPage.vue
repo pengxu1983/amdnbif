@@ -330,6 +330,14 @@ export default {
   methods : {
     handleCurrentChange(val) {
       console.log(`${val}`);
+      let start = (val-1)*500;
+      let end   = val*500;
+      if(end > this.testdetails.length){
+        end = this.testdetails.length;
+      }
+      for(let t=start;t<end;t++){
+        this.testdetails_display.push(this.testdetails[t]);
+      }
       //for(let t=(val-1)*500;t<)
       //this.testdetails_display
     },
@@ -351,6 +359,7 @@ export default {
           if(response.body.ok ==  'ok'){
             console.log(JSON.parse(response.body.testdetails));
             this.testdetails  = JSON.parse(response.body.testdetails);
+            this.handleCurrentChange(1);
           }
           else if(response.body.notok == 'ok'){
           }
