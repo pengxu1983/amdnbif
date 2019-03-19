@@ -91,8 +91,10 @@
                   <div class="block">
                     <span class="demonstration">aaa</span>
                     <el-pagination
+                      @current-change="handleCurrentChange"
                       layout="prev, pager, next"
-                      :total="1000"
+                      :total="testdetails.length"
+                      :page-size="500"
                     >
                     <span>abc</span>
                     </el-pagination>
@@ -289,6 +291,9 @@ export default {
     }
   },
   methods : {
+    handleCurrentChange(val) {
+      console.log(`${val}`);
+    },
     dispdetails (mode,changelist,date) {
       this.dialogTableVisible = true;
       console.log('dispdetails');
