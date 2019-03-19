@@ -89,13 +89,47 @@
                 <el-button type="text" @click="dispdetails('normal',scope.row.changelist,scope.row.date)">Testdetails</el-button>
                 <el-dialog title="Normal" :visible.sync="dialogTableVisible">
                   <div class="block">
-                    <span class="demonstration">aaa</span>
                     <el-pagination
                       @current-change="handleCurrentChange"
                       layout="prev, pager, next"
                       :total="testdetails.length"
                       :page-size="500"
                     >
+                      <el-table
+                        :data="testdetails_display"
+                        height="500"
+                        border
+                        style="width: 100%">
+                        <el-table-column
+                          prop="testname"
+                          label="testname"
+                          width="180"
+                        >
+                        </el-table-column>
+                        <el-table-column
+                          prop="result"
+                          label="result"
+                          width="180"
+                        >
+                        </el-table-column>
+                        <el-table-column
+                          prop="seed"
+                          label="seed"
+                          width="180"
+                        >
+                        </el-table-column>
+                        <el-table-column
+                          prop="changelist"
+                          label="changelist"
+                          width="180"
+                        >
+                        </el-table-column>
+                        <el-table-column
+                          prop="signature"
+                          label="signature"
+                        >
+                        </el-table-column>
+                      </el-table>
                     <span>abc</span>
                     </el-pagination>
                   </div>
@@ -287,12 +321,17 @@ export default {
       users                 : [],
       variants              : [],
       dialogTableVisible    : false,
-      testdetails          : []
+      testdetails          : [],
+      testdetails_display : []
     }
+  },
+  computed  :{
   },
   methods : {
     handleCurrentChange(val) {
       console.log(`${val}`);
+      //for(let t=(val-1)*500;t<)
+      //this.testdetails_display
     },
     dispdetails (mode,changelist,date) {
       this.dialogTableVisible = true;
