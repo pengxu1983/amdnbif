@@ -45,28 +45,45 @@ module.exports = {
         variantname : inputs.variantname,
         testplanname: inputs.testplanname//TODO if need project name
       });
-      let testlist = JSON.parse(R.testlist);
-      for(let t=0;t<testlist.length;t++){
-        if(inputs.variantname == 'nbif_al_gpu'){
-          let onetest = await Teststatusvariant01.findOne({
-            testname  : testlist[t]
-          });
-          let R = JSON.parse(onetest.resultbyday);
-          let RR = R[inputs.kickoffdate];
-          testdetails.push({
-            testname    : testlist[t],
-            seed        : RR.seed,
-            changelist  : RR.changelist,
-            result      : RR.result,
-            signature   : RR.signature,
-            suite       : RR.suite
-          });
-        }
+      if(R){
       }
-      return exits.success(JSON.stringify({
-        ok  : 'ok',
-        testdetails : JSON.stringify(testdetails)
-      }));
+      else{
+        R = await Teststatusvariant01_summary.findOne({
+          mode        : inputs.mode,
+          kickoffdate : moment(inputs.kickoffdate).subtract(1,'days').format('YYYY-MM-DD'),
+          variantname : inputs.variantname,
+          testplanname: inputs.testplanname
+        });
+      }
+      if(R){
+        let testlist = JSON.parse(R.testlist);
+        for(let t=0;t<testlist.length;t++){
+          if(inputs.variantname == 'nbif_al_gpu'){
+            let onetest = await Teststatusvariant01.findOne({
+              testname  : testlist[t]
+            });
+            let R = JSON.parse(onetest.resultbyday);
+            let RR = R[inputs.kickoffdate];
+            testdetails.push({
+              testname    : testlist[t],
+              seed        : RR.seed,
+              changelist  : RR.changelist,
+              result      : RR.result,
+              signature   : RR.signature,
+              suite       : RR.suite
+            });
+          }
+        }
+        return exits.success(JSON.stringify({
+          ok  : 'ok',
+          testdetails : JSON.stringify(testdetails)
+        }));
+      }
+      else{
+        return exits.success(JSON.stringify({
+          ok  : 'notok'
+        }));
+      }
     }
     else {
       return exits.success(JSON.stringify({

@@ -296,6 +296,7 @@ export default {
       }).then(
         function(response){
           if(response.body.ok ==  'ok'){
+            console.log(JSON.parse(response.body.testdetails));
           }
           else if(response.body.notok == 'ok'){
           }
