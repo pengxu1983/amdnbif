@@ -92,7 +92,9 @@
                     <span class="demonstration"></span>
                     <el-pagination
                       layout="prev, pager, next"
-                      :total="1000">
+                      :total="1000"
+                    >
+                    a
                     </el-pagination>
                   </div>
                 </el-dialog>
