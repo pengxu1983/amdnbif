@@ -86,7 +86,7 @@
                 label="Details"
               >
               <template slot-scope="scope">
-                <el-button type="text" @click="dispdetails('normal',scope.row.changelist)">Testdetails</el-button>
+                <el-button type="text" @click="dispdetails('normal',scope.row.changelist,scope.row.date)">Testdetails</el-button>
                 <el-dialog title="" :visible.sync="dialogTableVisible">
                 </el-dialog>
               </template>
@@ -275,15 +275,33 @@ export default {
       projects              : [],
       users                 : [],
       variants              : [],
-      dialogTableVisible    : false
+      dialogTableVisible    : false,
+      testdetails          : []
     }
   },
   methods : {
-    dispdetails (mode,changelist) {
+    dispdetails (mode,changelist,date) {
       this.dialogTableVisible = true;
       console.log('dispdetails');
       console.log(mode);
-      console.log(changelist)
+      console.log(changelist);
+      console.log(this.projectinfo);
+      this.$http.post('/regression/testdetails',{
+        kind  : 'testdetails',
+        mode  : mode,
+        testplanname  : 'all',
+        kickoffdate : date,
+        projectname : this.projectinfo.projectname,
+        variantname : this.projectinfo.variantname
+      }).then(
+        function(response){
+          if(response.body.ok ==  'ok'){
+          }
+          else if(response.body.notok == 'ok'){
+          }
+        },
+        function(){}
+      );
     },
     handleClickNormal(tab, event) {
       //console.log(tab, event);
