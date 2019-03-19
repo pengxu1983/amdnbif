@@ -89,12 +89,12 @@
                 <el-button type="text" @click="dispdetails('normal',scope.row.changelist,scope.row.date)">Testdetails</el-button>
                 <el-dialog title="Normal" :visible.sync="dialogTableVisible">
                   <div class="block">
-                    <span class="demonstration"></span>
+                    <span class="demonstration">aaa</span>
                     <el-pagination
                       layout="prev, pager, next"
                       :total="1000"
                     >
-                    a
+                    <span>abc</span>
                     </el-pagination>
                   </div>
                 </el-dialog>
