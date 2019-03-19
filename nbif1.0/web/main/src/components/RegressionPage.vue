@@ -95,43 +95,42 @@
                       :total="testdetails.length"
                       :page-size="500"
                     >
-                      <el-table
-                        :data="testdetails_display"
-                        height="500"
-                        border
-                        style="width: 100%">
-                        <el-table-column
-                          prop="testname"
-                          label="testname"
-                          width="180"
-                        >
-                        </el-table-column>
-                        <el-table-column
-                          prop="result"
-                          label="result"
-                          width="180"
-                        >
-                        </el-table-column>
-                        <el-table-column
-                          prop="seed"
-                          label="seed"
-                          width="180"
-                        >
-                        </el-table-column>
-                        <el-table-column
-                          prop="changelist"
-                          label="changelist"
-                          width="180"
-                        >
-                        </el-table-column>
-                        <el-table-column
-                          prop="signature"
-                          label="signature"
-                        >
-                        </el-table-column>
-                      </el-table>
-                    <span>abc</span>
                     </el-pagination>
+                    <el-table
+                      :data="testdetails_display"
+                      height="500"
+                      border
+                      style="width: 100%">
+                      <el-table-column
+                        prop="testname"
+                        label="testname"
+                        width="180"
+                      >
+                      </el-table-column>
+                      <el-table-column
+                        prop="result"
+                        label="result"
+                        width="180"
+                      >
+                      </el-table-column>
+                      <el-table-column
+                        prop="seed"
+                        label="seed"
+                        width="180"
+                      >
+                      </el-table-column>
+                      <el-table-column
+                        prop="changelist"
+                        label="changelist"
+                        width="180"
+                      >
+                      </el-table-column>
+                      <el-table-column
+                        prop="signature"
+                        label="signature"
+                      >
+                      </el-table-column>
+                    </el-table>
                   </div>
                 </el-dialog>
               </template>
