@@ -65,7 +65,7 @@ module.exports = {
       }
       return exits.success(JSON.stringify({
         ok  : 'ok',
-        testdetails : JSON.stringify(testdetails);
+        testdetails : JSON.stringify(testdetails)
       }));
     }
     else {
