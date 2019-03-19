@@ -87,7 +87,41 @@
               >
               <template slot-scope="scope">
                 <el-button type="text" @click="dispdetails('normal',scope.row.changelist,scope.row.date)">Testdetails</el-button>
-                <el-dialog title="" :visible.sync="dialogTableVisible">
+                <el-dialog title="Normal" :visible.sync="dialogTableVisible">
+                  <el-table
+                    :data="testdetails"
+                    style="width: 100%"
+                    height="1000">
+                    <el-table-column
+                      fixed
+                      prop="testname"
+                      label="TestName"
+                      width="150"
+                    >
+                    </el-table-column>
+                    <el-table-column
+                      prop="result"
+                      label="Result"
+                      width="120"
+                    >
+                    </el-table-column>
+                    <el-table-column
+                      prop="seed"
+                      label="Seed"
+                      width="120">
+                    </el-table-column>
+                    <el-table-column
+                      prop="signature"
+                      label="Signature"
+                      width="120"
+                    >
+                    </el-table-column>
+                    <el-table-column
+                      prop="suite"
+                      label="Suite"
+                      width="300">
+                    </el-table-column>
+                  </el-table>
                 </el-dialog>
               </template>
               </el-table-column>
@@ -297,6 +331,7 @@ export default {
         function(response){
           if(response.body.ok ==  'ok'){
             console.log(JSON.parse(response.body.testdetails));
+            this.testdetails  = JSON.parse(response.body.testdetails);
           }
           else if(response.body.notok == 'ok'){
           }
