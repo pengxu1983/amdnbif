@@ -102,27 +102,28 @@
                       border
                       style="width: 100%">
                       <el-table-column
+                        fixed
                         prop="testname"
                         label="testname"
-                        width="180"
+                        width="200"
                       >
                       </el-table-column>
                       <el-table-column
                         prop="result"
                         label="result"
-                        width="180"
+                        width="130"
                       >
                       </el-table-column>
                       <el-table-column
                         prop="seed"
                         label="seed"
-                        width="180"
+                        width="130"
                       >
                       </el-table-column>
                       <el-table-column
                         prop="changelist"
                         label="changelist"
-                        width="180"
+                        width="130"
                       >
                       </el-table-column>
                       <el-table-column
@@ -331,6 +332,7 @@ export default {
       console.log(`${val}`);
       let start = (val-1)*500;
       let end   = val*500;
+      this.testdetails_display=[];
       if(end > this.testdetails.length){
         end = this.testdetails.length;
       }
