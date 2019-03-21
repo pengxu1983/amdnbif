@@ -16,20 +16,9 @@ module.exports = {
     testname      : {
       type        : 'string'
     },
-    lastpassCL    : {
-      type        : 'string'
-    },
-    lastCL        : {
-      type        : 'string'
-    },
-    variantname   : {
-      type        : 'string',
-      columnType  : 'longtext'
-    },
-    brokenCL      : {
+    projectname   : {
       type        : 'string'
     }
-
     //  ╔═╗╔╦╗╔╗ ╔═╗╔╦╗╔═╗
     //  ║╣ ║║║╠╩╗║╣  ║║╚═╗
     //  ╚═╝╩ ╩╚═╝╚═╝═╩╝╚═╝
