@@ -7,8 +7,12 @@
           <el-header>
             <el-row>
               <h3>MAIN Tests</h3>
-              <el-button type="primary" round>Add</el-button>
-              <el-button type="primary" round>Upload</el-button>
+              <el-button type="primary" round 
+                @click="testadd('MAIN')"
+              >Add</el-button>
+              <el-button type="primary" round
+                @click="testupload"
+              >Upload</el-button>
             </el-row>
           </el-header>
           <el-main>
@@ -67,8 +71,12 @@
           <el-header>
             <el-row>
               <h3>MAIN tasks</h3>
-              <el-button type="primary" round>Add</el-button>
-              <el-button type="primary" round>Upload</el-button>
+              <el-button type="primary" round
+                @click="taskadd('MAIN')"
+              >Add</el-button>
+              <el-button type="primary" round
+                @click="taskupload"
+              >Upload</el-button>
             </el-row>
           </el-header>
           <el-main>
@@ -128,8 +136,12 @@
           <el-header>
             <el-row>
               <h3>NV21 Tests</h3>
-              <el-button type="primary" round>Add</el-button>
-              <el-button type="primary" round>Upload</el-button>
+              <el-button type="primary" round
+                @click="testadd('NV21')"
+              >Add</el-button>
+              <el-button type="primary" round
+                @click="testupload"
+              >Upload</el-button>
             </el-row>
           </el-header>
           <el-main>
@@ -188,8 +200,12 @@
           <el-header>
             <el-row>
               <h3>NV21 tasks</h3>
-              <el-button type="primary" round>Add</el-button>
-              <el-button type="primary" round>Upload</el-button>
+              <el-button type="primary" round
+                @click="taskadd('NV21')"
+              >Add</el-button>
+              <el-button type="primary" round
+                @click="taskupload"
+              >Upload</el-button>
             </el-row>
           </el-header>
           <el-main>
@@ -471,6 +487,39 @@ export default {
     }
   },
   methods : {
+    testadd (tree)  {
+      let newtest = {};
+      newtest['testname']='';
+      newtest['valid']={};
+      newtest['valid'][tree]=[];
+      this.common_sanitys.unshift(newtest);
+    },
+    testupload  ()  {
+      for(let c=0;c<this.common_sanitys.length;c++){
+        this.$http.post('/sanitys/config',{
+          kind  : 'testupdate',
+          testname  : this.common_sanitys[c].testname,
+          valid : JSON.stringify(this.common_sanitys[c].valid)
+        }).then(
+          function(response){
+            if(response.body.ok =='ok'){
+              alert('ok');
+            }
+            else if(response.body.ok == 'notok'){
+            }
+          },
+          function(){}
+        );
+      }
+    },
+    taskadd(tree)  {
+      let newtask = {};
+      newtask['taskname']='';
+      newtask['valid']={};
+      newtask['valid'][tree]=[];
+      this.common_task.unshift(newtest);
+    },
+    taskupload()  {},
     deleteRow(index, rows) {
       rows.splice(index, 1);
     },
