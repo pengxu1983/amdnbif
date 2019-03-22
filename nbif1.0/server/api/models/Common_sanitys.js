@@ -16,7 +16,7 @@ module.exports = {
     testname      : {
       type        : 'string'
     },
-    projectname   : {
+    valid         : {
       type        : 'string'
     }
     //  ╔═╗╔╦╗╔╗ ╔═╗╔╦╗╔═╗

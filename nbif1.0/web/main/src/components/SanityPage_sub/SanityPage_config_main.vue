@@ -26,7 +26,21 @@
                     clearable>
                   </el-input>
                 </template>
-                </el-table-column>
+              </el-table-column>
+              <el-table-column
+                prop="valid"
+                label="Valid"
+              >
+                <template slot-scope="scope">
+                  <el-checkbox-group v-model="scope.row.valid.MAIN" >
+                    <div 
+                      v-for="onevariant in variants" 
+                    >
+                      <el-checkbox :label="onevariant.variantname"></el-checkbox>           
+                    </div>
+                  </el-checkbox-group>
+                </template>
+              </el-table-column>
               <el-table-column
                 fixed="right"
                 label="operation"
@@ -168,13 +182,76 @@ export default {
     return {
       common_sanitys  : [
         {
-          testname : 'demo_test_0'
+          testname  : 'demo_test_0',
+          valid     : {
+          'NV21':{
+            'nbif_al_gpu':  'yes',
+            'nbif_ssp_generic_a': 'yes',
+            'nbif_ssp_ntb': 'yes',
+            'nbif_oak_gpu': 'yes',
+            'nbif_nv10_gpu': 'yes'
+          },
+          'MAIN':{
+            'nbif_al_gpu':  'yes',
+            'nbif_ssp_generic_a': 'yes',
+            'nbif_ssp_ntb': 'yes',
+            'nbif_oak_gpu': 'yes',
+            'nbif_nv10_gpu': 'yes'
+          }}
         },
         {
-          testname : 'demo_test_1'
+          testname  : 'demo_test_1',
+          valid     : {
+          'NV21':{
+            'nbif_al_gpu':  'yes',
+            'nbif_ssp_generic_a': 'yes',
+            'nbif_ssp_ntb': 'yes',
+            'nbif_oak_gpu': 'yes',
+            'nbif_nv10_gpu': 'yes'
+          },
+          'MAIN':{
+            'nbif_al_gpu':  'yes',
+            'nbif_ssp_generic_a': 'yes',
+            'nbif_ssp_ntb': 'yes',
+            'nbif_oak_gpu': 'yes',
+            'nbif_nv10_gpu': 'yes'
+          }}
         },
         {
-          testname : 'demo_test_2'
+          testname  : 'demo_test_2',
+          valid     : {
+          'NV21':{
+            'nbif_al_gpu':  'yes',
+            'nbif_ssp_generic_a': 'yes',
+            'nbif_ssp_ntb': 'yes',
+            'nbif_oak_gpu': 'yes',
+            'nbif_nv10_gpu': 'yes'
+          },
+          'MAIN':{
+            'nbif_al_gpu':  'yes',
+            'nbif_ssp_generic_a': 'yes',
+            'nbif_ssp_ntb': 'yes',
+            'nbif_oak_gpu': 'yes',
+            'nbif_nv10_gpu': 'yes'
+          }}
+        },
+        {
+          testname  : 'dcelab',
+          valid     : {
+          'NV21':{
+            'nbif_al_gpu':  'yes',
+            'nbif_ssp_generic_a': 'yes',
+            'nbif_ssp_ntb': 'yes',
+            'nbif_oak_gpu': 'yes',
+            'nbif_nv10_gpu': 'yes'
+          },
+          'MAIN':{
+            'nbif_al_gpu':  'yes',
+            'nbif_ssp_generic_a': 'yes',
+            'nbif_ssp_ntb': 'yes',
+            'nbif_oak_gpu': 'yes',
+            'nbif_nv10_gpu': 'yes'
+          }}
         }
       ],
       activeTab : 'byVariant',
