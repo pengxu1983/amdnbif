@@ -184,74 +184,56 @@ export default {
         {
           testname  : 'demo_test_0',
           valid     : {
-          'NV21':{
-            'nbif_al_gpu':  'yes',
-            'nbif_ssp_generic_a': 'yes',
-            'nbif_ssp_ntb': 'yes',
-            'nbif_oak_gpu': 'yes',
-            'nbif_nv10_gpu': 'yes'
-          },
-          'MAIN':{
-            'nbif_al_gpu':  'yes',
-            'nbif_ssp_generic_a': 'yes',
-            'nbif_ssp_ntb': 'yes',
-            'nbif_oak_gpu': 'yes',
-            'nbif_nv10_gpu': 'yes'
-          }}
+          'NV21':[
+            'nbif_al_gpu',
+            'nbif_ssp_generic_a',
+            'nbif_ssp_ntb',
+            'nbif_oak_gpu',
+            'nbif_nv10_gpu'
+          ],
+          'MAIN':[
+            'nbif_al_gpu',
+            'nbif_ssp_generic_a',
+            'nbif_ssp_ntb',
+            'nbif_oak_gpu',
+            'nbif_nv10_gpu'
+          ]}
         },
         {
           testname  : 'demo_test_1',
           valid     : {
-          'NV21':{
-            'nbif_al_gpu':  'yes',
-            'nbif_ssp_generic_a': 'yes',
-            'nbif_ssp_ntb': 'yes',
-            'nbif_oak_gpu': 'yes',
-            'nbif_nv10_gpu': 'yes'
-          },
-          'MAIN':{
-            'nbif_al_gpu':  'yes',
-            'nbif_ssp_generic_a': 'yes',
-            'nbif_ssp_ntb': 'yes',
-            'nbif_oak_gpu': 'yes',
-            'nbif_nv10_gpu': 'yes'
-          }}
+          'NV21':[
+            'nbif_al_gpu',
+            'nbif_ssp_generic_a',
+            'nbif_ssp_ntb',
+            'nbif_oak_gpu',
+            'nbif_nv10_gpu'
+          ],
+          'MAIN':[
+            'nbif_al_gpu',
+            'nbif_ssp_generic_a',
+            'nbif_ssp_ntb',
+            'nbif_oak_gpu',
+            'nbif_nv10_gpu'
+          ]}
         },
         {
           testname  : 'demo_test_2',
           valid     : {
-          'NV21':{
-            'nbif_al_gpu':  'yes',
-            'nbif_ssp_generic_a': 'yes',
-            'nbif_ssp_ntb': 'yes',
-            'nbif_oak_gpu': 'yes',
-            'nbif_nv10_gpu': 'yes'
-          },
-          'MAIN':{
-            'nbif_al_gpu':  'yes',
-            'nbif_ssp_generic_a': 'yes',
-            'nbif_ssp_ntb': 'yes',
-            'nbif_oak_gpu': 'yes',
-            'nbif_nv10_gpu': 'yes'
-          }}
-        },
-        {
-          testname  : 'dcelab',
-          valid     : {
-          'NV21':{
-            'nbif_al_gpu':  'yes',
-            'nbif_ssp_generic_a': 'yes',
-            'nbif_ssp_ntb': 'yes',
-            'nbif_oak_gpu': 'yes',
-            'nbif_nv10_gpu': 'yes'
-          },
-          'MAIN':{
-            'nbif_al_gpu':  'yes',
-            'nbif_ssp_generic_a': 'yes',
-            'nbif_ssp_ntb': 'yes',
-            'nbif_oak_gpu': 'yes',
-            'nbif_nv10_gpu': 'yes'
-          }}
+          'NV21':[
+            'nbif_al_gpu',
+            'nbif_ssp_generic_a',
+            'nbif_ssp_ntb',
+            'nbif_oak_gpu',
+            'nbif_nv10_gpu'
+          ],
+          'MAIN':[
+            'nbif_al_gpu',
+            'nbif_ssp_generic_a',
+            'nbif_ssp_ntb',
+            'nbif_oak_gpu',
+            'nbif_nv10_gpu'
+          ]}
         }
       ],
       activeTab : 'byVariant',
