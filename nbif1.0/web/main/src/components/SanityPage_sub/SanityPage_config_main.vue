@@ -1,10 +1,12 @@
 <template>
   <el-tabs v-model="activeTab" type="card" @tab-click="handleClick">
     <el-tab-pane label="Common for All Variants" name="byVariant">
+      <hr />
       <template>
         <el-container>
           <el-header>
             <el-row>
+              <h3>MAIN</h3>
               <el-button type="primary" round>Add</el-button>
               <el-button type="primary" round>Upload</el-button>
             </el-row>
@@ -60,10 +62,12 @@
           </el-main>
         </el-container>
       </template>
+      <hr />
       <template>
         <el-container>
           <el-header>
             <el-row>
+              <h3>NV21</h3>
               <el-button type="primary" round>Add</el-button>
               <el-button type="primary" round>Upload</el-button>
             </el-row>
