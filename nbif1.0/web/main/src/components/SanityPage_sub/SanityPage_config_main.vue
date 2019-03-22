@@ -503,7 +503,6 @@ export default {
         }).then(
           function(response){
             if(response.body.ok =='ok'){
-              alert('ok');
             }
             else if(response.body.ok == 'notok'){
             }
@@ -517,9 +516,28 @@ export default {
       newtask['taskname']='';
       newtask['valid']={};
       newtask['valid'][tree]=[];
-      this.common_task.unshift(newtest);
+      this.common_tasks.unshift(newtask);
     },
-    taskupload()  {},
+    taskupload()  {
+      for(let c=0;c<this.common_tasks.length;c++){
+        if(this.common_tasks[c].taskname == ''){
+          continue;
+        }
+        this.$http.post('/sanitys/config',{
+          kind  : 'taskupdate',
+          testname  : this.common_tasks[c].taskname,
+          valid : JSON.stringify(this.common_tasks[c].valid)
+        }).then(
+          function(response){
+            if(response.body.ok =='ok'){
+            }
+            else if(response.body.ok == 'notok'){
+            }
+          },
+          function(){}
+        );
+      }
+    },
     deleteRow(index, rows) {
       rows.splice(index, 1);
     },
