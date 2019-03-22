@@ -17,7 +17,8 @@ module.exports = {
       type        : 'string'
     },
     valid         : {
-      type        : 'string'
+      type        : 'string',
+      columnType  : 'longtext'
     }
     //  ╔═╗╔╦╗╔╗ ╔═╗╔╦╗╔═╗
     //  ║╣ ║║║╠╩╗║╣  ║║╚═╗
