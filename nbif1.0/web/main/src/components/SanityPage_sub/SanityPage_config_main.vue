@@ -6,68 +6,7 @@
         <el-container>
           <el-header>
             <el-row>
-              <h3>MAIN</h3>
-              <el-button type="primary" round>Add</el-button>
-              <el-button type="primary" round>Upload</el-button>
-            </el-row>
-          </el-header>
-          <el-main>
-            <el-table
-              :data="common_sanitys"
-              border
-              style="width: 100%"
-            >
-              <el-table-column
-                prop="testname"
-                label="TestName"
-              >
-                <template slot-scope="scope">
-                  <el-input
-                    placeholder="TestName"
-                    v-model="scope.row.testname"
-                    clearable>
-                  </el-input>
-                </template>
-              </el-table-column>
-              <el-table-column
-                prop="valid"
-                label="Valid"
-              >
-                <template slot-scope="scope">
-                  <el-checkbox-group v-model="scope.row.valid.NV21" >
-                    <div 
-                      v-for="onevariant in variants" 
-                    >
-                      <el-checkbox :label="onevariant.variantname"></el-checkbox>           
-                    </div>
-                  </el-checkbox-group>
-                </template>
-              </el-table-column>
-              <el-table-column
-                fixed="right"
-                label="operation"
-                width="120"
-              >
-                <template slot-scope="scope">
-                  <el-button
-                    @click.native.prevent="deleteRow(scope.$index, common_sanitys)"
-                    type="text"
-                    size="small"
-                  >
-                    Delete
-                  </el-button>
-                </template>
-              </el-table-column>
-            </el-table>
-          </el-main>
-        </el-container>
-      </template>
-      <hr />
-      <template>
-        <el-container>
-          <el-header>
-            <el-row>
-              <h3>NV21</h3>
+              <h3>MAIN Tests</h3>
               <el-button type="primary" round>Add</el-button>
               <el-button type="primary" round>Upload</el-button>
             </el-row>
@@ -123,6 +62,67 @@
           </el-main>
         </el-container>
       </template>
+      <template>
+        <el-container>
+          <el-header>
+            <el-row>
+              <h3>MAIN tasks</h3>
+              <el-button type="primary" round>Add</el-button>
+              <el-button type="primary" round>Upload</el-button>
+            </el-row>
+          </el-header>
+          <el-main>
+            <el-table
+              :data="common_tasks"
+              border
+              style="width: 100%"
+            >
+              <el-table-column
+                prop="taskname"
+                label="TaskName"
+              >
+                <template slot-scope="scope">
+                  <el-input
+                    placeholder="TaskName"
+                    v-model="scope.row.taskname"
+                    clearable>
+                  </el-input>
+                </template>
+              </el-table-column>
+              <el-table-column
+                prop="valid"
+                label="Valid"
+              >
+                <template slot-scope="scope">
+                  <el-checkbox-group v-model="scope.row.valid.MAIN" >
+                    <div 
+                      v-for="onevariant in variants" 
+                    >
+                      <el-checkbox :label="onevariant.variantname"></el-checkbox>           
+                    </div>
+                  </el-checkbox-group>
+                </template>
+              </el-table-column>
+              <el-table-column
+                fixed="right"
+                label="operation"
+                width="120"
+              >
+                <template slot-scope="scope">
+                  <el-button
+                    @click.native.prevent="deleteRow(scope.$index, common_tasks)"
+                    type="text"
+                    size="small"
+                  >
+                    Delete
+                  </el-button>
+                </template>
+              </el-table-column>
+            </el-table>
+          </el-main>
+        </el-container>
+      </template>
+      <hr />
     </el-tab-pane>
     <el-tab-pane label="Select by Project(TODO)" name="byProject">
       <template>
@@ -243,6 +243,27 @@ export default {
   },
   data() {
     return {
+      common_tasks  : [
+        {
+          taskname  : 'dcelab',
+          valid     : {
+          'NV21':[
+            'nbif_al_gpu',
+            'nbif_ssp_generic_a',
+            'nbif_ssp_ntb',
+            'nbif_oak_gpu',
+            'nbif_nv10_gpu'
+          ],
+          'MAIN':[
+            'nbif_al_gpu',
+            'nbif_ssp_generic_a',
+            'nbif_ssp_ntb',
+            'nbif_oak_gpu',
+            'nbif_nv10_gpu'
+          ]}
+        },
+      ],
+
       common_sanitys  : [
         {
           testname  : 'demo_test_0',
