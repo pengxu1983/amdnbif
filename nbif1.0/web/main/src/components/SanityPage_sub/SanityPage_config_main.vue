@@ -380,6 +380,9 @@ export default {
   },
   data() {
     return {
+      treelist :  [
+        'NV21','MAIN'
+      ],
       common_tasks  : [
         {
           taskname  : 'dcelab',
@@ -487,11 +490,13 @@ export default {
     }
   },
   methods : {
-    testadd (tree)  {
+    testadd ()  {
       let newtest = {};
       newtest['testname']='';
       newtest['valid']={};
-      newtest['valid'][tree]=[];
+      for(let tree=0;tree<this.treelist.length;tree++){
+        newtest['valid'][this.treelist[tree]]=[];
+      }
       this.common_sanitys.unshift(newtest);
     },
     testupload  ()  {
@@ -511,11 +516,13 @@ export default {
         );
       }
     },
-    taskadd(tree)  {
+    taskadd()  {
       let newtask = {};
       newtask['taskname']='';
       newtask['valid']={};
-      newtask['valid'][tree]=[];
+      for(let tree=0;tree<this.treelist.length;tree++){
+        newtask['valid'][this.treelist[tree]]=[];
+      }
       this.common_tasks.unshift(newtask);
     },
     taskupload()  {
