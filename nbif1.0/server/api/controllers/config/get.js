@@ -23,9 +23,25 @@ module.exports = {
     sails.log('/config/get');
     sails.log(inputs);
     ///////////////////
+    //for Common sanitys
+    ///////////////////
+    if(inputs.kind =='allsanitycfg'){
+      let common_sanitys  = await Common_sanitys.find({
+        id  : {'>=':0}
+      });
+      let common_tasks    = await Common_tasks.find({
+        id  : {'>=':0}
+      });
+      return exits.success(JSON.stringify({
+        ok  : 'ok',
+        common_tasks  : common_tasks,
+        common_sanitys  : common_sanitys
+      }));
+    }
+    ///////////////////
     //for Users
     ///////////////////
-    if(inputs.kind  ==  'allusersget'){
+    else if(inputs.kind  ==  'allusersget'){
       var allusers = await Users.find({
         id  : {'>=':0}
       });
