@@ -8,7 +8,7 @@ var workspace     = '/proj/bif_nbio_vol1_backup/benpeng/';
 let changelistToRun ;
 var jobid_dcelab_run_MAIN = new cronJob('0 */5 * * * *',function(){
   console.log('jobid_dcelab_run_MAIN start at '+moment().format('YYYY-MM-DD HH:mm:ss'));
-  jobid_dcelab_run.stop();
+  jobid_dcelab_run_MAIN.stop();
   let variants  ;
   let projects  ;
   //get latest cl of main tree from DB
@@ -38,12 +38,12 @@ var jobid_dcelab_run_MAIN = new cronJob('0 */5 * * * *',function(){
 
       if(JSON.parse(chunk).ok == 'notok'){
         console.log(JSON.parse(chunk).msg);
-        jobid_dcelab_run.start();
+        jobid_dcelab_run_MAIN.start();
         return;
       }
       if(JSON.parse(chunk).lastcheckedCL == changelistToRun){
         console.log('cl '+changelistToRun+' already have dcelab report');
-        jobid_dcelab_run.start();
+        jobid_dcelab_run_MAIN.start();
         return;
       }
       changelistToRun = JSON.parse(chunk).lastcheckedCL;
@@ -186,7 +186,7 @@ var jobid_dcelab_run_MAIN = new cronJob('0 */5 * * * *',function(){
                     res.setEncoding('utf8');
                     res.on('data', (chunk) => {
                       console.log(`BODY: ${chunk}`);
-                      jobid_dcelab_run.start();
+                      jobid_dcelab_run_MAIN.start();
                     });
                     res.on('end', () => {
                       console.log('No more data in response.');
@@ -237,7 +237,7 @@ var jobid_dcelab_run_MAIN = new cronJob('0 */5 * * * *',function(){
 },null,true,'Asia/Chongqing');
 var jobid_dcelab_run_NV21 = new cronJob('0 */5 * * * *',function(){
   console.log('jobid_dcelab_run_NV21 start at '+moment().format('YYYY-MM-DD HH:mm:ss'));
-  jobid_dcelab_run.stop();
+  jobid_dcelab_run_NV21.stop();
   let variants  ;
   let projects  ;
   //get latest cl of main tree from DB
@@ -267,12 +267,12 @@ var jobid_dcelab_run_NV21 = new cronJob('0 */5 * * * *',function(){
 
       if(JSON.parse(chunk).ok == 'notok'){
         console.log(JSON.parse(chunk).msg);
-        jobid_dcelab_run.start();
+        jobid_dcelab_run_NV21.start();
         return;
       }
       if(JSON.parse(chunk).lastcheckedCL == changelistToRun){
         console.log('cl '+changelistToRun+' already have dcelab report');
-        jobid_dcelab_run.start();
+        jobid_dcelab_run_NV21.start();
         return;
       }
       changelistToRun = JSON.parse(chunk).lastcheckedCL;
@@ -415,7 +415,7 @@ var jobid_dcelab_run_NV21 = new cronJob('0 */5 * * * *',function(){
                     res.setEncoding('utf8');
                     res.on('data', (chunk) => {
                       console.log(`BODY: ${chunk}`);
-                      jobid_dcelab_run.start();
+                      jobid_dcelab_run_NV21.start();
                     });
                     res.on('end', () => {
                       console.log('No more data in response.');
