@@ -558,6 +558,9 @@ export default {
             this.common_sanitys = JSON.parse(response.body.common_sanitys);
             this.common_tasks   = JSON.parse(response.body.common_tasks);
             console.log(this.common_sanitys);
+            for(let c=0;c<this.common_sanitys.length;c++){
+              this.common_sanitys[c].valid  = JSON.parse(this.common_sanitys[c].valid)
+            }
           }
           else if(response.body.ok  ==  'notok'){
           }
