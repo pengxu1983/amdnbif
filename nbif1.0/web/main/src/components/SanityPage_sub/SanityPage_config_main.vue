@@ -476,15 +476,15 @@ export default {
   },
   computed  : {
     sanitys_display () {
-      console.log('sanitys_display computed');
+      //console.log('sanitys_display computed');
       var items = [];
-      console.log(this.sanitys);
+      //console.log(this.sanitys);
       for(var i=0;i<this.sanitys.length;i++){
         if((this.sanitys[i].projectname  == this.projectinfo.projectname) && (this.sanitys[i].variantname == this.projectinfo.variantname)){
           items.push( this.sanitys[i]);
         }
       }
-      console.log(items);
+      //console.log(items);
       return items;
     }
   },
@@ -544,7 +544,7 @@ export default {
       rows.splice(index, 1);
     },
     handleClick(tab, event) {
-      console.log(tab, event);
+      //console.log(tab, event);
     },
     get () {
       //common sanity
@@ -555,6 +555,8 @@ export default {
           if(response.body.ok =='ok'){
             console.log(typeof(response.body.common_sanitys));
             console.log(typeof(response.body.common_sanitys));
+            console.log(response.body.common_sanitys);
+            console.log(response.body.common_sanitys);
             this.common_sanitys = JSON.parse(response.body.common_sanitys);
             this.common_tasks   = JSON.parse(response.body.common_tasks);
           }
@@ -613,8 +615,8 @@ export default {
                 Projlead          : allprojects[index].Projlead,
                 availablevariants : JSON.parse(allprojects[index].availablevariants)
               });
-            console.log(allprojects[index].availablevariants);
-            console.log(typeof(allprojects[index].availablevariants));
+            //console.log(allprojects[index].availablevariants);
+            //console.log(typeof(allprojects[index].availablevariants));
             }
           }
         },
@@ -661,8 +663,8 @@ export default {
       );
     },
     add () {
-      console.log(this.projectinfo.projectname);
-      console.log(this.projectinfo.variantname);
+      //console.log(this.projectinfo.projectname);
+      //console.log(this.projectinfo.variantname);
       this.sanitys.unshift({
         variantname     : this.projectinfo.variantname,
         projectname     : this.projectinfo.projectname,
