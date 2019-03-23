@@ -555,8 +555,8 @@ export default {
             console.log(typeof(response.body.common_sanitys));
             console.log(response.body.common_sanitys);
             console.log(response.body.common_sanitys);
-            this.common_sanitys = JSON.parse(response.body.common_sanitys);
-            this.common_tasks   = JSON.parse(response.body.common_tasks);
+            //this.common_sanitys = JSON.parse(response.body.common_sanitys);
+            //this.common_tasks   = JSON.parse(response.body.common_tasks);
             console.log(this.common_sanitys);
           }
           else if(response.body.ok  ==  'notok'){
