@@ -380,85 +380,83 @@ export default {
   },
   data() {
     return {
-      common_tasks  : [],
-      //common_tasks  : [
-      //  {
-      //    taskname  : 'dcelab',
-      //    valid     : {
-      //    'NV21':[
-      //      'nbif_al_gpu',
-      //      'nbif_ssp_generic_a',
-      //      'nbif_ssp_ntb',
-      //      'nbif_oak_gpu',
-      //      'nbif_nv10_gpu'
-      //    ],
-      //    'MAIN':[
-      //      'nbif_al_gpu',
-      //      'nbif_ssp_generic_a',
-      //      'nbif_ssp_ntb',
-      //      'nbif_oak_gpu',
-      //      'nbif_nv10_gpu'
-      //    ]}
-      //  },
-      //],
+      common_tasks  : [
+        {
+          taskname  : 'dcelab',
+          valid     : {
+          'NV21':[
+            'nbif_al_gpu',
+            'nbif_ssp_generic_a',
+            'nbif_ssp_ntb',
+            'nbif_oak_gpu',
+            'nbif_nv10_gpu'
+          ],
+          'MAIN':[
+            'nbif_al_gpu',
+            'nbif_ssp_generic_a',
+            'nbif_ssp_ntb',
+            'nbif_oak_gpu',
+            'nbif_nv10_gpu'
+          ]}
+        },
+      ],
 
-      common_sanitys  : [],
-      //common_sanitys  : [
-      //  {
-      //    testname  : 'demo_test_0',
-      //    valid     : {
-      //    'NV21':[
-      //      'nbif_al_gpu',
-      //      'nbif_ssp_generic_a',
-      //      'nbif_ssp_ntb',
-      //      'nbif_oak_gpu',
-      //      'nbif_nv10_gpu'
-      //    ],
-      //    'MAIN':[
-      //      'nbif_al_gpu',
-      //      'nbif_ssp_generic_a',
-      //      'nbif_ssp_ntb',
-      //      'nbif_oak_gpu',
-      //      'nbif_nv10_gpu'
-      //    ]}
-      //  },
-      //  {
-      //    testname  : 'demo_test_1',
-      //    valid     : {
-      //    'NV21':[
-      //      'nbif_al_gpu',
-      //      'nbif_ssp_generic_a',
-      //      'nbif_ssp_ntb',
-      //      'nbif_oak_gpu',
-      //      'nbif_nv10_gpu'
-      //    ],
-      //    'MAIN':[
-      //      'nbif_al_gpu',
-      //      'nbif_ssp_generic_a',
-      //      'nbif_ssp_ntb',
-      //      'nbif_oak_gpu',
-      //      'nbif_nv10_gpu'
-      //    ]}
-      //  },
-      //  {
-      //    testname  : 'demo_test_2',
-      //    valid     : {
-      //    'NV21':[
-      //      'nbif_al_gpu',
-      //      'nbif_ssp_generic_a',
-      //      'nbif_ssp_ntb',
-      //      'nbif_oak_gpu',
-      //      'nbif_nv10_gpu'
-      //    ],
-      //    'MAIN':[
-      //      'nbif_al_gpu',
-      //      'nbif_ssp_generic_a',
-      //      'nbif_ssp_ntb',
-      //      'nbif_oak_gpu',
-      //      'nbif_nv10_gpu'
-      //    ]}
-      //  }
-      //],
+      common_sanitys  : [
+        {
+          testname  : 'demo_test_0',
+          valid     : {
+          'NV21':[
+            'nbif_al_gpu',
+            'nbif_ssp_generic_a',
+            'nbif_ssp_ntb',
+            'nbif_oak_gpu',
+            'nbif_nv10_gpu'
+          ],
+          'MAIN':[
+            'nbif_al_gpu',
+            'nbif_ssp_generic_a',
+            'nbif_ssp_ntb',
+            'nbif_oak_gpu',
+            'nbif_nv10_gpu'
+          ]}
+        },
+        {
+          testname  : 'demo_test_1',
+          valid     : {
+          'NV21':[
+            'nbif_al_gpu',
+            'nbif_ssp_generic_a',
+            'nbif_ssp_ntb',
+            'nbif_oak_gpu',
+            'nbif_nv10_gpu'
+          ],
+          'MAIN':[
+            'nbif_al_gpu',
+            'nbif_ssp_generic_a',
+            'nbif_ssp_ntb',
+            'nbif_oak_gpu',
+            'nbif_nv10_gpu'
+          ]}
+        },
+        {
+          testname  : 'demo_test_2',
+          valid     : {
+          'NV21':[
+            'nbif_al_gpu',
+            'nbif_ssp_generic_a',
+            'nbif_ssp_ntb',
+            'nbif_oak_gpu',
+            'nbif_nv10_gpu'
+          ],
+          'MAIN':[
+            'nbif_al_gpu',
+            'nbif_ssp_generic_a',
+            'nbif_ssp_ntb',
+            'nbif_oak_gpu',
+            'nbif_nv10_gpu'
+          ]}
+        }
+      ],
       activeTab : 'byVariant',
       sanitys : [],
       projectinfo : {
