@@ -261,8 +261,164 @@ var jobid_common_sanity_getChangelistToRun  = new cronJob('0 */5 * * * *',functi
   req.end();
   
 },null,false,'Asia/Chongqing');
+var jobid_common_sanity_pushNewChangelists_NV21  = new cronJob('0 */5 * * * *',function(){
+  console.log('jobid_common_sanity_pushNewChangelists NV21 start at '+moment().format('YYYY-MM-DD HH:mm:ss'));
+  //////////////////////////////////////////////
+  //Get changelist to push to DB
+  //////////////////////////////////////////////
+  //Step 1 pop current CL 
+  let postData = querystring.stringify({
+    'kind': 'poplatest',
+    'tree': 'NV21'
+  });
+  
+  let options = {
+    hostname: 'amdnbif.thehunters.club',
+    port: 80,
+    path: '/sanitys/common-sanity/popchangelist',
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/x-www-form-urlencoded',
+      'Content-Length': Buffer.byteLength(postData)
+    }
+  };
+  
+  let req = http.request(options, (res) => {
+    console.log(`STATUS: ${res.statusCode}`);
+    //console.log(`HEADERS: ${JSON.stringify(res.headers)}`);
+    res.setEncoding('utf8');
+    res.on('data', (chunk) => {
+      console.log(`BODY: ${chunk}`);
+      //console.log(JSON.parse(chunk));
+      if(JSON.parse(chunk).ok == 'ok'){
+        //Step 2 get TOT latest Changelist till db one
+        let changelists = [];
+        if(JSON.parse(chunk).changelist =='NA'){
+          console.log('DB is empty');
+          //let R = child_process.execSync('cd '+workspace+'/nbif.NV21 && p4 changes -m1 ...#head',{
+          //  encoding  : 'utf8'
+          //}).split(' ');
+          let trytimes = 5;
+          let tmp ;
+          let R ;
+          while(trytimes > 0){
+            tmp = child_process.spawnSync('cd '+workspace+'/nbif.NV21 && p4 changes -m1 ...#head',{
+              encoding  : 'utf8',
+              shell : 'tcsh'
+            });
+            if(tmp.error){
+              trytimes--;
+            }
+            else{
+              trytimes = 0;
+              R = tmp.stdout.split(' ');
+              console.log('p4 stdout');
+              console.log(R);
+            }
+          }
+          let RR = R[5].split('@');
+          changelists.push({
+            changelist  : R[1],
+            owner       : RR[0]
+          });
+          console.log(changelists);
+        }
+        else{
+          let dbLatestChangelist = JSON.parse(chunk).changelist;
+          let trytimes = 5;
+          let tmp ;
+          let R ;
+          while(trytimes > 0){
+            tmp = child_process.spawnSync('cd '+workspace+'/nbif.NV21 && p4 changes -m10 ...#head',{
+              encoding  : 'utf8',
+              shell : 'tcsh'
+            });
+            if(tmp.error){
+              trytimes--;
+            }
+            else{
+              trytimes = 0;
+              R = tmp.stdout.split('\n');
+            }
+          }
+          //let R = child_process.execSync('cd '+workspace+'/nbif.NV21 && p4 changes -m10 ...#head',{
+          //  encoding  : 'utf8'
+          //}).split('\n');
+          R.pop();
+          console.log(R);
+          for(let i=0;i<R.length;i++){
+            let RR = R[i].split(' ');
+            let RRR = RR[5].split('@');
+            if(RR[1]  == dbLatestChangelist){
+              break;
+            }
+            else{
+              changelists.push({
+                changelist  : RR[1],
+                owner       : RRR[0]
+              });
+            }
+          }
+        }
+        //Step 3 send the new changelists to db
+        let postData = querystring.stringify({
+          'kind': 'newchangelists',
+          'tree': 'NV21',
+          'changelists' : JSON.stringify(changelists)
+        });
+        
+        let options = {
+          hostname: 'amdnbif.thehunters.club',
+          port: 80,
+          path: '/sanitys/common-sanity/pushchangelist',
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/x-www-form-urlencoded',
+            'Content-Length': Buffer.byteLength(postData)
+          }
+        };
+        
+        let req = http.request(options, (res) => {
+          console.log(`STATUS: ${res.statusCode}`);
+          //console.log(`HEADERS: ${JSON.stringify(res.headers)}`);
+          res.setEncoding('utf8');
+          res.on('data', (chunk) => {
+            console.log(`BODY: ${chunk}`);
+          });
+          res.on('end', () => {
+            console.log('No more data in response.');
+          });
+        });
+        
+        req.on('error', (e) => {
+          console.error(`problem with request: ${e.message}`);
+        });
+        
+        // write data to request body
+        req.write(postData);
+        req.end();
+        
+      }
+    });
+    res.on('end', () => {
+      console.log('No more data in response.');
+    });
+  });
+  
+  req.on('error', (e) => {
+    console.error(`problem with request: ${e.message}`);
+  });
+  
+  // write data to request body
+  req.write(postData);
+  req.end();
+  //Step 1 end
+  //////////////////////////////////////////////
+  //END 
+  //////////////////////////////////////////////
+},null,true,'Asia/Chongqing');
 var jobid_common_sanity_pushNewChangelists_MAIN  = new cronJob('0 */5 * * * *',function(){
-  console.log('jobid_common_sanity_pushNewChangelists start at '+moment().format('YYYY-MM-DD HH:mm:ss'));
+  console.log('jobid_common_sanity_pushNewChangelists MAIN start at '+moment().format('YYYY-MM-DD HH:mm:ss'));
   //////////////////////////////////////////////
   //Get changelist to push to DB
   //////////////////////////////////////////////
