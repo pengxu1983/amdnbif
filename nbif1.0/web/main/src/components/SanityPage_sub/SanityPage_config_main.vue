@@ -8,7 +8,7 @@
             <el-row>
               <h3>MAIN Tests</h3>
               <el-button type="primary" round 
-                @click="testadd('MAIN')"
+                @click="testadd"
               >Add</el-button>
               <el-button type="primary" round
                 @click="testupload"
@@ -72,7 +72,7 @@
             <el-row>
               <h3>MAIN tasks</h3>
               <el-button type="primary" round
-                @click="taskadd('MAIN')"
+                @click="taskadd"
               >Add</el-button>
               <el-button type="primary" round
                 @click="taskupload"
@@ -137,7 +137,7 @@
             <el-row>
               <h3>NV21 Tests</h3>
               <el-button type="primary" round
-                @click="testadd('NV21')"
+                @click="testadd"
               >Add</el-button>
               <el-button type="primary" round
                 @click="testupload"
@@ -201,7 +201,7 @@
             <el-row>
               <h3>NV21 tasks</h3>
               <el-button type="primary" round
-                @click="taskadd('NV21')"
+                @click="taskadd"
               >Add</el-button>
               <el-button type="primary" round
                 @click="taskupload"
@@ -568,6 +568,9 @@ export default {
             console.log(this.common_tasks);
             for(let c=0;c<this.common_sanitys.length;c++){
               this.common_sanitys[c].valid  = JSON.parse(this.common_sanitys[c].valid)
+            }
+            for(let c=0;c<this.common_tasks.length;c++){
+              this.common_tasks[c].valid  = JSON.parse(this.common_tasks[c].valid)
             }
           }
           else if(response.body.ok  ==  'notok'){
