@@ -525,7 +525,7 @@ export default {
         }
         this.$http.post('/sanitys/config',{
           kind  : 'taskupdate',
-          testname  : this.common_tasks[c].taskname,
+          taskname  : this.common_tasks[c].taskname,
           valid : JSON.stringify(this.common_tasks[c].valid)
         }).then(
           function(response){
@@ -551,13 +551,14 @@ export default {
       }).then(
         function(response){
           if(response.body.ok =='ok'){
-            console.log(typeof(response.body.common_sanitys));
-            console.log(typeof(response.body.common_sanitys));
-            console.log(response.body.common_sanitys);
-            console.log(response.body.common_sanitys);
+            //console.log(typeof(response.body.common_sanitys));
+            //console.log(typeof(response.body.common_sanitys));
+            //console.log(response.body.common_sanitys);
+            //console.log(response.body.common_sanitys);
             this.common_sanitys = JSON.parse(response.body.common_sanitys);
             this.common_tasks   = JSON.parse(response.body.common_tasks);
             console.log(this.common_sanitys);
+            console.log(this.common_tasks);
             for(let c=0;c<this.common_sanitys.length;c++){
               this.common_sanitys[c].valid  = JSON.parse(this.common_sanitys[c].valid)
             }
