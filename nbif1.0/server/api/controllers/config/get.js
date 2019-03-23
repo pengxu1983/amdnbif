@@ -32,10 +32,13 @@ module.exports = {
       let common_tasks    = await Common_tasks.find({
         id  : {'>=':0}
       });
+      sails.log('DBG1');
+      sails.log(common_sanitys);
+      sails.log(common_tasks);
       return exits.success(JSON.stringify({
         ok  : 'ok',
-        common_tasks  : common_tasks,
-        common_sanitys  : common_sanitys
+        common_tasks  : JSON.stringify(common_tasks),
+        common_sanitys  : JSON.stringify(common_sanitys)
       }));
     }
     ///////////////////

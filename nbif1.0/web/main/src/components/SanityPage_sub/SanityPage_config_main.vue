@@ -553,6 +553,8 @@ export default {
       }).then(
         function(response){
           if(response.body.ok =='ok'){
+            console.log(typeof(response.body.common_sanitys));
+            console.log(typeof(response.body.common_sanitys));
             this.common_sanitys = JSON.parse(response.body.common_sanitys);
             this.common_tasks   = JSON.parse(response.body.common_tasks);
           }
