@@ -5,8 +5,9 @@ var fs            = require('fs');
 var child_process = require('child_process');
 var cronJob       = require("cron").CronJob;
 var workspace     = '/proj/bif_nbio_vol1_backup/benpeng/';
-let changelistToRun ;
-var jobid_dcelab_run_MAIN = new cronJob('0 */5 * * * *',function(){
+let changelistToRun_MAIN ;
+let changelistToRun_NV21 ;
+var jobid_dcelab_run_MAIN = new cronJob('0 * * * * *',function(){
   console.log('jobid_dcelab_run_MAIN start at '+moment().format('YYYY-MM-DD HH:mm:ss'));
   jobid_dcelab_run_MAIN.stop();
   let variants  ;
@@ -41,12 +42,12 @@ var jobid_dcelab_run_MAIN = new cronJob('0 */5 * * * *',function(){
         jobid_dcelab_run_MAIN.start();
         return;
       }
-      if(JSON.parse(chunk).lastcheckedCL == changelistToRun){
-        console.log('cl '+changelistToRun+' already have dcelab report');
+      if(JSON.parse(chunk).lastcheckedCL == changelistToRun_MAIN){
+        console.log('cl '+changelistToRun_MAIN+' already have dcelab report');
         jobid_dcelab_run_MAIN.start();
         return;
       }
-      changelistToRun = JSON.parse(chunk).lastcheckedCL;
+      changelistToRun_MAIN = JSON.parse(chunk).lastcheckedCL;
       let postData = querystring.stringify({
         'kind': 'infofordcelab'
       });
@@ -97,11 +98,11 @@ var jobid_dcelab_run_MAIN = new cronJob('0 */5 * * * *',function(){
                   fs.unlinkSync(treeRoot+'/dcelab.log.toRemove');
                 }
                 text += 'bootenv -v '+variants[v].variantname+'\n';
-                text += 'p4w sync_all @'+changelistToRun+'\n';
+                text += 'p4w sync_all @'+changelistToRun_MAIN+'\n';
               }
               else {
                 fs.mkdirSync(treeRoot);
-                text += 'p4_mkwa -codeline nbif2_0 -cl '+changelistToRun+'\n';
+                text += 'p4_mkwa -codeline nbif2_0 -cl '+changelistToRun_MAIN+'\n';
                 text += 'bootenv -v '+variants[v].variantname+'\n';
               }
               text += 'bsub -P BIF-SHUB -q normal -Is -J NBIFdcelab -R \'rusage[mem=40000] select[type==RHEL6_64]\' dj -v -l dc_elab.log -e \'releaseflow::dropflow(:rtl_drop).build(:rhea_drop,:rhea_dc)\' -DPUBLISH_BLKS=nbif_shub_wrap_';//TODO need to fix algfx
@@ -164,7 +165,7 @@ var jobid_dcelab_run_MAIN = new cronJob('0 */5 * * * *',function(){
                   //send result to DB
                   let postData = querystring.stringify({
                     'kind': 'dcelabuploadstatus',
-                    'changelist'  : changelistToRun,
+                    'changelist'  : changelistToRun_MAIN,
                     'tree'  : 'MAIN',
                     'results' : JSON.stringify(results)
                   });
@@ -235,7 +236,7 @@ var jobid_dcelab_run_MAIN = new cronJob('0 */5 * * * *',function(){
   req.end();
 
 },null,true,'Asia/Chongqing');
-var jobid_dcelab_run_NV21 = new cronJob('0 */5 * * * *',function(){
+var jobid_dcelab_run_NV21 = new cronJob('0 * * * * *',function(){
   console.log('jobid_dcelab_run_NV21 start at '+moment().format('YYYY-MM-DD HH:mm:ss'));
   jobid_dcelab_run_NV21.stop();
   let variants  ;
@@ -270,12 +271,12 @@ var jobid_dcelab_run_NV21 = new cronJob('0 */5 * * * *',function(){
         jobid_dcelab_run_NV21.start();
         return;
       }
-      if(JSON.parse(chunk).lastcheckedCL == changelistToRun){
-        console.log('cl '+changelistToRun+' already have dcelab report');
+      if(JSON.parse(chunk).lastcheckedCL == changelistToRun_NV21){
+        console.log('cl '+changelistToRun_NV21+' already have dcelab report');
         jobid_dcelab_run_NV21.start();
         return;
       }
-      changelistToRun = JSON.parse(chunk).lastcheckedCL;
+      changelistToRun_NV21 = JSON.parse(chunk).lastcheckedCL;
       let postData = querystring.stringify({
         'kind': 'infofordcelab'
       });
@@ -307,7 +308,7 @@ var jobid_dcelab_run_NV21 = new cronJob('0 */5 * * * *',function(){
             //clean up workspace
             let results = {};
             for(let v=0;v<variants.length;v++){
-              let treeRoot = workspace+'/nbif.dcelab.MAIN.'+variants[v].variantname;
+              let treeRoot = workspace+'/nbif.dcelab.NV21.'+variants[v].variantname;
               let text = '';
               text += '#!/tool/pandora64/bin/tcsh\n';
               text += 'cd '+treeRoot+'\n';
@@ -326,11 +327,11 @@ var jobid_dcelab_run_NV21 = new cronJob('0 */5 * * * *',function(){
                   fs.unlinkSync(treeRoot+'/dcelab.log.toRemove');
                 }
                 text += 'bootenv -v '+variants[v].variantname+'\n';
-                text += 'p4w sync_all @'+changelistToRun+'\n';
+                text += 'p4w sync_all @'+changelistToRun_NV21+'\n';
               }
               else {
                 fs.mkdirSync(treeRoot);
-                text += 'p4_mkwa -codeline nbif2_0 -branch_name nbif2_0_nv21_branch -cl '+changelistToRun+'\n';//FIXME when branch changed
+                text += 'p4_mkwa -codeline nbif2_0 -branch_name nbif2_0_nv21_branch -cl '+changelistToRun_NV21+'\n';//FIXME when branch changed
                 text += 'bootenv -v '+variants[v].variantname+'\n';
               }
               text += 'bsub -P BIF-SHUB -q normal -Is -J NBIFdcelab -R \'rusage[mem=40000] select[type==RHEL6_64]\' dj -v -l dc_elab.log -e \'releaseflow::dropflow(:rtl_drop).build(:rhea_drop,:rhea_dc)\' -DPUBLISH_BLKS=nbif_shub_wrap_';//TODO need to fix algfx
@@ -393,7 +394,7 @@ var jobid_dcelab_run_NV21 = new cronJob('0 */5 * * * *',function(){
                   //send result to DB
                   let postData = querystring.stringify({
                     'kind': 'dcelabuploadstatus',
-                    'changelist'  : changelistToRun,
+                    'changelist'  : changelistToRun_NV21,
                     'tree'    : 'NV21',
                     'results' : JSON.stringify(results)
                   });
