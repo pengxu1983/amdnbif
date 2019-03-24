@@ -5,9 +5,10 @@ var fs            = require('fs');
 var child_process = require('child_process');
 var cronJob       = require("cron").CronJob;
 var workspace     = '/local_vol1_nobackup/benpeng/';
-var jobid_common_sanity_getChangelistToRun  = new cronJob('0 */5 * * * *',function(){
+let tree          = 'MAIN';
+var jobid_common_sanity_getChangelistToRun_MAIN  = new cronJob('0 */5 * * * *',function(){
   //console.log(moment().format('YYYY-MM-DD HH:mm:ss'));
-  console.log('jobid_common_sanity_getChangelistToRun start at'+moment().format('YYYY-MM-DD HH:mm:ss'));
+  console.log('jobid_common_sanity_getChangelistToRun_MAIN start at'+moment().format('YYYY-MM-DD HH:mm:ss'));
   let earliestchangelist;
   let owner;
   let postData = querystring.stringify({
@@ -44,9 +45,8 @@ var jobid_common_sanity_getChangelistToRun  = new cronJob('0 */5 * * * *',functi
         else{
           console.log('get tests and variants info');
           // Get info from DB
-          jobid_common_sanity_getChangelistToRun.stop();
-          console.log(moment().format('YYYY-MM-DD HH:mm:ss'));
-          console.log('jobid_common_sanity_getChangelistToRun stop');
+          jobid_common_sanity_getChangelistToRun_MAIN.stop();
+          console.log('jobid_common_sanity_getChangelistToRun_MAIN stop at '+moment().format('YYYY-MM-DD HH:mm:ss'));
           let postData = querystring.stringify({
             'kind': 'commonsanityinfo'
           });
@@ -74,61 +74,64 @@ var jobid_common_sanity_getChangelistToRun  = new cronJob('0 */5 * * * *',functi
               let variants  = JSON.parse(chunk).variants;
               let tests     = JSON.parse(chunk).tests;
               //clean up disk
-              child_process.execSync('mkdir '+workspace+'/nbif.MAIN.sanity.zombie');
-              let toRemove = child_process.execSync('ls -d '+workspace+'/nbif.MAIN.sanity.*',{
-                encoding  : 'utf8'
-              }).split('\n');
-              toRemove.pop();
-              for(let i=0;i<toRemove.length;i++){
-                console.log('Remove '+toRemove[i]);
-                child_process.exec('rm -rf '+toRemove[i]);
-              }
+              //child_process.execSync('mkdir '+workspace+'/nbif.MAIN.sanity.zombie');
+              //let toRemove = child_process.execSync('ls -d '+workspace+'/nbif.MAIN.sanity.*',{
+              //  encoding  : 'utf8'
+              //}).split('\n');
+              //toRemove.pop();
+              //for(let i=0;i<toRemove.length;i++){
+              //  console.log('Remove '+toRemove[i]);
+              //  child_process.exec('rm -rf '+toRemove[i]);
+              //}
               let donevariant = [];
               let resultbychangelist = [];
               let results = {};
               for(let i=0;i<variants.length;i++){
+                let treeRoot = workspace+'/nbif.MAIN.sanity.'+variants[i].variantname;
                 results[variants[i].variantname]={};
-                child_process.execSync('mkdir '+workspace+'/nbif_main.sanity.'+variants[i].variantname+'.'+earliestchangelist);
                 let text  = '';
                 text += '#!/tool/pandora64/bin/tcsh\n';
                 text += 'source /proj/verif_release_ro/cbwa_initscript/current/cbwa_init.csh\n';
-                //text += 'mkdir '+workspace+'/nbif_main.sanity.'+variants[i].variantname+'.'+earliestchangelist+'\n';
-                text += 'cd '+workspace+'/nbif_main.sanity.'+variants[i].variantname+'.'+earliestchangelist+'\n';
-                text += 'p4_mkwa -codeline nbif2_0 -cl '+earliestchangelist+'\n';
+                text += 'cd '+treeRoot+'\n';
+                if(fs.existsSync(treeRoot)){
+                  text += 'p4w sync_all @'+earliestchangelist+'\n';
+                  if(fs.existsSync(treeRoot+'/out')){
+                    text += 'rm -rf '+treeRoot+'/out';
+                  }
+                }
+                else{
+                  fs.mkdirSync(treeRoot);
+                  text += 'p4_mkwa -codeline nbif2_0 -cl '+earliestchangelist+'\n';
+                }
                 text += 'bootenv -v '+variants[i].variantname+'\n';
                 for(let k=0;k<tests.length;k++){
                   if(k==0){
-                    text  += 'dj -l '+tests[k].testname+'.'+variants[i].variantname+'.'+earliestchangelist+'.log -DUVM_VERBOSITY=UVM_LOW -m4 -DUSE_VRQ -DCGM -DSEED=12345678  run_test -s nbiftdl '+tests[k].testname+'_nbif_all_rtl\n'
+                    text  += 'dj -l '+tests[k].testname+'.'+variants[i].variantname+'.log -DUVM_VERBOSITY=UVM_LOW -m4 -DUSE_VRQ -DCGM -DSEED=12345678  run_test -s nbiftdl '+tests[k].testname+'_nbif_all_rtl\n'
                   }
                   else {
-                    text  += 'dj -l '+tests[k].testname+'.'+variants[i].variantname+'.'+earliestchangelist+'.log -DUVM_VERBOSITY=UVM_LOW -m4 -DUSE_VRQ -DCGM -DSEED=12345678  run_test -s nbiftdl '+tests[k].testname+'_nbif_all_rtl -a run=only\n'
+                    text  += 'dj -l '+tests[k].testname+'.'+variants[i].variantname+'.log -DUVM_VERBOSITY=UVM_LOW -m4 -DUSE_VRQ -DCGM -DSEED=12345678  run_test -s nbiftdl '+tests[k].testname+'_nbif_all_rtl -a run=only\n'
                   }
                 }
-                fs.writeFileSync(workspace+'/nbif_main.sanity.'+variants[i].variantname+'.'+earliestchangelist+'.script',text,{
+                fs.writeFileSync(treeRoot+'.script',text,{
                   encoding  : 'utf8',
                   mode      : '0700',
                   flag      : 'w'
                 });
-                child_process.execFile(workspace+'/nbif_main.sanity.'+variants[i].variantname+'.'+earliestchangelist+'.script',{
+                child_process.execFile(treeRoot+'.script',{
                   encoding  : 'utf8',
                   maxBuffer : 1024*1000
                 },function(error){
-                  //if(error){
-                  //  console.log(error);
-                  //}
                   //check
                   let donetest = [];
                   for(let j=0;j<tests.length;j++){
                     let testResult ='FAIL';
-                    if(fs.existsSync(workspace+'/nbif_main.sanity.'+variants[i].variantname+'.'+earliestchangelist+'/'+tests[j].testname+'.'+variants[i].variantname+'.'+earliestchangelist+'.log')){
-                      fs.readFile(workspace+'/nbif_main.sanity.'+variants[i].variantname+'.'+earliestchangelist+'/'+tests[j].testname+'.'+variants[i].variantname+'.'+earliestchangelist+'.log',{
+                    if(fs.existsSync(treeRoot+'/'+tests[j].testname+'.'+variants[i].variantname+'.log')){
+                      fs.readFile(treeRoot+'/'+tests[j].testname+'.'+variants[i].variantname+'.log',{
                         encoding : 'utf8'
                       },(err,data) => {
                         let R = data.split('\n');
                         R.pop();
                         for(let ii=0;ii<R.length;ii++){
-                          //console.log(ii);
-                          //console.log(R[ii]);
                           let reg=/dj exited successfully/;
                           if(reg.test(R[ii])){
                             testResult  = 'PASS';
@@ -154,40 +157,11 @@ var jobid_common_sanity_getChangelistToRun  = new cronJob('0 */5 * * * *',functi
                         results[variants[i].variantname][tests[j].testname]=testResult;
                         if(resultbychangelist.length == (variants.length * tests.length)){
                           jobid_common_sanity_getChangelistToRun.start();
-                          console.log(moment().format('YYYY-MM-DD HH:mm:ss'));
-                          console.log('jobid_common_sanity_getChangelistToRun start after done previous');
-                          //if(donetest.indexOf(tests[j].testname) == -1){
-                          //  donetest.push(tests[j].testname);
-                          //}
-                          //else{
-                          //  console.log('ERROR : dup test : '+tests[j].testname);
-                          //}
-                          //if(donetest.length == tests.length){
-                          //  console.log('push variant '+variants[i].variantname);
-                          //  if(donevariant.indexOf(variants[i].variantname) == -1){
-                          //    donevariant.push(variants[i].variantname);
-                          //  }
-                          //  else{
-                          //    console.log('ERROR : dup variant : '+variants[i].variantname);
-                          //  }
-                          //  donetest=[];
-                          //  if(donevariant.length == variants.length){
-                          //    jobid_common_sanity_getChangelistToRun.start();
-                          //    console.log(moment().format('YYYY-MM-DD HH:mm:ss'));
-                          //    console.log('jobid_common_sanity_getChangelistToRun start after done previous');
-                          //  }
-                          //}
-                          //send result
-                          //let postData = querystring.stringify({
-                          //  'kind':'singletest',
-                          //  'testname': tests[j].testname,
-                          //  'result'  : testResult,
-                          //  'changelist': earliestchangelist,
-                          //  'variantname' : variants[i].variantname
-                          //});
+                          console.log('jobid_common_sanity_getChangelistToRun start after done previous at '+moment().format('YYYY-MM-DD HH:mm:ss'));
                           let postData = querystring.stringify({
                             'kind': 'singlechangelist',
                             'changelist'  : earliestchangelist,
+                            'tree'        : 'MAIN',
                             'results'     : JSON.stringify(results)
                           });
                           
@@ -261,6 +235,9 @@ var jobid_common_sanity_getChangelistToRun  = new cronJob('0 */5 * * * *',functi
   req.end();
   
 },null,false,'Asia/Chongqing');
+//========================
+//push new change lists
+//========================
 var jobid_common_sanity_pushNewChangelists_NV21  = new cronJob('0 */5 * * * *',function(){
   console.log('jobid_common_sanity_pushNewChangelists NV21 start at '+moment().format('YYYY-MM-DD HH:mm:ss'));
   //////////////////////////////////////////////
