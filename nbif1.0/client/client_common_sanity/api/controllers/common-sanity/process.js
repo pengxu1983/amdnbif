@@ -156,8 +156,8 @@ var jobid_common_sanity_getChangelistToRun_MAIN  = new cronJob('0 */5 * * * *',f
                         });
                         results[variants[i].variantname][tests[j].testname]=testResult;
                         if(resultbychangelist.length == (variants.length * tests.length)){
-                          jobid_common_sanity_getChangelistToRun.start();
-                          console.log('jobid_common_sanity_getChangelistToRun start after done previous at '+moment().format('YYYY-MM-DD HH:mm:ss'));
+                          jobid_common_sanity_getChangelistToRun_MAIN.start();
+                          console.log('jobid_common_sanity_getChangelistToRun_MAIN start after done previous at '+moment().format('YYYY-MM-DD HH:mm:ss'));
                           let postData = querystring.stringify({
                             'kind': 'singlechangelist',
                             'changelist'  : earliestchangelist,
