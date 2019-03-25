@@ -44,6 +44,7 @@ module.exports = {
     ///////////
     ///////////
     if(inputs.tree == 'NV21'){
+      sails.log('NV21');
       if(inputs.kind == 'singlechangelist'){
         let results = JSON.parse(inputs.results);
         sails.log('singlechangelist');
@@ -126,6 +127,7 @@ module.exports = {
       }
     }
     if(inputs.tree == 'MAIN'){
+      sails.log('MAIN');
       if(inputs.kind == 'singlechangelist'){
         let results = JSON.parse(inputs.results);
         sails.log('singlechangelist');

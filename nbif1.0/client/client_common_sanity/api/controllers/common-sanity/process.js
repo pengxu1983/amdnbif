@@ -96,7 +96,7 @@ var jobid_common_sanity_getChangelistToRun_MAIN  = new cronJob('0 */5 * * * *',f
                 if(fs.existsSync(treeRoot)){
                   text += 'p4w sync_all @'+earliestchangelist+'\n';
                   if(fs.existsSync(treeRoot+'/out')){
-                    text += 'rm -rf '+treeRoot+'/out';
+                    text += 'rm -rf '+treeRoot+'/out\n';
                   }
                 }
                 else{
@@ -234,7 +234,7 @@ var jobid_common_sanity_getChangelistToRun_MAIN  = new cronJob('0 */5 * * * *',f
   req.write(postData);
   req.end();
   
-},null,false,'Asia/Chongqing');
+},null,true,'Asia/Chongqing');
 //========================
 //push new change lists
 //========================
