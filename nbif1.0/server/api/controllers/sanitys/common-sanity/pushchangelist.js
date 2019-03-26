@@ -39,7 +39,11 @@ module.exports = {
             results     : 'NA',
             isBroken    : 'NA',
             brokenCL    : 'NA',
-            dcelab      : 'NA'
+            dcelab      : 'NA',
+            dcelabischecked : 'no',
+            dcelabisBroken  : 'NA',
+            dcelabbrokenCL  : 'NA',
+            dcelabowner     : 'NA'
           });
         }
         return exits.success({
@@ -58,7 +62,11 @@ module.exports = {
             results     : 'NA',
             isBroken    : 'NA',
             brokenCL    : 'NA',
-            dcelab      : 'NA'
+            dcelab      : 'NA',
+            dcelabischecked : 'no',
+            dcelabisBroken  : 'NA',
+            dcelabbrokenCL  : 'NA',
+            dcelabowner     : 'NA'
           });
         }
         return exits.success({

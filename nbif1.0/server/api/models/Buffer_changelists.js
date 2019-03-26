@@ -33,6 +33,18 @@ module.exports = {
     dcelab    : {
       type    : 'string',
       columnType  : 'longtext'
+    },
+    dcelabischecked : {
+      type    : 'string'
+    },
+    dcelabisBroken : {
+      type    : 'string'
+    },
+    dcelabbrokenCL  : {
+      type    : 'string'
+    },
+    dcelabowner : {
+      type    : 'string'
     }
 
 

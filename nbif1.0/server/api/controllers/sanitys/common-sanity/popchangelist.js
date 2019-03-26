@@ -25,6 +25,9 @@ module.exports = {
   fn: async function (inputs,exits) {
     sails.log('/sanitys/common-sanity/popchangelist');
     sails.log(inputs);
+    //====================
+    //For MAIN
+    //====================
     if(inputs.tree  ==  'MAIN'){
       if(inputs.kind == 'poplatest'){
         let changelists = await Buffer_changelists.find({
@@ -42,8 +45,8 @@ module.exports = {
           });
         }
         else {
-          sails.log('DBG2');
-          sails.log(changelists);
+          //sails.log('DBG2');
+          //sails.log(changelists);
           //Find latest
           let latestchangelist ;
           let owner;
@@ -129,9 +132,12 @@ module.exports = {
         }
       }
     }
+    //====================
+    //For NV21
+    //====================
     if(inputs.tree  ==  'NV21'){
       if(inputs.kind == 'poplatest'){
-        let changelists = await Buffer_changelists_01.find({
+        let changelists = await Buffer_changelists.find({
           id : {'>=': 0}
         });
         //sails.log('DBG0');
@@ -146,8 +152,8 @@ module.exports = {
           });
         }
         else {
-          sails.log('DBG2');
-          sails.log(changelists);
+          //sails.log('DBG2');
+          //sails.log(changelists);
           //Find latest
           let latestchangelist ;
           let owner;
@@ -234,6 +240,4 @@ module.exports = {
       }
     }
   }
-
-
 };

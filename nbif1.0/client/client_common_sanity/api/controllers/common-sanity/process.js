@@ -6,14 +6,14 @@ var child_process = require('child_process');
 var cronJob       = require("cron").CronJob;
 var workspace     = '/local_vol1_nobackup/benpeng/';
 let tree          = 'MAIN';
-var jobid_common_sanity_getChangelistToRun_MAIN  = new cronJob('0 */5 * * * *',function(){
+var jobid_common_sanity_getChangelistToRun  = new cronJob('0 */5 * * * *',function(){
   //console.log(moment().format('YYYY-MM-DD HH:mm:ss'));
-  console.log('jobid_common_sanity_getChangelistToRun_MAIN start at'+moment().format('YYYY-MM-DD HH:mm:ss'));
+  console.log('jobid_common_sanity_getChangelistToRun start at'+moment().format('YYYY-MM-DD HH:mm:ss'));
   let earliestchangelist;
   let owner;
   let postData = querystring.stringify({
     'kind': 'popearliest',
-    'tree': 'MAIN'
+    'tree': tree
   });
   
   let options = {
@@ -45,8 +45,8 @@ var jobid_common_sanity_getChangelistToRun_MAIN  = new cronJob('0 */5 * * * *',f
         else{
           console.log('get tests and variants info');
           // Get info from DB
-          jobid_common_sanity_getChangelistToRun_MAIN.stop();
-          console.log('jobid_common_sanity_getChangelistToRun_MAIN stop at '+moment().format('YYYY-MM-DD HH:mm:ss'));
+          jobid_common_sanity_getChangelistToRun.stop();
+          console.log('jobid_common_sanity_getChangelistToRun stop at '+moment().format('YYYY-MM-DD HH:mm:ss'));
           let postData = querystring.stringify({
             'kind': 'commonsanityinfo'
           });
@@ -74,8 +74,8 @@ var jobid_common_sanity_getChangelistToRun_MAIN  = new cronJob('0 */5 * * * *',f
               let variants  = JSON.parse(chunk).variants;
               let tests     = JSON.parse(chunk).tests;
               //clean up disk
-              //child_process.execSync('mkdir '+workspace+'/nbif.MAIN.sanity.zombie');
-              //let toRemove = child_process.execSync('ls -d '+workspace+'/nbif.MAIN.sanity.*',{
+              //child_process.execSync('mkdir '+workspace+'/nbif.'+tree+'.sanity.zombie');
+              //let toRemove = child_process.execSync('ls -d '+workspace+'/nbif.'+tree+'.sanity.*',{
               //  encoding  : 'utf8'
               //}).split('\n');
               //toRemove.pop();
@@ -87,7 +87,7 @@ var jobid_common_sanity_getChangelistToRun_MAIN  = new cronJob('0 */5 * * * *',f
               let resultbychangelist = [];
               let results = {};
               for(let i=0;i<variants.length;i++){
-                let treeRoot = workspace+'/nbif.MAIN.sanity.'+variants[i].variantname;
+                let treeRoot = workspace+'/nbif.'+tree+'.sanity.'+variants[i].variantname;
                 results[variants[i].variantname]={};
                 let text  = '';
                 text += '#!/tool/pandora64/bin/tcsh\n';
@@ -105,6 +105,12 @@ var jobid_common_sanity_getChangelistToRun_MAIN  = new cronJob('0 */5 * * * *',f
                 }
                 text += 'bootenv -v '+variants[i].variantname+'\n';
                 for(let k=0;k<tests.length;k++){
+                  if(fs.existsSync(treeRoot+'/'+tests[k].testname+'.'+variants[i].variantname+'.log')){
+                    text += 'rm -rf '+treeRoot+'/'+tests[k].testname+'.'+variants[i].variantname+'.log';
+                  }
+                  if(fs.existsSync(treeRoot+'/'+tests[k].testname+'.'+variants[i].variantname+'.log.bak')){
+                    text += 'rm -rf '+treeRoot+'/'+tests[k].testname+'.'+variants[i].variantname+'.log.bak';
+                  }
                   if(k==0){
                     text  += 'dj -l '+tests[k].testname+'.'+variants[i].variantname+'.log -DUVM_VERBOSITY=UVM_LOW -m4 -DUSE_VRQ -DCGM -DSEED=12345678  run_test -s nbiftdl '+tests[k].testname+'_nbif_all_rtl\n'
                   }
@@ -156,12 +162,12 @@ var jobid_common_sanity_getChangelistToRun_MAIN  = new cronJob('0 */5 * * * *',f
                         });
                         results[variants[i].variantname][tests[j].testname]=testResult;
                         if(resultbychangelist.length == (variants.length * tests.length)){
-                          jobid_common_sanity_getChangelistToRun_MAIN.start();
-                          console.log('jobid_common_sanity_getChangelistToRun_MAIN start after done previous at '+moment().format('YYYY-MM-DD HH:mm:ss'));
+                          jobid_common_sanity_getChangelistToRun.start();
+                          console.log('jobid_common_sanity_getChangelistToRun start after done previous at '+moment().format('YYYY-MM-DD HH:mm:ss'));
                           let postData = querystring.stringify({
                             'kind': 'singlechangelist',
                             'changelist'  : earliestchangelist,
-                            'tree'        : 'MAIN',
+                            'tree'        : tree,
                             'results'     : JSON.stringify(results)
                           });
                           
@@ -238,15 +244,15 @@ var jobid_common_sanity_getChangelistToRun_MAIN  = new cronJob('0 */5 * * * *',f
 //========================
 //push new change lists
 //========================
-var jobid_common_sanity_pushNewChangelists_NV21  = new cronJob('0 */5 * * * *',function(){
-  console.log('jobid_common_sanity_pushNewChangelists NV21 start at '+moment().format('YYYY-MM-DD HH:mm:ss'));
+var jobid_common_sanity_pushNewChangelists  = new cronJob('0 */5 * * * *',function(){
+  console.log('jobid_common_sanity_pushNewChangelists start at '+moment().format('YYYY-MM-DD HH:mm:ss'));
   //////////////////////////////////////////////
   //Get changelist to push to DB
   //////////////////////////////////////////////
   //Step 1 pop current CL 
   let postData = querystring.stringify({
     'kind': 'poplatest',
-    'tree': 'NV21'
+    'tree': tree
   });
   
   let options = {
@@ -272,14 +278,14 @@ var jobid_common_sanity_pushNewChangelists_NV21  = new cronJob('0 */5 * * * *',f
         let changelists = [];
         if(JSON.parse(chunk).changelist =='NA'){
           console.log('DB is empty');
-          //let R = child_process.execSync('cd '+workspace+'/nbif.NV21 && p4 changes -m1 ...#head',{
+          //let R = child_process.execSync('cd '+workspace+'/nbif.'+tree+' && p4 changes -m1 ...#head',{
           //  encoding  : 'utf8'
           //}).split(' ');
           let trytimes = 5;
           let tmp ;
           let R ;
           while(trytimes > 0){
-            tmp = child_process.spawnSync('cd '+workspace+'/nbif.NV21 && p4 changes -m1 ...#head',{
+            tmp = child_process.spawnSync('cd '+workspace+'/nbif.'+tree+' && p4 changes -m1 ...#head',{
               encoding  : 'utf8',
               shell : 'tcsh'
             });
@@ -306,7 +312,7 @@ var jobid_common_sanity_pushNewChangelists_NV21  = new cronJob('0 */5 * * * *',f
           let tmp ;
           let R ;
           while(trytimes > 0){
-            tmp = child_process.spawnSync('cd '+workspace+'/nbif.NV21 && p4 changes -m10 ...#head',{
+            tmp = child_process.spawnSync('cd '+workspace+'/nbif.'+tree+' && p4 changes -m10 ...#head',{
               encoding  : 'utf8',
               shell : 'tcsh'
             });
@@ -318,7 +324,7 @@ var jobid_common_sanity_pushNewChangelists_NV21  = new cronJob('0 */5 * * * *',f
               R = tmp.stdout.split('\n');
             }
           }
-          //let R = child_process.execSync('cd '+workspace+'/nbif.NV21 && p4 changes -m10 ...#head',{
+          //let R = child_process.execSync('cd '+workspace+'/nbif.'+tree+' && p4 changes -m10 ...#head',{
           //  encoding  : 'utf8'
           //}).split('\n');
           R.pop();
@@ -340,163 +346,7 @@ var jobid_common_sanity_pushNewChangelists_NV21  = new cronJob('0 */5 * * * *',f
         //Step 3 send the new changelists to db
         let postData = querystring.stringify({
           'kind': 'newchangelists',
-          'tree': 'NV21',
-          'changelists' : JSON.stringify(changelists)
-        });
-        
-        let options = {
-          hostname: 'amdnbif.thehunters.club',
-          port: 80,
-          path: '/sanitys/common-sanity/pushchangelist',
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/x-www-form-urlencoded',
-            'Content-Length': Buffer.byteLength(postData)
-          }
-        };
-        
-        let req = http.request(options, (res) => {
-          console.log(`STATUS: ${res.statusCode}`);
-          //console.log(`HEADERS: ${JSON.stringify(res.headers)}`);
-          res.setEncoding('utf8');
-          res.on('data', (chunk) => {
-            console.log(`BODY: ${chunk}`);
-          });
-          res.on('end', () => {
-            console.log('No more data in response.');
-          });
-        });
-        
-        req.on('error', (e) => {
-          console.error(`problem with request: ${e.message}`);
-        });
-        
-        // write data to request body
-        req.write(postData);
-        req.end();
-        
-      }
-    });
-    res.on('end', () => {
-      console.log('No more data in response.');
-    });
-  });
-  
-  req.on('error', (e) => {
-    console.error(`problem with request: ${e.message}`);
-  });
-  
-  // write data to request body
-  req.write(postData);
-  req.end();
-  //Step 1 end
-  //////////////////////////////////////////////
-  //END 
-  //////////////////////////////////////////////
-},null,true,'Asia/Chongqing');
-var jobid_common_sanity_pushNewChangelists_MAIN  = new cronJob('0 */5 * * * *',function(){
-  console.log('jobid_common_sanity_pushNewChangelists MAIN start at '+moment().format('YYYY-MM-DD HH:mm:ss'));
-  //////////////////////////////////////////////
-  //Get changelist to push to DB
-  //////////////////////////////////////////////
-  //Step 1 pop current CL 
-  let postData = querystring.stringify({
-    'kind': 'poplatest',
-    'tree': 'MAIN'
-  });
-  
-  let options = {
-    hostname: 'amdnbif.thehunters.club',
-    port: 80,
-    path: '/sanitys/common-sanity/popchangelist',
-    method: 'POST',
-    headers: {
-      'Content-Type': 'application/x-www-form-urlencoded',
-      'Content-Length': Buffer.byteLength(postData)
-    }
-  };
-  
-  let req = http.request(options, (res) => {
-    console.log(`STATUS: ${res.statusCode}`);
-    //console.log(`HEADERS: ${JSON.stringify(res.headers)}`);
-    res.setEncoding('utf8');
-    res.on('data', (chunk) => {
-      console.log(`BODY: ${chunk}`);
-      //console.log(JSON.parse(chunk));
-      if(JSON.parse(chunk).ok == 'ok'){
-        //Step 2 get TOT latest Changelist till db one
-        let changelists = [];
-        if(JSON.parse(chunk).changelist =='NA'){
-          console.log('DB is empty');
-          //let R = child_process.execSync('cd '+workspace+'/nbif.MAIN && p4 changes -m1 ...#head',{
-          //  encoding  : 'utf8'
-          //}).split(' ');
-          let trytimes = 5;
-          let tmp ;
-          let R ;
-          while(trytimes > 0){
-            tmp = child_process.spawnSync('cd '+workspace+'/nbif.MAIN && p4 changes -m1 ...#head',{
-              encoding  : 'utf8',
-              shell : 'tcsh'
-            });
-            if(tmp.error){
-              trytimes--;
-            }
-            else{
-              trytimes = 0;
-              R = tmp.stdout.split(' ');
-              console.log('p4 stdout');
-              console.log(R);
-            }
-          }
-          let RR = R[5].split('@');
-          changelists.push({
-            changelist  : R[1],
-            owner       : RR[0]
-          });
-          console.log(changelists);
-        }
-        else{
-          let dbLatestChangelist = JSON.parse(chunk).changelist;
-          let trytimes = 5;
-          let tmp ;
-          let R ;
-          while(trytimes > 0){
-            tmp = child_process.spawnSync('cd '+workspace+'/nbif.MAIN && p4 changes -m10 ...#head',{
-              encoding  : 'utf8',
-              shell : 'tcsh'
-            });
-            if(tmp.error){
-              trytimes--;
-            }
-            else{
-              trytimes = 0;
-              R = tmp.stdout.split('\n');
-            }
-          }
-          //let R = child_process.execSync('cd '+workspace+'/nbif.MAIN && p4 changes -m10 ...#head',{
-          //  encoding  : 'utf8'
-          //}).split('\n');
-          R.pop();
-          console.log(R);
-          for(let i=0;i<R.length;i++){
-            let RR = R[i].split(' ');
-            let RRR = RR[5].split('@');
-            if(RR[1]  == dbLatestChangelist){
-              break;
-            }
-            else{
-              changelists.push({
-                changelist  : RR[1],
-                owner       : RRR[0]
-              });
-            }
-          }
-        }
-        //Step 3 send the new changelists to db
-        let postData = querystring.stringify({
-          'kind': 'newchangelists',
-          'tree': 'MAIN',
+          'tree': tree,
           'changelists' : JSON.stringify(changelists)
         });
         
