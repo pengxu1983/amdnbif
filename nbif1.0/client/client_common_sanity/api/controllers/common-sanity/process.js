@@ -6,6 +6,7 @@ var child_process = require('child_process');
 var cronJob       = require("cron").CronJob;
 var workspace     = '/local_vol1_nobackup/benpeng/';
 let tree          = 'MAIN';
+let enable        = true;
 var jobid_common_sanity_getChangelistToRun  = new cronJob('0 */5 * * * *',function(){
   //console.log(moment().format('YYYY-MM-DD HH:mm:ss'));
   console.log('jobid_common_sanity_getChangelistToRun start at'+moment().format('YYYY-MM-DD HH:mm:ss'));
