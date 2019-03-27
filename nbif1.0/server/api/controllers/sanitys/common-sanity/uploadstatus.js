@@ -62,7 +62,14 @@ module.exports = {
         for(let v=0;v<variants.length;v++){
           for(let t=0;t<tests.length;t++){
             if(results[variants[v].variantname][tests[t].testname] == 'FAIL'){
-              currentChangelistIsBroken = 'yes';
+              let valid = JSON.parse(tests[t].valid);
+              valid[inputs.tree]  = JSON.parse(valid[inputs.tree]);
+              if(valid[inputs.tree].indexOf(variants[v].variantname)==-1){
+                //ignored
+              }
+              else{
+                currentChangelistIsBroken = 'yes';
+              }
             }
           }
         }
@@ -145,7 +152,14 @@ module.exports = {
         for(let v=0;v<variants.length;v++){
           for(let t=0;t<tests.length;t++){
             if(results[variants[v].variantname][tests[t].testname] == 'FAIL'){
-              currentChangelistIsBroken = 'yes';
+              let valid = JSON.parse(tests[t].valid);
+              valid[inputs.tree]  = JSON.parse(valid[inputs.tree]);
+              if(valid[inputs.tree].indexOf(variants[v].variantname)==-1){
+                //ignored
+              }
+              else{
+                currentChangelistIsBroken = 'yes';
+              }
             }
           }
         }
