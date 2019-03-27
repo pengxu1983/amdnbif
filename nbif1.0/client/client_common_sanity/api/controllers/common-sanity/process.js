@@ -5,13 +5,36 @@ var fs            = require('fs');
 var child_process = require('child_process');
 var cronJob       = require("cron").CronJob;
 var workspace     = '/local_vol1_nobackup/benpeng/';
-let tree          = 'MAIN';
+let CONF          = workspace+'/CONF';
+//let tree          = 'MAIN';
+var configs = function(CONF){
+  let configs = {};
+  if(fs.existsSync(CONF)){
+    let content = fs.readFileSync(CONF,{
+      encoding  : 'utf8',
+    });
+    let lines = content.split('\n');
+    lines.pop();
+    for(let l=0;l<lines.length;l++){
+      let R = lines[l].split(':::');
+      configs[R[0]]=R[1];
+    }
+  }
+  else{
+    configs['tree'] = 'MAIN';
+  }
+  return configs;
+};
 let enable        = true;
 var jobid_common_sanity_getChangelistToRun  = new cronJob('0 */5 * * * *',function(){
   //console.log(moment().format('YYYY-MM-DD HH:mm:ss'));
   console.log('jobid_common_sanity_getChangelistToRun start at'+moment().format('YYYY-MM-DD HH:mm:ss'));
   let earliestchangelist;
   let owner;
+  let R = configs(CONF);
+  let tree = R['tree'];
+  console.log(tree);
+  console.log(typeof(tree));
   let postData = querystring.stringify({
     'kind': 'popearliest',
     'tree': tree
@@ -247,6 +270,10 @@ var jobid_common_sanity_getChangelistToRun  = new cronJob('0 */5 * * * *',functi
 //========================
 var jobid_common_sanity_pushNewChangelists  = new cronJob('0 */5 * * * *',function(){
   console.log('jobid_common_sanity_pushNewChangelists start at '+moment().format('YYYY-MM-DD HH:mm:ss'));
+  let R = configs(CONF);
+  let tree = R['tree'];
+  console.log(tree);
+  console.log(typeof(tree));
   //////////////////////////////////////////////
   //Get changelist to push to DB
   //////////////////////////////////////////////
