@@ -340,7 +340,7 @@ var jobid_common_sanity_pushNewChangelists  = new cronJob('0 */5 * * * *',functi
           let tmp ;
           let R ;
           while(trytimes > 0){
-            tmp = child_process.spawnSync('cd '+workspace+'/nbif.'+tree+' && p4 changes -m10 ...#head',{
+            tmp = child_process.spawnSync('cd '+workspace+'/nbif.'+tree+' && p4 changes -m20 ...#head',{
               encoding  : 'utf8',
               shell : 'tcsh'
             });
@@ -352,7 +352,7 @@ var jobid_common_sanity_pushNewChangelists  = new cronJob('0 */5 * * * *',functi
               R = tmp.stdout.split('\n');
             }
           }
-          //let R = child_process.execSync('cd '+workspace+'/nbif.'+tree+' && p4 changes -m10 ...#head',{
+          //let R = child_process.execSync('cd '+workspace+'/nbif.'+tree+' && p4 changes -m20 ...#head',{
           //  encoding  : 'utf8'
           //}).split('\n');
           R.pop();
