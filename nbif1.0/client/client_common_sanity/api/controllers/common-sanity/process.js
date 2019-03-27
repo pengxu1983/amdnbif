@@ -125,7 +125,12 @@ var jobid_common_sanity_getChangelistToRun  = new cronJob('0 */5 * * * *',functi
                 }
                 else{
                   fs.mkdirSync(treeRoot);
-                  text += 'p4_mkwa -codeline nbif2_0 -cl '+earliestchangelist+'\n';
+                  if(tree == 'MAIN'){//TREE RELATED
+                    text += 'p4_mkwa -codeline nbif2_0 -cl '+earliestchangelist+'\n';
+                  }
+                  else if(tree == 'NV21'){
+                    text += 'p4_mkwa -codeline nbif2_0 -branch_name nbif2_0_nv21_branch -cl '+earliestchangelist+'\n';
+                  }
                 }
                 text += 'bootenv -v '+variants[i].variantname+'\n';
                 for(let k=0;k<tests.length;k++){
