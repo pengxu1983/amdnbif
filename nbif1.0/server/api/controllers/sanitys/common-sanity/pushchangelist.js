@@ -51,7 +51,7 @@ module.exports = {
         });
       }
     }
-    if(inputs.tree  ==  'NV21'){
+    else if(inputs.tree  ==  'NV21'){
       if(inputs.kind  ==  'newchangelists'){
         let changelists = JSON.parse(inputs.changelists);
         for(let i=0;i<changelists.length;i++){

@@ -304,6 +304,7 @@ var jobid_common_sanity_pushNewChangelists  = new cronJob('0 */5 * * * *',functi
     //console.log(`HEADERS: ${JSON.stringify(res.headers)}`);
     res.setEncoding('utf8');
     res.on('data', (chunk) => {
+      console.log('poplatest');
       console.log(`BODY: ${chunk}`);
       //console.log(JSON.parse(chunk));
       if(JSON.parse(chunk).ok == 'ok'){
