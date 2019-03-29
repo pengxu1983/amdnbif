@@ -30,7 +30,7 @@ module.exports = {
     //====================
     if(inputs.tree  ==  'MAIN'){
       if(inputs.kind == 'poplatest'){
-        let changelists = await Buffer_changelists_01.find({
+        let changelists = await Buffer_changelists.find({
           id : {'>=': 0}
         });
         //sails.log('DBG0');
@@ -84,7 +84,7 @@ module.exports = {
       else if(inputs.kind == 'popearliest'){
         let earliestchangelist;
         let owner;
-        let changelists = await Buffer_changelists_01.find({
+        let changelists = await Buffer_changelists.find({
           ischecked : 'no'
           //id : {'>=': 0}
         });
@@ -114,7 +114,7 @@ module.exports = {
           }
           //sails.log('DBG7');
           //sails.log(earliestchangelist);
-          await Buffer_changelists_01.update({
+          await Buffer_changelists.update({
             changelist  : earliestchangelist
           },{
             ischecked   : 'yes'
