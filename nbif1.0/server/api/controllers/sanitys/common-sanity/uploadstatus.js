@@ -64,6 +64,11 @@ module.exports = {
             if(results[variants[v].variantname][tests[t].testname] == 'FAIL'){
               let valid = JSON.parse(tests[t].valid);
               valid[inputs.tree]  = JSON.parse(valid[inputs.tree]);
+              sails.log(inputs.tree);
+              sails.log(valid[inputs.tree]);
+              sails.log(typeof(valid[inputs.tree]));
+              sails.log(variants[v].variantname);
+              sails.log(typeof(variants[v].variantname));
               if(valid[inputs.tree].indexOf(variants[v].variantname)==-1){
                 //ignored
               }
@@ -154,6 +159,11 @@ module.exports = {
             if(results[variants[v].variantname][tests[t].testname] == 'FAIL'){
               let valid = JSON.parse(tests[t].valid);
               valid[inputs.tree]  = JSON.parse(valid[inputs.tree]);
+              sails.log(inputs.tree);
+              sails.log(valid[inputs.tree]);
+              sails.log(typeof(valid[inputs.tree]));
+              sails.log(variants[v].variantname);
+              sails.log(typeof(variants[v].variantname));
               if(valid[inputs.tree].indexOf(variants[v].variantname)==-1){
                 //ignored
               }
