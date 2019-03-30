@@ -28,11 +28,10 @@ module.exports = {
     });
     for(let t = 0;t<R.length;t++){
       if(t == 0){
-        let a = JSON.parse(R[t].valid);
-        a = a['MAIN'];
+        let valid = JSON.parse(R[t].valid);
         return exits.success(JSON.stringify({
           ok  : 'ok',
-          a   : a
+          a   : valid['MAIN'].indexOf('nbif_al_gpu')
         }));
       }
     }
