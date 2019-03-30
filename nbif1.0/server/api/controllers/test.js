@@ -28,12 +28,10 @@ module.exports = {
     });
     for(let t = 0;t<R.length;t++){
       if(t == 0){
-        let a = R[t];
-        let b = typeof(R[t]);
+        R[t] = JSON.parse(R[t]);
         return exits.success(JSON.stringify({
           ok  : 'ok',
-          a   : a,
-          b   : b
+          a   : R[t]
         }));
       }
     }
