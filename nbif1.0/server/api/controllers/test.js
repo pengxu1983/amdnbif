@@ -29,6 +29,7 @@ module.exports = {
     for(let t = 0;t<R.length;t++){
       if(t == 0){
         let a = JSON.parse(R[t].valid);
+        a = a['MAIN'];
         return exits.success(JSON.stringify({
           ok  : 'ok',
           a   : a
