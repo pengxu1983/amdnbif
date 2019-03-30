@@ -70,6 +70,8 @@ module.exports = {
               sails.log(typeof(variants[v].variantname));
               if(valid[inputs.tree].indexOf(variants[v].variantname)==-1){
                 //ignored
+                sails.log('ignored');
+                sails.log(variants[v].variantname);
               }
               else{
                 currentChangelistIsBroken = 'yes';
@@ -164,6 +166,8 @@ module.exports = {
               sails.log(typeof(variants[v].variantname));
               if(valid[inputs.tree].indexOf(variants[v].variantname)==-1){
                 //ignored
+                sails.log('ignored');
+                sails.log(variants[v].variantname);
               }
               else{
                 currentChangelistIsBroken = 'yes';
