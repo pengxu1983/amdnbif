@@ -157,7 +157,6 @@ module.exports = {
           for(let t=0;t<tests.length;t++){
             if(results[variants[v].variantname][tests[t].testname] == 'FAIL'){
               let valid = JSON.parse(tests[t].valid);
-              valid[inputs.tree]  = JSON.parse(valid[inputs.tree]);
               sails.log(inputs.tree);
               sails.log(valid[inputs.tree]);
               sails.log(typeof(valid[inputs.tree]));
