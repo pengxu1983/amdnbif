@@ -28,10 +28,10 @@ module.exports = {
     });
     for(let t = 0;t<R.length;t++){
       if(t == 0){
-        R[t] = JSON.parse(R[t]);
+        let a = JSON.parse(R[t].valid);
         return exits.success(JSON.stringify({
           ok  : 'ok',
-          a   : R[t]
+          a   : a
         }));
       }
     }
