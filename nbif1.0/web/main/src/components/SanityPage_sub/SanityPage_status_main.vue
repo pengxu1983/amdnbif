@@ -1,106 +1,9 @@
 <template>
   <el-tabs v-model="activeTab" type="card" @tab-click="handleClick">
-    <el-tab-pane label="Common Sanity Tests Status" name="commonSanity">
-      <template>
-        <el-table
-          :data="sanityStatus"
-          border
-          style="width: 100%"
-        >
-          <el-table-column
-            prop="lastcheckedCL"
-            label="Last Checked CL"
-            width="140"
-          >
-          </el-table-column>
-          <el-table-column
-            prop="result"
-            label="Status"
-            width="140"
-          >
-          </el-table-column>
-          <el-table-column
-            prop="brokenCL"
-            label="Broken CL"
-            width="140"
-          >
-          </el-table-column>
-          <el-table-column
-            prop="brokenCLowner"
-            label="Broken CL Owner"
-            width="140"
-          >
-          </el-table-column>
-          <el-table-column
-            prop="details"
-            label="sanity details"
-          >
-            <template slot-scope="scope">
-              <el-table
-                :data="scope.row.details"
-                border
-              >
-                <el-table-column
-                  prop="variantname"
-                  label="VariantName"
-                >
-                </el-table-column>
-                <el-table-column
-                  prop="demo_test_0"
-                  label="demo_test_0"
-                >
-                </el-table-column>
-                <el-table-column
-                  prop="demo_test_1"
-                  label="demo_test_1"
-                >
-                </el-table-column>
-                <el-table-column
-                  prop="demo_test_2"
-                  label="demo_test_2"
-                >
-                </el-table-column>
-              </el-table>
-            </template>
-          </el-table-column>
-          <el-table-column
-            prop="cmd"
-            label="Reproduce Command"
-            width="130"
-          >
-          </el-table-column>
-        </el-table>
-      </template>
-      <template>
-        <el-table
-          :data="dcelabStatus"
-          border
-          style="width: 100%">
-          <el-table-column
-            label="DCelab Status"
-          >
-            <el-table-column
-              prop="variantname"
-              label="VariantName"
-              width="150"
-            >
-            </el-table-column>
-            <el-table-column
-              prop="result"
-              label="Result"
-              width="150"
-            >
-            </el-table-column>
-            <el-table-column
-              prop="command"
-              label="Run Command"
-            >
-            </el-table-column>
-          </el-table-column>
-        </el-table>
-      </template>
-    </el-tab-pane>
-    <el-tab-pane label="Sanity Tests Status by Project" name="byProject">
+    <el-tab-pane 
+      v-for="onetree in trees"
+      :label="onetree.treename" name="onetree.treename"
+    >
     </el-tab-pane>
   </el-tabs>
 </template>
@@ -123,6 +26,14 @@ export default {
       },
       projects    : [],
       variants    : [],
+      trees       : [
+        {
+          treename  : 'NV21'
+        },
+        {
+          treename  : 'MAIN'
+        }
+      ]
     }
   },
   computed:{
