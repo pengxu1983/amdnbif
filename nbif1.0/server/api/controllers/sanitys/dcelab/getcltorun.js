@@ -68,6 +68,11 @@ module.exports = {
             }
           }
         }
+        await Buffer_changelists.update({
+          changelist  : lastcheckedCL
+        },{
+          dcelabischecked : 'yes'
+        });
         return exits.success(JSON.stringify({
           ok  : 'ok',
           lastcheckedCL : lastcheckedCL
@@ -117,6 +122,11 @@ module.exports = {
             }
           }
         }
+        await Buffer_changelists_01.update({
+          changelist  : lastcheckedCL
+        },{
+          dcelabischecked : 'yes'
+        });
         return exits.success(JSON.stringify({
           ok  : 'ok',
           lastcheckedCL : lastcheckedCL

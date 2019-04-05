@@ -32,8 +32,24 @@ module.exports = {
   fn: async function (inputs,exits) {
     sails.log('/sanitys/dcelab/uploadstatus');
     sails.log(inputs);
+    let results = JSON.parse(inputs.results);
     if(inputs.tree == 'MAIN'){
       if(inputs.kind == 'dcelabuploadstatus'){
+        //all variants
+        let variants  = await Variants.find({
+          id  : {'>=':0}
+        });
+        //all tests
+        let tasks = await Common_tasks.find({
+          id  : {'>=':0}
+        });
+        for(let v=0;v<variants.length;v++){
+          for(let t=0;t<tasks.length;t++){
+            if(results[variants[v].variantname][tasks[t].taskname] == 'FAIL'){
+              let valid = JSON.parse(tasks[t].valid);
+            }
+          }
+        }
         await Buffer_changelists.update({
           changelist  : inputs.changelist
         },{

@@ -139,22 +139,23 @@ var jobid_dcelab_run = new cronJob('0 * * * * *',function(){
                 lines.pop();
                 let regx1 = /dj exited successfully/;
                 let regx2 = /dj exited with errors/;
-                results[variants[v].variantname]  = 'UNKNOWN';
+                results['dcelab']={};
+                results['dcelab'][variants[v].variantname]  = 'UNKNOWN';
                 for(let l=0;l<lines.length;l++){
                   if(regx1.test(lines[l])){
-                    results[variants[v].variantname]  = 'PASS';
+                    results['dcelab'][variants[v].variantname]  = 'PASS';
                     break;
                   }
                   else if(regx2.test(lines[l])){
-                    results[variants[v].variantname]  = 'FAIL';
+                    results['dcelab'][variants[v].variantname]  = 'FAIL';
                     break;
                   }
                 }
-                console.log(variants[v].variantname + ' is '+results[variants[v].variantname]);
+                console.log(variants[v].variantname + ' is '+results['dcelab'][variants[v].variantname]);
                 console.log(variants.length);
                 let readytosend = 0;
                 for(let vv = 0;vv<variants.length;vv++){
-                  if(results.hasOwnProperty(variants[vv].variantname)){
+                  if(results['dcelab'].hasOwnProperty(variants[vv].variantname)){
                     readytosend += 1;
                   }
                 }
