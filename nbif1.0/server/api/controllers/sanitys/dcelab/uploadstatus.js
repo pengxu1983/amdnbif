@@ -44,18 +44,6 @@ module.exports = {
         }));
       }
     }
-    if(inputs.tree == 'NV21'){
-      if(inputs.kind == 'dcelabuploadstatus'){
-        await Buffer_changelists_01.update({
-          changelist  : inputs.changelist
-        },{
-          dcelab  : inputs.results
-        });
-        return exits.success(JSON.stringify({
-          ok  : 'ok'
-        }));
-      }
-    }
   }
 
 

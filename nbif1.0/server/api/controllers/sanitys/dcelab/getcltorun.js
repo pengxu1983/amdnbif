@@ -25,50 +25,31 @@ module.exports = {
   fn: async function (inputs,exits) {
     sails.log('/sanitys/dcelab/getcltorun');
     sails.log(inputs);
-    let all_MAIN = await Buffer_changelists.find({
-      id  : {'>=':0}
-    });
-    if(all_MAIN.length == 0){
-    }
-    else if(all_MAIN.length > 50){
-      let changelist ;
-      for(let a=0;a<all_MAIN.length;a++){
-        if(a==0){
-          changelist = all_MAIN[a].changelist;
-        }
-        else if(parseInt(changelist) > parseInt(all_MAIN[a].changelist)){
-          changelist = all_MAIN[a].changelist;
-        }
-      }
-      await Buffer_changelists.destroy({
-        changelist  : changelist
-      });
-    }
-    let all_NV21 = await Buffer_changelists_01.find({
-      id  : {'>=':0}
-    });
-    if(all_NV21.length == 0){
-    }
-    else if(all_NV21.length > 50){
-      let changelist ;
-      for(let a=0;a<all_NV21.length;a++){
-        if(a==0){
-          changelist = all_NV21[a].changelist;
-        }
-        else if(parseInt(changelist) > parseInt(all_NV21[a].changelist)){
-          changelist = all_NV21[a].changelist;
-        }
-      }
-      await Buffer_changelists_01.destroy({
-        changelist  : changelist
-      });
-    }
     if(inputs.tree == 'MAIN'){
       if(inputs.kind == 'getcltorun'){
+        let all = await Buffer_changelists.find({
+          id  : {'>=':0}
+        });
+        if(all.length == 0){
+        }
+        else if(all.length > 50){
+          let changelist ;
+          for(let a=0;a<all.length;a++){
+            if(a==0){
+              changelist = all[a].changelist;
+            }
+            else if(parseInt(changelist) > parseInt(all[a].changelist)){
+              changelist = all[a].changelist;
+            }
+          }
+          await Buffer_changelists.destroy({
+            changelist  : changelist
+          });
+        }
         let lastcheckedCL ;
         let R = await Buffer_changelists.find({
           //ischecked : 'yes',
-          dcelab    : 'NA'
+          dcelabischecked : 'no'
         });
         if(R.length == 0){
           return exits.success(JSON.stringify({
@@ -95,10 +76,29 @@ module.exports = {
     }
     if(inputs.tree == 'NV21'){
       if(inputs.kind == 'getcltorun'){
+        let all = await Buffer_changelists_01.find({
+          id  : {'>=':0}
+        });
+        if(all.length == 0){
+        }
+        else if(all.length > 50){
+          let changelist ;
+          for(let a=0;a<all.length;a++){
+            if(a==0){
+              changelist = all[a].changelist;
+            }
+            else if(parseInt(changelist) > parseInt(all[a].changelist)){
+              changelist = all[a].changelist;
+            }
+          }
+          await Buffer_changelists_01.destroy({
+            changelist  : changelist
+          });
+        }
         let lastcheckedCL ;
         let R = await Buffer_changelists_01.find({
           //ischecked : 'yes',
-          dcelab    : 'NA'
+          dcelabischecked : 'no'
         });
         if(R.length == 0){
           return exits.success(JSON.stringify({

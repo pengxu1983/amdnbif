@@ -6,7 +6,7 @@ var child_process = require('child_process');
 var cronJob       = require("cron").CronJob;
 var workspace     = '/proj/bif_nbio_vol1_backup/benpeng/';
 let changelistToRun ;
-let tree = 'MAIN';
+let tree = 'NV21';
 var jobid_dcelab_run = new cronJob('0 * * * * *',function(){
   console.log('jobid_dcelab_run start at '+moment().format('YYYY-MM-DD HH:mm:ss'));
   jobid_dcelab_run.stop();
@@ -102,7 +102,7 @@ var jobid_dcelab_run = new cronJob('0 * * * * *',function(){
               }
               else {
                 fs.mkdirSync(treeRoot);
-                text += 'p4_mkwa -codeline nbif2_0 -cl '+changelistToRun+'\n';//TODOTREE
+                text += 'p4_mkwa -codeline nbif2_0 -branch_name nbif2_0_nv21_branch -cl '+changelistToRun+'\n';//TODOTREE
                 text += 'bootenv -v '+variants[v].variantname+'\n';
               }
               text += 'bsub -P BIF-SHUB -q normal -Is -J NBIFdcelab -R \'rusage[mem=40000] select[type==RHEL6_64]\' dj -v -l dc_elab.log -e \'releaseflow::dropflow(:rtl_drop).build(:rhea_drop,:rhea_dc)\' -DPUBLISH_BLKS=nbif_shub_wrap_';//TODO need to fix algfx
