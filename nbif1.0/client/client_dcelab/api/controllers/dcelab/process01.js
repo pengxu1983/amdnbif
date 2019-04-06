@@ -78,6 +78,8 @@ var jobid_dcelab_run = new cronJob('0 * * * * *',function(){
             variants  = JSON.parse(chunk).variants;
             //clean up workspace
             let results = {};
+            results['dcelab']={};
+            let readytosend = 0;
             for(let v=0;v<variants.length;v++){
               let treeRoot = workspace+'/nbif.dcelab.'+tree+'.'+variants[v].variantname;
               let text = '';
@@ -139,7 +141,6 @@ var jobid_dcelab_run = new cronJob('0 * * * * *',function(){
                 lines.pop();
                 let regx1 = /dj exited successfully/;
                 let regx2 = /dj exited with errors/;
-                results['dcelab']={};
                 results['dcelab'][variants[v].variantname]  = 'UNKNOWN';
                 for(let l=0;l<lines.length;l++){
                   if(regx1.test(lines[l])){
@@ -153,12 +154,14 @@ var jobid_dcelab_run = new cronJob('0 * * * * *',function(){
                 }
                 console.log(variants[v].variantname + ' is '+results['dcelab'][variants[v].variantname]);
                 console.log(variants.length);
-                let readytosend = 0;
-                for(let vv = 0;vv<variants.length;vv++){
-                  if(results['dcelab'].hasOwnProperty(variants[vv].variantname)){
+                console.log(results['dcelab']);
+                console.log(results['dcelab'].hasOwnProperty(variants[v].variantname));
+                //let readytosend = 0;
+                //for(let vv = 0;vv<variants.length;vv++){
+                //  if(results['dcelab'].hasOwnProperty(variants[vv].variantname)){
                     readytosend += 1;
-                  }
-                }
+                //  }
+                //}
                 console.log('readytosend is '+readytosend);
                 if(readytosend != variants.length){
                 }
