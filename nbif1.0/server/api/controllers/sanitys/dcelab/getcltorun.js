@@ -58,12 +58,12 @@ module.exports = {
           }));
         }
         else{
-          //find the latest
+          //find the earlist
           for(let r=0;r<R.length;r++){
             if(r==0){
               lastcheckedCL = R[r].changelist;
             }
-            else if(parseInt(R[r].changelist)>parseInt(lastcheckedCL)){
+            else if(parseInt(R[r].changelist)<parseInt(lastcheckedCL)){
               lastcheckedCL = R[r].changelist;
             }
           }
