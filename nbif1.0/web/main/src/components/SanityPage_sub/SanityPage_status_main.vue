@@ -14,7 +14,7 @@
             </el-row>
             <el-row>
               <el-table
-                :data="sanityStatus(onetree.treename)"
+                :data="sanityStatus"
                 border
                 style="width: 100%"
               >
@@ -73,7 +73,7 @@ export default {
   data() {
     return {
       activeTab   : 'MAIN',
-      sanityStatus: {},
+      sanityStatus: [],
       sanitys     : [],
       dcelabStatus: [],
       projectinfo : {
