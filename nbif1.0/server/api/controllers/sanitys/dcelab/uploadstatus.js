@@ -112,7 +112,8 @@ module.exports = {
           changelist  : inputs.changelist
         },{
           dcelab  : inputs.results,
-          dcelabisBroken  : currentChangelistIsBroken
+          dcelabisBroken  : currentChangelistIsBroken,
+          dcelabbrokenCL  : brokenCL
         });
         return exits.success(JSON.stringify({
           ok  : 'ok'
@@ -198,6 +199,7 @@ module.exports = {
         },{
           dcelab  : inputs.results,
           dcelabisBroken  : currentChangelistIsBroken
+          dcelabbrokenCL  : brokenCL
         });
         return exits.success(JSON.stringify({
           ok  : 'ok'

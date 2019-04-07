@@ -43,9 +43,6 @@ module.exports = {
     dcelabbrokenCL  : {
       type    : 'string'
     },
-    dcelabowner : {
-      type    : 'string'
-    }
 
 
     //  ╔═╗╔╦╗╔╗ ╔═╗╔╦╗╔═╗
