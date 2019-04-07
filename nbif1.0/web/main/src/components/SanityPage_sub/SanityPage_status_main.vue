@@ -2,8 +2,64 @@
   <el-tabs v-model="activeTab" type="card" @tab-click="handleClick">
     <el-tab-pane 
       v-for="onetree in trees"
-      :label="onetree.treename" name="onetree.treename"
+      :label="onetree.treename" :name="onetree.treename"
     >
+      <template>
+        <el-container>
+          <el-main>
+            <el-row>
+              <el-col :span="24">
+                <h3>{{ onetree.treename }} : sanity</h3>
+              </el-col>
+            </el-row>
+            <el-row>
+              <el-table
+                :data="sanityStatus(onetree.treename)"
+                border
+                style="width: 100%"
+              >
+                <el-table-column
+                  prop="lastcheckedCL"
+                  label="lastcheckedCL"
+                >
+                </el-table-column>
+                <el-table-column
+                  prop="result"
+                  label="status"
+                >
+                </el-table-column>
+                <el-table-column
+                  prop="lastpassCL"
+                  label="lastpassCL"
+                >
+                </el-table-column>
+                <el-table-column
+                  prop="brokenCL"
+                  label="brokenCL"
+                >
+                </el-table-column>
+                <el-table-column
+                  prop="brokenCLowner"
+                  label="brokenCLowner"
+                >
+                </el-table-column>
+              </el-table>
+            </el-row>
+          </el-main>
+        </el-container>
+        <el-container>
+          <el-main>
+            <el-row>
+              <el-col :span="24">
+                <h3>{{ onetree.treename }} : dcelab</h3>
+              </el-col>
+            </el-row>
+            <el-row>
+            m2
+            </el-row>
+          </el-main>
+        </el-container>
+      </template>
     </el-tab-pane>
   </el-tabs>
 </template>
@@ -16,10 +72,10 @@ export default {
   },
   data() {
     return {
-      activeTab   : 'commonSanity',
-      sanityStatus : [],
+      activeTab   : 'MAIN',
+      sanityStatus: [],
       sanitys     : [],
-      dcelabStatus:[],
+      dcelabStatus: [],
       projectinfo : {
         projectname : 'MERO',
         variantname : 'nbif_al_gpu'
@@ -28,11 +84,13 @@ export default {
       variants    : [],
       trees       : [
         {
-          treename  : 'NV21'
+          treename  : 'MAIN',
+          kind      : 'common'
         },
         {
-          treename  : 'MAIN'
-        }
+          treename  : 'NV21',
+          kind      : 'common'
+        },
       ]
     }
   },
@@ -60,9 +118,10 @@ export default {
       }
       return items;
     },
-    getCommonSanityStatus (){
+    getCommonSanityStatus (tree){
       this.$http.post('/sanitys/common-sanity/getcommonsanitystatus',{
-        kind  : 'sanityStatus'
+        kind  : 'sanityStatus',
+        tree  : tree
       }).then(
         function(response){
           if(response.body.ok == 'ok'){
