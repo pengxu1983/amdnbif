@@ -93,7 +93,9 @@ module.exports = {
             RR = await Buffer_changelists.findOne({//TODOTREE
               changelist  : sanity_brokenCL
             });
-            sanity_brokenCLowner  = RR.owner;
+            if(RR){
+              sanity_brokenCLowner  = RR.owner;
+            }
           }
         }
         ///////////////////////////
@@ -156,7 +158,9 @@ module.exports = {
             RR = await Buffer_changelists.findOne({//TODOTREE
               changelist  : dcelab_brokenCL
             });
-            dcelab_brokenCLowner  = RR.owner;
+            if(RR){
+              dcelab_brokenCLowner  = RR.owner;
+            }
           }
         }
         ///////////////////////////
