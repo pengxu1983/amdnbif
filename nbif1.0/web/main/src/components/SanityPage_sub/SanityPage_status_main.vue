@@ -120,7 +120,6 @@ export default {
     },
     getCommonSanityStatus (tree){
       this.$http.post('/sanitys/common-sanity/getcommonsanitystatus',{
-        kind  : 'sanityStatus',
         tree  : tree
       }).then(
         function(response){
@@ -240,7 +239,7 @@ export default {
   },
   mounted : function(){
     //this.get();
-    this.getCommonSanityStatus();
+    this.getCommonSanityStatus(this.activeTab);
   }
 }
 </script>
