@@ -239,6 +239,7 @@ export default {
   },
   mounted : function(){
     //this.get();
+    console.log('aaaa');
     this.getCommonSanityStatus(this.activeTab);
   }
 }
