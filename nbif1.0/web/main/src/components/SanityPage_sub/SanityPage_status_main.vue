@@ -119,6 +119,7 @@ export default {
       return items;
     },
     getCommonSanityStatus (tree){
+      console.log('bbbb');
       this.$http.post('/sanitys/common-sanity/getcommonsanitystatus',{
         tree  : tree
       }).then(
