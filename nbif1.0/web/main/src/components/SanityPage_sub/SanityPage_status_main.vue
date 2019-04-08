@@ -107,7 +107,8 @@ export default {
   },
   methods : {
     handleClick(tab, event) {
-      console.log(tab, event);
+      //console.log(tab, event);
+      console.log(this.activeTab);
     },
     commonSanityStatus(variantname){
       var items=[];
