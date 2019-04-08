@@ -126,6 +126,7 @@ export default {
         function(response){
           if(response.body.ok ==  'ok'){
             console.log(response.body);
+
           }
           else if(response.body.ok ==  'notok'){
             console.log(tree+' sanityStatus route is notok');
