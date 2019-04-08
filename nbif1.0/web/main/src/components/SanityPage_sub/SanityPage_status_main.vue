@@ -55,7 +55,37 @@
               </el-col>
             </el-row>
             <el-row>
-            m2
+              <el-table
+                :data="sanityStatus"
+                border
+                style="width: 100%"
+              >
+                <el-table-column
+                  prop="dcelab_lastcheckedCL"
+                  label="lastcheckedCL"
+                >
+                </el-table-column>
+                <el-table-column
+                  prop="dcelab_result"
+                  label="status"
+                >
+                </el-table-column>
+                <el-table-column
+                  prop="dcelab_lastpassCL"
+                  label="lastpassCL"
+                >
+                </el-table-column>
+                <el-table-column
+                  prop="dcelab_brokenCL"
+                  label="brokenCL"
+                >
+                </el-table-column>
+                <el-table-column
+                  prop="dcelab_brokenCLowner"
+                  label="brokenCLowner"
+                >
+                </el-table-column>
+              </el-table>
             </el-row>
           </el-main>
         </el-container>
