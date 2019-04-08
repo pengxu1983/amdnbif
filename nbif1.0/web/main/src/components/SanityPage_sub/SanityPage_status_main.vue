@@ -128,6 +128,7 @@ export default {
         function(response){
           if(response.body.ok ==  'ok'){
             console.log(response.body);
+            this.sanityStatus=[];
             this.sanityStatus.push({
               sanity_lastcheckedCL  : response.body.sanity_lastcheckedCL ,
               sanity_result         : response.body.sanity_result        ,
