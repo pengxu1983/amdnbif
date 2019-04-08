@@ -19,27 +19,27 @@
                 style="width: 100%"
               >
                 <el-table-column
-                  prop="lastcheckedCL"
+                  prop="sanity_lastcheckedCL"
                   label="lastcheckedCL"
                 >
                 </el-table-column>
                 <el-table-column
-                  prop="result"
+                  prop="sanity_result"
                   label="status"
                 >
                 </el-table-column>
                 <el-table-column
-                  prop="lastpassCL"
+                  prop="sanity_lastpassCL"
                   label="lastpassCL"
                 >
                 </el-table-column>
                 <el-table-column
-                  prop="brokenCL"
+                  prop="sanity_brokenCL"
                   label="brokenCL"
                 >
                 </el-table-column>
                 <el-table-column
-                  prop="brokenCLowner"
+                  prop="sanity_brokenCLowner"
                   label="brokenCLowner"
                 >
                 </el-table-column>
@@ -109,6 +109,7 @@ export default {
     handleClick(tab, event) {
       //console.log(tab, event);
       console.log(this.activeTab);
+      this.getCommonSanityStatus(this.activeTab);
     },
     commonSanityStatus(variantname){
       var items=[];
@@ -127,7 +128,20 @@ export default {
         function(response){
           if(response.body.ok ==  'ok'){
             console.log(response.body);
-
+            this.sanityStatus.push({
+              sanity_lastcheckedCL  : response.body.sanity_lastcheckedCL ,
+              sanity_result         : response.body.sanity_result        ,
+              sanity_lastpassCL     : response.body.sanity_lastpassCL    ,
+              sanity_brokenCL       : response.body.sanity_brokenCL      ,
+              sanity_brokenCLowner  : response.body.sanity_brokenCLowner ,
+              sanity_details        : response.body.sanity_details       ,
+              dcelab_lastcheckedCL  : response.body.dcelab_lastcheckedCL ,
+              dcelab_result         : response.body.dcelab_result        ,
+              dcelab_lastpassCL     : response.body.dcelab_lastpassCL    ,
+              dcelab_brokenCL       : response.body.dcelab_brokenCL      ,
+              dcelab_brokenCLowner  : response.body.dcelab_brokenCLowner ,
+              dcelab_details        : response.body.dcelab_details        
+            });
           }
           else if(response.body.ok ==  'notok'){
             console.log(tree+' sanityStatus route is notok');
