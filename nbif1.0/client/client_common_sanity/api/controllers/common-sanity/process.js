@@ -135,16 +135,16 @@ var jobid_common_sanity_getChangelistToRun  = new cronJob('0 */5 * * * *',functi
                 text += 'bootenv -v '+variants[i].variantname+'\n';
                 for(let k=0;k<tests.length;k++){
                   if(fs.existsSync(treeRoot+'/'+tests[k].testname+'.'+variants[i].variantname+'.log')){
-                    text += 'rm -rf '+treeRoot+'/'+tests[k].testname+'.'+variants[i].variantname+'.log';
+                    text += 'rm -rf '+treeRoot+'/'+tests[k].testname+'.'+variants[i].variantname+'.log\n';
                   }
                   if(fs.existsSync(treeRoot+'/'+tests[k].testname+'.'+variants[i].variantname+'.log.bak')){
-                    text += 'rm -rf '+treeRoot+'/'+tests[k].testname+'.'+variants[i].variantname+'.log.bak';
+                    text += 'rm -rf '+treeRoot+'/'+tests[k].testname+'.'+variants[i].variantname+'.log.bak\n';
                   }
                   if(k==0){
-                    text  += 'dj -l '+tests[k].testname+'.'+variants[i].variantname+'.log -DUVM_VERBOSITY=UVM_LOW -m4 -DUSE_VRQ -DCGM -DSEED=12345678  run_test -s nbiftdl '+tests[k].testname+'_nbif_all_rtl\n'
+                    text  += 'dj -l '+tests[k].testname+'.'+variants[i].variantname+'.log -DUVM_VERBOSITY=UVM_LOW -m4 -DUSE_VRQ -DCGM -DSEED=12345678  run_test -s nbiftdl '+tests[k].testname+'_nbif_all_rtl\n';
                   }
                   else {
-                    text  += 'dj -l '+tests[k].testname+'.'+variants[i].variantname+'.log -DUVM_VERBOSITY=UVM_LOW -m4 -DUSE_VRQ -DCGM -DSEED=12345678  run_test -s nbiftdl '+tests[k].testname+'_nbif_all_rtl -a run=only\n'
+                    text  += 'dj -l '+tests[k].testname+'.'+variants[i].variantname+'.log -DUVM_VERBOSITY=UVM_LOW -m4 -DUSE_VRQ -DCGM -DSEED=12345678  run_test -s nbiftdl '+tests[k].testname+'_nbif_all_rtl -a run=only\n';
                   }
                 }
                 fs.writeFileSync(treeRoot+'.script',text,{
