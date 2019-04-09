@@ -131,7 +131,7 @@ export default {
     return {
       activeTab   : 'MAIN',
       sanityStatus: [],
-      //sanity_details:[],
+      sanity_details:[],
       dcelab_details:[],
       sanitys     : [],
       dcelabStatus: [],
@@ -154,23 +154,7 @@ export default {
     }
   },
   computed:{
-    sanity_details  : function(){
-      let result =[];
-      for(let v=0;v<this.variants.length;v++){
-        if(sanityStatus.length == 0){
-          return [];
-        }
-        let R  = JSON.parse(this.sanityStatus[0].sanity_details);
-        console.log(this.variants[v]);
-        let oneR = {};
-        oneR['variantname'] = this.variants[v];
-        oneR['demo_test_0'] = R[this.variants[v]]['demo_test_0'];
-        oneR['demo_test_1'] = R[this.variants[v]]['demo_test_1'];
-        oneR['demo_test_2'] = R[this.variants[v]]['demo_test_2'];
-        result.push(oneR);
-      }
-      return result;
-    },
+    
     sanitys_display : function(){
       var result  = [];
       for(var k=0;k<this.sanitys.length;k++){
@@ -182,6 +166,21 @@ export default {
     }
   },
   methods : {
+    getdetails  : function(){
+      for(let v=0;v<this.variants.length;v++){
+        if(this.sanityStatus.length == 0){
+          return [];
+        }
+        let R  = JSON.parse(this.sanityStatus[0].sanity_details);
+        console.log(this.variants[v]);
+        let oneR = {};
+        oneR['variantname'] = this.variants[v];
+        oneR['demo_test_0'] = R[this.variants[v]]['demo_test_0'];
+        oneR['demo_test_1'] = R[this.variants[v]]['demo_test_1'];
+        oneR['demo_test_2'] = R[this.variants[v]]['demo_test_2'];
+        this.sanity_details.push(oneR);
+      }
+    },
     handleClick(tab, event) {
       //console.log(tab, event);
       console.log(this.activeTab);
@@ -218,7 +217,16 @@ export default {
               dcelab_brokenCLowner  : response.body.dcelab_brokenCLowner ,
               dcelab_details        : response.body.dcelab_details        
             });
-            
+            let sanityDetails = JSON.parse(response.body.sanity_details);
+            for(let onevariant in sanityDetails){
+              console.log(onevariant);
+              let oneR = {};
+              oneR['variantname'] = onevariant;
+              oneR['demo_test_0'] = sanityDetails[onevariant]['demo_test_0'];
+              oneR['demo_test_1'] = sanityDetails[onevariant]['demo_test_1'];
+              oneR['demo_test_2'] = sanityDetails[onevariant]['demo_test_2'];
+              this.sanity_details.push(oneR);
+            }
           }
           else if(response.body.ok ==  'notok'){
             console.log(tree+' sanityStatus route is notok');
