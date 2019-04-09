@@ -66,8 +66,8 @@
                 >
                 </el-table-column>
                 <el-table-column
-                  prop="demo_test_1"
-                  label="demo_test_1"
+                  prop="demo_test_2"
+                  label="demo_test_2"
                 >
                 </el-table-column>
               </el-table>
@@ -131,6 +131,8 @@ export default {
     return {
       activeTab   : 'MAIN',
       sanityStatus: [],
+      sanity_details:[],
+      dcelab_details:[],
       sanitys     : [],
       dcelabStatus: [],
       projectinfo : {
@@ -152,17 +154,6 @@ export default {
     }
   },
   computed:{
-    sanity_details  : function(){
-      console.log('dbg');
-      if(typeof(this.sanityStatus[0].sanity_details) == 'string'){
-        let R  = JSON.parse(this.sanityStatus[0].sanity_details);
-        let sanity_details = [] ;
-        for(let v=0;v<this.variants.length;v++){
-          console.log(R[this.variants[v]]);
-        }
-      }
-      return sanity_details;
-    },
     sanitys_display : function(){
       var result  = [];
       for(var k=0;k<this.sanitys.length;k++){
@@ -210,6 +201,16 @@ export default {
               dcelab_brokenCLowner  : response.body.dcelab_brokenCLowner ,
               dcelab_details        : response.body.dcelab_details        
             });
+            for(let v=0;v<this.variants.length;v++){
+              console.log(this.variants[v]);
+              let oneR = {};
+              oneR['variantname'] = this.variants[v];
+              let sanity_details  = JSON.parse(response.body.sanity_details);
+              oneR['demo_test_0'] = sanity_details[this.variants[v]]['demo_test_0'];
+              oneR['demo_test_1'] = sanity_details[this.variants[v]]['demo_test_1'];
+              oneR['demo_test_2'] = sanity_details[this.variants[v]]['demo_test_2'];
+              this.sanity_details.push(oneR);
+            }
           }
           else if(response.body.ok ==  'notok'){
             console.log(tree+' sanityStatus route is notok');
