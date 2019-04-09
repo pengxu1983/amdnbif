@@ -151,14 +151,13 @@ export default {
       return items;
     },
     getCommonSanityStatus (tree){
-      console.log('bbbb');
+      this.sanityStatus=[];
       this.$http.post('/sanitys/common-sanity/getcommonsanitystatus',{
         tree  : tree
       }).then(
         function(response){
           if(response.body.ok ==  'ok'){
             console.log(response.body);
-            this.sanityStatus=[];
             this.sanityStatus.push({
               sanity_lastcheckedCL  : response.body.sanity_lastcheckedCL ,
               sanity_result         : response.body.sanity_result        ,
