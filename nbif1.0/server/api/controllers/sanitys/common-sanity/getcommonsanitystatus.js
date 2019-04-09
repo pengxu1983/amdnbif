@@ -32,12 +32,18 @@ module.exports = {
       let sanity_brokenCL='NA';
       let sanity_brokenCLowner='NA';
       let sanity_details='NA';
+      let sanity_valid=await Common_sanitys.find({
+        id  : {'>=':0}
+      });
       let dcelab_lastcheckedCL='NA';
       let dcelab_result='NA';
       let dcelab_lastpassCL='NA';
       let dcelab_brokenCL='NA';
       let dcelab_brokenCLowner='NA';
       let dcelab_details='NA';
+      let dcelab_valid=await Common_tasks.find({
+        id  : {'>=':0}
+      });
       //=============================================
       ///////////////////////////
       //sanity_lastcheckedCL
