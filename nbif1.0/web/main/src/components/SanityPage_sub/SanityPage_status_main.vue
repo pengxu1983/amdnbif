@@ -44,6 +44,33 @@
                 >
                 </el-table-column>
               </el-table>
+              <hr />
+              <el-table
+                :data="sanity_details"
+                border
+                style="width: 100%"
+              >
+                <el-table-column
+                  prop="variantname"
+                  label="variantname"
+                >
+                </el-table-column>
+                <el-table-column
+                  prop="demo_test_0"
+                  label="demo_test_0"
+                >
+                </el-table-column>
+                <el-table-column
+                  prop="demo_test_1"
+                  label="demo_test_1"
+                >
+                </el-table-column>
+                <el-table-column
+                  prop="demo_test_1"
+                  label="demo_test_1"
+                >
+                </el-table-column>
+              </el-table>
             </el-row>
           </el-main>
         </el-container>
@@ -125,6 +152,17 @@ export default {
     }
   },
   computed:{
+    sanity_details  : function(){
+      console.log('dbg');
+      if(typeof(this.sanityStatus[0].sanity_details) == 'string'){
+        let R  = JSON.parse(this.sanityStatus[0].sanity_details);
+        let sanity_details = [] ;
+        for(let v=0;v<this.variants.length;v++){
+          console.log(R[this.variants[v]]);
+        }
+      }
+      return sanity_details;
+    },
     sanitys_display : function(){
       var result  = [];
       for(var k=0;k<this.sanitys.length;k++){
