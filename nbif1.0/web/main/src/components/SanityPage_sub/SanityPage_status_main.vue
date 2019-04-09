@@ -205,10 +205,10 @@ export default {
               console.log(this.variants[v]);
               let oneR = {};
               oneR['variantname'] = this.variants[v];
-              let sanity_details  = JSON.parse(response.body.sanity_details);
-              oneR['demo_test_0'] = sanity_details[this.variants[v]]['demo_test_0'];
-              oneR['demo_test_1'] = sanity_details[this.variants[v]]['demo_test_1'];
-              oneR['demo_test_2'] = sanity_details[this.variants[v]]['demo_test_2'];
+              let R  = JSON.parse(response.body.sanity_details);
+              oneR['demo_test_0'] = R[this.variants[v]]['demo_test_0'];
+              oneR['demo_test_1'] = R[this.variants[v]]['demo_test_1'];
+              oneR['demo_test_2'] = R[this.variants[v]]['demo_test_2'];
               this.sanity_details.push(oneR);
             }
           }
