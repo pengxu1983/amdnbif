@@ -167,6 +167,7 @@ export default {
   },
   methods : {
     getdetails  : function(){
+      this.sanity_details=[];
       for(let v=0;v<this.variants.length;v++){
         if(this.sanityStatus.length == 0){
           return [];
