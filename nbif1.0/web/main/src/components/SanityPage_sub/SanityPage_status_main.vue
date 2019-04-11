@@ -113,6 +113,23 @@
                 >
                 </el-table-column>
               </el-table>
+              <hr />
+              <el-table
+                :data="dcelab_details"
+                border
+                style="width: 100%"
+              >
+                <el-table-column
+                  prop="variantname"
+                  label="variantname"
+                >
+                </el-table-column>
+                <el-table-column
+                  prop="result"
+                  label="status"
+                >
+                </el-table-column>
+              </el-table>
             </el-row>
           </el-main>
         </el-container>
@@ -212,6 +229,17 @@ export default {
               oneR['demo_test_1'] = sanityDetails[onevariant]['demo_test_1'];
               oneR['demo_test_2'] = sanityDetails[onevariant]['demo_test_2'];
               this.sanity_details.push(oneR);
+            }
+            let dcelabDetails = JSON.parse(response.body.dcelab_details);
+            dcelabDetails= dcelabDetails['dcelab'];
+            console.log(dcelabDetails);
+            this.dcelab_details=[];
+            for(let onevariant in dcelabDetails){
+              console.log(onevariant);
+              let oneR = {};
+              oneR['variantname'] = onevariant;
+              oneR['result']      = dcelabDetails[onevariant];
+              this.dcelab_details.push(oneR);
             }
           }
           else if(response.body.ok ==  'notok'){
