@@ -227,19 +227,19 @@ export default {
               oneR['variantname'] = onevariant;
               oneR['demo_test_0'] = sanityDetails[onevariant]['demo_test_0'];
               if(oneR['demo_test_0'] == 'FAIL'){
-                if(this.sanity_result == 'PASS'){
+                if(response.body.sanity_result == 'PASS'){
                   oneR['demo_test_0'] = oneR['demo_test_0']+'(ignored)';
                 }
               }
               oneR['demo_test_1'] = sanityDetails[onevariant]['demo_test_1'];
               if(oneR['demo_test_1'] == 'FAIL'){
-                if(this.sanity_result == 'PASS'){
+                if(response.body.sanity_result == 'PASS'){
                   oneR['demo_test_1'] = oneR['demo_test_1']+'(ignored)';
                 }
               }
               oneR['demo_test_2'] = sanityDetails[onevariant]['demo_test_2'];
               if(oneR['demo_test_2'] == 'FAIL'){
-                if(this.sanity_result == 'PASS'){
+                if(response.body.sanity_result == 'PASS'){
                   oneR['demo_test_2'] = oneR['demo_test_2']+'(ignored)';
                 }
               }
@@ -255,7 +255,7 @@ export default {
               oneR['variantname'] = onevariant;
               oneR['result']      = dcelabDetails[onevariant];
               if(oneR['result'] == 'FAIL'){
-                if(this.dcelab_result == 'PASS'){
+                if(response.body.dcelab_result == 'PASS'){
                   oneR['result']  = oneR['result']+'(ignored)';
                 }
               }
