@@ -96,6 +96,7 @@ module.exports = {
             }
             if(lastCL.isBroken == 'yes'){
               //nothing since previous CL is broken and already send mail
+              sails.log('last dcelab CL is broken');
               brokenCL = lastCL.brokenCL;
             }
             else if(lastCL.isBroken == 'no'){
