@@ -74,11 +74,14 @@ module.exports = {
         });
         sanity_details  = sanity_details_R.results;
       /////////////////////////////////
-      //sanity_lastcheckedCL
+      //sanity_result
       /////////////////////////////////
-      /////////////////////////////////
-      //sanity_lastcheckedCL
-      /////////////////////////////////
+        if(sanity_details_R.isBroken == 'no'){
+          sanity_result = 'PASS';
+        }
+        else if(sanity_details_R.isBroken == 'yes'){
+          sanity_result = 'FAIL';
+        }
       /////////////////////////////////
       //sanity_lastcheckedCL
       /////////////////////////////////
@@ -116,13 +119,16 @@ module.exports = {
         let dcelab_details_R = await Buffer_changelists.findOne({
           changelist  :  dcelab_lastcheckedCL
         });
-        dcelab_details  = dcelab_details_R.results;
+        dcelab_details  = dcelab_details_R.dcelab;
       /////////////////////////////////
-      //dcelab_lastcheckedCL
+      //dcelab_result
       /////////////////////////////////
-      /////////////////////////////////
-      //sanity_lastcheckedCL
-      /////////////////////////////////
+        if(dcelab_details_R.dcelabisBroken  == 'no'){
+          dcelab_result = 'PASS';
+        }
+        else if(dcelab_details_R.dcelabisBroken == 'yes'){
+          dcelab_result = 'FAIL';
+        }
       /////////////////////////////////
       //sanity_lastcheckedCL
       /////////////////////////////////
