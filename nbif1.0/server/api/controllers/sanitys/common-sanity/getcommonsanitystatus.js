@@ -158,7 +158,9 @@ module.exports = {
             ///////////////////////////
             //dcelab_brokenCL
             ///////////////////////////
+            sails.log(dcelab_brokenCL);
             dcelab_brokenCL = R[r].dcelabbrokenCL;
+            sails.log(dcelab_brokenCL);
             ///////////////////////////
             //dcelab_brokenCLowner
             ///////////////////////////
