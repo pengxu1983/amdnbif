@@ -83,8 +83,26 @@ module.exports = {
           sanity_result = 'FAIL';
         }
       /////////////////////////////////
-      //sanity_lastcheckedCL
+      //sanity_lastpassCL
       /////////////////////////////////
+        if(sanity_details_R.isBroken == 'no'){
+          sanity_lastpassCL = sanity_lastcheckedCL;
+        }
+        else if(sanity_details_R.isBroken == 'yes'){
+          let sanity_lastpassCL_R = await Buffer_changelists.find({
+            ischecked : 'yes',
+            isBroken  : 'no',
+            results   : {'!=':'NA'}
+          });
+          for(let r=0;r<sanity_lastpassCL_R.length;r++){
+            if(r==0){
+              sanity_lastpassCL = sanity_lastpassCL_R[r].changelist;
+            }
+            else if(parseInt(sanity_lastpassCL_R[r].changelist)>parseInt(sanity_lastpassCL)){
+              sanity_lastpassCL = sanity_lastpassCL_R[r].changelist;
+            }
+          }
+        }
       /////////////////////////////////
       //sanity_lastcheckedCL
       /////////////////////////////////
@@ -130,8 +148,26 @@ module.exports = {
           dcelab_result = 'FAIL';
         }
       /////////////////////////////////
-      //sanity_lastcheckedCL
+      //dcelab_lastpassCL
       /////////////////////////////////
+        if(dcelab_details_R.dcelabisBroken == 'no'){
+          dcelab_lastpassCL = dcelab_lastcheckedCL;
+        }
+        else if(dcelab_details_R.dcelabisBroken == 'yes'){
+          let dcelab_lastpassCL_R = await Buffer_changelists.find({
+            dcelabischecked : 'yes',
+            dcelabisBroken  : 'no',
+            dcelab   : {'!=':'NA'}
+          });
+          for(let r=0;r<dcelab_lastpassCL_R.length;r++){
+            if(r==0){
+              dcelab_lastpassCL = dcelab_lastpassCL_R[r].changelist;
+            }
+            else if(parseInt(dcelab_lastpassCL_R[r].changelist)>parseInt(dcelab_lastpassCL)){
+              dcelab_lastpassCL = dcelab_lastpassCL_R[r].changelist;
+            }
+          }
+        }
       /////////////////////////////////
       //sanity_lastcheckedCL
       /////////////////////////////////
