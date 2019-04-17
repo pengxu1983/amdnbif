@@ -89,8 +89,8 @@ module.exports = {
       //dcelab
       /////////////////////////////////
       let dcelab_R = await Buffer_changelists.find({
-        ischecked : 'yes',
-        results   : {'!=':'NA'}
+        dcelabischecked : 'yes',
+        dcelab          : {'!=':'NA'}
       });
       if(dcelab_R.length == 0){
       }
