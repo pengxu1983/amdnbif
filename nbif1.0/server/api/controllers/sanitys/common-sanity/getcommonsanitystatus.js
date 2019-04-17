@@ -70,7 +70,7 @@ module.exports = {
       //sanity_details
       /////////////////////////////////
         let sanity_details_R = await Buffer_changelists.findOne({
-          changelist  ：  sanity_lastcheckedCL
+          changelist  :  sanity_lastcheckedCL
         });
         sanity_details  = sanity_details_R.results;
       /////////////////////////////////
