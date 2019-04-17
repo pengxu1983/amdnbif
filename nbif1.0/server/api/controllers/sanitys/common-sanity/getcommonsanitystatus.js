@@ -67,8 +67,12 @@ module.exports = {
           }
         }
       /////////////////////////////////
-      //sanity_result
+      //sanity_details
       /////////////////////////////////
+        let sanity_details_R = await Buffer_changelists.findOne({
+          changelist  ：  sanity_lastcheckedCL
+        });
+        sanity_details  = sanity_details_R.results;
       /////////////////////////////////
       //sanity_lastcheckedCL
       /////////////////////////////////
@@ -107,8 +111,12 @@ module.exports = {
           }
         }
       /////////////////////////////////
-      //dcelab_result
+      //dcelab_details
       /////////////////////////////////
+        let dcelab_details_R = await Buffer_changelists.findOne({
+          changelist  ：  dcelab_lastcheckedCL
+        });
+        dcelab_details  = dcelab_details_R.results;
       /////////////////////////////////
       //dcelab_lastcheckedCL
       /////////////////////////////////
