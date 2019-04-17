@@ -104,11 +104,21 @@ module.exports = {
           }
         }
       /////////////////////////////////
-      //sanity_lastcheckedCL
+      //sanity_brokenCL
       /////////////////////////////////
+        sanity_brokenCL = sanity_details_R.brokenCL;
       /////////////////////////////////
-      //sanity_lastcheckedCL
+      //sanity_brokenCLowner
       /////////////////////////////////
+        if(sanity_brokenCL  ==  'NA'){
+          sanity_brokenCLowner  = 'NA';
+        }
+        else{
+          let sanity_brokenCLowner_R = await Buffer_changelists.findOne({
+            changelist  : sanity_brokenCL
+          });
+          sanity_brokenCLowner  = sanity_brokenCLowner_R.owner;
+        }
       }
       /////////////////////////////////
       //dcelab
@@ -169,11 +179,21 @@ module.exports = {
           }
         }
       /////////////////////////////////
-      //sanity_lastcheckedCL
+      //dcelab_brokenCL
       /////////////////////////////////
+        dcelab_brokenCL = dcelab_details_R.dcelabbrokenCL;
       /////////////////////////////////
-      //sanity_lastcheckedCL
+      //dcelab_brokenCLowner
       /////////////////////////////////
+        if(dcelab_brokenCL  ==  'NA'){
+          dcelab_brokenCLowner  = 'NA';
+        }
+        else{
+          let dcelab_brokenCLowner_R = await Buffer_changelists.findOne({
+            changelist  : dcelab_brokenCL
+          });
+          dcelab_brokenCLowner  = dcelab_brokenCLowner_R.owner;
+        }
       }
       ////sanity_lastcheckedCL
       /////////////////////////////
