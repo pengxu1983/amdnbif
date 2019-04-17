@@ -114,7 +114,7 @@ module.exports = {
       //dcelab_details
       /////////////////////////////////
         let dcelab_details_R = await Buffer_changelists.findOne({
-          changelist  ：  dcelab_lastcheckedCL
+          changelist  :  dcelab_lastcheckedCL
         });
         dcelab_details  = dcelab_details_R.results;
       /////////////////////////////////
