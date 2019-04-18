@@ -94,12 +94,12 @@ module.exports = {
                 }
               }
             }
-            if(lastCL.isBroken == 'yes'){
+            if(lastCL.dcelabisBroken == 'yes'){
               //nothing since previous CL is broken and already send mail
               sails.log('last dcelab CL is broken');
-              brokenCL = lastCL.brokenCL;
+              brokenCL = lastCL.dcelabbrokenCL;
             }
-            else if(lastCL.isBroken == 'no'){
+            else if(lastCL.dcelabisBroken == 'no'){
               //send email
               brokenCL = inputs.changelist;
             }
@@ -181,11 +181,11 @@ module.exports = {
                 }
               }
             }
-            if(lastCL.isBroken == 'yes'){
+            if(lastCL.dcelabisBroken == 'yes'){
               //nothing since previous CL is broken and already send mail
-              brokenCL = lastCL.brokenCL;
+              brokenCL = lastCL.dcelabbrokenCL;
             }
-            else if(lastCL.isBroken == 'no'){
+            else if(lastCL.dcelabisBroken == 'no'){
               //send email
               brokenCL = inputs.changelist;
             }
