@@ -41,10 +41,10 @@ module.exports = {
       let data = JSON.parse(inputs.data);
       sails.log(typeof(data));
       for(let d=0;d<data.length;d++){
-        await Common_sanitys.create(
+        await Common_sanitys.create({
           testname  : data[d].testname,
           valid     : data[d].valid
-        );
+        });
       }
       //let R = await Common_sanitys.findOne({
       //  testname  : inputs.testname
@@ -70,10 +70,10 @@ module.exports = {
       let data = JSON.parse(inputs.data);
       sails.log(typeof(data));
       for(let d=0;d<data.length;d++){
-        await Common_tasks.create(
+        await Common_tasks.create({
           taskname  : data[d].taskname,
           valid     : data[d].valid
-        );
+        });
       }
       //let R = await Common_tasks.findOne({
       //  taskname  : inputs.taskname
