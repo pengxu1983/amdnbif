@@ -500,21 +500,41 @@ export default {
       this.common_sanitys.unshift(newtest);
     },
     testupload  ()  {
+      let data =  [];
       for(let c=0;c<this.common_sanitys.length;c++){
-        this.$http.post('/sanitys/config',{
-          kind  : 'testupdate',
+        data.push({
           testname  : this.common_sanitys[c].testname,
-          valid : JSON.stringify(this.common_sanitys[c].valid)
-        }).then(
-          function(response){
-            if(response.body.ok =='ok'){
-            }
-            else if(response.body.ok == 'notok'){
-            }
-          },
-          function(){}
-        );
+          valid     : JSON.stringify(this.common_sanitys[c].valid)
+        });
       }
+      this.$http.post('/sanitys/config',{
+        kind  : 'testupdate',
+        data  : JSON.stringify(data)
+      }).then(
+        function(response){
+          if(response.body.ok =='ok'){
+            alert('uploaded');
+          }
+          else if(response.body.ok == 'notok'){
+          }
+        },
+        function(){}
+      );
+      //for(let c=0;c<this.common_sanitys.length;c++){
+      //  this.$http.post('/sanitys/config',{
+      //    kind  : 'testupdate',
+      //    testname  : this.common_sanitys[c].testname,
+      //    valid : JSON.stringify(this.common_sanitys[c].valid)
+      //  }).then(
+      //    function(response){
+      //      if(response.body.ok =='ok'){
+      //      }
+      //      else if(response.body.ok == 'notok'){
+      //      }
+      //    },
+      //    function(){}
+      //  );
+      //}
     },
     taskadd()  {
       let newtask = {};
@@ -526,24 +546,44 @@ export default {
       this.common_tasks.unshift(newtask);
     },
     taskupload()  {
+      let data  = [];
       for(let c=0;c<this.common_tasks.length;c++){
-        if(this.common_tasks[c].taskname == ''){
-          continue;
-        }
-        this.$http.post('/sanitys/config',{
-          kind  : 'taskupdate',
+        data.push({
           taskname  : this.common_tasks[c].taskname,
-          valid : JSON.stringify(this.common_tasks[c].valid)
-        }).then(
-          function(response){
-            if(response.body.ok =='ok'){
-            }
-            else if(response.body.ok == 'notok'){
-            }
-          },
-          function(){}
-        );
+          valid     : JSON.stringify(this.common_tasks[c].valid)
+        });
       }
+      this.$http.post('/sanitys/config',{
+        kind  : 'taskupdate',
+        data  : JSON.stringify(data)
+      }).then(
+        function(response){
+          if(response.body.ok =='ok'){
+            alert('uploaded');
+          }
+          else if(response.body.ok == 'notok'){
+          }
+        },
+        function(){}
+      );
+      //for(let c=0;c<this.common_tasks.length;c++){
+      //  if(this.common_tasks[c].taskname == ''){
+      //    continue;
+      //  }
+      //  this.$http.post('/sanitys/config',{
+      //    kind  : 'taskupdate',
+      //    taskname  : this.common_tasks[c].taskname,
+      //    valid : JSON.stringify(this.common_tasks[c].valid)
+      //  }).then(
+      //    function(response){
+      //      if(response.body.ok =='ok'){
+      //      }
+      //      else if(response.body.ok == 'notok'){
+      //      }
+      //    },
+      //    function(){}
+      //  );
+      //}
     },
     deleteRow(index, rows) {
       rows.splice(index, 1);
