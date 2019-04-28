@@ -75,6 +75,9 @@ module.exports = {
           valid     : data[d].valid
         });
       }
+      return  exits.success(JSON.stringify({
+        ok  : 'ok'
+      }));
       //let R = await Common_tasks.findOne({
       //  taskname  : inputs.taskname
       //});
