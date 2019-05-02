@@ -4,9 +4,7 @@ var http          = require('http');
 var fs            = require('fs');
 var child_process = require('child_process');
 var cronJob       = require("cron").CronJob;
-//var workspace     = '/proj/bif_nbio_vol3_backup/benpeng/';
-//var workspace     = '/local_vol1_nobackup/benpeng/';
-var workspace     = '/proj/bif_nbio_vol1_backup/benpeng/';
+var workspace     = '/proj/cip_arden_nbif_regress4/benpeng/';
 let projectname = 'mero';
 let variantname = 'nbif_al_gpu';
 let mode  = 'normal';
@@ -16,6 +14,7 @@ let kickoffdate ;
 let currentCL ;
 let postQ=[];
 let postQlimit=5;
+let treeRoot = workspace+'/nbif.regression.main.'+projectname+'.'+mode;
 var jobid_send_request = new cronJob('* * * * * *',function(){
   if(postQ.length == 0){
     jobid_send_request.stop();
@@ -107,9 +106,9 @@ var jobid_regression_main_daily_check_status = new cronJob('0 0 */3 * * *',funct
 
   console.log('jobid_regression_main_daily_check_status start at '+moment().format('YYYY-MM-DD HH:mm:ss'));
   //jobid_regression_main_daily_check_status.stop();
-  let treeRoot = workspace+'/nbif.regression.main.daily';
+  //let treeRoot = workspace+'/nbif.regression.main.'+projectname+'.'+mode;
   let outDir  = {};
-  let availableSuite = ['nbiftdl','nbifresize','nbifrandom','nbifgen4','nbifdummyf'];
+  let availableSuite = ['nbiftdl','nbifresize','nbifrandom','nbifgen4','nbifdummyf'];//TODO
   outDir['nbiftdl']     = treeRoot+'/out/linux_2.6.32_64.VCS/nbif_al_gpu/config/nbif_all_rtl/run/nbif-al_gpu-mero/nbiftdl';
   outDir['nbifresize']  = treeRoot+'/out/linux_2.6.32_64.VCS/nbif_al_gpu/config/nbif_all_rtl/run/nbif-al_gpu-mero/nbifresize';
   outDir['nbifrandom']  = treeRoot+'/out/linux_2.6.32_64.VCS/nbif_al_gpu/config/nbif_all_rtl/run/nbif-al_gpu-mero/nbifrandom';
@@ -267,9 +266,9 @@ var jobid_regression_main_daily_check_status = new cronJob('0 0 */3 * * *',funct
     //console.log('DBG111');
     //console.log(testResult[testName]);
   };
-  jobid_send_request.start();
+  //jobid_send_request.start();
 },null,false,'Asia/Chongqing');
-var jobid_regression_main_daily = new cronJob('0 30 18 * * *',function(){
+var jobid_regression_main_daily = new cronJob('0 15 13 * * *',function(){
   console.log('jobid_regression_main_daily start at '+moment().format('YYYY-MM-DD HH:mm:ss'));
   jobid_regression_main_daily_check_status.stop();
   console.log('jobid_regression_main_daily_check_status stopped due to new kickoff at '+moment().format('YYYY-MM-DD HH:mm:ss'));
@@ -302,7 +301,7 @@ var jobid_regression_main_daily = new cronJob('0 30 18 * * *',function(){
         console.log('ok ot regression');
         console.log(JSON.parse(chunk).changelist);
         currentCL = JSON.parse(chunk).changelist.changelist;
-        let treeRoot = workspace+'/nbif.regression.main.'+loop;
+        //let treeRoot = workspace+'/nbif.regression.main.'+loop;
         let text = '';
         //prepare
         if(fs.existsSync(treeRoot)){
@@ -357,7 +356,7 @@ var jobid_regression_main_daily = new cronJob('0 30 18 * * *',function(){
           text += 'p4w sync_all @'+currentCL+'\n';
         }
         else{
-          text += 'p4_mkwa -codeline nbif2_0 -cl '+currentCL+'\n';
+          text += 'p4_mkwa -codeline nbif2_0 -cl '+currentCL+'\n';//TODO per tree
         }
         text += 'source useful_cmd -cyb -proj '+projectname+'\n';
         text += 'set batch_name_v = `/tool/pandora64/.package/perl-5.24.0/bin/perl '+treeRoot+'/src/test/tools/scripts/get_latest_batch_name.pl -r -mode -p '+variantname+' -c nbif_all_rtl -m normal`\n';
@@ -403,7 +402,7 @@ var jobid_regression_main_daily = new cronJob('0 30 18 * * *',function(){
             for(let l=0;l<lines.length;l++){
               if(regx.test(lines[l])){
                 lines[l].replace(regx,function(rs,$1,$2){
-                  if(moment($1).add(2,'days').isSameOrBefore(moment().format('YYYY-MM-DD'))){
+                  if(moment($1).add(2,'days').isSameOrBefore(moment(kickoffdate))){
                     text += 'trs kb -b '+$1+'_'+$2+'\n';//FIXME
                   }
                 });
@@ -422,7 +421,7 @@ var jobid_regression_main_daily = new cronJob('0 30 18 * * *',function(){
               console.log(err);
             }
             console.log(stdout);
-            fs.unlinkSync(treeRoot+'/cleanbatch');
+            //fs.unlinkSync(treeRoot+'/cleanbatch');
           });
           //console.log(stdout);
           jobid_regression_main_daily_check_status.start();

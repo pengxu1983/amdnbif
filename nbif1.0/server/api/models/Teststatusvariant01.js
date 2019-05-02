@@ -21,7 +21,35 @@ module.exports = {
     resultbyday : {
       type    : 'string',
       columnType: 'longtext'
+    },
+    kickoffdate : {
+      type    : 'string'
+    },
+    result      : {
+      type    : 'string'
+    },
+    variant     : {
+      type    : 'string'
+    },
+    projectname : {
+      type    : 'string'
+    },
+    signature   : {
+      type    : 'string'
+    },
+    updatetime  : {
+      type    : 'string'
+    },
+    changelist  : {
+      type    : 'string'
+    },
+    seed        : {
+      type    : 'string'
+    }.
+    mode        : {
+      type    : 'string'
     }
+
 
     //  ╔═╗╔╦╗╔╗ ╔═╗╔╦╗╔═╗
     //  ║╣ ║║║╠╩╗║╣  ║║╚═╗
