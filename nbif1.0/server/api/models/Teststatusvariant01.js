@@ -45,7 +45,7 @@ module.exports = {
     },
     seed        : {
       type    : 'string'
-    }.
+    },
     mode        : {
       type    : 'string'
     }
