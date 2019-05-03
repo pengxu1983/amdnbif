@@ -77,7 +77,8 @@ module.exports = {
     },
     changelist  : {
       type  : 'string'
-    }
+    },
+
   },
 
 
@@ -119,7 +120,32 @@ module.exports = {
       }));
     }
     else if(inputs.kind  ==  'singletest'){
-
+      if(inputs.variantname == 'nbif_al_gpu'){
+        let R = await Teststatusvariant01.findOne({
+          testname  : inputs.testname,
+          kickoffdate : inputs.kickoffdate,
+          projectname : inputs.projectname
+        });
+        if(R){
+          await Teststatusvariant01.update({
+            testname  : inputs.testname,
+            kickoffdate : inputs.kickoffdate,
+            projectname : inputs.projectname
+          },{
+            kickoffdate   : inputs.kickoffdate   ,
+            //variantname   : inputs.variantname   ,
+            changelist    : inputs.changelist    ,
+            //projectname   : inputs.projectname   ,
+            //testname      : inputs.testname      ,
+            mode          : inputs.mode          ,
+            result        : inputs.result        ,
+            seed          : inputs.seed          ,
+            signature     : inputs.signature     ,
+            suite         : inputs.suite         ,
+            shelve        : inputs.shelve         
+          });
+        }
+      }
       ////clean up too early
       //let onetestresultfrominput  = JSON.parse(inputs.onetestresult);
       //let R     = await Teststatusvariant01.findOne({

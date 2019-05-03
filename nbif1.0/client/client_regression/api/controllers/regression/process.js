@@ -168,7 +168,8 @@ var jobid_regression_main_daily_check_status = new cronJob('0 0 */3 * * *',funct
     'variantname' : treeInfo['variantname'],
     'testlist'    : JSON.stringify(testList),
     'kickoffdate' : treeInfo['kickoffdate'],
-    'changelist'  : treeInfo['changelist']
+    'changelist'  : treeInfo['changelist'],
+    'projectname' : treeInfo['projectname']
   });
   
   let options = {
@@ -222,6 +223,7 @@ var jobid_regression_main_daily_check_status = new cronJob('0 0 */3 * * *',funct
     testResult[testName]['seed']         = 'NA';
     testResult[testName]['signature']    = 'NA';
     testResult[testName]['mode']         = treeInfo['mode'];
+    testResult[testName]['projectname']  = treeInfo['projectname'];
     if(fs.existsSync(outDir[testResult[testName]['suite']]+'/'+testName+'_nbif_all_rtl/REGRESS_PASS')){
       testResult[testName]['result']     = 'PASS';
       testResult[testName]['seed']       = 'NA';
@@ -259,9 +261,14 @@ var jobid_regression_main_daily_check_status = new cronJob('0 0 */3 * * *',funct
         'kickoffdate'   : treeInfo['kickoffdate'],
         'variantname'   : treeInfo['variantname'],
         'changelist'    : treeInfo['changelist'],
+        'projectname'   : treeInfo['projectname'],
         'testname'      : testName,
         'mode'          : treeInfo['mode'],
-        ''
+        'result'        : testResult[testName]['result'],
+        'seed'          : testResult[testName]['seed'],
+        'signature'     : testResult[testName]['signature'],
+        'suite'         : testResult[testName]['suite'],
+        'shelve'        : 'NA',//TODO
         //'onetestresult' : JSON.stringify(testResult[testName])
       }
     });
@@ -269,9 +276,9 @@ var jobid_regression_main_daily_check_status = new cronJob('0 0 */3 * * *',funct
     //console.log('DBG111');
     //console.log(testResult[testName]);
   };
-  //jobid_send_request.start();
+  jobid_send_request.start();
 },null,false,'Asia/Chongqing');
-var jobid_regression_main_daily = new cronJob('0 35 0 * * *',function(){
+var jobid_regression_main_daily = new cronJob('0 10 14 * * *',function(){
   console.log('jobid_regression_main_daily start at '+moment().format('YYYY-MM-DD HH:mm:ss'));
   jobid_regression_main_daily_check_status.stop();
   console.log('jobid_regression_main_daily_check_status stopped due to new kickoff at '+moment().format('YYYY-MM-DD HH:mm:ss'));
