@@ -48,6 +48,12 @@ module.exports = {
     },
     mode        : {
       type    : 'string'
+    },
+    suite       : {
+      type    : 'string'
+    },
+    shelve      : {
+      type    : 'string'
     }
 
 

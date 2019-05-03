@@ -221,7 +221,7 @@ var jobid_regression_main_daily_check_status = new cronJob('0 0 */3 * * *',funct
     testResult[testName]['result']       = 'UNKNOWN';
     testResult[testName]['seed']         = 'NA';
     testResult[testName]['signature']    = 'NA';
-    testResult[testName]['mode']         = 'normal';
+    testResult[testName]['mode']         = treeInfo['mode'];
     if(fs.existsSync(outDir[testResult[testName]['suite']]+'/'+testName+'_nbif_all_rtl/REGRESS_PASS')){
       testResult[testName]['result']     = 'PASS';
       testResult[testName]['seed']       = 'NA';
@@ -257,9 +257,12 @@ var jobid_regression_main_daily_check_status = new cronJob('0 0 */3 * * *',funct
       data  : {
         'kind'          : 'singletest',
         'kickoffdate'   : treeInfo['kickoffdate'],
-        'variantname'   : variantname,
+        'variantname'   : treeInfo['variantname'],
+        'changelist'    : treeInfo['changelist'],
         'testname'      : testName,
-        'onetestresult' : JSON.stringify(testResult[testName])
+        'mode'          : treeInfo['mode'],
+        ''
+        //'onetestresult' : JSON.stringify(testResult[testName])
       }
     });
 
@@ -268,7 +271,7 @@ var jobid_regression_main_daily_check_status = new cronJob('0 0 */3 * * *',funct
   };
   //jobid_send_request.start();
 },null,false,'Asia/Chongqing');
-var jobid_regression_main_daily = new cronJob('0 15 13 * * *',function(){
+var jobid_regression_main_daily = new cronJob('0 35 0 * * *',function(){
   console.log('jobid_regression_main_daily start at '+moment().format('YYYY-MM-DD HH:mm:ss'));
   jobid_regression_main_daily_check_status.stop();
   console.log('jobid_regression_main_daily_check_status stopped due to new kickoff at '+moment().format('YYYY-MM-DD HH:mm:ss'));
