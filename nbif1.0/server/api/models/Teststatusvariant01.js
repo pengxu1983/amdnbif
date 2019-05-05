@@ -28,7 +28,7 @@ module.exports = {
     result      : {
       type    : 'string'
     },
-    variant     : {
+    variantname : {
       type    : 'string'
     },
     projectname : {

@@ -66,6 +66,9 @@ module.exports = {
     results : {
       type  : 'string'
     },
+    result  : {
+      type  : 'string'
+    },
     kickoffdate : {
       type  : 'string'
     },
@@ -78,6 +81,21 @@ module.exports = {
     changelist  : {
       type  : 'string'
     },
+    projectname : {
+      type  : 'string'
+    },
+    signature   : {
+      type  : 'string'
+    },
+    seed        : {
+      type  : 'string'
+    },
+    suite       : {
+      type  : 'string'
+    },
+    shelve      : {
+      type  : 'string'
+    }
 
   },
 
