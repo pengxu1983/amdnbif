@@ -163,6 +163,21 @@ module.exports = {
             shelve        : inputs.shelve         
           });
         }
+        else {
+          await Teststatusvariant01.create({
+            kickoffdate   : inputs.kickoffdate   ,
+            variantname   : inputs.variantname   ,
+            changelist    : inputs.changelist    ,
+            projectname   : inputs.projectname   ,
+            testname      : inputs.testname      ,
+            mode          : inputs.mode          ,
+            result        : inputs.result        ,
+            seed          : inputs.seed          ,
+            signature     : inputs.signature     ,
+            suite         : inputs.suite         ,
+            shelve        : inputs.shelve         
+          });
+        }
       }
       ////clean up too early
       //let onetestresultfrominput  = JSON.parse(inputs.onetestresult);
