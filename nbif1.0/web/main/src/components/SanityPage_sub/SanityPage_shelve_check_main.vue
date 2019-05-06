@@ -18,6 +18,20 @@
                 <el-form-item label="baseCL">
                   <el-input v-model="shelveinfo.basechangelist"></el-input>
                 </el-form-item>
+                <el-form-item label="Tree">
+                  <el-select v-model="shelveinfo.tree" placeholder="Tree Branch Select">
+                    <el-option
+                      label="NV21"
+                      value="NV21"
+                    >
+                    </el-option>
+                    <el-option
+                      label="MAIN"
+                      value="MAIN"
+                    >
+                    </el-option>
+                  </el-select>
+                </el-form-item>
                 <el-form-item>
                   <el-button type="primary" @click="addjob()">Submit</el-button>
                 </el-form-item>
