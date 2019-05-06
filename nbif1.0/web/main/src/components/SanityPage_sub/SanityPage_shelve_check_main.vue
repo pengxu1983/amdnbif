@@ -64,7 +64,8 @@
                     </el-table-column>
                     <el-table-column
                       prop="result"
-                      label="result">
+                      label="result"
+                    >
                     </el-table-column>
                   </el-table>
               </el-form>
@@ -83,6 +84,11 @@ export default {
   },
   data () {
     return {
+      searchresult:[{
+        username  : '',
+        shelveID  : '',
+        result    : ''
+      }],
       searchvector:{
         username  : '',
         shelveID  : ''
