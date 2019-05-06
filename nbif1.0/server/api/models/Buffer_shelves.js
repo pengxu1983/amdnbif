@@ -27,6 +27,9 @@ module.exports = {
     variantname : {
       type  : 'string'
     },
+    tree  : {
+      type  : 'string'
+    },
     password    : {
       type  : 'string'
     },
