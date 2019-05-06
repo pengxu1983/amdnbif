@@ -38,6 +38,36 @@
               </el-form>
             </el-col>
             <el-col :span="12">
+              <el-form :inline="true" :model="searchvector" class="demo-form-inline">
+                <el-form-item label="username">
+                  <el-input v-model="searchvector.username" placeholder="username"></el-input>
+                </el-form-item>
+                <el-form-item label="shelveID">
+                  <el-input v-model="searchvector.shelveID" placeholder="shelveID"></el-input>
+                </el-form-item>
+                <el-form-item>
+                  <el-button type="primary" @click="search">Search</el-button>
+                </el-form-item>
+                  <el-table
+                    :data="searchresult"
+                    border
+                    style="width: 100%">
+                    <el-table-column
+                      prop="username"
+                      label="username"
+                    >
+                    </el-table-column>
+                    <el-table-column
+                      prop="shelveID"
+                      label="shelveID"
+                    >
+                    </el-table-column>
+                    <el-table-column
+                      prop="result"
+                      label="result">
+                    </el-table-column>
+                  </el-table>
+              </el-form>
             </el-col>
           </el-row>
         </el-main>
@@ -53,19 +83,43 @@ export default {
   },
   data () {
     return {
+      searchvector:{
+        username  : '',
+        shelveID  : ''
+      },
       shelveinfo  : {
         shelveID  : '',
         username  : '',
         password  : 'This Func Not Available',
         basechangelist  : 'TopChangelist',
         projectname : 'MERO',
-        variantname : 'nbif_al_gpu'
+        variantname : 'nbif_al_gpu',
+        tree      : 'MAIN'
       },
       projects    : [],
       variants    : []
     }
   },
   methods : {
+    search () {
+      if((this.searchvector.username == '') && (this.searchvector.shelveID == '')){
+        alert('nothing to search');
+      }
+      else{
+        this.$http.post('/sanitys/checkbeforesubmit/search',{
+          kind  : 'searchresult',
+          username  : this.searchvector.username,
+          shelveID  : this.searchvector.shelveID
+        }).then(
+          function(response){
+            if(response.body.ok ==  'ok'){
+              this.searchresult = JSON.parse(response.body.searchresult);
+            }
+          },
+          function(){}
+        );
+      }
+    },
     addjob () {
       if(this.shelveinfo.username == ''){
         alert('username is blank');

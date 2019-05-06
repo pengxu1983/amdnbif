@@ -56,10 +56,11 @@ module.exports = {
         await Buffer_shelves.create({
           shelveID        :   data.shelveID      ,
           username        :   data.username      ,
-          basechangelist  :   data.basechangelist,
+          //basechangelist  :   data.basechangelist,
           projectname     :   data.projectname   ,
           variantname     :   data.variantname   ,
           password        :   data.password      ,
+          tree            :   data.tree          ,
           results         :   JSON.stringify(initresults)
         });
         return exits.success(JSON.stringify({
