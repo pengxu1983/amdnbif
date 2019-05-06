@@ -117,7 +117,8 @@ module.exports = {
         kickoffdate   : inputs.kickoffdate,
         changelist    : inputs.changelist,
         testplanname  : 'all',
-        variantname   : inputs.variantname
+        variantname   : inputs.variantname,
+        projectname   : inputs.projectname
       });
       if(onebasicinfoall){
       }
@@ -235,7 +236,8 @@ module.exports = {
       let checkingdate = moment().subtract(1,'days').format('YYYY-MM-DD');
       let R1 =  await Teststatusvariant01_summary.findOne({
         kickoffdate : checkingdate,
-        variantname : 'nbif_al_gpu'
+        variantname : 'nbif_al_gpu',
+        projectname : 'mero'
       });
       if(R1){
         let testlist    = JSON.parse(R1.testlist);
@@ -245,25 +247,41 @@ module.exports = {
         let unknownlist = [];
         for(let t=0;t<testlist.length;t++){
           let R2 = await Teststatusvariant01.findOne({
-            testname  : testlist[t]
+            testname  : testlist[t],
+            variantname : 'nbif_al_gpu',
+            projectname : 'mero'
           });
           if(R2){
-            let resultbyday = JSON.parse(R2.resultbyday);
-            if(resultbyday.hasOwnProperty(checkingdate)){
-              if(resultbyday[checkingdate]['result'] == 'PASS'){
-                passlist.push(testlist[t]);
-              }
-              if(resultbyday[checkingdate]['result'] == 'FAIL'){
-                faillist.push(testlist[t]);
-              }
-              if(resultbyday[checkingdate]['result'] == 'UNKNOWN'){
-                unknownlist.push(testlist[t]);
-              }
+            if(R2.result == 'PASS'){
+              passlist.push(testlist[t]);
+            }
+            else if(R2.result == 'PASS'){
+              faillist.push(testlist[t]);
+            }
+            else if(R2.result == 'UNKNOWN'){
+              unknownlist.push(testlist[t]);
             }
           }
           else{
             unknownlist.push(testlist[t]);
           }
+          //if(R2){
+          //  let resultbyday = JSON.parse(R2.resultbyday);
+          //  if(resultbyday.hasOwnProperty(checkingdate)){
+          //    if(resultbyday[checkingdate]['result'] == 'PASS'){
+          //      passlist.push(testlist[t]);
+          //    }
+          //    if(resultbyday[checkingdate]['result'] == 'FAIL'){
+          //      faillist.push(testlist[t]);
+          //    }
+          //    if(resultbyday[checkingdate]['result'] == 'UNKNOWN'){
+          //      unknownlist.push(testlist[t]);
+          //    }
+          //  }
+          //}
+          //else{
+          //  unknownlist.push(testlist[t]);
+          //}
         }
         if(passlist.length == 0){
           passingrate = 0.00;
@@ -273,7 +291,9 @@ module.exports = {
           passingrate = passingrate.toFixed(2);
         }
         await Teststatusvariant01_summary.update({
-          kickoffdate : checkingdate
+          kickoffdate : checkingdate,
+          projectname : 'mero',
+          variantname : 'nbif_al_gpu'
         },{
           passingrate : passingrate,
           passlist    : JSON.stringify(passlist),

@@ -45,6 +45,9 @@ module.exports = {
     },
     variantname : {
       type  : 'string'
+    },
+    projectname : {
+      type  : 'string'
     }
 
 
