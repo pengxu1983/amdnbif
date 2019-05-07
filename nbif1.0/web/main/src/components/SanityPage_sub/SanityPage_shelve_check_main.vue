@@ -84,11 +84,7 @@ export default {
   },
   data () {
     return {
-      searchresult:[{
-        username  : '',
-        shelveID  : '',
-        result    : ''
-      }],
+      searchresult:[],
       searchvector:{
         username  : '',
         shelveID  : ''
@@ -98,12 +94,14 @@ export default {
         username  : '',
         password  : 'This Func Not Available',
         basechangelist  : 'TopChangelist',
-        projectname : 'MERO',
+        projectname : 'mero',
         variantname : 'nbif_al_gpu',
         tree      : 'MAIN'
       },
       projects    : [],
-      variants    : []
+      variants    : [],
+      sanitys     : [],
+      tasks       : []
     }
   },
   methods : {

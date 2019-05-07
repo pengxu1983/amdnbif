@@ -68,6 +68,7 @@ module.exports = {
             }
           }
         }
+        sails.log('dbg1');
         await Buffer_changelists.update({
           changelist  : lastcheckedCL
         },{
