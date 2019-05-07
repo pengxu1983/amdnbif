@@ -129,7 +129,8 @@ module.exports = {
           changelist    : inputs.changelist,
           testplanname  : 'all',
           testlist      : inputs.testlist,
-          variantname   : inputs.variantname
+          variantname   : inputs.variantname,
+          projectname   : inputs.projectname
         });
       }
       return exits.success(JSON.stringify({
