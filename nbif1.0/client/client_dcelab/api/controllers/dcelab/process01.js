@@ -7,7 +7,7 @@ var cronJob       = require("cron").CronJob;
 var workspace     = '/proj/bif_nbio_vol1_backup/benpeng/';
 let changelistToRun ;
 let tree = 'NV21';
-var jobid_dcelab_run = new cronJob('0 * * * * *',function(){
+var jobid_dcelab_run = new cronJob('1 * * * * *',function(){
   console.log('jobid_dcelab_run start at '+moment().format('YYYY-MM-DD HH:mm:ss'));
   jobid_dcelab_run.stop();
   let variants  ;
