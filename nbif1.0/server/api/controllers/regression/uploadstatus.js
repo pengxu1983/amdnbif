@@ -162,7 +162,8 @@ module.exports = {
             seed          : inputs.seed          ,
             signature     : inputs.signature     ,
             suite         : inputs.suite         ,
-            shelve        : inputs.shelve         
+            shelve        : inputs.shelve        ,
+            updatetime    : moment().format('YYYY-MM-DD HH:mm:ss')
           });
         }
         else {
@@ -177,7 +178,8 @@ module.exports = {
             seed          : inputs.seed          ,
             signature     : inputs.signature     ,
             suite         : inputs.suite         ,
-            shelve        : inputs.shelve         
+            shelve        : inputs.shelve        , 
+            updatetime    : moment().format('YYYY-MM-DD HH:mm:ss')
           });
         }
       }
