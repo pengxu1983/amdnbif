@@ -258,7 +258,7 @@ module.exports = {
             if(R2.result == 'PASS'){
               passlist.push(testlist[t]);
             }
-            else if(R2.result == 'PASS'){
+            else if(R2.result == 'FAIL'){
               faillist.push(testlist[t]);
             }
             else if(R2.result == 'UNKNOWN'){
