@@ -39,20 +39,24 @@ module.exports = {
     sails.log('/regression/testdetails');
     sails.log(inputs);
     let testdetails = [];
+    let checkingdate = inputs.kickoffdate;
     if(inputs.kind == 'testdetails'){
       let R = await Teststatusvariant01_summary.findOne({
         mode        : inputs.mode,
-        kickoffdate : inputs.kickoffdate,
+        kickoffdate : checkingdate,
         variantname : inputs.variantname,
+        projectname : inputs.projectname,
         testplanname: inputs.testplanname//TODO if need project name
       });
       if(R){
       }
       else{
+        checkingdate  = moment(inputs.kickoffdate).subtract(1,'days').format('YYYY-MM-DD')
         R = await Teststatusvariant01_summary.findOne({
           mode        : inputs.mode,
-          kickoffdate : moment(inputs.kickoffdate).subtract(1,'days').format('YYYY-MM-DD'),
+          kickoffdate : checkingdate,
           variantname : inputs.variantname,
+          projectname : inputs.projectname,
           testplanname: inputs.testplanname
         });
       }
@@ -61,17 +65,20 @@ module.exports = {
         for(let t=0;t<testlist.length;t++){
           if(inputs.variantname == 'nbif_al_gpu'){
             let onetest = await Teststatusvariant01.findOne({
-              testname  : testlist[t]
+              testname  : testlist[t],
+              kickoffdate : checkingdate,
+              projectname : inputs.projectname,
+              variantname : inputs.variantname
             });
-            let R = JSON.parse(onetest.resultbyday);
-            let RR = R[inputs.kickoffdate];
+            //let R = JSON.parse(onetest.resultbyday);
+            //let RR = R[inputs.kickoffdate];
             testdetails.push({
               testname    : testlist[t],
-              seed        : RR.seed,
-              changelist  : RR.changelist,
-              result      : RR.result,
-              signature   : RR.signature,
-              suite       : RR.suite
+              seed        : onetest.seed,
+              changelist  : onetest.changelist,
+              result      : onetest.result,
+              signature   : onetest.signature,
+              suite       : onetest.suite
             });
           }
         }
