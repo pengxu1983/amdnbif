@@ -382,17 +382,17 @@ export default {
     },
     onSubmit  : function(){
       //console.log(this.projectinfo.timewindow);
-      var i = 1;
+      var i = 0;
       var item = "";
       if(this.projectinfo.timewindow == 'week'){
         this.xAxislist = [];
-        while(item != moment().format('YYYY-MM-DD')){
+        while(item != moment().subtract(1,'days').format('YYYY-MM-DD')){
           item  = moment().subtract(1,'weeks').add(i,'days').format('YYYY-MM-DD');
           this.xAxislist.push(item);
           i++;
         }
         console.log(this.xAxislist);
-        this.getPassingRate(moment().subtract(1,'weeks').format('YYYY-MM-DD'),moment().format('YYYY-MM-DD'),this.projectinfo.projectname,this.projectinfo.variantname);
+        this.getPassingRate(moment().subtract(1,'weeks').format('YYYY-MM-DD'),moment().subtract(1,'days').format('YYYY-MM-DD'),this.projectinfo.projectname,this.projectinfo.variantname);
       }
       else if(this.projectinfo.timewindow == 'month'){
         this.xAxislist = [];
@@ -402,7 +402,7 @@ export default {
           i++;
         }
         console.log(this.xAxislist);
-        this.getPassingRate(moment().subtract(1,'months').format('YYYY-MM-DD'),moment().format('YYYY-MM-DD'),this.projectinfo.projectname,this.projectinfo.variantname);
+        this.getPassingRate(moment().subtract(1,'months').format('YYYY-MM-DD'),moment().subtract(1,'days').format('YYYY-MM-DD'),this.projectinfo.projectname,this.projectinfo.variantname);
       }
       else if(this.projectinfo.timewindow == 'threemonths'){
         this.xAxislist = [];
