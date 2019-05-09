@@ -298,7 +298,7 @@ export default {
   data() {
     return {
       projectinfo : {
-        projectname : 'MERO',
+        projectname : 'mero',
         timewindow  : 'week',
         variantname : 'nbif_al_gpu'
       },
