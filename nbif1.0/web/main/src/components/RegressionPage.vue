@@ -121,12 +121,6 @@
                       >
                       </el-table-column>
                       <el-table-column
-                        prop="changelist"
-                        label="changelist"
-                        width="130"
-                      >
-                      </el-table-column>
-                      <el-table-column
                         prop="signature"
                         label="signature"
                       >
