@@ -128,6 +128,7 @@ module.exports = {
           kickoffdate   : inputs.kickoffdate,
           changelist    : inputs.changelist,
           testplanname  : 'all',
+          passingrate   : 0,
           testlist      : inputs.testlist,
           passlist      : JSON.stringify([]),
           faillist      : JSON.stringify([]),

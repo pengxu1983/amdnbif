@@ -53,9 +53,12 @@ module.exports = {
     if(inputs.kind  ==  'rangepassingrate'){
       let date = datestart;
       while(moment(date).isSameOrBefore(dateend)){
+        sails.log('ABC');
+        sails.log(date);
         let R = await Teststatusvariant01_summary.findOne({
           kickoffdate : moment(date).format('YYYY-MM-DD'),
           variantname : variantname,
+          projectname : projectname,
           mode  : mode,
           testplanname  : testplanname
         });
@@ -65,10 +68,12 @@ module.exports = {
           R = await Teststatusvariant01_summary.findOne({
             kickoffdate : moment(date).subtract(1,'days').format('YYYY-MM-DD'),
             variantname : variantname,
+            projectname : projectname,
             mode  : mode,
             testplanname  : testplanname
           });
         }
+        sails.log(R);
         if(R){
           PassingRate.push(R.passingrate);
           let testlist;
