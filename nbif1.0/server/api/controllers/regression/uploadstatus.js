@@ -255,7 +255,8 @@ module.exports = {
           let R2 = await Teststatusvariant01.findOne({
             testname  : testlist[t],
             variantname : 'nbif_al_gpu',
-            projectname : 'mero'
+            projectname : 'mero',
+            kickoffdate : inputs.kickoffdate
           });
           if(R2){
             if(R2.result == 'PASS'){
