@@ -129,6 +129,9 @@ module.exports = {
           changelist    : inputs.changelist,
           testplanname  : 'all',
           testlist      : inputs.testlist,
+          passlist      : JSON.stringify([]),
+          faillist      : JSON.stringify([]),
+          unknownlist   : JSON.stringify([]);
           variantname   : inputs.variantname,
           projectname   : inputs.projectname
         });
