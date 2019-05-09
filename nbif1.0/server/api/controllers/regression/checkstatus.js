@@ -71,29 +71,33 @@ module.exports = {
         }
         if(R){
           PassingRate.push(R.passingrate);
+          let testlist;
+          let passlist;
+          let faillist;
+          let unknownlist;
           if(R.testlist ==  ''){
-            let testlist  = [];
+            testlist  = [];
           }
           else{
-            let testlist  = JSON.parse(R.testlist);
+            testlist  = JSON.parse(R.testlist);
           }
           if(R.passlist ==  ''){
-            let passlist  = [];
+            passlist  = [];
           }
           else{
-            let passlist  = JSON.parse(R.passlist);
+            passlist  = JSON.parse(R.passlist);
           }
           if(R.faillist ==  ''){
-            let faillist  = [];
+            faillist  = [];
           }
           else{
-            let faillist  = JSON.parse(R.faillist);
+            faillist  = JSON.parse(R.faillist);
           }
           if(R.unknownlist  ==  ''){
-            let unknownlist = [];
+            unknownlist = [];
           }
           else{
-            let unknownlist = JSON.parse(R.unknownlist);
+            unknownlist = JSON.parse(R.unknownlist);
           }
           detailsinfo.unshift({
             date  : moment(date).format('YYYY-MM-DD'),
