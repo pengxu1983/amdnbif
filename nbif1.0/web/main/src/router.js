@@ -3,6 +3,7 @@ import Router from 'vue-router'
 import Home from './views/Home.vue'
 import Review from './views/Review.vue'
 import Regression from './views/Regression.vue'
+import RegressionByGroup from './views/RegressionByGroup.vue'
 import Action from './views/Action.vue'
 import Config from './views/Config.vue'
 import TestplanDetail from './views/TestplanDetail.vue'
@@ -26,6 +27,11 @@ export default new Router({
       path: '/Review',
       name: 'Review',
       component: Review
+    },
+    {
+      path: '/RegressionByGroup',
+      name: 'RegressionByGroup',
+      component: RegressionByGroup
     },
     {
       path: '/Regression',

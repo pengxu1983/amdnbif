@@ -56,6 +56,7 @@ export default {
     return {
       vacations : [],
       items : [
+        'RegressionByGroup',
         'Regression',
         'Review',
         'Action',
@@ -64,6 +65,10 @@ export default {
         'Sanity'
       ],
       versionRecord : [
+        {
+          versionID : '1.4.8',
+          versionLog  : 'Adding one page for regression per group'
+        },
         {
           versionID : '1.4.7',
           versionLog  : 'Sanity page init'
