@@ -82,14 +82,15 @@ module.exports = {
         id: {'>=':0}
       });
       for(var i=0;i<inputs.users.length;i++){
-        if(inputs.users[i].realname == ''){
+        if(inputs.users[i].unixusername== ''){
           //Do nothing
         }
         else {
           await Users.create({
             realname  : inputs.users[i].realname,
             email     : inputs.users[i].email,
-            groupname : inputs.users[i].groupname
+            groupname : inputs.users[i].groupname,
+            unixusername  : inputs.users[i].unixusername
           });
         }
       }

@@ -21,6 +21,9 @@ module.exports = {
     groupname : {
       type  : 'string'
     },
+    unixusername  : {
+      type  : 'string'
+    }
 
     //  ╔═╗╔╦╗╔╗ ╔═╗╔╦╗╔═╗
     //  ║╣ ║║║╠╩╗║╣  ║║╚═╗
