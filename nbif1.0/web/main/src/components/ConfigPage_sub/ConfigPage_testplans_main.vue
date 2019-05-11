@@ -183,8 +183,8 @@ export default {
       projects  : [],
       testplans : [],
       projectinfo : {
-        projectname : 'NV21',
-        variantname : 'nbif_nv10_gpu',
+        projectname : 'mero',
+        variantname : 'nbif_al_gpu',
       },
       clonetarget : {
         projectname : '',
