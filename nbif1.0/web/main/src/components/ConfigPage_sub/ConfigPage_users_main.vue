@@ -25,6 +25,19 @@
           </template>
         </el-table-column>
         <el-table-column
+          fixed
+          prop="unixusername"
+          label="unixUsername"
+        >
+          <template slot-scope="scope">
+            <el-input
+              placeholder="unixUsername"
+              v-model="scope.row.unixusername"
+              clearable>
+            </el-input>
+          </template>
+        </el-table-column>
+        <el-table-column
           prop="email"
           label="email"
         >
@@ -92,6 +105,7 @@ export default {
       console.log('upload');
       for(var i=0;i<this.users.length;i++){
         console.log(this.users[i].realname);
+        console.log(this.users[i].unixusername);
         console.log(this.users[i].email);
       }
       this.$http.post('/config/upload',{
@@ -112,6 +126,7 @@ export default {
       this.users.unshift({
         realname  : '',
         email     : '',
+        unixusername  : '',
         groupname : ''
       });
     },
@@ -126,6 +141,7 @@ export default {
               this.users.push({
                 realname  : response.body.users[userindex].realname,
                 email     : response.body.users[userindex].email,
+                unixusername  : response.body.users[userindex].unixusername,
                 groupname : response.body.users[userindex].groupname,
               });
             }
