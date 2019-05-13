@@ -257,7 +257,7 @@ module.exports = {
             testname  : testlist[t],
             variantname : 'nbif_al_gpu',
             projectname : 'mero',
-            kickoffdate : inputs.kickoffdate
+            kickoffdate : checkingdate
           });
           if(R2){
             if(R2.result == 'PASS'){
@@ -309,14 +309,18 @@ module.exports = {
           unknownlist : JSON.stringify(unknownlist)
         });
         return exits.success(JSON.stringify({
-          ok  : 'ok'
+          ok  : 'ok',
+          url : '/regression/uploadstatus',
+          kind  : 'calpassingrate'
         }));
       }
       else{
       }
     }
     return exits.success(JSON.stringify({
-      ok  : 'notok'
+      ok  : 'notok',
+      url : '/regression/uploadstatus',
+      kind  : 'calpassingrate'
     }));
   }
 
