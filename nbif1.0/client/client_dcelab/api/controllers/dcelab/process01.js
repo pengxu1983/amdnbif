@@ -4,7 +4,8 @@ var http          = require('http');
 var fs            = require('fs');
 var child_process = require('child_process');
 var cronJob       = require("cron").CronJob;
-var workspace     = '/proj/bif_nbio_vol1_backup/benpeng/';
+//var workspace     = '/proj/bif_nbio_vol1_backup/benpeng/';
+var workspace     = '/proj/cip_arden_nbif_regress4/benpeng/';
 let changelistToRun ;
 let tree = 'NV21';
 var jobid_dcelab_run = new cronJob('1 * * * * *',function(){
