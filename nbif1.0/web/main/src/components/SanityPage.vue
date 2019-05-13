@@ -4,7 +4,7 @@
       <a class="navbar-brand col-sm-3 col-md-2 mr-0" href="/main">MainPage</a>
       <a class="navbar-brand col-sm-3 col-md-2 mr-0" href="#">SanityPage</a>
     </nav>
-    <el-container style="height: 1000px; border: 1px solid #eee">
+    <el-container style="height: 800px; border: 1px solid #eee">
       <el-container style="border: 1px solid #eee">
         <el-aside width="300px">
           <el-menu
