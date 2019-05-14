@@ -73,7 +73,7 @@ module.exports = {
             //let R = JSON.parse(onetest.resultbyday);
             //let RR = R[inputs.kickoffdate];
             sails.log('test name is ');
-            sails.log(onetest.testname);
+            sails.log(testlist[t]);
             if(onetest){
               testdetails.push({
                 testname    : testlist[t],
