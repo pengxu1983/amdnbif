@@ -74,14 +74,26 @@ module.exports = {
             //let RR = R[inputs.kickoffdate];
             sails.log('test name is ');
             sails.log(onetest.testname);
-            testdetails.push({
-              testname    : testlist[t],
-              seed        : onetest.seed,
-              changelist  : onetest.changelist,
-              result      : onetest.result,
-              signature   : onetest.signature,
-              suite       : onetest.suite
-            });
+            if(onetest){
+              testdetails.push({
+                testname    : testlist[t],
+                seed        : onetest.seed,
+                changelist  : onetest.changelist,
+                result      : onetest.result,
+                signature   : onetest.signature,
+                suite       : onetest.suite
+              });
+            }
+            else{
+              testdetails.push({
+                testname    : testlist[t],
+                seed        : 'NA',
+                changelist  : 'NA',
+                result      : 'UNKNOWN',
+                signature   : 'NA',
+                suite       : 'NA'
+              });
+            }
           }
         }
         return exits.success(JSON.stringify({
