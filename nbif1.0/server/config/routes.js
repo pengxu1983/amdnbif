@@ -27,7 +27,7 @@ module.exports.routes = {
   //'/': {
   //  view: 'pages/homepage'
   //},
-  'GET  /'  : '/main',
+  //'GET  /'  : '/main',
   /***************************************************************************
   *                                                                          *
   * More custom routes here...                                               *
