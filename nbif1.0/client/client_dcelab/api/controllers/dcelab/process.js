@@ -9,7 +9,7 @@ var workspace     = '/proj/cip_arden_nbif_regress4/benpeng/';
 let changelistToRun ;
 let tree = 'MAIN';
 var jobid_dcelab_run = new cronJob('0 * * * * *',function(){
-  console.log('jobid_dcelab_run start at '+moment().format('YYYY-MM-DD HH:mm:ss'));
+  console.log('jobid_dcelab_run '+tree+' start at '+moment().format('YYYY-MM-DD HH:mm:ss'));
   jobid_dcelab_run.stop();
   let variants  ;
   let projects  ;
