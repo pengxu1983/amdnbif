@@ -1,19 +1,18 @@
 {
-  "name": "nbifmng",
+  "name": "nbifmanage",
   "private": true,
   "version": "0.0.0",
   "description": "a Sails application",
   "keywords": [],
   "dependencies": {
-    "@sailshq/connect-redis": "^3.2.1",
-    "@sailshq/lodash": "^3.10.3",
-    "@sailshq/socket.io-redis": "^5.2.0",
-    "grunt": "1.0.1",
     "sails": "^1.1.0",
+    "grunt": "1.0.1",
     "sails-hook-grunt": "^3.1.0",
     "sails-hook-orm": "^2.1.1",
     "sails-hook-sockets": "^1.5.5",
-    "sails-mysql": "^1.0.1"
+    "@sailshq/connect-redis": "^3.2.1",
+    "@sailshq/socket.io-redis": "^5.2.0",
+    "@sailshq/lodash": "^3.10.3"
   },
   "devDependencies": {
     "@sailshq/eslint": "^4.19.3"
@@ -27,7 +26,7 @@
   "main": "app.js",
   "repository": {
     "type": "git",
-    "url": "git://github.com/pengxu/nbifmng.git"
+    "url": "git://github.com/pengxu/nbifmanage.git"
   },
   "author": "pengxu",
   "license": "",
