@@ -26,9 +26,9 @@
   "main": "app.js",
   "repository": {
     "type": "git",
-    "url": "git://github.com/benpeng/nbifmng.git"
+    "url": "git://github.com/pengxu/nbifmng.git"
   },
-  "author": "benpeng",
+  "author": "pengxu",
   "license": "",
   "engines": {
     "node": "^10.14"
