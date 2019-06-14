@@ -1,5 +1,5 @@
 <template>
-  <el-carousel :interval="4000" type="card" height="800px">
+  <el-carousel :interval="4000" type="card" height="400px">
     <el-carousel-item v-for="item in items" :key="item">
       <h3 class="medium">{{ item }}</h3>
     </el-carousel-item>
@@ -29,7 +29,7 @@ export default {
   color: #475669;
   font-size: 14px;
   opacity: 0.75;
-  line-height: 800px;
+  line-height: 400px;
   margin: 0;
 }
 
