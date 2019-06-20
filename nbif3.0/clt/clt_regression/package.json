@@ -27,9 +27,9 @@
   "main": "app.js",
   "repository": {
     "type": "git",
-    "url": "git://github.com/benpeng/clt-regression.git"
+    "url": "git://github.com/pengxu/clt-regression.git"
   },
-  "author": "benpeng",
+  "author": "pengxu",
   "license": "",
   "engines": {
     "node": "^10.16"

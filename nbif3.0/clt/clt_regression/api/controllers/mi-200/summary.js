@@ -1,10 +1,10 @@
 module.exports = {
 
 
-  friendlyName: 'Getdetails mi 200',
+  friendlyName: 'Summary',
 
 
-  description: '',
+  description: 'Summary mi 200.',
 
 
   inputs: {
