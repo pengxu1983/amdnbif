@@ -30,9 +30,6 @@
       <el-main>
         <component
           v-bind:is="currentTabComponent"
-          v-bind:variants="variants"
-          v-bind:projects="projects"
-          v-bind:projectinfo="projectinfo"
         ></component>
       </el-main>
     </el-container>
@@ -41,6 +38,7 @@
 
 <script>
 import SanityPage from '@/components/ConfigPage_sub/SanityPage.vue'
+import VariantsPage from '@/components/ConfigPage_sub/VariantsPage.vue'
 
 export default {
   name: 'ConfigPage',
@@ -68,11 +66,12 @@ export default {
   },
   components  : {
     SanityPage,
+    VariantsPage
   },
   computed: {
     currentTabComponent: function () {
       //console.log(this.currentTab);
-      return this.currentTab;
+      return this.currentTab +'Page';
       //return 'tab-' + this.currentTab.toLowerCase()
     }
   },

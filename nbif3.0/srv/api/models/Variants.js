@@ -17,7 +17,10 @@ module.exports = {
     },
     isSanity      : {
       type        : 'string'
-    }
+    },
+    isValid       : {
+      type        : 'string'
+    },
 
     //  ╔═╗╔╦╗╔╗ ╔═╗╔╦╗╔═╗
     //  ║╣ ║║║╠╩╗║╣  ║║╚═╗
