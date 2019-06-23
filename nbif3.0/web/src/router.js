@@ -21,8 +21,18 @@ export default new Router({
     },
     {
       path: '/regression',
-      name: 'Regression',
+      name: 'regression',
       component: () => import('./views/Regression.vue')
+    },
+    {
+      path: '/cofig',
+      name: 'config',
+      component: () => import('./views/Config.vue')
+    },
+    {
+      path: '/sanity',
+      name: 'sanity',
+      component: () => import('./views/Sanity.vue')
     },
   ]
 })
