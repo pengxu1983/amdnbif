@@ -89,13 +89,7 @@ export default {
   },
   data() {
     return {
-      variants  : [
-        {
-          variantname : 'nbif_nv10_gpu',
-          isSanity    : 'yes',
-          isValid     : 'yes'
-        }
-      ],
+      variants  : [],
       options : [
         'yes',
         'no'
