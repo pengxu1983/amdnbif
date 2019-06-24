@@ -51,6 +51,9 @@ module.exports = {
     },
     kickoffdate : {
       type      : 'string'
+    },
+    shelve      : {
+      type      : 'string'
     }
     //  ╔═╗╔╦╗╔╗ ╔═╗╔╦╗╔═╗
     //  ║╣ ║║║╠╩╗║╣  ║║╚═╗
