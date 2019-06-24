@@ -1,5 +1,5 @@
 let refTreeRoot   = '';
-let regTreeRoot   = '/proj/nbif_mero_regress1/ip_regress/anttili/nbif2_0_3';
+let regTreeRoot   = '/proj/nbif_mero_regress1/ip_regress/anttili/nbif2_0_mi200_dbapu';
 let resultDir     = regTreeRoot+'/out/linux_2.6.32_64.VCS/nbif_nv10_gpu/config/nbif_all_rtl/run/nbif-nv10_gpu-mi200';
 var moment        = require('moment');
 var querystring   = require('querystring');
@@ -11,6 +11,8 @@ var workspace     = '/proj/cip_arden_nbif_regress4/benpeng';////MODIFY
 let projectname   = 'mi200';////MODIFY
 let variantname   = 'nbif_nv10_gpu';////MODIFY
 let outDir        = {};
+let postQ=[];
+let postQlimit=5;////MODIFY
 outDir['nbiftdl']     = resultDir+'/nbiftdl';
 outDir['nbifresize']  = resultDir+'/nbifresize';
 outDir['nbifrandom']  = resultDir+'/nbifrandom';
@@ -18,8 +20,93 @@ outDir['nbifgen4']    = resultDir+'/nbifgen4';
 outDir['nbifdummyf']  = resultDir+'/nbifdummyf';
 let cron_send_request = new cronJob('0 */5 * * * *',function(){
   console.log('cron_send_request starts at '+moment().format('YYYY-MM-DD HH:mm:ss'));
+  if(postQ.length == 0){
+    jobid_send_request.stop();
+    return;
+  }
+  else if(postQ.length <= postQlimit){
+    //console.log('DBG222');
+    for(let onereq=0;onereq<postQ.length;onereq++){
+      let postData  = querystring.stringify(postQ[onereq].data);
+      console.log('To send : ');
+      console.log(postQ[onereq].data);
+      //console.log(postQ[onereq].url);
+      let options = {
+        hostname: 'amdnbif3.thehunters.club',
+        port: 80,
+        path: postQ[onereq].url,
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/x-www-form-urlencoded',
+          'Content-Length': Buffer.byteLength(postData)
+        }
+      };
+      
+      let req = http.request(options, (res) => {
+        console.log(`STATUS: ${res.statusCode}`);
+        //console.log(`HEADERS: ${JSON.stringify(res.headers)}`);
+        res.setEncoding('utf8');
+        res.on('data', (chunk) => {
+          console.log(`BODY: ${chunk}`);
+        });
+        res.on('end', () => {
+          console.log('No more data in response.');
+        });
+      });
+      
+      req.on('error', (e) => {
+        console.error(`problem with request: ${e.message}`);
+      });
+      
+      // write data to request body
+      req.write(postData);
+      req.end();
+    }
+    postQ=[];
+  }
+  else{
+    //console.log('DBG333');
+    for(let onereq=0;onereq<postQlimit;onereq++){
+      let postData  = querystring.stringify(postQ[onereq].data);
+      console.log('To send : ');
+      console.log(postQ[onereq].data);
+      //console.log(postQ[onereq].url);
+      let options = {
+        hostname: 'amdnbif.thehunters.club',
+        port: 80,
+        path: postQ[onereq].url,
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/x-www-form-urlencoded',
+          'Content-Length': Buffer.byteLength(postData)
+        }
+      };
+      
+      let req = http.request(options, (res) => {
+        console.log(`STATUS: ${res.statusCode}`);
+        //console.log(`HEADERS: ${JSON.stringify(res.headers)}`);
+        res.setEncoding('utf8');
+        res.on('data', (chunk) => {
+          console.log(`BODY: ${chunk}`);
+        });
+        res.on('end', () => {
+          console.log('No more data in response.');
+        });
+      });
+      
+      req.on('error', (e) => {
+        console.error(`problem with request: ${e.message}`);
+      });
+      
+      // write data to request body
+      req.write(postData);
+      req.end();
+
+    }
+    postQ.splice(0,postQlimit);
+  }
 },null,false,'Asia/Chongqing');
-let cron_check_result = new cronJob('0 */5 * * * *',function(){
+let cron_check_result = new cronJob('0 */2 * * * *',function(){
   console.log('cron_check_result starts at '+moment().format('YYYY-MM-DD HH:mm:ss'));
   console.log('basic info :');
   console.log('refTreeRoot is '+refTreeRoot);
@@ -37,6 +124,7 @@ let cron_check_result = new cronJob('0 */5 * * * *',function(){
   let testlist  = [];
   let testResult = {};
   if(fs.existsSync(regTreeRoot+'/NBIF_TREE_INFO')){
+    console.log('NBIF_TREE_INFO ok');
     let lines = fs.readFileSync(regTreeRoot+'/NBIF_TREE_INFO','utf8').split('\n');
     lines.pop();
     for(let l=0;l<lines.length;l++){
@@ -52,6 +140,7 @@ let cron_check_result = new cronJob('0 */5 * * * *',function(){
 
   //get test list
   if(fs.existsSync(regTreeRoot+'/testlist.log')){
+    console.log('testlist ok');
     let lines = fs.readFileSync(regTreeRoot+'/testlist.log','utf8').split('\n');
     lines.pop();
     let regx = /evaluation of 'testcase/;
@@ -64,40 +153,38 @@ let cron_check_result = new cronJob('0 */5 * * * *',function(){
         testResult[RR[0]]={};
         testResult[RR[0]]['suite']  = RRR[1];
         testResult[RR[0]]['isBAPU'] = treeInfo['isBAPU'];
-        //console.log('testname is '+RR[0]);
-        //console.log('suite is '+testResult[RR[0]]['suite']);
+        console.log('testname is '+RR[0]);
+        console.log('suite is '+testResult[RR[0]]['suite']);
       }
     }
+    console.log('testlist done');
     //console.log('testlist is '+JSON.stringify(testlist));
   }
   else{
     console.log('invalid tree!!!');
   }
-
+  console.log('test number '+testlist.length);
   //get results
   for(let testName in testResult){
+    console.log(testName+' :');
+    testResult[testName]['result']      = 'UNKNOWN';
+    testResult[testName]['signature']   = 'NA';
+    testResult[testName]['seed']        = 'NA';
+    testResult[testName]['runtime']     = 'NA';
     if(fs.existsSync(outDir[testResult[testName]['suite']]+'/'+testName+'_nbif_all_rtl/REGRESS_PASS')){
       testResult[testName]['result']      = 'PASS';
-      testResult[testName]['signature']   = 'NA';
-      testResult[testName]['seed']        = 'NA';
-      testResult[testName]['runtime']     = 'NA';
     }
     else if(fs.existsSync(outDir[testResult[testName]['suite']]+'/'+testName+'_nbif_all_rtl/vcs_run.log')){
-      let lines = fs.readFileSync(outDir[testResult[testName]['suite']]+'/'+testName+'_nbif_all_rtl/vcs_run.log','utf8').split('\n');
-      lines.pop();
-      //find seed
-      let regx  = /\+seed=(\d+)/;
-      for(let l=0;l<lines.length;l++){
-        if(regx.test(lines[l])){
-          lines[l].replace(regx,function(rs,$1){
-            console.log(testName);
-            console.log('seed '+$1);
-            testResult[testName]['seed']  = $1;
-          });
-          break;
-        }
-      }
+      let R =child_process.execSync(workspace+'/amdnbif/nbif3.0/clt/clt_regression/tools/processSimLog.pl '+outDir[testResult[testName]['suite']]+'/'+testName+'_nbif_all_rtl/vcs_run.log',{
+        encoding  : 'utf8',
+        maxBuffer : 1024*1024*100
+      });
+      let RR = R.split('\n');
+      testResult[testName]['seed']       = RR[0];
+      testResult[testName]['result']     = RR[1];
+      testResult[testName]['signature']  = RR[2];
     }
+    console.log(testResult);
   }
 },null,true,'Asia/Chongqing');
 module.exports = {

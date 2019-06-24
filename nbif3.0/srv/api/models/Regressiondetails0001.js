@@ -31,7 +31,8 @@ module.exports = {
       type      : 'string'
     },
     signature   : {
-      type      : 'string'
+      type      : 'string',
+      columnType: 'longtext'
     },
     runtime     : {
       type      : 'string'
