@@ -66,7 +66,8 @@ let cron_send_request = new cronJob('* * * * * *',function(){
     for(let onereq=0;onereq<postQlimit;onereq++){
       let postData  = querystring.stringify(postQ[onereq]);
       console.log('To send : ');
-      console.log(postQ[onereq]);
+      console.log(postData);
+      console.log(typeof(postData));
       let options = {
         hostname: 'amdnbif3.thehunters.club',
         port: 80,
@@ -102,7 +103,7 @@ let cron_send_request = new cronJob('* * * * * *',function(){
     postQ.splice(0,postQlimit);
   }
 },null,false,'Asia/Chongqing');
-let cron_check_result = new cronJob('0 */2 * * * *',function(){
+let cron_check_result = new cronJob('0 * * * * *',function(){
   console.log('cron_check_result starts at '+moment().format('YYYY-MM-DD HH:mm:ss'));
   console.log('basic info :');
   console.log('refTreeRoot is '+refTreeRoot);
@@ -182,8 +183,8 @@ let cron_check_result = new cronJob('0 */2 * * * *',function(){
       testResult[testName]['signature']  = RR[2];
     }
     postQ.push({
-      kind          : 'onecase',
-      oneTestResult : {
+      'kind'          : 'onecase',
+      'oneTestResult' : JSON.stringify({
         kickoffdate   : treeInfo['kickoffdate'],
         variantname   : treeInfo['variantname'],
         changelist    : treeInfo['changelist'],
@@ -196,22 +197,8 @@ let cron_check_result = new cronJob('0 */2 * * * *',function(){
         shelve        : treeInfo['shelve'],
         isBAPU        : treeInfo['isBAPU'],
         isBACO        : treeInfo['isBACO']
-      }
+      })
     });
-    //console.log({
-    //  kickoffdate   : treeInfo['kickoffdate'],
-    //  variantname   : treeInfo['variantname'],
-    //  changelist    : treeInfo['changelist'],
-    //  projectname   : treeInfo['projectname'],
-    //  testname      : testName,
-    //  result        : testResult[testName]['result'],
-    //  seed          : testResult[testName]['seed'],
-    //  signature     : testResult[testName]['signature'],
-    //  suite         : testResult[testName]['suite'],
-    //  shelve        : treeInfo['shelve'],
-    //  isBAPU        : treeInfo['isBAPU'],
-    //  isBACO        : treeInfo['isBACO']
-    //});
   }
   cron_send_request.start();
 },null,true,'Asia/Chongqing');

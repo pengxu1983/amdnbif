@@ -35,15 +35,65 @@ module.exports = {
     sails.log('/regression/upload');
     sails.log(inputs);
     if(inputs.kind  == 'onecase'){
-      let testname  = inputs.testname;
       let oneTestResult = JSON.parse(inputs.oneTestResult);
+
+      let kickoffdate   = oneTestResult.kickoffdate  ;
+      let variantname   = oneTestResult.variantname  ;
+      let changelist    = oneTestResult.changelist   ;
+      let projectname   = oneTestResult.projectname  ;
+      let testname      = oneTestResult.testname     ;
+      let result        = oneTestResult.result       ;
+      let seed          = oneTestResult.seed         ;
+      let signature     = oneTestResult.signature    ;
+      let suite         = oneTestResult.suite        ;
+      let shelve        = oneTestResult.shelve       ;
+      let isBAPU        = oneTestResult.isBAPU       ;
+      let isBACO        = oneTestResult.isBACO       ;
+
       let oneTestResultDB;
       if(oneTestResult['projectname']=='mi200'){
         oneTestResultDB = await Regressiondetails0001.findOne({////MODIFY
-          testname  : testname
+          kickoffdate   : kickoffdate   ,
+          variantname   : variantname   ,
+          changelist    : changelist    ,
+          projectname   : projectname   ,
+          testname      : testname      ,
+          //result        : result        ,
+          //seed          : seed          ,
+          //signature     : signature     ,
+          suite         : suite         ,
+          shelve        : shelve        ,
+          isBAPU        : isBAPU        ,
+          isBACO        : isBACO        
         });
         if(oneTestResultDB){
-          
+          await Regressiondetails0001.update({
+            kickoffdate   : kickoffdate   ,
+            variantname   : variantname   ,
+            changelist    : changelist    ,
+            projectname   : projectname   ,
+            testname      : testname      ,
+            //result        : result        ,
+            //seed          : seed          ,
+            //signature     : signature     ,
+            suite         : suite         ,
+            shelve        : shelve        ,
+            isBAPU        : isBAPU        ,
+            isBACO        : isBACO
+          },{
+            //kickoffdate   : kickoffdate   ,
+            //variantname   : variantname   ,
+            //changelist    : changelist    ,
+            //projectname   : projectname   ,
+            //testname      : testname      ,
+            result        : result        ,
+            seed          : seed          ,
+            signature     : signature     ,
+            //suite         : suite         ,
+            //shelve        : shelve        ,
+            //isBAPU        : isBAPU        ,
+            //isBACO        : isBACO
+          });
         }
       }
     }
