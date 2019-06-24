@@ -16,6 +16,10 @@ import '@/../node_modules/bootstrap/dist/js/bootstrap.bundle.min.js'
 //For Echarts
 import echarts from 'echarts'
 
+//For resource
+import VueResource from 'vue-resource'
+Vue.use(VueResource);
+
 new Vue({
   router,
   store,

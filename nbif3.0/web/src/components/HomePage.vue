@@ -55,13 +55,9 @@ export default {
     return {
       vacations : [],
       items : [
-        'RegressionByGroup',
-        'Regression',
-        'Review',
-        'Action',
-        'Config',
-        'TestplanDetail',
-        'Sanity'
+        'regression',
+        'config',
+        'sanity'
       ],
       versionRecord : [
         {
