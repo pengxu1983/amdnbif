@@ -48,6 +48,9 @@ module.exports = {
     },
     suite       : {
       type      : 'string'
+    },
+    kickoffdate : {
+      type      : 'string'
     }
     //  ╔═╗╔╦╗╔╗ ╔═╗╔╦╗╔═╗
     //  ║╣ ║║║╠╩╗║╣  ║║╚═╗
