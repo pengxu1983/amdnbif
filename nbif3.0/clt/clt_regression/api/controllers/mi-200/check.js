@@ -1,5 +1,5 @@
 let refTreeRoot   = '';
-let regTreeRoot   = '/proj/nbif_mero_regress1/ip_regress/anttili/nbif2_0_mi200_dbapu';
+let regTreeRoot   = '/proj/nbif_mero_regress1/ip_regress/anttili/nbif2_0_3';
 let resultDir     = regTreeRoot+'/out/linux_2.6.32_64.VCS/nbif_nv10_gpu/config/nbif_all_rtl/run/nbif-nv10_gpu-mi200';
 var moment        = require('moment');
 var querystring   = require('querystring');
@@ -8,8 +8,8 @@ var fs            = require('fs');
 var child_process = require('child_process');
 var cronJob       = require("cron").CronJob;
 var workspace     = '/proj/cip_arden_nbif_regress4/benpeng';////MODIFY
-let projectname   = 'mi200';////MODIFY
-let variantname   = 'nbif_nv10_gpu';////MODIFY
+//let projectname   = 'mi200';////MODIFY
+//let variantname   = 'nbif_nv10_gpu';////MODIFY
 let outDir        = {};
 let postQ=[];
 let postQlimit=5;////MODIFY
@@ -18,23 +18,21 @@ outDir['nbifresize']  = resultDir+'/nbifresize';
 outDir['nbifrandom']  = resultDir+'/nbifrandom';
 outDir['nbifgen4']    = resultDir+'/nbifgen4';
 outDir['nbifdummyf']  = resultDir+'/nbifdummyf';
-let cron_send_request = new cronJob('0 */5 * * * *',function(){
+let cron_send_request = new cronJob('* * * * * *',function(){
   console.log('cron_send_request starts at '+moment().format('YYYY-MM-DD HH:mm:ss'));
   if(postQ.length == 0){
-    jobid_send_request.stop();
+    cron_send_request.stop();
     return;
   }
   else if(postQ.length <= postQlimit){
-    //console.log('DBG222');
     for(let onereq=0;onereq<postQ.length;onereq++){
-      let postData  = querystring.stringify(postQ[onereq].data);
+      let postData  = querystring.stringify(postQ[onereq]);
       console.log('To send : ');
-      console.log(postQ[onereq].data);
-      //console.log(postQ[onereq].url);
+      console.log(postQ[onereq]);
       let options = {
         hostname: 'amdnbif3.thehunters.club',
         port: 80,
-        path: postQ[onereq].url,
+        path: '/regression/upload',
         method: 'POST',
         headers: {
           'Content-Type': 'application/x-www-form-urlencoded',
@@ -65,16 +63,14 @@ let cron_send_request = new cronJob('0 */5 * * * *',function(){
     postQ=[];
   }
   else{
-    //console.log('DBG333');
     for(let onereq=0;onereq<postQlimit;onereq++){
-      let postData  = querystring.stringify(postQ[onereq].data);
+      let postData  = querystring.stringify(postQ[onereq]);
       console.log('To send : ');
-      console.log(postQ[onereq].data);
-      //console.log(postQ[onereq].url);
+      console.log(postQ[onereq]);
       let options = {
-        hostname: 'amdnbif.thehunters.club',
+        hostname: 'amdnbif3.thehunters.club',
         port: 80,
-        path: postQ[onereq].url,
+        path: '/regression/upload',
         method: 'POST',
         headers: {
           'Content-Type': 'application/x-www-form-urlencoded',
@@ -111,8 +107,6 @@ let cron_check_result = new cronJob('0 */2 * * * *',function(){
   console.log('basic info :');
   console.log('refTreeRoot is '+refTreeRoot);
   console.log('regTreeRoot is '+regTreeRoot);
-  console.log('projectname is '+projectname);
-  console.log('variantname is '+variantname);
 
   //get tree basic info
   //changelist
@@ -135,6 +129,7 @@ let cron_check_result = new cronJob('0 */2 * * * *',function(){
   }
   else{
     console.log('invalid tree!!!');
+    return;
   }
   
 
@@ -162,11 +157,13 @@ let cron_check_result = new cronJob('0 */2 * * * *',function(){
   }
   else{
     console.log('invalid tree!!!');
+    return;
   }
   console.log('test number '+testlist.length);
   //get results
+  cron_send_request.stop();
   for(let testName in testResult){
-    console.log(testName+' :');
+    //console.log(testName+' :');
     testResult[testName]['result']      = 'UNKNOWN';
     testResult[testName]['signature']   = 'NA';
     testResult[testName]['seed']        = 'NA';
@@ -184,8 +181,39 @@ let cron_check_result = new cronJob('0 */2 * * * *',function(){
       testResult[testName]['result']     = RR[1];
       testResult[testName]['signature']  = RR[2];
     }
-    console.log(testResult);
+    postQ.push({
+      kind          : 'onecase',
+      oneTestResult : {
+        kickoffdate   : treeInfo['kickoffdate'],
+        variantname   : treeInfo['variantname'],
+        changelist    : treeInfo['changelist'],
+        projectname   : treeInfo['projectname'],
+        testname      : testName,
+        result        : testResult[testName]['result'],
+        seed          : testResult[testName]['seed'],
+        signature     : testResult[testName]['signature'],
+        suite         : testResult[testName]['suite'],
+        shelve        : treeInfo['shelve'],
+        isBAPU        : treeInfo['isBAPU'],
+        isBACO        : treeInfo['isBACO']
+      }
+    });
+    //console.log({
+    //  kickoffdate   : treeInfo['kickoffdate'],
+    //  variantname   : treeInfo['variantname'],
+    //  changelist    : treeInfo['changelist'],
+    //  projectname   : treeInfo['projectname'],
+    //  testname      : testName,
+    //  result        : testResult[testName]['result'],
+    //  seed          : testResult[testName]['seed'],
+    //  signature     : testResult[testName]['signature'],
+    //  suite         : testResult[testName]['suite'],
+    //  shelve        : treeInfo['shelve'],
+    //  isBAPU        : treeInfo['isBAPU'],
+    //  isBACO        : treeInfo['isBACO']
+    //});
   }
+  cron_send_request.start();
 },null,true,'Asia/Chongqing');
 module.exports = {
 

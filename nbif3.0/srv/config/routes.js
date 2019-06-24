@@ -27,7 +27,10 @@ module.exports.routes = {
   'POST /config/variants/get' : {
     action  : 'config/variants/get'
   },
-
+  //For regression
+  'POST /regression/upload' : {
+    action  : 'regression/upload'
+  },
   /***************************************************************************
   *                                                                          *
   * More custom routes here...                                               *
