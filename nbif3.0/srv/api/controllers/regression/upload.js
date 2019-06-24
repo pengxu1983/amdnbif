@@ -95,6 +95,26 @@ module.exports = {
             //isBACO        : isBACO
           });
         }
+        else{
+          await Regressiondetails0001.create({
+            kickoffdate   : kickoffdate   ,
+            variantname   : variantname   ,
+            changelist    : changelist    ,
+            projectname   : projectname   ,
+            testname      : testname      ,
+            result        : result        ,
+            seed          : seed          ,
+            signature     : signature     ,
+            suite         : suite         ,
+            shelve        : shelve        ,
+            isBAPU        : isBAPU        ,
+            isBACO        : isBACO
+          });
+        }
+        return exits.success(JSON.stringify({
+          ok  : 'ok',
+          msg : 'done'
+        }));
       }
     }
     else{
