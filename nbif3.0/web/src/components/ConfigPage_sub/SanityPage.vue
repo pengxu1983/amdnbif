@@ -6,6 +6,67 @@
       </nav>
     </el-header>
     <el-main>
+      <el-row>
+        <el-button 
+          type="primary"
+          @click="add()"
+        >add</el-button>
+        <el-button 
+          type="primary"
+          @click="upload()"
+        >upload</el-button>
+      </el-row>
+      <el-row>
+        <el-table
+          :data="sanity"
+          style="width: 100%"
+          max-height="250">
+          <el-table-column
+            fixed
+            prop="taskname"
+            label="taskname"
+          >
+          </el-table-column>
+          <el-table-column
+            prop="name"
+            label="姓名"
+            width="120">
+          </el-table-column>
+          <el-table-column
+            prop="province"
+            label="省份"
+            width="120">
+          </el-table-column>
+          <el-table-column
+            prop="city"
+            label="市区"
+            width="120">
+          </el-table-column>
+          <el-table-column
+            prop="address"
+            label="地址"
+            width="300">
+          </el-table-column>
+          <el-table-column
+            prop="zip"
+            label="邮编"
+            width="120">
+          </el-table-column>
+          <el-table-column
+            fixed="right"
+            label="operation"
+            width="120">
+            <template slot-scope="scope">
+              <el-button
+                @click.native.prevent="deleteRow(scope.$index, tableData)"
+                type="text"
+                size="small">
+                delete
+              </el-button>
+            </template>
+          </el-table-column>
+        </el-table>
+      </el-row>
     </el-main>
   </el-container>
 </template>
@@ -20,6 +81,12 @@ export default {
     }
   },
   methods : {
+    add(){},
+    upload(){},
+    get(){},
+    deleteRow(index, rows) {
+      rows.splice(index, 1);
+    },
   }
 }
 </script>
