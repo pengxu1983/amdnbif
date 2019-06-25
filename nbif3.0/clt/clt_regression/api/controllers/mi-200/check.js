@@ -162,7 +162,7 @@ let cron_check_result = new cronJob('0 * * * * *',function(){
     let options = {
       hostname: 'amdnbif3.thehunters.club',
       port: 80,
-      path: '/regression/summary',
+      path: '/regression/upload',
       method: 'POST',
       headers: {
         'Content-Type': 'application/x-www-form-urlencoded',
