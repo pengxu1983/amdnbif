@@ -103,7 +103,7 @@ let cron_send_request = new cronJob('* * * * * *',function(){
     postQ.splice(0,postQlimit);
   }
 },null,false,'Asia/Chongqing');
-let cron_check_result = new cronJob('0 * * * * *',function(){
+let cron_check_result = new cronJob('0 0 */2 * * *',function(){
   console.log('cron_check_result starts at '+moment().format('YYYY-MM-DD HH:mm:ss'));
   console.log('basic info :');
   console.log('refTreeRoot is '+refTreeRoot);
@@ -155,12 +155,57 @@ let cron_check_result = new cronJob('0 * * * * *',function(){
     }
     console.log('testlist done');
     //console.log('testlist is '+JSON.stringify(testlist));
+    let postData = querystring.stringify({
+      'kind'          : 'oneregression',
+      'oneRegression' : JSON.stringify({
+        kickoffdate   : treeInfo['kickoffdate'],
+        variantname   : treeInfo['variantname'],
+        changelist    : treeInfo['changelist'],
+        projectname   : treeInfo['projectname'],
+        shelve        : treeInfo['shelve'],
+        isBAPU        : treeInfo['isBAPU'],
+        isBACO        : treeInfo['isBACO'],
+        testlist      : testlist
+      })
+    });
+    
+    let options = {
+      hostname: 'amdnbif3.thehunters.club',
+      port: 80,
+      path: '/regression/upload',
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/x-www-form-urlencoded',
+        'Content-Length': Buffer.byteLength(postData)
+      }
+    };
+    
+    let req = http.request(options, (res) => {
+      console.log(`STATUS: ${res.statusCode}`);
+      //console.log(`HEADERS: ${JSON.stringify(res.headers)}`);
+      res.setEncoding('utf8');
+      res.on('data', (chunk) => {
+        console.log(`BODY: ${chunk}`);
+      });
+      res.on('end', () => {
+        console.log('No more data in response.');
+      });
+    });
+    
+    req.on('error', (e) => {
+      console.error(`problem with request: ${e.message}`);
+    });
+    
+    // write data to request body
+    req.write(postData);
+    req.end();
+
+    console.log('test number '+testlist.length);
   }
   else{
     console.log('invalid tree!!!');
     return;
   }
-  console.log('test number '+testlist.length);
   //get results
   cron_send_request.stop();
   for(let testName in testResult){

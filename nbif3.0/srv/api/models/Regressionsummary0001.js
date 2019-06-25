@@ -21,9 +21,18 @@ module.exports = {
     variantname : {
       type      : 'string'
     },
+    shelve      : {
+      type      : 'string'
+    },
     testlist    : {
       type      : 'string',
       columnType: 'longtext'
+    },
+    isBAPU      : {
+      type      : 'string',
+    },
+    isBACO      : {
+      type      : 'string',
     },
     passlist    : {
       type      : 'string',
@@ -40,13 +49,10 @@ module.exports = {
     groupname   : {
       type      : 'string'
     },
-    kickofftime : {
+    kickoffdate: {
       type      : 'string'
     },
     checkedtime : {
-      type      : 'string'
-    },
-    isBAPU      : {
       type      : 'string'
     },
 
