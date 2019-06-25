@@ -133,7 +133,7 @@ module.exports = {
       let testlist      = oneRegression.testlist   ;
       let oneRegressionDB;
       if(projectname  ==  'mi200'){
-        oneRegressionDB = await Regressionsummary0001.find({
+        oneRegressionDB = await Regressionsummary0001.findOne({
           kickoffdate : kickoffdate,
           variantname : variantname,
           changelist  : changelist ,
