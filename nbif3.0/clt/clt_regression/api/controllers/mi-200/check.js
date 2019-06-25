@@ -156,7 +156,16 @@ let cron_check_result = new cronJob('0 * * * * *',function(){
     console.log('testlist done');
     console.log('test number '+testlist.length);
     let postData = querystring.stringify({
-      'kind': 'oneregression'
+      'kind': 'oneregression',
+      'oneRegression' : JSON.stringify({
+        kickoffdate   : treeInfo['kickoffdate'],
+        variantname   : treeInfo['variantname'],
+        changelist    : treeInfo['changelist'], 
+        projectname   : treeInfo['projectname'],
+        shelve        : treeInfo['shelve'],     
+        isBAPU        : treeInfo['isBAPU'],     
+        isBACO        : treeInfo['isBACO'],     
+      })
     });
     
     let options = {
