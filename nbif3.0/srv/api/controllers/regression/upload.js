@@ -142,6 +142,7 @@ module.exports = {
           isBAPU      : isBAPU     ,
           isBACO      : isBACO     
         });
+        console.log(oneRegressionDB);
         if(oneRegressionDB){
           return exits.success(JSON.stringify({
             ok  : 'notok',
