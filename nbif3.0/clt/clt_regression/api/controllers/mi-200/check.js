@@ -103,7 +103,7 @@ let cron_send_request = new cronJob('* * * * * *',function(){
     postQ.splice(0,postQlimit);
   }
 },null,false,'Asia/Chongqing');
-let cron_check_result = new cronJob('0 0 */2 * * *',function(){
+let cron_check_result = new cronJob('0 * * * * *',function(){
   console.log('cron_check_result starts at '+moment().format('YYYY-MM-DD HH:mm:ss'));
   console.log('basic info :');
   console.log('refTreeRoot is '+refTreeRoot);
@@ -149,8 +149,8 @@ let cron_check_result = new cronJob('0 0 */2 * * *',function(){
         testResult[RR[0]]={};
         testResult[RR[0]]['suite']  = RRR[1];
         testResult[RR[0]]['isBAPU'] = treeInfo['isBAPU'];
-        console.log('testname is '+RR[0]);
-        console.log('suite is '+testResult[RR[0]]['suite']);
+        //console.log('testname is '+RR[0]);
+        //console.log('suite is '+testResult[RR[0]]['suite']);
       }
     }
     console.log('testlist done');
@@ -165,7 +165,7 @@ let cron_check_result = new cronJob('0 0 */2 * * *',function(){
         shelve        : treeInfo['shelve'],
         isBAPU        : treeInfo['isBAPU'],
         isBACO        : treeInfo['isBACO'],
-        testlist      : testlist
+        //testlist      : testlist
       })
     });
     
@@ -245,7 +245,7 @@ let cron_check_result = new cronJob('0 0 */2 * * *',function(){
       })
     });
   }
-  cron_send_request.start();
+  //cron_send_request.start();
 },null,true,'Asia/Chongqing');
 module.exports = {
 

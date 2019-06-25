@@ -151,6 +151,10 @@ module.exports = {
       }
       else{
         await Regressionsummary0001.create(oneRegression);
+        return exits.success(JSON.stringify({
+          ok  : 'ok',
+          msg : 'creatd one new regression'
+        }));
       }
     }
     // All done.
