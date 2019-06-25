@@ -134,12 +134,12 @@ module.exports = {
       let oneRegressionDB;
       if(projectname  ==  'mi200'){
         oneRegressionDB = await Regressionsummary0001.find({
-          kickoffdate : kickoffdate
-          variantname : variantname
-          changelist  : changelist 
-          projectname : projectname
-          shelve      : shelve     
-          isBAPU      : isBAPU     
+          kickoffdate : kickoffdate,
+          variantname : variantname,
+          changelist  : changelist ,
+          projectname : projectname,
+          shelve      : shelve     ,
+          isBAPU      : isBAPU     ,
           isBACO      : isBACO     
         });
       }
