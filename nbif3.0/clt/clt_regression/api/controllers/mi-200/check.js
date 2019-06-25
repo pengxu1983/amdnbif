@@ -162,7 +162,7 @@ let cron_check_result = new cronJob('0 * * * * *',function(){
     let options = {
       hostname: 'amdnbif3.thehunters.club',
       port: 80,
-      path: '/regression/upload',
+      path: '/regression/summary',
       method: 'POST',
       headers: {
         'Content-Type': 'application/x-www-form-urlencoded',
@@ -197,43 +197,43 @@ let cron_check_result = new cronJob('0 * * * * *',function(){
   }
   //get results
   cron_send_request.stop();
-  for(let testName in testResult){
-    //console.log(testName+' :');
-    testResult[testName]['result']      = 'UNKNOWN';
-    testResult[testName]['signature']   = 'NA';
-    testResult[testName]['seed']        = 'NA';
-    testResult[testName]['runtime']     = 'NA';
-    if(fs.existsSync(outDir[testResult[testName]['suite']]+'/'+testName+'_nbif_all_rtl/REGRESS_PASS')){
-      testResult[testName]['result']      = 'PASS';
-    }
-    else if(fs.existsSync(outDir[testResult[testName]['suite']]+'/'+testName+'_nbif_all_rtl/vcs_run.log')){
-      let R =child_process.execSync(workspace+'/amdnbif/nbif3.0/clt/clt_regression/tools/processSimLog.pl '+outDir[testResult[testName]['suite']]+'/'+testName+'_nbif_all_rtl/vcs_run.log',{
-        encoding  : 'utf8',
-        maxBuffer : 1024*1024*100
-      });
-      let RR = R.split('\n');
-      testResult[testName]['seed']       = RR[0];
-      testResult[testName]['result']     = RR[1];
-      testResult[testName]['signature']  = RR[2];
-    }
-    postQ.push({
-      'kind'          : 'onecase',
-      'oneTestResult' : JSON.stringify({
-        kickoffdate   : treeInfo['kickoffdate'],
-        variantname   : treeInfo['variantname'],
-        changelist    : treeInfo['changelist'],
-        projectname   : treeInfo['projectname'],
-        testname      : testName,
-        result        : testResult[testName]['result'],
-        seed          : testResult[testName]['seed'],
-        signature     : testResult[testName]['signature'],
-        suite         : testResult[testName]['suite'],
-        shelve        : treeInfo['shelve'],
-        isBAPU        : treeInfo['isBAPU'],
-        isBACO        : treeInfo['isBACO']
-      })
-    });
-  }
+  //for(let testName in testResult){
+  //  //console.log(testName+' :');
+  //  testResult[testName]['result']      = 'UNKNOWN';
+  //  testResult[testName]['signature']   = 'NA';
+  //  testResult[testName]['seed']        = 'NA';
+  //  testResult[testName]['runtime']     = 'NA';
+  //  if(fs.existsSync(outDir[testResult[testName]['suite']]+'/'+testName+'_nbif_all_rtl/REGRESS_PASS')){
+  //    testResult[testName]['result']      = 'PASS';
+  //  }
+  //  else if(fs.existsSync(outDir[testResult[testName]['suite']]+'/'+testName+'_nbif_all_rtl/vcs_run.log')){
+  //    let R =child_process.execSync(workspace+'/amdnbif/nbif3.0/clt/clt_regression/tools/processSimLog.pl '+outDir[testResult[testName]['suite']]+'/'+testName+'_nbif_all_rtl/vcs_run.log',{
+  //      encoding  : 'utf8',
+  //      maxBuffer : 1024*1024*100
+  //    });
+  //    let RR = R.split('\n');
+  //    testResult[testName]['seed']       = RR[0];
+  //    testResult[testName]['result']     = RR[1];
+  //    testResult[testName]['signature']  = RR[2];
+  //  }
+  //  postQ.push({
+  //    'kind'          : 'onecase',
+  //    'oneTestResult' : JSON.stringify({
+  //      kickoffdate   : treeInfo['kickoffdate'],
+  //      variantname   : treeInfo['variantname'],
+  //      changelist    : treeInfo['changelist'],
+  //      projectname   : treeInfo['projectname'],
+  //      testname      : testName,
+  //      result        : testResult[testName]['result'],
+  //      seed          : testResult[testName]['seed'],
+  //      signature     : testResult[testName]['signature'],
+  //      suite         : testResult[testName]['suite'],
+  //      shelve        : treeInfo['shelve'],
+  //      isBAPU        : treeInfo['isBAPU'],
+  //      isBACO        : treeInfo['isBACO']
+  //    })
+  //  });
+  //}
   //cron_send_request.start();
 },null,true,'Asia/Chongqing');
 module.exports = {
