@@ -132,30 +132,30 @@ module.exports = {
       let isBACO        = oneRegression.isBACO     ;
       let testlist      = oneRegression.testlist   ;
       let oneRegressionDB;
-      if(projectname  ==  'mi200'){
-        oneRegressionDB = await Regressionsummary0001.find({
-          kickoffdate : kickoffdate,
-          variantname : variantname,
-          changelist  : changelist ,
-          projectname : projectname,
-          shelve      : shelve     ,
-          isBAPU      : isBAPU     ,
-          isBACO      : isBACO     
-        });
-      }
-      if(oneRegressionDB){
-        return exits.success(JSON.stringify({
-          ok  : 'notok',
-          msg : 'not new regression'
-        }));
-      }
-      else{
-        await Regressionsummary0001.create(oneRegression);
-        return exits.success(JSON.stringify({
-          ok  : 'ok',
-          msg : 'creatd one new regression'
-        }));
-      }
+      //if(projectname  ==  'mi200'){
+      //  oneRegressionDB = await Regressionsummary0001.find({
+      //    kickoffdate : kickoffdate,
+      //    variantname : variantname,
+      //    changelist  : changelist ,
+      //    projectname : projectname,
+      //    shelve      : shelve     ,
+      //    isBAPU      : isBAPU     ,
+      //    isBACO      : isBACO     
+      //  });
+      //}
+      //if(oneRegressionDB){
+      //  return exits.success(JSON.stringify({
+      //    ok  : 'notok',
+      //    msg : 'not new regression'
+      //  }));
+      //}
+      //else{
+      //  await Regressionsummary0001.create(oneRegression);
+      //  return exits.success(JSON.stringify({
+      //    ok  : 'ok',
+      //    msg : 'creatd one new regression'
+      //  }));
+      //}
     }
     // All done.
     return exits.success(JSON.stringify({

@@ -154,19 +154,9 @@ let cron_check_result = new cronJob('0 * * * * *',function(){
       }
     }
     console.log('testlist done');
-    //console.log('testlist is '+JSON.stringify(testlist));
+    console.log('test number '+testlist.length);
     let postData = querystring.stringify({
-      'kind'          : 'oneregression',
-      'oneRegression' : JSON.stringify({
-        kickoffdate   : treeInfo['kickoffdate'],
-        variantname   : treeInfo['variantname'],
-        changelist    : treeInfo['changelist'],
-        projectname   : treeInfo['projectname'],
-        shelve        : treeInfo['shelve'],
-        isBAPU        : treeInfo['isBAPU'],
-        isBACO        : treeInfo['isBACO'],
-        //testlist      : testlist
-      })
+      'kind': 'oneregression'
     });
     
     let options = {
@@ -200,7 +190,6 @@ let cron_check_result = new cronJob('0 * * * * *',function(){
     req.write(postData);
     req.end();
 
-    console.log('test number '+testlist.length);
   }
   else{
     console.log('invalid tree!!!');
