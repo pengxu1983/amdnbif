@@ -140,7 +140,8 @@ module.exports = {
           projectname : projectname,
           shelve      : shelve     ,
           isBAPU      : isBAPU     ,
-          isBACO      : isBACO     
+          isBACO      : isBACO     ,
+          groupname   : 'all'
         });
         console.log(oneRegressionDB);
         if(oneRegressionDB){
@@ -150,6 +151,7 @@ module.exports = {
           }));
         }
         else{
+          oneRegression.groupname = 'all';
           await Regressionsummary0001.create(oneRegression);
           return exits.success(JSON.stringify({
             ok  : 'ok',
