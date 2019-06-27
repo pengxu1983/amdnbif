@@ -124,13 +124,13 @@ module.exports = {
               passrate  = passrate.toFixed(2);
             }
             sails.log('dddd');
-            sails.log(projectname);
-            sails.log(variantname);
-            sails.log(isBAPU     );
-            sails.log(isBACO     );
-            sails.log(kickoffdate);
-            sails.log(changelist );
-            sails.log(shelve     );
+            sails.log(inputs.projectname);
+            sails.log(inputs.variantname);
+            sails.log(inputs.isBAPU     );
+            sails.log(inputs.isBACO     );
+            sails.log(inputs.kickoffdate);
+            sails.log(inputs.changelist );
+            sails.log(inputs.shelve     );
 
 
 
