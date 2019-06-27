@@ -138,9 +138,9 @@ module.exports = {
               shelve      : inputs.shelve,
               groupname   : 'all'
             },{
-              testlist  : JSON.stringify(testlist),
-              passlist  : JSON.stringify(passlist),
-              faillist  : JSON.stringify(faillist),
+              //testlist  : JSON.stringify(testlist),
+              //passlist  : JSON.stringify(passlist),
+              //faillist  : JSON.stringify(faillist),
               unknownlist : JSON.stringify(unknownlist),
               passrate  : passrate,
               checkedtime : checkedtime
@@ -209,9 +209,9 @@ module.exports = {
               shelve      : inputs.shelve,
               groupname   : oneregressiongroups[g].groupname
             },{
-              testlist  : JSON.stringify(testlist),
-              passlist  : JSON.stringify(passlist),
-              faillist  : JSON.stringify(faillist),
+              //testlist  : JSON.stringify(testlist),
+              //passlist  : JSON.stringify(passlist),
+              //faillist  : JSON.stringify(faillist),
               unknownlist : JSON.stringify(unknownlist),
               passrate  : passrate,
               checkedtime : checkedtime
