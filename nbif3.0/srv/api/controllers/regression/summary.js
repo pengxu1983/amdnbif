@@ -46,9 +46,6 @@ module.exports = {
     shelve  : {
       type  : 'string'
     },
-    seed    : {
-      type  : 'string'
-    }
   },
 
 
@@ -69,7 +66,6 @@ module.exports = {
         kickoffdate : inputs.kickoffdate,
         changelist  : inputs.changelist,
         shelve      : inputs.shelve,
-        seed        : inputs.seed
       });
       if(oneregressiongroups.length == 0){
         return exits.success(JSON.stringify({
@@ -88,7 +84,6 @@ module.exports = {
               kickoffdate : inputs.kickoffdate,
               changelist  : inputs.changelist,
               shelve      : inputs.shelve,
-              seed        : inputs.seed
             });
             let passlist  = await Regressiondetails0001.find({
               projectname : inputs.projectname,
@@ -98,7 +93,6 @@ module.exports = {
               kickoffdate : inputs.kickoffdate,
               changelist  : inputs.changelist,
               shelve      : inputs.shelve,
-              seed        : inputs.seed,
               result      : 'PASS'
             });
             let faillist  = await Regressiondetails0001.find({
@@ -109,7 +103,6 @@ module.exports = {
               kickoffdate : inputs.kickoffdate,
               changelist  : inputs.changelist,
               shelve      : inputs.shelve,
-              seed        : inputs.seed,
               result      : 'FAIL'
             });
             let unknownlist  = await Regressiondetails0001.find({
@@ -120,7 +113,6 @@ module.exports = {
               kickoffdate : inputs.kickoffdate,
               changelist  : inputs.changelist,
               shelve      : inputs.shelve,
-              seed        : inputs.seed,
               result      : 'UNKNOWN'
             });
             let passrate = 0.00;
@@ -139,7 +131,6 @@ module.exports = {
               kickoffdate : inputs.kickoffdate,
               changelist  : inputs.changelist,
               shelve      : inputs.shelve,
-              seed        : inputs.seed
             },{
               testlist  : JSON.stringify(testlist),
               passlist  : JSON.stringify(passlist),
