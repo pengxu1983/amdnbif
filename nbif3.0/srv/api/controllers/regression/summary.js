@@ -76,7 +76,7 @@ module.exports = {
       else{
         for(let g=0;g<oneregressiongroups.length;g++){
           if(oneregressiongroups[g].groupname == 'all'){
-            let testlist  = await Regressiondetails0001.find({
+            let R  = await Regressiondetails0001.find({
               projectname : inputs.projectname,
               variantname : inputs.variantname,
               isBAPU      : inputs.isBAPU,
@@ -86,7 +86,12 @@ module.exports = {
               shelve      : inputs.shelve,
               //groupname   : 'all'
             });
-            let passlist  = await Regressiondetails0001.find({
+            let testlist  = [];
+            for(let i=0;i<R.length;i++){
+              testlist.push(R[i].testname);
+              testlist.sort();
+            }
+            R  = await Regressiondetails0001.find({
               projectname : inputs.projectname,
               variantname : inputs.variantname,
               isBAPU      : inputs.isBAPU,
@@ -97,7 +102,12 @@ module.exports = {
               result      : 'PASS',
               //groupname   : 'all'
             });
-            let faillist  = await Regressiondetails0001.find({
+            let passlist = [];
+            for(let i=0;i<R.length;i++){
+              passlist.push(R[i].testname);
+              passlist.sort();
+            }
+            R  = await Regressiondetails0001.find({
               projectname : inputs.projectname,
               variantname : inputs.variantname,
               isBAPU      : inputs.isBAPU,
@@ -108,7 +118,12 @@ module.exports = {
               result      : 'FAIL',
               //groupname   : 'all'
             });
-            let unknownlist  = await Regressiondetails0001.find({
+            let faillist = [];
+            for(let i=0;i<R.length;i++){
+              faillist.push(R[i].testname);
+              faillist.sort();
+            }
+            R  = await Regressiondetails0001.find({
               projectname : inputs.projectname,
               variantname : inputs.variantname,
               isBAPU      : inputs.isBAPU,
@@ -119,6 +134,11 @@ module.exports = {
               result      : 'UNKNOWN',
               //groupname   : 'all'
             });
+            let unknownlist = [];
+            for(let i=0;i<R.length;i++){
+              unknownlist.push(R[i].testname);
+              unknownlist.sort();
+            }
             let passrate = 0.00;
             let checkedtime = moment().format('YYYY-MM-DD HH:mm:ss');
             if(testlist.length == 0){
@@ -147,7 +167,7 @@ module.exports = {
             });
           }
           else{
-            let testlist  = await Regressiondetails0001.find({
+            let R  = await Regressiondetails0001.find({
               projectname : inputs.projectname,
               variantname : inputs.variantname,
               isBAPU      : inputs.isBAPU,
@@ -157,7 +177,12 @@ module.exports = {
               shelve      : inputs.shelve,
               groupname   : oneregressiongroups[g].groupname
             });
-            let passlist  = await Regressiondetails0001.find({
+            let testlist = [];
+            for(let i=0;i<R.length;i++){
+              testlist.push(R[i].testname);
+              testlist.sort();
+            }
+            R  = await Regressiondetails0001.find({
               projectname : inputs.projectname,
               variantname : inputs.variantname,
               isBAPU      : inputs.isBAPU,
@@ -168,7 +193,12 @@ module.exports = {
               result      : 'PASS',
               groupname   : oneregressiongroups[g].groupname
             });
-            let faillist  = await Regressiondetails0001.find({
+            let passlist  = [];
+            for(let i=0;i<R.length;i++){
+              passlist.push(R[i].testname);
+              passlist.sort();
+            }
+            R  = await Regressiondetails0001.find({
               projectname : inputs.projectname,
               variantname : inputs.variantname,
               isBAPU      : inputs.isBAPU,
@@ -179,7 +209,12 @@ module.exports = {
               result      : 'FAIL',
               groupname   : oneregressiongroups[g].groupname
             });
-            let unknownlist  = await Regressiondetails0001.find({
+            let faillist  = [];
+            for(let i=0;i<R.length;i++){
+              faillist.push(R[i].testname);
+              faillist.sort();
+            }
+            R  = await Regressiondetails0001.find({
               projectname : inputs.projectname,
               variantname : inputs.variantname,
               isBAPU      : inputs.isBAPU,
@@ -190,6 +225,11 @@ module.exports = {
               result      : 'UNKNOWN',
               groupname   : oneregressiongroups[g].groupname
             });
+            let unknownlist= [];
+            for(let i=0;i<R.length;i++){
+              unknownlist.push(R[i].testname);
+              unknownlist.sort();
+            }
             let passrate = 0.00;
             let checkedtime = moment().format('YYYY-MM-DD HH:mm:ss');
             if(testlist.length == 0){
