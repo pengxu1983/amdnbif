@@ -8,7 +8,12 @@ module.exports = {
 
 
   inputs: {
-
+    kind  : {
+      type  : 'string'
+    },
+    projectname : {
+      type  : 'string'
+    },
   },
 
 
@@ -17,10 +22,34 @@ module.exports = {
   },
 
 
-  fn: async function (inputs) {
-
+  fn: async function (inputs,exits) {
+    sails.log('/regression/get');
+    sails.log(inputs);
+    if(inputs.projectname =='mi200'){
+      if(inputs.kind  ==  'Overall'){
+        let R = await Regressionsummary0001.find({
+          projectname : inputs.projectname,
+          groupname   : 'all'
+        });
+        if(R.length == 0){
+          return exits.success(JSON.stringify({
+            ok  : 'notok',
+            msg : 'no valid regression'
+          }));
+        }
+        else{
+          return exits.success(JSON.stringify({
+            ok  : 'ok',
+            regressionstatus  : R
+          });
+        }
+      }
+    }
     // All done.
-    return;
+    return exits.success(JSON.stringify({
+      ok  : 'notok',
+      msg : 'not valid kind'
+    }));
 
   }
 

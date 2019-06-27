@@ -11,6 +11,11 @@
           width="180">
         </el-table-column>
         <el-table-column
+          prop="variantname"
+          label="variantname"
+          width="180">
+        </el-table-column>
+        <el-table-column
           prop="changelist"
           label="changelist"
           width="180">
@@ -55,90 +60,23 @@ export default {
       console.log(tab, event);
     },
     regressionstatus(projectname){
-    },
-    drawLine(chartid){
-      // 基于准备好的dom，初始化echarts实例
-      let myChart = this.$echarts.init(document.getElementById(chartid))
-      // 绘制图表
-      var option;
-      option = {
-        title: {
-          //text: 'Regression Overall Status'
-          text  : ''
-        },
-        tooltip: {
-          trigger: 'axis'
-        },
-        legend: {
-          data:[
-            'PassingRate',
-            //'FuncCov',
-            //'CodeCov'
-          ]
-        },
-        grid: {
-          left: '3%',
-          right: '4%',
-          bottom: '3%',
-          containLabel: true
-        },
-        toolbox: {
-          feature: {
-            saveAsImage: {show : true}
+      this.$http.post('/regression/get',{
+        kind  : 'Overall',
+        projectname : projectname
+      }).then(
+        function(response){
+          if(response.body.ok =='ok'){
+            console.log('abc');
+            console.log(response.body.regressionstatus);
+            console.log(typeof(response.body.regressionstatus));
           }
         },
-        xAxis: {
-          type: 'category',
-          boundaryGap: false,
-          data: this.xAxislist
-        },
-        yAxis: {
-            type: 'value'
-        },
-        series: []
-      };
-      if(chartid == 'chartRegressionNormal'){
-        //option.title.text = 'PassingRate';
-        option.series = [
-          {
-            name:'PassingRate',
-            type:'line',
-            data:this.PassingRate_his_normal
-          },
-        ];
-      }
-      else if(chartid == 'chartRegressionLong'){
-        //option.title.text = 'PassingRate';
-        option.series = [
-          {
-            name:'PassingRate',
-            type:'line',
-            data:this.PassingRate_his_long
-          },
-        ];
-      }
-      else if(chartid == 'chartRegressionBaco'){
-        //option.title.text = 'PassingRate';
-        option.series = [
-          {
-            name:'PassingRate',
-            type:'line',
-            data:this.PassingRate_his_baco
-          },
-        ];
-      }
-      else if(chartid == 'chartRegressionPG'){
-        //option.title.text = 'PassingRate';
-        option.series = [
-          {
-            name:'PassingRate',
-            type:'line',
-            data:this.PassingRate_his_pg
-          },
-        ];
-      }
-      myChart.setOption(option);
-    }
+        function(){}
+      );
+      return [];
+    },
+  },
+  mounted (){
   }
 }
 </script>
