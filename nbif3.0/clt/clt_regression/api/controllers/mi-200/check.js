@@ -1,6 +1,7 @@
 let refTreeRoot   = '';
 let regTreeRoot   = '/proj/nbif_mero_regress1/ip_regress/anttili/nbif2_0_3';
 let resultDir     = regTreeRoot+'/out/linux_2.6.32_64.VCS/nbif_nv10_gpu/config/nbif_all_rtl/run/nbif-nv10_gpu-mi200';
+let out_home      = '/out/linux_2.6.32_64.VCS/';
 var moment        = require('moment');
 var querystring   = require('querystring');
 var http          = require('http');
@@ -12,7 +13,7 @@ var workspace     = '/proj/cip_arden_nbif_regress4/benpeng';////MODIFY
 //let variantname   = 'nbif_nv10_gpu';////MODIFY
 let outDir        = {};
 let postQ=[];
-let postQlimit=5;////MODIFY
+let postQlimit=10;////MODIFY
 outDir['nbiftdl']     = resultDir+'/nbiftdl';
 outDir['nbifresize']  = resultDir+'/nbifresize';
 outDir['nbifrandom']  = resultDir+'/nbifrandom';
@@ -103,7 +104,7 @@ let cron_send_request = new cronJob('* * * * * *',function(){
     postQ.splice(0,postQlimit);
   }
 },null,false,'Asia/Chongqing');
-let cron_check_result = new cronJob('0 * * * * *',function(){
+let cron_check_result = new cronJob('0 0 20 * * *',function(){
   console.log('cron_check_result starts at '+moment().format('YYYY-MM-DD HH:mm:ss'));
   console.log('basic info :');
   console.log('refTreeRoot is '+refTreeRoot);
@@ -139,18 +140,69 @@ let cron_check_result = new cronJob('0 * * * * *',function(){
     console.log('testlist ok');
     let lines = fs.readFileSync(regTreeRoot+'/testlist.log','utf8').split('\n');
     lines.pop();
-    let regx = /evaluation of 'testcase/;
+    let regx01 = /^\[dj \d+:\d+:\d+ I\]:   "attributes": {/;
+    let regx02 = /^\[dj \d+:\d+:\d+ I\]:   }/;
+    let regx03 = /^\[dj \d+:\d+:\d+ I\]:     "name": "(.*)"/;
+    let regx04 = /^\[dj \d+:\d+:\d+ I\]:     "config": "(.*)"/;
+    let regx05 = /^\[dj \d+:\d+:\d+ I\]:     "run_seed": "(.*)"/;
+    let regx06 = /^\[dj \d+:\d+:\d+ I\]:     "group": "(.*)"/;
+    let regx07 = /^\[dj \d+:\d+:\d+ I\]:     "run_start_time": "(.*)"/;
+    let regx08 = /^\[dj \d+:\d+:\d+ I\]:     "run_out_path": "(.*)"/;
+    let flag = 0;
+    let testname = '';
     for(let l=0;l<lines.length;l++){
-      if(regx.test(lines[l])){
-        let R = lines[l].split('/');
-        let RR = R[1].split('_nbif_all_rtl');
-        let RRR = R[0].split('::');
-        testlist.push(RR[0]);
-        testResult[RR[0]]={};
-        testResult[RR[0]]['suite']  = RRR[1];
-        testResult[RR[0]]['isBAPU'] = treeInfo['isBAPU'];
-        //console.log('testname is '+RR[0]);
-        //console.log('suite is '+testResult[RR[0]]['suite']);
+      if(regx01.test(lines[l])){
+        flag = 1;
+      }
+      else if(regx02.test(lines[l])){
+        flag = 0;
+      }
+      else if(flag == 1){
+        if(regx03.test(lines[l])){
+          lines[l].replace(regx03,function(rs,$1){
+            testname = $1;
+            testResult[testname]={};
+            testlist.push(testname);
+            console.log('testname');
+            console.log($1);
+          });
+        }
+        else if(regx04.test(lines[l])){
+          lines[l].replace(regx04,function(rs,$1){
+            testResult[testname]['config'] = $1;
+            console.log('config');
+            console.log($1);
+          });
+        }
+        else if(regx05.test(lines[l])){
+          lines[l].replace(regx05,function(rs,$1){
+            testResult[testname]['run_seed'] = $1;
+            console.log('run_seed');
+            console.log($1);
+          });
+        }
+        else if(regx06.test(lines[l])){
+          lines[l].replace(regx06,function(rs,$1){
+            testResult[testname]['groupname'] = $1;
+            console.log('group');
+            console.log($1);
+          });
+        }
+        else if(regx07.test(lines[l])){
+          lines[l].replace(regx07,function(rs,$1){
+            testResult[testname]['run_start_time'] = $1;
+            console.log('run_start_time');
+            console.log($1);
+          });
+        }
+        else if(regx08.test(lines[l])){
+          lines[l].replace(regx08,function(rs,$1){
+            let tmp = $1.split('OUT_HOME');
+            testResult[testname]['run_out_path'] = regTreeRoot+out_home+tmp[1];
+            console.log('run_out_path');
+            console.log(testResult[testname]['run_out_path']);
+          });
+        }
       }
     }
     console.log('testlist done');
@@ -185,6 +237,45 @@ let cron_check_result = new cronJob('0 * * * * *',function(){
       res.setEncoding('utf8');
       res.on('data', (chunk) => {
         console.log(`BODY: ${chunk}`);
+        cron_send_request.stop();
+        for(let testName in testResult){
+          console.log(testName+' checking ...');
+          testResult[testName]['result']      = 'UNKNOWN';
+          testResult[testName]['signature']   = 'NA';
+          testResult[testName]['seed']        = 'NA';
+          testResult[testName]['runtime']     = 'NA';
+          if(fs.existsSync(testResult[testName]['run_out_path']+'/REGRESS_PASS')){
+            testResult[testName]['result']      = 'PASS';
+          }
+          else if(fs.existsSync(testResult[testName]['run_out_path']+'/vcs_run.log')){
+            let R =child_process.execSync(workspace+'/amdnbif/nbif3.0/clt/clt_regression/tools/processSimLog.pl '+testResult[testName]['run_out_path']+'/vcs_run.log',{
+              encoding  : 'utf8',
+              maxBuffer : 1024*1024*100
+            });
+            let RR = R.split('\n');
+            testResult[testName]['seed']       = RR[0];
+            testResult[testName]['result']     = RR[1];
+            testResult[testName]['signature']  = RR[2];
+          }
+          postQ.push({
+            'kind'          : 'onecase',
+            'oneTestResult' : JSON.stringify({
+              kickoffdate   : treeInfo['kickoffdate'],
+              variantname   : treeInfo['variantname'],
+              changelist    : treeInfo['changelist'],
+              projectname   : treeInfo['projectname'],
+              testname      : testName,
+              result        : testResult[testName]['result'],
+              seed          : testResult[testName]['seed'],
+              signature     : testResult[testName]['signature'],
+              suite         : testResult[testName]['suite'],
+              shelve        : treeInfo['shelve'],
+              isBAPU        : treeInfo['isBAPU'],
+              isBACO        : treeInfo['isBACO']
+            })
+          });
+        }
+        cron_send_request.start();
       });
       res.on('end', () => {
         console.log('No more data in response.');
@@ -205,7 +296,7 @@ let cron_check_result = new cronJob('0 * * * * *',function(){
     return;
   }
   //get results
-  cron_send_request.stop();
+  //cron_send_request.stop();
   //for(let testName in testResult){
   //  //console.log(testName+' :');
   //  testResult[testName]['result']      = 'UNKNOWN';
