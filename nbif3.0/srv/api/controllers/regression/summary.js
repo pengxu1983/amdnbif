@@ -123,6 +123,18 @@ module.exports = {
               passrate  = passlist.length/testlist.length;
               passrate  = passrate.toFixed(2);
             }
+            sails.log('dddd');
+            sails.log(projectname);
+            sails.log(variantname);
+            sails.log(isBAPU     );
+            sails.log(isBACO     );
+            sails.log(kickoffdate);
+            sails.log(changelist );
+            sails.log(shelve     );
+
+
+
+
             await Regressionsummary0001.update({
               projectname : inputs.projectname,
               variantname : inputs.variantname,
@@ -132,10 +144,10 @@ module.exports = {
               changelist  : inputs.changelist,
               shelve      : inputs.shelve,
             },{
-              testlist  : JSON.stringify(testlist),
-              passlist  : JSON.stringify(passlist),
-              faillist  : JSON.stringify(faillist),
-              unknownlist : JSON.stringify(unknownlist),
+              //testlist  : JSON.stringify(testlist),
+              //passlist  : JSON.stringify(passlist),
+              //faillist  : JSON.stringify(faillist),
+              //unknownlist : JSON.stringify(unknownlist),
               passrate  : passrate,
               checkedtime : checkedtime
             });
