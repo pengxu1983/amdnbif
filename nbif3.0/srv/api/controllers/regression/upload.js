@@ -53,7 +53,7 @@ module.exports = {
       let shelve        = oneTestResult.shelve       ;
       let isBAPU        = oneTestResult.isBAPU       ;
       let isBACO        = oneTestResult.isBACO       ;
-
+      let groupname     = oneTestResult.groupname    ;
       let oneTestResultDB;
       if(oneTestResult['projectname']=='mi200'){
         oneTestResultDB = await Regressiondetails0001.findOne({////MODIFY
@@ -68,7 +68,8 @@ module.exports = {
           suite         : suite         ,
           shelve        : shelve        ,
           isBAPU        : isBAPU        ,
-          isBACO        : isBACO        
+          isBACO        : isBACO        ,
+          //groupname     : groupname
         });
         if(oneTestResultDB){
           await Regressiondetails0001.update({
@@ -83,7 +84,8 @@ module.exports = {
             suite         : suite         ,
             shelve        : shelve        ,
             isBAPU        : isBAPU        ,
-            isBACO        : isBACO
+            isBACO        : isBACO        ,
+            //groupname     : groupname   
           },{
             //kickoffdate   : kickoffdate   ,
             //variantname   : variantname   ,
@@ -96,7 +98,8 @@ module.exports = {
             //suite         : suite         ,
             //shelve        : shelve        ,
             //isBAPU        : isBAPU        ,
-            //isBACO        : isBACO
+            //isBACO        : isBACO        ,
+            groupname     : groupname
           });
         }
         else{
@@ -112,7 +115,8 @@ module.exports = {
             suite         : suite         ,
             shelve        : shelve        ,
             isBAPU        : isBAPU        ,
-            isBACO        : isBACO
+            isBACO        : isBACO        ,
+            groupname     : groupname     ,
           });
         }
         return exits.success(JSON.stringify({
@@ -131,6 +135,10 @@ module.exports = {
       let isBAPU        = oneRegression.isBAPU     ;
       let isBACO        = oneRegression.isBACO     ;
       let testlist      = oneRegression.testlist   ;
+      let grouplist     = oneRegression.grouplist  ;
+      sails.log('grouplist');
+      sails.log(grouplist);
+      sails.log(typeof(grouplist));
       let oneRegressionDB;
       if(projectname  ==  'mi200'){
         oneRegressionDB = await Regressionsummary0001.findOne({
@@ -153,6 +161,10 @@ module.exports = {
         else{
           oneRegression.groupname = 'all';
           await Regressionsummary0001.create(oneRegression);
+          for(let g=0;g<grouplist.length;g++){
+            oneRegression.groupname = grouplist[g];
+            await Regressionsummary0001.create(oneRegression);
+          }
           return exits.success(JSON.stringify({
             ok  : 'ok',
             msg : 'created one new regression'

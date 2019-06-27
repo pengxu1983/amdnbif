@@ -4,8 +4,8 @@ var http          = require('http');
 var fs            = require('fs');
 var child_process = require('child_process');
 var cronJob       = require("cron").CronJob;
-let cron_do_summary = new cronJob('0 */30 * * * *',function(){
-},null,false,'Asia/Chongqing');
+//let cron_do_summary = new cronJob('0 */30 * * * *',function(){
+//},null,false,'Asia/Chongqing');
 module.exports = {
 
 
