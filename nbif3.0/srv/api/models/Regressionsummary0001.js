@@ -55,6 +55,9 @@ module.exports = {
     checkedtime : {
       type      : 'string'
     },
+    passrate    : {
+      type      : 'string'
+    }
 
     //  ╔═╗╔╦╗╔╗ ╔═╗╔╦╗╔═╗
     //  ║╣ ║║║╠╩╗║╣  ║║╚═╗
