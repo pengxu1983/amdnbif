@@ -121,7 +121,7 @@ module.exports = {
             }
             else{
               passrate  = passlist.length/testlist.length;
-              passlist  = passlist.toFixed(2);
+              passrate  = passrate.toFixed(2);
             }
             await Regressionsummary0001.update({
               projectname : inputs.projectname,
