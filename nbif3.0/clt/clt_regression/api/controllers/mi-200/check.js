@@ -13,16 +13,59 @@ var workspace     = '/proj/cip_arden_nbif_regress4/benpeng';////MODIFY
 //let variantname   = 'nbif_nv10_gpu';////MODIFY
 let outDir        = {};
 let postQ=[];
-let postQlimit=10;////MODIFY
+let postQlimit=20;////MODIFY
 outDir['nbiftdl']     = resultDir+'/nbiftdl';
 outDir['nbifresize']  = resultDir+'/nbifresize';
 outDir['nbifrandom']  = resultDir+'/nbifrandom';
 outDir['nbifgen4']    = resultDir+'/nbifgen4';
 outDir['nbifdummyf']  = resultDir+'/nbifdummyf';
+let treeInfo  = {};
 let cron_send_request = new cronJob('* * * * * *',function(){
   console.log('cron_send_request starts at '+moment().format('YYYY-MM-DD HH:mm:ss'));
   if(postQ.length == 0){
     cron_send_request.stop();
+    let postData = querystring.stringify({
+      projectname : treeInfo['projectname'],
+      variantname : treeInfo['variantname'],
+      isBACO      : treeInfo['isBACO'],    
+      isBAPU      : treeInfo['isBAPU'],     
+      kickoffdate : treeInfo['kickoffdate'],
+      changelist  : treeInfo['changelist'], 
+      shelve      : treeInfo['shelve'],     
+    });
+    
+    let options = {
+      hostname: 'amdnbif3.thehunters.club',
+      port: 80,
+      path: '/regression/summary',
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/x-www-form-urlencoded',
+        'Content-Length': Buffer.byteLength(postData)
+      }
+    };
+    
+    let req = http.request(options, (res) => {
+      console.log(`STATUS: ${res.statusCode}`);
+      //console.log(`HEADERS: ${JSON.stringify(res.headers)}`);
+      res.setEncoding('utf8');
+      res.on('data', (chunk) => {
+        console.log(`BODY: ${chunk}`);
+        console.log('aaabbb');
+      });
+      res.on('end', () => {
+        console.log('No more data in response.');
+      });
+    });
+    
+    req.on('error', (e) => {
+      console.error(`problem with request: ${e.message}`);
+    });
+    
+    // write data to request body
+    req.write(postData);
+    req.end();
+
     return;
   }
   else if(postQ.length <= postQlimit){
@@ -104,7 +147,8 @@ let cron_send_request = new cronJob('* * * * * *',function(){
     postQ.splice(0,postQlimit);
   }
 },null,false,'Asia/Chongqing');
-let cron_check_result = new cronJob('0 0 20 * * *',function(){
+let cron_check_result = new cronJob('0 0 2 * * *',function(){
+  cron_check_result.stop();
   console.log('cron_check_result starts at '+moment().format('YYYY-MM-DD HH:mm:ss'));
   console.log('basic info :');
   console.log('refTreeRoot is '+refTreeRoot);
@@ -116,8 +160,8 @@ let cron_check_result = new cronJob('0 0 20 * * *',function(){
   //variantname
   //isBAPU
   //isBACO
-  let treeInfo  = {};
   let testlist  = [];
+  let grouplist = [];
   let testResult = {};
   if(fs.existsSync(regTreeRoot+'/NBIF_TREE_INFO')){
     console.log('NBIF_TREE_INFO ok');
@@ -148,6 +192,7 @@ let cron_check_result = new cronJob('0 0 20 * * *',function(){
     let regx06 = /^\[dj \d+:\d+:\d+ I\]:     "group": "(.*)"/;
     let regx07 = /^\[dj \d+:\d+:\d+ I\]:     "run_start_time": "(.*)"/;
     let regx08 = /^\[dj \d+:\d+:\d+ I\]:     "run_out_path": "(.*)"/;
+    let regx09 = /^\[dj \d+:\d+:\d+ I\]:     "fullname": "(.*)"/;
     let flag = 0;
     let testname = '';
     for(let l=0;l<lines.length;l++){
@@ -158,10 +203,12 @@ let cron_check_result = new cronJob('0 0 20 * * *',function(){
         flag = 0;
       }
       else if(flag == 1){
+        let suite = '';
         if(regx03.test(lines[l])){
           lines[l].replace(regx03,function(rs,$1){
             testname = $1;
             testResult[testname]={};
+            testResult[testname]['suite']= suite;
             testlist.push(testname);
             console.log('testname');
             console.log($1);
@@ -184,7 +231,10 @@ let cron_check_result = new cronJob('0 0 20 * * *',function(){
         else if(regx06.test(lines[l])){
           lines[l].replace(regx06,function(rs,$1){
             testResult[testname]['groupname'] = $1;
-            console.log('group');
+            if(grouplist.indexOf($1) == -1){
+              grouplist.push($1);
+            }
+            console.log('groupname');
             console.log($1);
           });
         }
@@ -203,10 +253,20 @@ let cron_check_result = new cronJob('0 0 20 * * *',function(){
             console.log(testResult[testname]['run_out_path']);
           });
         }
+        else if(regx09.test(lines[l])){
+          lines[l].replace(regx09,function(rs,$1){
+            let R1 = $1.split('::');
+            let R2 = R1[1].split('/');
+            suite = R2[0];
+            console.log('suite');
+            console.log(suite);
+          });
+        }
       }
     }
     console.log('testlist done');
     console.log('test number '+testlist.length);
+    console.log('group number '+grouplist.length);
     let postData = querystring.stringify({
       'kind': 'oneregression',
       'oneRegression' : JSON.stringify({
@@ -216,7 +276,8 @@ let cron_check_result = new cronJob('0 0 20 * * *',function(){
         projectname   : treeInfo['projectname'],
         shelve        : treeInfo['shelve'],     
         isBAPU        : treeInfo['isBAPU'],     
-        isBACO        : treeInfo['isBACO'],     
+        isBACO        : treeInfo['isBACO'],
+        grouplist     : grouplist
       })
     });
     
@@ -236,10 +297,10 @@ let cron_check_result = new cronJob('0 0 20 * * *',function(){
       //console.log(`HEADERS: ${JSON.stringify(res.headers)}`);
       res.setEncoding('utf8');
       res.on('data', (chunk) => {
-        console.log(`BODY: ${chunk}`);
+        //console.log(`BODY: ${chunk}`);
         cron_send_request.stop();
         for(let testName in testResult){
-          console.log(testName+' checking ...');
+          console.log(' checking ...'+testName);
           testResult[testName]['result']      = 'UNKNOWN';
           testResult[testName]['signature']   = 'NA';
           testResult[testName]['seed']        = 'NA';
@@ -271,7 +332,8 @@ let cron_check_result = new cronJob('0 0 20 * * *',function(){
               suite         : testResult[testName]['suite'],
               shelve        : treeInfo['shelve'],
               isBAPU        : treeInfo['isBAPU'],
-              isBACO        : treeInfo['isBACO']
+              isBACO        : treeInfo['isBACO'],
+              groupname     : testResult[testName]['groupname']
             })
           });
         }
