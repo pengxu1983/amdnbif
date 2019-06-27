@@ -34,6 +34,9 @@ module.exports.routes = {
   'POST /regression/summary' : {
     action  : 'regression/summary'
   },
+  'POST /regression/get' : {
+    action  : 'regression/get'
+  },
   /***************************************************************************
   *                                                                          *
   * More custom routes here...                                               *
