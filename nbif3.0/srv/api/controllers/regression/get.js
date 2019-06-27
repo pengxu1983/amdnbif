@@ -41,7 +41,7 @@ module.exports = {
           return exits.success(JSON.stringify({
             ok  : 'ok',
             regressionstatus  : R
-          });
+          }));
         }
       }
     }
