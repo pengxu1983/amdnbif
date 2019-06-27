@@ -2,7 +2,7 @@
   <el-tabs v-model="activeProj" type="card" @tab-click="handleClick">
     <el-tab-pane label="mi200" name="mi200">
       <el-table
-        :data="regressionstatus('mi200')"
+        :data="regressionstatus['mi200']"
         border
         style="width: 100%">
         <el-table-column
@@ -53,6 +53,7 @@ export default {
         projectname : 'mi200'
       },
       activeProj: 'mi200',
+      regressionstatus_disp : {}
     }
   },
   methods : {
@@ -77,6 +78,7 @@ export default {
     },
   },
   mounted (){
+    this.regressionstatus('mi200');
   }
 }
 </script>
