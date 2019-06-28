@@ -8,6 +8,7 @@
         <el-table-column
           prop="kickoffdate"
           label="kickoffdate"
+          sortable
           width="180">
         </el-table-column>
         <el-table-column
@@ -70,6 +71,7 @@ export default {
             console.log('abc');
             console.log(response.body.regressionstatus);
             console.log(typeof(response.body.regressionstatus));
+            this.regressionstatus_disp[projectname]=response.body.regressionstatus;
           }
         },
         function(){}

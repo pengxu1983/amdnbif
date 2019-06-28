@@ -40,7 +40,12 @@ module.exports = {
         else{
           return exits.success(JSON.stringify({
             ok  : 'ok',
-            regressionstatus  : R
+            projectname : R.projectname,
+            variantname : R.variantname,
+            passnum     : R.passlist.length,
+            failnum     : R.faillist.length,
+            unknownnum  : R.unknownnum.length,
+            passrate    : R.passrate
           }));
         }
       }

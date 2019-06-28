@@ -235,7 +235,7 @@ module.exports = {
             if(testlist.length == 0){
             }
             else{
-              passrate  = passlist.length/testlist.length;
+              passrate  = passlist.length/testlist.length*100;
               passrate  = passrate.toFixed(2);
             }
 
