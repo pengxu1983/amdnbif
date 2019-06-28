@@ -73,6 +73,9 @@ export default {
             console.log(typeof(response.body.regressionstatus));
             this.regressionstatus_disp[projectname]=response.body.regressionstatus;
           }
+          else{
+            console.log(response.body);
+          }
         },
         function(){}
       );
