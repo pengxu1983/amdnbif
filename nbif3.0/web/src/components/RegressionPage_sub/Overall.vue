@@ -69,9 +69,8 @@ export default {
         function(response){
           if(response.body.ok =='ok'){
             console.log('abc');
-            console.log(response.body.regressionstatus);
-            console.log(typeof(response.body.regressionstatus));
-            this.regressionstatus_disp[projectname]=response.body.regressionstatus;
+            console.log(response.body.regressions);
+            console.log(typeof(response.body.regressions));
           }
           else{
             console.log(response.body);

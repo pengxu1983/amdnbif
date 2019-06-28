@@ -38,14 +38,24 @@ module.exports = {
           }));
         }
         else{
+          let regressions =[];
+          for(let r=0;r<R.length;R++){
+            let passlist = JSON.parse(R[r].passlist);
+            let faillist = JSON.parse(R[r].faillist);
+            let unknownlist = JSON.parse(R[r].unknownlist);
+            regressions.push({
+              projectname : R[r].projectname,
+              variantname : R[r].variantname,
+              passnum     : passlist.length,
+              failnum     : faillist.length,
+              unknownnum  : unknownlist.length,
+              passrate    : R[r].passrate
+            });
+          }
           return exits.success(JSON.stringify({
             ok  : 'ok',
-            projectname : R.projectname,
-            variantname : R.variantname,
-            passnum     : R.passlist.length,
-            failnum     : R.faillist.length,
-            unknownnum  : R.unknownnum.length,
-            passrate    : R.passrate
+            projectname : 'mi200',
+            regressions : regressions
           }));
         }
       }
