@@ -49,7 +49,9 @@ module.exports = {
               passnum     : passlist.length,
               failnum     : faillist.length,
               unknownnum  : unknownlist.length,
-              passrate    : R[r].passrate
+              passrate    : R[r].passrate,
+              changelist  : R[r].changelist,
+              kickoffdate : R[r].kickoffdate
             });
           }
           return exits.success(JSON.stringify({
