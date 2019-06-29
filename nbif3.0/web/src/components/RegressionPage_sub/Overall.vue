@@ -2,7 +2,7 @@
   <el-tabs v-model="activeProj" type="card" @tab-click="handleClick">
     <el-tab-pane label="mi200" name="mi200">
       <el-table
-        :data="regressionstatus_disp"
+        :data="regressionstatus_mi200"
         border
         style="width: 100%">
         <el-table-column
