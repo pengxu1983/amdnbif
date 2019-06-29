@@ -2,7 +2,7 @@
   <el-tabs v-model="activeProj" type="card" @tab-click="handleClick">
     <el-tab-pane label="mi200" name="mi200">
       <el-table
-        :data="regressionstatus_disp['mi200']"
+        :data="regressionstatus_disp"
         border
         style="width: 100%">
         <el-table-column
@@ -54,7 +54,7 @@ export default {
         projectname : 'mi200'
       },
       activeProj: 'mi200',
-      regressionstatus_disp : {}
+      regressionstatus_mi200 : []
     }
   },
   methods : {
@@ -71,7 +71,7 @@ export default {
             console.log('abc');
             console.log(response.body.regressions);
             console.log(typeof(response.body.regressions));
-            this.regressionstatus_disp[projectname]=  response.body.regressions;
+            this.regressionstatus_mi200 =  response.body.regressions;
           }
           else{
             console.log(response.body);
