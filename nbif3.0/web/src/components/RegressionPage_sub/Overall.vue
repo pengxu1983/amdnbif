@@ -28,6 +28,17 @@
         <el-table-column
           prop="passnum"
           label="passnum">
+          <template slot-scope="scope">
+            <el-button type="text" @click="dialogTableVisible = true">{{scope.row.passnum}}</el-button>
+
+            <el-dialog title="pass tests list" :visible.sync="dialogTableVisible">
+              <el-table :data="testdetails">
+                <el-table-column property="testname" label="testname" width="200"></el-table-column>
+                <el-table-column property="seed" label="seed" width="200"></el-table-column>
+                <el-table-column property="signature" label="signature"></el-table-column>
+              </el-table>
+            </el-dialog>
+          </template>
         </el-table-column>
         <el-table-column
           prop="failnum"
@@ -54,7 +65,8 @@ export default {
         projectname : 'mi200'
       },
       activeProj: 'mi200',
-      regressionstatus_mi200 : []
+      regressionstatus_mi200 : [],
+      testdetails : []
     }
   },
   methods : {
