@@ -72,10 +72,10 @@ module.exports = {
       }
     }
     // All done.
-    return exits.success(JSON.stringify{
+    return exits.success(JSON.stringify({
       ok  : 'notok',
       msg : 'no valid kind'
-    });
+    }));
 
   }
 
