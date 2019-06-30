@@ -1,0 +1,79 @@
+module.exports = {
+
+
+  friendlyName: 'Testdetails',
+
+
+  description: 'Testdetails regression.',
+
+
+  inputs: {
+    kind  : {
+      type  : 'string'
+    },
+    projectname : {
+      type  : 'string'
+    },
+    variantname : {
+      type  : 'string'
+    },
+    changelist  : {
+      type  : 'string'
+    },
+    isBACO  : {
+      type  : 'string'
+    },
+    isBAPU  : {
+      type  : 'string'
+    },
+    groupname : {
+      type  : 'string'
+    }
+  },
+
+
+  exits: {
+
+  },
+
+
+  fn: async function (inputs,exits) {
+    sails.log('/regression/testdetails');
+    sails.log(inputs);
+    if(inputs.kind  ==  'testdetails'){
+      if(inputs.projectname =='mi200'){
+        if(inputs.groupname == 'all'){
+          let R = await Regressiondetails0001.find(
+            where : {
+              projectname : inputs.projectname,
+              variantname : inputs.variantname,
+              isBAPU      : inputs.isBAPU,
+              isBACO      : inputs.isBACO,
+              changelist  : inputs.changelist,
+              kickoffdate : inputs.kickoffdate,
+              shelve      : inputs.shelve,
+              //groupname   : groupname 
+            },
+            sort  : 'testname ASC'
+          );
+          let testdetails = [];
+          for(let r=0;r<R.length;r++){
+            testdetails.push({
+              testname  : R[r].testname,
+              seed      : R[r].seed,
+              signature : R[r].signature
+            })
+          }
+        }
+      }
+    }
+    // All done.
+    return exits.success(JSON.stringify{
+      ok  : 'notok',
+      msg : 'no valid kind'
+    });
+
+  }
+
+
+};

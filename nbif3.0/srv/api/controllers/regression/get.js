@@ -53,7 +53,8 @@ module.exports = {
               isBACO      : R[r].isBACO,
               passrate    : R[r].passrate,
               changelist  : R[r].changelist,
-              kickoffdate : R[r].kickoffdate
+              kickoffdate : R[r].kickoffdate,
+              shelve      : R[r].shelve
             });
           }
           return exits.success(JSON.stringify({

@@ -32,6 +32,11 @@
           width="180">
         </el-table-column>
         <el-table-column
+          prop="shelve"
+          label="shelve"
+          width="180">
+        </el-table-column>
+        <el-table-column
           prop="passrate"
           label="passrate">
         </el-table-column>
@@ -44,11 +49,11 @@
           prop="failnum"
           label="failnum">
           <template slot-scope="scope">
-            <el-button type="text" @click="gettestdetails('fail')">{{scope.row.failnum}}</el-button>
+            <el-button type="text" @click="gettestdetails('fail',scope.row.projectname,scope.row.variantname,'all',scope.row.changelist,scope.row.isBAPU,scope.row.isBACO,scope.row.shelve)">{{scope.row.failnum}}</el-button>
 
             <el-dialog title="fail tests list" :visible.sync="faillistvisible" width="80%">
               <el-pagination
-                @current-change="handleCurrentChange(val,'fail')"
+                @current-change="handleCurrentChange(val)"
                 :page-size="100"
                 layout="prev, pager, next"
                 :total="scope.row.failnum">
@@ -90,12 +95,22 @@ export default {
   methods : {
     handleCurrentChange (val){
     },
-    gettestdetails  (kind,projectname,variantname,changelist,kickoffdate,){
+    gettestdetails  (kind,projectname,variantname,groupname,changelist,isBAPU,isBACO,shelve){
       if(kind == 'fail'){
         this.faillistvisible = true;
         this.$http.post('/regression/get',{
-
-        }).then();
+          projectname : projectname,
+          variantname : variantname,
+          groupname   : groupname,
+          changelist  : changelist,
+          isBAPU      : isBAPU,
+          isBACO      : isBACO,
+          shelve      : shelve,
+          kind        : 'testdetails'
+        }).then(
+          function(response){},
+          function(){}
+        );
       }
     },
     handleClick(tab, event) {
