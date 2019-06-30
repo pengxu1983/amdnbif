@@ -43,7 +43,7 @@ module.exports = {
     if(inputs.kind  ==  'testdetails'){
       if(inputs.projectname =='mi200'){
         if(inputs.groupname == 'all'){
-          let R = await Regressiondetails0001.find(
+          let R = await Regressiondetails0001.find({
             where : {
               projectname : inputs.projectname,
               variantname : inputs.variantname,
@@ -55,7 +55,7 @@ module.exports = {
               //groupname   : groupname 
             },
             sort  : 'testname ASC'
-          );
+          });
           let testdetails = [];
           for(let r=0;r<R.length;r++){
             testdetails.push({
