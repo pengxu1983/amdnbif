@@ -22,16 +22,37 @@
           width="180">
         </el-table-column>
         <el-table-column
+          prop="isBACO"
+          label="isBACO"
+          width="180">
+        </el-table-column>
+        <el-table-column
+          prop="isBAPU"
+          label="isBAPU"
+          width="180">
+        </el-table-column>
+        <el-table-column
           prop="passrate"
           label="passrate">
         </el-table-column>
         <el-table-column
           prop="passnum"
           label="passnum">
+          
+        </el-table-column>
+        <el-table-column
+          prop="failnum"
+          label="failnum">
           <template slot-scope="scope">
-            <el-button type="text" @click="passlistvisible = true">{{scope.row.passnum}}</el-button>
+            <el-button type="text" @click="gettestdetails('fail')">{{scope.row.failnum}}</el-button>
 
-            <el-dialog title="pass tests list" :visible.sync="passlistvisible">
+            <el-dialog title="fail tests list" :visible.sync="faillistvisible" width="80%">
+              <el-pagination
+                @current-change="handleCurrentChange(val,'fail')"
+                :page-size="100"
+                layout="prev, pager, next"
+                :total="scope.row.failnum">
+              </el-pagination>
               <el-table :data="testdetails">
                 <el-table-column property="testname" label="testname" width="200"></el-table-column>
                 <el-table-column property="seed" label="seed" width="200"></el-table-column>
@@ -39,10 +60,6 @@
               </el-table>
             </el-dialog>
           </template>
-        </el-table-column>
-        <el-table-column
-          prop="failnum"
-          label="failnum">
         </el-table-column>
         <el-table-column
           prop="unknownnum"
@@ -67,10 +84,20 @@ export default {
       activeProj: 'mi200',
       regressionstatus_mi200 : [],
       testdetails : [],
-      passlistvisible: false,
+      faillistvisible: false,
     }
   },
   methods : {
+    handleCurrentChange (val){
+    },
+    gettestdetails  (kind,projectname,variantname,changelist,kickoffdate,){
+      if(kind == 'fail'){
+        this.faillistvisible = true;
+        this.$http.post('/regression/get',{
+
+        }).then();
+      }
+    },
     handleClick(tab, event) {
       console.log(tab, event);
     },

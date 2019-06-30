@@ -49,6 +49,8 @@ module.exports = {
               passnum     : passlist.length,
               failnum     : faillist.length,
               unknownnum  : unknownlist.length,
+              isBAPU      : R[r].isBAPU,
+              isBACO      : R[r].isBACO,
               passrate    : R[r].passrate,
               changelist  : R[r].changelist,
               kickoffdate : R[r].kickoffdate
