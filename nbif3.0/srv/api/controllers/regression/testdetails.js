@@ -64,6 +64,10 @@ module.exports = {
               signature : R[r].signature
             })
           }
+          return exits.success(JSON.stringify({
+            ok  : 'ok',
+            testdetails : testdetails
+          }));
         }
       }
     }

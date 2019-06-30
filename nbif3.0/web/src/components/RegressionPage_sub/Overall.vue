@@ -98,7 +98,7 @@ export default {
     gettestdetails  (kind,projectname,variantname,groupname,changelist,isBAPU,isBACO,shelve){
       if(kind == 'fail'){
         this.faillistvisible = true;
-        this.$http.post('/regression/get',{
+        this.$http.post('/regression/testdetails',{
           projectname : projectname,
           variantname : variantname,
           groupname   : groupname,
@@ -108,7 +108,9 @@ export default {
           shelve      : shelve,
           kind        : 'testdetails'
         }).then(
-          function(response){},
+          function(response){
+            console.log(response.body.ok);
+          },
           function(){}
         );
       }
