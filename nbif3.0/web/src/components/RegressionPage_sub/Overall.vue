@@ -106,10 +106,12 @@ export default {
           isBAPU      : isBAPU,
           isBACO      : isBACO,
           shelve      : shelve,
-          kind        : 'testdetails'
+          kind        : 'testdetails',
+          result      : 'FAIL'
         }).then(
           function(response){
             console.log(response.body.ok);
+            console.log(response.body.testdetails);
           },
           function(){}
         );

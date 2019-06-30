@@ -52,6 +52,7 @@ module.exports = {
               changelist  : inputs.changelist,
               kickoffdate : inputs.kickoffdate,
               shelve      : inputs.shelve,
+              result      : inputs.result,
               //groupname   : groupname 
             },
             sort  : 'testname ASC'
