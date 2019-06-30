@@ -28,6 +28,9 @@ module.exports = {
     },
     groupname : {
       type  : 'string'
+    },
+    result    : {
+      type  : 'string'
     }
   },
 
