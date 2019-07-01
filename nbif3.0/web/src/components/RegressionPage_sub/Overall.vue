@@ -58,7 +58,7 @@
                 layout="prev, pager, next"
                 :total="scope.row.failnum">
               </el-pagination>
-              <el-table :data="testdetails">
+              <el-table :data="testdetails_disp">
                 <el-table-column property="testname" label="testname" width="200"></el-table-column>
                 <el-table-column property="seed" label="seed" width="200"></el-table-column>
                 <el-table-column property="signature" label="signature"></el-table-column>
@@ -89,11 +89,23 @@ export default {
       activeProj: 'mi200',
       regressionstatus_mi200 : [],
       testdetails : [],
+      testdetails_disp : [],
       faillistvisible: false,
     }
   },
   methods : {
     handleCurrentChange (val){
+      testdetails_disp=[];
+      let maxindex;
+      if((100+val*100)<testdetails.length){
+        maxindex = (100+val*100);
+      }
+      else{
+        maxindex = testdetails.length;
+      }
+      for(let i=(val*100);i<maxindex;i++){
+        testdetails_disp.push(testdetails[i]);
+      }
     },
     gettestdetails  (kind,projectname,variantname,groupname,changelist,isBAPU,isBACO,shelve){
       if(kind == 'fail'){
@@ -112,6 +124,8 @@ export default {
           function(response){
             console.log(response.body.ok);
             console.log(response.body.testdetails);
+            this.testdetails = response.body.testdetails;
+            this.handleCurrentChange(1);
           },
           function(){}
         );
