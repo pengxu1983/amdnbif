@@ -43,6 +43,11 @@
         width="180">
       </el-table-column>
       <el-table-column
+        prop="groupname"
+        label="groupname"
+        width="180">
+      </el-table-column>
+      <el-table-column
         prop="isBACO"
         label="isBACO"
         width="180">
@@ -69,7 +74,7 @@
         prop="failnum"
         label="failnum">
         <template slot-scope="scope">
-          <el-button type="text" @click="gettestdetails('FAIL',scope.row.projectname,scope.row.variantname,'all',scope.row.changelist,scope.row.isBAPU,scope.row.isBACO,scope.row.shelve)">{{scope.row.failnum}}</el-button>
+          <el-button type="text" @click="gettestdetails('FAIL',scope.row.projectname,scope.row.variantname,scope.row.groupname,scope.row.changelist,scope.row.isBAPU,scope.row.isBACO,scope.row.shelve)">{{scope.row.failnum}}</el-button>
 
           <el-dialog title="FAIL tests list" :visible.sync="faillistvisible" width="80%">
             <el-pagination
@@ -90,11 +95,11 @@
         prop="unknownnum"
         label="unknownnum">
         <template slot-scope="scope">
-          <el-button type="text" @click="gettestdetails('UNKNOWN',scope.row.projectname,scope.row.variantname,'all',scope.row.changelist,scope.row.isBAPU,scope.row.isBACO,scope.row.shelve)">{{scope.row.unknownnum}}</el-button>
+          <el-button type="text" @click="gettestdetails('UNKNOWN',scope.row.projectname,scope.row.variantname,scope.row.groupname,scope.row.changelist,scope.row.isBAPU,scope.row.isBACO,scope.row.shelve)">{{scope.row.unknownnum}}</el-button>
 
           <el-dialog title="unknown tests list" :visible.sync="unknownlistvisible" width="80%">
             <el-pagination
-              @current-change="handleCurrentChange_mi200_unknown"
+              @current-change="handleCurrentChange"
               :page-size="100"
               layout="prev, pager, next"
               :total="scope.row.unknownnum">
@@ -124,7 +129,9 @@ export default {
         groupname : 'sanity',
       },
       groups  : [],
-      regressionstatus: [],
+      regressionstatus: [{
+        failnum : 200
+      }],
       testdetails : [],
       testdetails_disp  : [],
       faillistvisible : false,
@@ -155,7 +162,7 @@ export default {
     },
     gettestdetails  (kind,projectname,variantname,groupname,changelist,isBAPU,isBACO,shelve){
       if(kind == 'FAIL'){
-        this.faillistvisible_mi200 = true;
+        this.faillistvisible= true;
         this.$http.post('/regression/testdetails',{
           projectname : projectname,
           variantname : variantname,
@@ -177,7 +184,7 @@ export default {
         );
       }
       else if(kind == 'UNKNOWN'){
-        this.unknownlistvisible_mi200 = true;
+        this.unknownlistvisible= true;
         this.$http.post('/regression/testdetails',{
           projectname : projectname,
           variantname : variantname,
