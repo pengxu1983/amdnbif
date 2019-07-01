@@ -53,7 +53,7 @@
 
             <el-dialog title="fail tests list" :visible.sync="faillistvisible" width="80%">
               <el-pagination
-                @current-change="handleCurrentChange(val)"
+                @current-change="handleCurrentChange"
                 :page-size="100"
                 layout="prev, pager, next"
                 :total="scope.row.failnum">
@@ -95,16 +95,17 @@ export default {
   },
   methods : {
     handleCurrentChange (val){
-      testdetails_disp=[];
+      console.log(val);
+      this.testdetails_disp=[];
       let maxindex;
-      if((100+val*100)<testdetails.length){
+      if((100+val*100)<this.testdetails.length){
         maxindex = (100+val*100);
       }
       else{
-        maxindex = testdetails.length;
+        maxindex = this.testdetails.length;
       }
       for(let i=(val*100);i<maxindex;i++){
-        testdetails_disp.push(testdetails[i]);
+        this.testdetails_disp.push(this.testdetails[i]);
       }
     },
     gettestdetails  (kind,projectname,variantname,groupname,changelist,isBAPU,isBACO,shelve){
