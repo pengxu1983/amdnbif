@@ -142,9 +142,6 @@ export default {
       }).then(
         function(response){
           if(response.body.ok =='ok'){
-            console.log('abc');
-            console.log(response.body.regressions);
-            console.log(typeof(response.body.regressions));
             this.regressionstatus=  response.body.regressions;
           }
           else{
@@ -158,16 +155,28 @@ export default {
     gettestdetails  (kind,projectname,variantname,groupname,changelist,isBAPU,isBACO,shelve){
       if(kind == 'FAIL'){
         this.faillistvisible= true;
-        this.$http.post('/regression/testdetails',{
+        console.log('dbg1');
+        console.log({
           projectname : projectname,
           variantname : variantname,
-          groupname   : groupname,
           changelist  : changelist,
           isBAPU      : isBAPU,
           isBACO      : isBACO,
           shelve      : shelve,
           kind        : 'testdetails',
-          result      : kind
+          result      : kind,
+          groupname   : groupname,
+        });
+        this.$http.post('/regression/testdetails',{
+          projectname : projectname,
+          variantname : variantname,
+          changelist  : changelist,
+          isBAPU      : isBAPU,
+          isBACO      : isBACO,
+          shelve      : shelve,
+          kind        : 'testdetails',
+          result      : kind,
+          groupname   : groupname,
         }).then(
           function(response){
             console.log(response.body.ok);
@@ -183,13 +192,13 @@ export default {
         this.$http.post('/regression/testdetails',{
           projectname : projectname,
           variantname : variantname,
-          groupname   : groupname,
           changelist  : changelist,
           isBAPU      : isBAPU,
           isBACO      : isBACO,
           shelve      : shelve,
           kind        : 'testdetails',
-          result      : kind
+          result      : kind,
+          groupname   : groupname,
         }).then(
           function(response){
             console.log(response.body.ok);
