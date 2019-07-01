@@ -77,7 +77,7 @@
                 @current-change="handleCurrentChange_mi200_unknown"
                 :page-size="100"
                 layout="prev, pager, next"
-                :total="scope.row.failnum">
+                :total="scope.row.unknownnum">
               </el-pagination>
               <el-table :data="testdetails_disp">
                 <el-table-column property="testname" label="testname" width="200"></el-table-column>
