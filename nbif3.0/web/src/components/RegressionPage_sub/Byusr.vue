@@ -1,12 +1,17 @@
 <template>
   <el-container>
-abc
+    <el-main>
+    aaa
+    </el-main>
+    <el-main>
+    bbb
+    </el-main>
   </el-container>
 </template>
 
 <script>
 export default {
-  name: 'Overall',
+  name: 'Byusr',
   props: {
   },
   data() {

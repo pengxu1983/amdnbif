@@ -14,6 +14,9 @@ module.exports = {
     projectname : {
       type  : 'string'
     },
+    groupname : {
+      type  : 'string'
+    }
   },
 
 
