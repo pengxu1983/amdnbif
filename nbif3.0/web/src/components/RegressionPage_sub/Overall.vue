@@ -49,9 +49,9 @@
           prop="failnum"
           label="failnum">
           <template slot-scope="scope">
-            <el-button type="text" @click="gettestdetails('fail',scope.row.projectname,scope.row.variantname,'all',scope.row.changelist,scope.row.isBAPU,scope.row.isBACO,scope.row.shelve)">{{scope.row.failnum}}</el-button>
+            <el-button type="text" @click="gettestdetails('FAIL',scope.row.projectname,scope.row.variantname,'all',scope.row.changelist,scope.row.isBAPU,scope.row.isBACO,scope.row.shelve)">{{scope.row.failnum}}</el-button>
 
-            <el-dialog title="fail tests list" :visible.sync="faillistvisible" width="80%">
+            <el-dialog title="FAIL tests list" :visible.sync="faillistvisible_mi200" width="80%">
               <el-pagination
                 @current-change="handleCurrentChange"
                 :page-size="100"
@@ -69,6 +69,23 @@
         <el-table-column
           prop="unknownnum"
           label="unknownnum">
+          <template slot-scope="scope">
+            <el-button type="text" @click="gettestdetails('unknown',scope.row.projectname,scope.row.variantname,'all',scope.row.changelist,scope.row.isBAPU,scope.row.isBACO,scope.row.shelve)">{{scope.row.failnum}}</el-button>
+
+            <el-dialog title="unknown tests list" :visible.sync="unknownlistvisible_mi200" width="80%">
+              <el-pagination
+                @current-change="handleCurrentChange_mi200_unknown"
+                :page-size="100"
+                layout="prev, pager, next"
+                :total="scope.row.failnum">
+              </el-pagination>
+              <el-table :data="testdetails_disp">
+                <el-table-column property="testname" label="testname" width="200"></el-table-column>
+                <el-table-column property="seed" label="seed" width="200"></el-table-column>
+                <el-table-column property="signature" label="signature"></el-table-column>
+              </el-table>
+            </el-dialog>
+          </template>
         </el-table-column>
       </el-table>
     </el-tab-pane>
@@ -87,10 +104,11 @@ export default {
         projectname : 'mi200'
       },
       activeProj: 'mi200',
-      regressionstatus_mi200 : [],
-      testdetails : [],
-      testdetails_disp : [],
-      faillistvisible: false,
+      regressionstatus_mi200  : [],
+      testdetails             : [],
+      testdetails_disp        : [],
+      faillistvisible_mi200   : false,
+      unknownlistvisible_mi200: false,
     }
   },
   methods : {
@@ -108,9 +126,23 @@ export default {
         this.testdetails_disp.push(this.testdetails[i]);
       }
     },
+    handleCurrentChange_mi200_unknown (val){
+      console.log(val);
+      this.testdetails_disp=[];
+      let maxindex;
+      if((val*100)<this.testdetails.length){
+        maxindex = (val*100);
+      }
+      else{
+        maxindex = this.testdetails.length;
+      }
+      for(let i=((val-1)*100);i<maxindex;i++){
+        this.testdetails_disp.push(this.testdetails[i]);
+      }
+    },
     gettestdetails  (kind,projectname,variantname,groupname,changelist,isBAPU,isBACO,shelve){
-      if(kind == 'fail'){
-        this.faillistvisible = true;
+      if(kind == 'FAIL'){
+        this.faillistvisible_mi200 = true;
         this.$http.post('/regression/testdetails',{
           projectname : projectname,
           variantname : variantname,
@@ -120,7 +152,29 @@ export default {
           isBACO      : isBACO,
           shelve      : shelve,
           kind        : 'testdetails',
-          result      : 'FAIL'
+          result      : kind
+        }).then(
+          function(response){
+            console.log(response.body.ok);
+            console.log(response.body.testdetails);
+            this.testdetails = response.body.testdetails;
+            this.handleCurrentChange(1);
+          },
+          function(){}
+        );
+      }
+      else if(kind == 'UNKNOWN'){
+        this.unknownlistvisible_mi200 = true;
+        this.$http.post('/regression/testdetails',{
+          projectname : projectname,
+          variantname : variantname,
+          groupname   : groupname,
+          changelist  : changelist,
+          isBAPU      : isBAPU,
+          isBACO      : isBACO,
+          shelve      : shelve,
+          kind        : 'testdetails',
+          result      : kind
         }).then(
           function(response){
             console.log(response.body.ok);
