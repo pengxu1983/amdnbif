@@ -227,7 +227,7 @@ export default {
     },
   },
   mounted (){
-    this.getregressionstatus(groupinfo.projectname,groupinfo.groupname);
+    this.getregressionstatus(this.groupinfo.projectname,this.groupinfo.groupname);
   }
 }
 </script>
