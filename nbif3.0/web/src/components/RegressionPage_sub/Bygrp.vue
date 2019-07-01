@@ -69,7 +69,7 @@
         prop="failnum"
         label="failnum">
         <template slot-scope="scope">
-          <el-button type="text" @click="gettestdetails('FAIL',scope.row.projectname,scope.row.variantname,scope.row.groupname,scope.row.changelist,scope.row.isBAPU,scope.row.isBACO,scope.row.shelve)">{{scope.row.failnum}}</el-button>
+          <el-button type="text" @click="gettestdetails('FAIL',scope.row.projectname,scope.row.variantname,groupinfo.groupname,scope.row.changelist,scope.row.isBAPU,scope.row.isBACO,scope.row.shelve)">{{scope.row.failnum}}</el-button>
 
           <el-dialog title="FAIL tests list" :visible.sync="faillistvisible" width="80%">
             <el-pagination
@@ -90,7 +90,7 @@
         prop="unknownnum"
         label="unknownnum">
         <template slot-scope="scope">
-          <el-button type="text" @click="gettestdetails('UNKNOWN',scope.row.projectname,scope.row.variantname,scope.row.groupname,scope.row.changelist,scope.row.isBAPU,scope.row.isBACO,scope.row.shelve)">{{scope.row.unknownnum}}</el-button>
+          <el-button type="text" @click="gettestdetails('UNKNOWN',scope.row.projectname,scope.row.variantname,groupinfo.groupname,scope.row.changelist,scope.row.isBAPU,scope.row.isBACO,scope.row.shelve)">{{scope.row.unknownnum}}</el-button>
 
           <el-dialog title="unknown tests list" :visible.sync="unknownlistvisible" width="80%">
             <el-pagination
