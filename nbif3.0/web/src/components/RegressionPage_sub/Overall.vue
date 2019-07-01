@@ -98,13 +98,13 @@ export default {
       console.log(val);
       this.testdetails_disp=[];
       let maxindex;
-      if((100+val*100)<this.testdetails.length){
-        maxindex = (100+val*100);
+      if((val*100)<this.testdetails.length){
+        maxindex = (val*100);
       }
       else{
         maxindex = this.testdetails.length;
       }
-      for(let i=(val*100);i<maxindex;i++){
+      for(let i=((val-1)*100);i<maxindex;i++){
         this.testdetails_disp.push(this.testdetails[i]);
       }
     },
