@@ -43,11 +43,6 @@
         width="180">
       </el-table-column>
       <el-table-column
-        prop="groupname"
-        label="groupname"
-        width="180">
-      </el-table-column>
-      <el-table-column
         prop="isBACO"
         label="isBACO"
         width="180">
