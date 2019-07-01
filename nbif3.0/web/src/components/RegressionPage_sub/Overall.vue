@@ -70,7 +70,7 @@
           prop="unknownnum"
           label="unknownnum">
           <template slot-scope="scope">
-            <el-button type="text" @click="gettestdetails('unknown',scope.row.projectname,scope.row.variantname,'all',scope.row.changelist,scope.row.isBAPU,scope.row.isBACO,scope.row.shelve)">{{scope.row.failnum}}</el-button>
+            <el-button type="text" @click="gettestdetails('UNKNOWN',scope.row.projectname,scope.row.variantname,'all',scope.row.changelist,scope.row.isBAPU,scope.row.isBACO,scope.row.shelve)">{{scope.row.unknownnum}}</el-button>
 
             <el-dialog title="unknown tests list" :visible.sync="unknownlistvisible_mi200" width="80%">
               <el-pagination
