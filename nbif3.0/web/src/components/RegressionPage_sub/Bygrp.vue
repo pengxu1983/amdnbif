@@ -66,6 +66,23 @@
         prop="alltestnum"
         label="alltestnum"
       >
+        <template slot-scope="scope">
+          <el-button type="text" @click="gettestdetails('ALL',scope.row.projectname,scope.row.variantname,groupinfo.groupname,scope.row.changelist,scope.row.isBAPU,scope.row.isBACO,scope.row.shelve)">{{scope.row.passnum}}</el-button>
+
+          <el-dialog title="ALL tests list" :visible.sync="alltestvisible" width="80%">
+            <el-pagination
+              @current-change="handleCurrentChange"
+              :page-size="100"
+              layout="prev, pager, next"
+              :total="scope.row.alltestnum">
+            </el-pagination>
+            <el-table :data="testdetails_disp">
+              <el-table-column property="testname" label="testname" width="200"></el-table-column>
+              <el-table-column property="seed" label="seed" width="200"></el-table-column>
+              <el-table-column property="signature" label="signature"></el-table-column>
+            </el-table>
+          </el-dialog>
+        </template>
       </el-table-column>
       <el-table-column
         prop="passnum"
@@ -199,16 +216,8 @@ export default {
       return [];
     },
     gettestdetails  (kind,projectname,variantname,groupname,changelist,isBAPU,isBACO,shelve){
-      if(kind == 'FAIL'){
-        this.faillistvisible    = true;
-      }
-      if(kind == 'PASS'){
-        this.passlistvisible    = true;
-      }
-      if(kind == 'UNKNOWN'){
-        this.unknownlistvisible = true;
-      }
-      this.$http.post('/regression/testdetails',{
+      
+      let postdata = {
         projectname : projectname,
         variantname : variantname,
         changelist  : changelist,
@@ -216,9 +225,26 @@ export default {
         isBACO      : isBACO,
         shelve      : shelve,
         kind        : 'testdetails',
-        result      : kind,
+        //result      : kind,
         groupname   : groupname,
-      }).then(
+      };
+      if(kind == 'FAIL'){
+        this.faillistvisible    = true;
+        postdata.result         = kind;
+      }
+      if(kind == 'PASS'){
+        this.passlistvisible    = true;
+        postdata.result         = kind;
+      }
+      if(kind == 'UNKNOWN'){
+        this.unknownlistvisible = true;
+        postdata.result         = kind;
+      }
+      if(kind == 'ALL'){
+        this.alltestvisible     = true;
+        //postdata.result         = kind;
+      }
+      this.$http.post('/regression/testdetails',postdata).then(
         function(response){
           console.log(response.body.ok);
           console.log(response.body.testdetails);

@@ -46,18 +46,24 @@ module.exports = {
     if(inputs.kind  ==  'testdetails'){
       if(inputs.projectname =='mi200'){
         if(inputs.groupname == 'all'){
+          let W = {
+            projectname : inputs.projectname,
+            variantname : inputs.variantname,
+            isBAPU      : inputs.isBAPU,
+            isBACO      : inputs.isBACO,
+            changelist  : inputs.changelist,
+            kickoffdate : inputs.kickoffdate,
+            shelve      : inputs.shelve,
+            //result      : inputs.result,
+            //groupname   : groupname 
+          };
+          if(inputs.result == 'ALL'){
+          }
+          else{
+            W.result  = inputs.result;
+          }
           let R = await Regressiondetails0001.find({
-            where : {
-              projectname : inputs.projectname,
-              variantname : inputs.variantname,
-              isBAPU      : inputs.isBAPU,
-              isBACO      : inputs.isBACO,
-              changelist  : inputs.changelist,
-              kickoffdate : inputs.kickoffdate,
-              shelve      : inputs.shelve,
-              result      : inputs.result,
-              //groupname   : groupname 
-            },
+            where : W,
             sort  : 'testname ASC'
           });
           let testdetails = [];
@@ -74,18 +80,24 @@ module.exports = {
           }));
         }
         else{
+          let W = {
+            projectname : inputs.projectname,
+            variantname : inputs.variantname,
+            isBAPU      : inputs.isBAPU,
+            isBACO      : inputs.isBACO,
+            changelist  : inputs.changelist,
+            kickoffdate : inputs.kickoffdate,
+            shelve      : inputs.shelve,
+            //result      : inputs.result,
+            groupname   : inputs.groupname 
+          };
+          if(inputs.result == 'ALL'){
+          }
+          else{
+            W.result  = inputs.result;
+          }
           let R = await Regressiondetails0001.find({
-            where : {
-              projectname : inputs.projectname,
-              variantname : inputs.variantname,
-              isBAPU      : inputs.isBAPU,
-              isBACO      : inputs.isBACO,
-              changelist  : inputs.changelist,
-              kickoffdate : inputs.kickoffdate,
-              shelve      : inputs.shelve,
-              result      : inputs.result,
-              groupname   : inputs.groupname 
-            },
+            where : W,
             sort  : 'testname ASC'
           });
           let testdetails = [];
