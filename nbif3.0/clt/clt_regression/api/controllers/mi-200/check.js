@@ -147,8 +147,8 @@ let cron_send_request = new cronJob('* * * * * *',function(){
     postQ.splice(0,postQlimit);
   }
 },null,false,'Asia/Chongqing');
-let cron_check_result = new cronJob('0 0 2 * * *',function(){
-  cron_check_result.stop();
+let cron_check_result = new cronJob('0 25 * * * *',function(){
+  //cron_check_result.stop();
   console.log('cron_check_result starts at '+moment().format('YYYY-MM-DD HH:mm:ss'));
   console.log('basic info :');
   console.log('refTreeRoot is '+refTreeRoot);
@@ -184,7 +184,7 @@ let cron_check_result = new cronJob('0 0 2 * * *',function(){
     console.log('testlist ok');
     let lines = fs.readFileSync(regTreeRoot+'/testlist.log','utf8').split('\n');
     lines.pop();
-    let regx01 = /^\[dj \d+:\d+:\d+ I\]:   "attributes": {/;
+    let regx01 = /^\[dj \d+:\d+:\d+ I\]:   "testcase": "(.*)"/;
     let regx02 = /^\[dj \d+:\d+:\d+ I\]:   }/;
     let regx03 = /^\[dj \d+:\d+:\d+ I\]:     "name": "(.*)"/;
     let regx04 = /^\[dj \d+:\d+:\d+ I\]:     "config": "(.*)"/;
@@ -198,23 +198,24 @@ let cron_check_result = new cronJob('0 0 2 * * *',function(){
     for(let l=0;l<lines.length;l++){
       if(regx01.test(lines[l])){
         flag = 1;
+        lines[l].replace(regx01,function(rs,$1){
+          let R1 = $1.split('::');
+          let R2 = R1[1].split('/');
+          testname = R2[1];
+          let suite    = R2[0];
+          testResult[testname]={};
+          testResult[testname]['suite']=suite;
+          console.log('testname :');
+          console.log(testname);
+          console.log('suite');
+          console.log(testResult[testname]['suite']);
+        });
       }
       else if(regx02.test(lines[l])){
         flag = 0;
       }
       else if(flag == 1){
-        let suite = '';
-        if(regx03.test(lines[l])){
-          lines[l].replace(regx03,function(rs,$1){
-            testname = $1;
-            testResult[testname]={};
-            testResult[testname]['suite']= suite;
-            testlist.push(testname);
-            console.log('testname');
-            console.log($1);
-          });
-        }
-        else if(regx04.test(lines[l])){
+        if(regx04.test(lines[l])){
           lines[l].replace(regx04,function(rs,$1){
             testResult[testname]['config'] = $1;
             console.log('config');

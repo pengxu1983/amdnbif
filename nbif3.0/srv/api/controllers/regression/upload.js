@@ -95,7 +95,7 @@ module.exports = {
             result        : result        ,
             seed          : seed          ,
             signature     : signature     ,
-            //suite         : suite         ,
+            suite         : suite         ,
             //shelve        : shelve        ,
             //isBAPU        : isBAPU        ,
             //isBACO        : isBACO        ,
