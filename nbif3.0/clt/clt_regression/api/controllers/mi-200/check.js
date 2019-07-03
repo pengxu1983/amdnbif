@@ -1,14 +1,14 @@
 let refTreeRoot   = '';
-let regTreeRoot   = '/proj/nbif_mero_regress1/ip_regress/anttili/nbif2_0_3';
+let regTreeRoot   = '/proj/cip_floyd_genz/ip_regress/antti/nbif2_0_mi200/';
 let resultDir     = regTreeRoot+'/out/linux_2.6.32_64.VCS/nbif_nv10_gpu/config/nbif_all_rtl/run/nbif-nv10_gpu-mi200';
-let out_home      = '/out/linux_2.6.32_64.VCS/';
+let out_home      = '/out/linux_3.10.0_64.VCS/';
 var moment        = require('moment');
 var querystring   = require('querystring');
 var http          = require('http');
 var fs            = require('fs');
 var child_process = require('child_process');
 var cronJob       = require("cron").CronJob;
-var workspace     = '/proj/cip_arden_nbif_regress4/benpeng';////MODIFY
+var workspace     = '/proj/cip_floyd_genz/benpeng';////MODIFY
 //let projectname   = 'mi200';////MODIFY
 //let variantname   = 'nbif_nv10_gpu';////MODIFY
 let outDir        = {};
@@ -147,7 +147,7 @@ let cron_send_request = new cronJob('* * * * * *',function(){
     postQ.splice(0,postQlimit);
   }
 },null,false,'Asia/Chongqing');
-let cron_check_result = new cronJob('0 0 * * * *',function(){
+let cron_check_result = new cronJob('0 22 * * * *',function(){
   //cron_check_result.stop();
   console.log('cron_check_result starts at '+moment().format('YYYY-MM-DD HH:mm:ss'));
   console.log('basic info :');
