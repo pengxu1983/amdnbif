@@ -197,6 +197,7 @@ export default {
         function(response){
           if(response.body.ok =='ok'){
             this.regressionstatus_mi200 =  response.body.regressions;
+            console.log(this.regressionstatus_mi200);
           }
           else{
             console.log(response.body);

@@ -62,6 +62,7 @@ module.exports = {
               shelve      : R[r].shelve
             });
           }
+          sails.log(regressions);
           return exits.success(JSON.stringify({
             ok  : 'ok',
             projectname : 'mi200',
