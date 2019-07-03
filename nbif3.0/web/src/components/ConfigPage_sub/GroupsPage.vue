@@ -21,7 +21,7 @@
         border
         :data="groups"
         style="width: 100%"
-        max-height="250">
+      >
         <el-table-column
           fixed
           prop="groupname"
