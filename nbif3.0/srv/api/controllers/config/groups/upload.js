@@ -35,7 +35,6 @@ module.exports = {
             groupname : groups[g].groupname
           });
           if(onegroup){
-            sails.log('update');
             await Groups.update({
               groupname : groups[g].groupname,
               //DVgroup   : groups[g].DVgroup,
@@ -47,19 +46,18 @@ module.exports = {
             });
           }
           else{
-            sails.log('create');
             await Groups.create({
               groupname : groups[g].groupname,
               DVgroup   : groups[g].DVgroup,
               owner     : groups[g].owner
             });
           }
-          return exits.success(JSON.stringify({
-            ok  : 'ok',
-            msg : 'group updated'
-          }));
         }
       }
+      return exits.success(JSON.stringify({
+        ok  : 'ok',
+        msg : 'group updated'
+      }));
     }
     // All done.
     return exits.success(JSON.stringify({
