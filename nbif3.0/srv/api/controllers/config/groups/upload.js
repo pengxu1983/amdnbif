@@ -35,6 +35,7 @@ module.exports = {
             groupname : groups[g].groupname
           });
           if(onegroup){
+            sails.log('update');
             await Groups.update({
               groupname : groups[g].groupname,
               //DVgroup   : groups[g].DVgroup,
@@ -46,6 +47,7 @@ module.exports = {
             });
           }
           else{
+            sails.log('create');
             await Groups.create({
               groupname : groups[g].groupname,
               DVgroup   : groups[g].DVgroup,
