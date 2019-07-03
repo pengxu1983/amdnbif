@@ -83,7 +83,6 @@ module.exports = {
         else{
           let regressions =[];
           for(let r=0;r<R.length;R++){
-            let testlist = JSON.parse(R[r].testlist);
             let passlist = JSON.parse(R[r].passlist);
             let faillist = JSON.parse(R[r].faillist);
             let testlist = JSON.parse(R[r].testlist);
