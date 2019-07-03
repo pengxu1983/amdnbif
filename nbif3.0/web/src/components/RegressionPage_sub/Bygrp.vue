@@ -194,61 +194,33 @@ export default {
     },
     gettestdetails  (kind,projectname,variantname,groupname,changelist,isBAPU,isBACO,shelve){
       if(kind == 'FAIL'){
-        this.faillistvisible= true;
-        console.log('dbg1');
-        console.log({
-          projectname : projectname,
-          variantname : variantname,
-          changelist  : changelist,
-          isBAPU      : isBAPU,
-          isBACO      : isBACO,
-          shelve      : shelve,
-          kind        : 'testdetails',
-          result      : kind,
-          groupname   : groupname,
-        });
-        this.$http.post('/regression/testdetails',{
-          projectname : projectname,
-          variantname : variantname,
-          changelist  : changelist,
-          isBAPU      : isBAPU,
-          isBACO      : isBACO,
-          shelve      : shelve,
-          kind        : 'testdetails',
-          result      : kind,
-          groupname   : groupname,
-        }).then(
-          function(response){
-            console.log(response.body.ok);
-            console.log(response.body.testdetails);
-            this.testdetails = response.body.testdetails;
-            this.handleCurrentChange(1);
-          },
-          function(){}
-        );
+        this.faillistvisible    = true;
       }
-      else if(kind == 'UNKNOWN'){
-        this.unknownlistvisible= true;
-        this.$http.post('/regression/testdetails',{
-          projectname : projectname,
-          variantname : variantname,
-          changelist  : changelist,
-          isBAPU      : isBAPU,
-          isBACO      : isBACO,
-          shelve      : shelve,
-          kind        : 'testdetails',
-          result      : kind,
-          groupname   : groupname,
-        }).then(
-          function(response){
-            console.log(response.body.ok);
-            console.log(response.body.testdetails);
-            this.testdetails = response.body.testdetails;
-            this.handleCurrentChange(1);
-          },
-          function(){}
-        );
+      if(kind == 'PASS'){
+        this.passlistvisible    = true;
       }
+      if(kind == 'UNKNOWN'){
+        this.unknownlistvisible = true;
+      }
+      this.$http.post('/regression/testdetails',{
+        projectname : projectname,
+        variantname : variantname,
+        changelist  : changelist,
+        isBAPU      : isBAPU,
+        isBACO      : isBACO,
+        shelve      : shelve,
+        kind        : 'testdetails',
+        result      : kind,
+        groupname   : groupname,
+      }).then(
+        function(response){
+          console.log(response.body.ok);
+          console.log(response.body.testdetails);
+          this.testdetails = response.body.testdetails;
+          this.handleCurrentChange(1);
+        },
+        function(){}
+      );
     },
     handleCurrentChange (val){
       console.log(val);
