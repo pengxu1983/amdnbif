@@ -22,7 +22,7 @@ module.exports = {
   },
 
 
-  fn: async function (inputs) {
+  fn: async function (inputs,exits) {
     sails.log('/config/groups/upload');
     sails.log(inputs);
     if(inputs.kind == 'all'){
