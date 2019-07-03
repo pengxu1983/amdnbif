@@ -7,7 +7,7 @@
           <el-option label="mi200" value="mi200"></el-option>
         </el-select>
       </el-form-item>
-      <el-form-item>
+      <el-form-item label="Group">
         <el-select v-model="groupinfo.groupname" placeholder="groupname">
           <el-option 
             v-for="onegroup in groups"
