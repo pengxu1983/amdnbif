@@ -39,6 +39,7 @@
 <script>
 import SanityPage from '@/components/ConfigPage_sub/SanityPage.vue'
 import VariantsPage from '@/components/ConfigPage_sub/VariantsPage.vue'
+import GroupsPage from '@/components/ConfigPage_sub/GroupsPage.vue'
 
 export default {
   name: 'ConfigPage',
@@ -66,7 +67,8 @@ export default {
   },
   components  : {
     SanityPage,
-    VariantsPage
+    VariantsPage,
+    GroupsPage
   },
   computed: {
     currentTabComponent: function () {

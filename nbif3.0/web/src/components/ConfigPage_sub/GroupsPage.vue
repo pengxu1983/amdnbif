@@ -19,27 +19,26 @@
       <el-row>
       <el-table
         border
-        :data="variants"
+        :data="groups"
         style="width: 100%"
         max-height="250">
         <el-table-column
           fixed
-          prop="variantname"
-          label="variant"
-        >
-        <template slot-scope="scope">
-          <el-input v-model="scope.row.variantname"></el-input>
-        </template>
-        </el-table-column>
-        <el-table-column
-          prop="isSanity"
-          label="isSanity"
-          width="200"
+          prop="groupname"
+          label="Feature Group"
         >
           <template slot-scope="scope">
-            <el-select v-model="scope.row.isSanity" clearable placeholder="yes or no">
+            <el-input v-model="scope.row.groupname"></el-input>
+          </template>
+        </el-table-column>
+        <el-table-column
+          prop="DVgroup"
+          label="DVgroup"
+        >
+          <template slot-scope="scope">
+            <el-select v-model="scope.row.DVgroup" clearable placeholder="DVgroup">
               <el-option
-                v-for="item in options"
+                v-for="item in DVgroups"
                 :key="item"
                 :label="item"
                 :value="item">
@@ -48,14 +47,13 @@
           </template>
         </el-table-column>
         <el-table-column
-          prop="isValid"
-          label="isValid"
-          width="200"
+          prop="owner"
+          label="Owner"
         >
           <template slot-scope="scope">
-            <el-select v-model="scope.row.isValid" clearable placeholder="yes or no">
+            <el-select v-model="scope.row.owner" clearable placeholder="Owner">
               <el-option
-                v-for="item in options"
+                v-for="item in users"
                 :key="item"
                 :label="item"
                 :value="item">
@@ -84,16 +82,18 @@
 
 <script>
 export default {
-  name: 'VariantsPage',
+  name: 'GroupsPage',
   props: {
   },
   data() {
     return {
-      variants  : [],
-      options : [
-        'yes',
-        'no'
-      ]
+      groups  : [],
+      DVgroups: [
+        'MISC',
+        'DMA',
+        'HOST'
+      ],
+      users   : []
     }
   },
   methods : {
@@ -101,16 +101,16 @@ export default {
       rows.splice(index, 1);
     },
     add (){
-      this.variants.unshift({
-        variantname : '',
-        isSanity    : 'no',
-        isValid     : 'yes'
+      this.groups.unshift({
+        groupname   : '',
+        DVgroup     : '',
+        owner       : ''
       });
     },
     upload  (){
-      this.$http.post('/config/variants/upload',{
+      this.$http.post('/config/groups/upload',{
         kind  : 'all',
-        variants  : JSON.stringify(this.variants)
+        groups : JSON.stringify(this.groups)
       }).then(
         function(response){
           if(response.body.ok ==  'ok'){
@@ -124,14 +124,14 @@ export default {
       );
     },
     get (){
-      //get variants
-      this.$http.post('/config/variants/get',{
+      //get groups
+      this.$http.post('/config/groups/get',{
         kind  : 'all'
       }).then(
         function(response){
           if(response.body.ok == 'ok'){
-            this.variants = JSON.parse(response.body.variants);
-            console.log('all variants successfully get from DB');
+            this.groups= JSON.parse(response.body.groups);
+            console.log('all groups successfully get from DB');
           }
           else{
           }

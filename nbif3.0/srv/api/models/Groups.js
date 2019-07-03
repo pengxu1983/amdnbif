@@ -17,6 +17,9 @@ module.exports = {
     },
     owner       : {
       type      : 'string'
+    },
+    DVgroup     : {
+      type      : 'string'
     }
 
     //  ╔═╗╔╦╗╔╗ ╔═╗╔╦╗╔═╗

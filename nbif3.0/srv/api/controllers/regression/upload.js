@@ -164,6 +164,16 @@ module.exports = {
           for(let g=0;g<grouplist.length;g++){
             oneRegression.groupname = grouplist[g];
             await Regressionsummary0001.create(oneRegression);
+            let R = await Groups.findOne({
+              groupname : grouplist[g]
+            });
+            if(R){
+            }
+            else{
+              await Groups.create({
+                groupname : grouplist[g]
+              });
+            }
           }
           return exits.success(JSON.stringify({
             ok  : 'ok',
