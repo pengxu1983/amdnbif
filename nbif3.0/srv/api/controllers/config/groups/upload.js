@@ -52,7 +52,7 @@ module.exports = {
               owner     : groups[g].owner
             });
           }
-          return exit.success(JSON.stringify({
+          return exits.success(JSON.stringify({
             ok  : 'ok',
             msg : 'group updated'
           }));
@@ -60,7 +60,7 @@ module.exports = {
       }
     }
     // All done.
-    return exit.success(JSON.stringify({
+    return exits.success(JSON.stringify({
       ok  : 'ok',
       msg : 'no valid kind'
     }));
