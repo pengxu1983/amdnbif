@@ -45,10 +45,12 @@ module.exports = {
           for(let r=0;r<R.length;R++){
             let passlist = JSON.parse(R[r].passlist);
             let faillist = JSON.parse(R[r].faillist);
+            let testlist = JSON.parse(R[r].testlist);
             let unknownlist = JSON.parse(R[r].unknownlist);
             regressions.push({
               projectname : R[r].projectname,
               variantname : R[r].variantname,
+              alltestnum  : testlist.length,
               passnum     : passlist.length,
               failnum     : faillist.length,
               unknownnum  : unknownlist.length,
@@ -81,12 +83,15 @@ module.exports = {
         else{
           let regressions =[];
           for(let r=0;r<R.length;R++){
+            let testlist = JSON.parse(R[r].testlist);
             let passlist = JSON.parse(R[r].passlist);
             let faillist = JSON.parse(R[r].faillist);
+            let testlist = JSON.parse(R[r].testlist);
             let unknownlist = JSON.parse(R[r].unknownlist);
             regressions.push({
               projectname : R[r].projectname,
               variantname : R[r].variantname,
+              alltestnum  : testlist.length,
               passnum     : passlist.length,
               failnum     : faillist.length,
               unknownnum  : unknownlist.length,

@@ -30,36 +30,42 @@
         prop="kickoffdate"
         label="kickoffdate"
         sortable
-        width="180">
+      >
       </el-table-column>
       <el-table-column
         prop="variantname"
         label="variantname"
-        width="180">
+      >
       </el-table-column>
       <el-table-column
         prop="changelist"
         label="changelist"
-        width="180">
+      >
       </el-table-column>
       <el-table-column
         prop="isBACO"
         label="isBACO"
-        width="180">
+      >
       </el-table-column>
       <el-table-column
         prop="isBAPU"
         label="isBAPU"
-        width="180">
+      >
       </el-table-column>
       <el-table-column
         prop="shelve"
         label="shelve"
-        width="180">
+      >
       </el-table-column>
       <el-table-column
         prop="passrate"
-        label="passrate">
+        label="passrate"
+      >
+      </el-table-column>
+      <el-table-column
+        prop="alltestnum"
+        label="alltestnum"
+      >
       </el-table-column>
       <el-table-column
         prop="passnum"
