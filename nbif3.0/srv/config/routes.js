@@ -27,6 +27,9 @@ module.exports.routes = {
   'POST /config/variants/get' : {
     action  : 'config/variants/get'
   },
+  'POST /config/groups/upload' : {
+    action  : 'config/groups/upload'
+  },
   'POST /config/groups/get' : {
     action  : 'config/groups/get'
   },
