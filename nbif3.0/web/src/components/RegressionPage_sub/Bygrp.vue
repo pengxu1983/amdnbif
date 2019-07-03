@@ -194,6 +194,7 @@ export default {
       faillistvisible     : false,
       passlistvisible     : false,
       unknownlistvisible  : false,
+      alltestvisible      : false,
     }
   },
   methods : {
