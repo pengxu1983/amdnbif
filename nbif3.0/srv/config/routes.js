@@ -27,6 +27,9 @@ module.exports.routes = {
   'POST /config/variants/get' : {
     action  : 'config/variants/get'
   },
+  'POST /config/groups/get' : {
+    action  : 'config/groups/get'
+  },
   //For regression
   'POST /regression/upload' : {
     action  : 'regression/upload'
