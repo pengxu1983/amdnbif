@@ -64,6 +64,23 @@
       <el-table-column
         prop="passnum"
         label="passnum">
+        <template slot-scope="scope">
+          <el-button type="text" @click="gettestdetails('PASS',scope.row.projectname,scope.row.variantname,groupinfo.groupname,scope.row.changelist,scope.row.isBAPU,scope.row.isBACO,scope.row.shelve)">{{scope.row.passnum}}</el-button>
+
+          <el-dialog title="PASS tests list" :visible.sync="passlistvisible" width="80%">
+            <el-pagination
+              @current-change="handleCurrentChange"
+              :page-size="100"
+              layout="prev, pager, next"
+              :total="scope.row.passnum">
+            </el-pagination>
+            <el-table :data="testdetails_disp">
+              <el-table-column property="testname" label="testname" width="200"></el-table-column>
+              <el-table-column property="seed" label="seed" width="200"></el-table-column>
+              <el-table-column property="signature" label="signature"></el-table-column>
+            </el-table>
+          </el-dialog>
+        </template>
       </el-table-column>
       <el-table-column
         prop="failnum"
@@ -148,10 +165,11 @@ export default {
         'gen4',
         'strap',
       ],
-      regressionstatus: [],
-      testdetails : [],
-      testdetails_disp  : [],
-      faillistvisible : false,
+      regressionstatus    : [],
+      testdetails         : [],
+      testdetails_disp    : [],
+      faillistvisible     : false,
+      passlistvisible     : false,
       unknownlistvisible  : false,
     }
   },
