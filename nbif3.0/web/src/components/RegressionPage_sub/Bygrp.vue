@@ -67,7 +67,7 @@
         label="alltestnum"
       >
         <template slot-scope="scope">
-          <el-button type="text" @click="gettestdetails('ALL',scope.row.projectname,scope.row.variantname,groupinfo.groupname,scope.row.changelist,scope.row.isBAPU,scope.row.isBACO,scope.row.shelve)">{{scope.row.passnum}}</el-button>
+          <el-button type="text" @click="gettestdetails('ALL',scope.row.projectname,scope.row.variantname,groupinfo.groupname,scope.row.changelist,scope.row.isBAPU,scope.row.isBACO,scope.row.shelve)">{{scope.row.alltestnum}}</el-button>
 
           <el-dialog title="ALL tests list" :visible.sync="alltestvisible" width="80%">
             <el-pagination
