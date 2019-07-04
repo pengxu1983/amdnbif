@@ -55,6 +55,7 @@ module.exports = {
           where : W,
           sort  : 'DVgroup ASC'
         });
+        sails.log(R);
         return exits.success(JSON.stringify({
           ok  : 'ok',
           groupstatus : R
