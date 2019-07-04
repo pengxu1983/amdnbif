@@ -46,6 +46,9 @@ module.exports.routes = {
   'POST /regression/testdetails' : {
     action  : 'regression/testdetails'
   },
+  'POST /regression/groupstatus' : {
+    action  : 'regression/groupstatus'
+  },
 
   /***************************************************************************
   *                                                                          *
