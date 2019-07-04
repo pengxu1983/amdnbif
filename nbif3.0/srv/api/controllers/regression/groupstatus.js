@@ -59,7 +59,7 @@ module.exports = {
           let onegroup = await Groups.findOne({
             groupname : R[r].groupname
           });
-          sails.log(onegroup);
+          sails.log(onegroup.DVgroup);
           groupstatus.push({
             DVgroup : onegroup.DVgroup,
             groupname : R[r].groupname,
