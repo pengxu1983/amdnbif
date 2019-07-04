@@ -53,9 +53,18 @@ module.exports = {
         };
         let R = await Regressionsummary0001.find({
           where : W,
-          sort  : 'DVgroup ASC'
         });
-        sails.log(R);
+        let groupstatus = [];
+        for(let r=0;r<R.length;r++){
+          let onegroup = await Groups.findOne({
+            groupname : R[r].groupname
+          });
+          groupstatus.push({
+            DVgroup : onegroup.DVgroup,
+            groupname : R[r].groupname,
+            passrate  : R[r].passrate
+          });
+        }
         return exits.success(JSON.stringify({
           ok  : 'ok',
           groupstatus : R
