@@ -51,7 +51,7 @@ module.exports = {
           shelve      : inputs.shelve,
           groupname   : {'!=':'all'}
         };
-        let R = Regressionsummary0001.find({
+        let R = await Regressionsummary0001.find({
           where : W,
           sort  : 'DVgroup ASC'
         });
