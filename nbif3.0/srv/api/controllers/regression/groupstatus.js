@@ -68,7 +68,7 @@ module.exports = {
         }
         return exits.success(JSON.stringify({
           ok  : 'ok',
-          groupstatus : R
+          groupstatus : groupstatus
         }));
       }
     }
