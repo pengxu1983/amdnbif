@@ -45,6 +45,10 @@
           </template>
         </el-table-column>
         <el-table-column
+          prop="alltestnum"
+          label="alltestnum">
+        </el-table-column>
+        <el-table-column
           prop="passnum"
           label="passnum">
         </el-table-column>
