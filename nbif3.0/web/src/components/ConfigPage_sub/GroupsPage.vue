@@ -4,7 +4,7 @@
       <el-row>
         <el-form :inline="true" :model="projectinfo" class="demo-form-inline">
           <el-form-item label="Project">
-            <el-select v-model="projectinfo.projectname" placeholder="Project">
+            <el-select v-model="projectinfo.projectname" placeholder="Project" @change="get()">
               <el-option label="mi200" value="mi200"></el-option>
               <el-option label="mero" value="mero"></el-option>
             </el-select>
@@ -142,12 +142,13 @@ export default {
     get (){
       //get groups
       this.$http.post('/config/groups/get',{
-        kind  : 'all'
+        kind  : 'all',
+        projectname : this.projectinfo.projectname
       }).then(
         function(response){
           if(response.body.ok == 'ok'){
             this.groups= JSON.parse(response.body.groups);
-            console.log('all groups successfully get from DB');
+            console.log('Project : '+this.projectinfo.projectinfo + ' groups successfully get from DB');
           }
           else{
           }
