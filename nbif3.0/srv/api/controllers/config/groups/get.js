@@ -10,6 +10,9 @@ module.exports = {
   inputs: {
     kind  : {
       type  : 'string'
+    },
+    projectname : {
+      type  : 'string'
     }
   },
 
@@ -24,7 +27,8 @@ module.exports = {
     sails.log(inputs);
     if(inputs.kind  ==  'all'){
       let R = await Groups.find({
-        id  : {'>=':0}
+        //id  : {'>=':0}
+        projectname : inputs.projectname
       })
       return exits.success(JSON.stringify({
         ok  : 'ok',

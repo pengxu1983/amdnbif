@@ -1,80 +1,87 @@
 <template>
   <el-container>
-    <el-header>
-      <nav class="navbar navbar-dark fixed-top bg-dark flex-md-nowrap p-0 shadow">
-        <a class="navbar-brand col-sm-3 col-md-2 mr-0" href="/">NBIF Main Page</a>
-      </nav>
-    </el-header>
     <el-main>
       <el-row>
-        <el-button 
-          type="primary"
-          @click="add()"
-        >add</el-button>
-        <el-button 
-          type="primary"
-          @click="upload()"
-        >upload</el-button>
+        <el-form :inline="true" :model="projectinfo" class="demo-form-inline">
+          <el-form-item label="Project">
+            <el-select v-model="projectinfo.projectname" placeholder="Project">
+              <el-option label="mi200" value="mi200"></el-option>
+              <el-option label="mero" value="mero"></el-option>
+            </el-select>
+          </el-form-item>
+          <el-form-item>
+            <el-button 
+              type="primary"
+              @click="add()"
+            >add</el-button>
+          </el-form-item>
+          <el-form-item>
+            <el-button 
+              type="primary"
+              @click="upload()"
+            >upload</el-button>
+          </el-form-item>
+        </el-form>
       </el-row>
       <el-row>
-      <el-table
-        border
-        :data="groups"
-        style="width: 100%"
-      >
-        <el-table-column
-          fixed
-          prop="groupname"
-          label="Feature Group"
+        <el-table
+          border
+          :data="groups"
+          style="width: 100%"
         >
-          <template slot-scope="scope">
-            <el-input v-model="scope.row.groupname"></el-input>
-          </template>
-        </el-table-column>
-        <el-table-column
-          prop="DVgroup"
-          label="DVgroup"
-        >
-          <template slot-scope="scope">
-            <el-select v-model="scope.row.DVgroup" clearable placeholder="DVgroup">
-              <el-option
-                v-for="item in DVgroups"
-                :key="item"
-                :label="item"
-                :value="item">
-              </el-option>
-            </el-select>
-          </template>
-        </el-table-column>
-        <el-table-column
-          prop="owner"
-          label="Owner"
-        >
-          <template slot-scope="scope">
-            <el-select v-model="scope.row.owner" clearable placeholder="Owner">
-              <el-option
-                v-for="item in users"
-                :key="item"
-                :label="item"
-                :value="item">
-              </el-option>
-            </el-select>
-          </template>
-        </el-table-column>
-        <el-table-column
-          fixed="right"
-          label="operation"
-          width="200">
-          <template slot-scope="scope">
-            <el-button
-              @click.native.prevent="deleteRow(scope.$index, groups)"
-              type="text"
-              size="small">
-              delete
-            </el-button>
-          </template>
-        </el-table-column>
-      </el-table>
+          <el-table-column
+            fixed
+            prop="groupname"
+            label="Feature Group"
+          >
+            <template slot-scope="scope">
+              <el-input v-model="scope.row.groupname"></el-input>
+            </template>
+          </el-table-column>
+          <el-table-column
+            prop="DVgroup"
+            label="DVgroup"
+          >
+            <template slot-scope="scope">
+              <el-select v-model="scope.row.DVgroup" clearable placeholder="DVgroup">
+                <el-option
+                  v-for="item in DVgroups"
+                  :key="item"
+                  :label="item"
+                  :value="item">
+                </el-option>
+              </el-select>
+            </template>
+          </el-table-column>
+          <el-table-column
+            prop="owner"
+            label="Owner"
+          >
+            <template slot-scope="scope">
+              <el-select v-model="scope.row.owner" clearable placeholder="Owner">
+                <el-option
+                  v-for="item in users"
+                  :key="item"
+                  :label="item"
+                  :value="item">
+                </el-option>
+              </el-select>
+            </template>
+          </el-table-column>
+          <el-table-column
+            fixed="right"
+            label="operation"
+            width="200">
+            <template slot-scope="scope">
+              <el-button
+                @click.native.prevent="deleteRow(scope.$index, groups)"
+                type="text"
+                size="small">
+                delete
+              </el-button>
+            </template>
+          </el-table-column>
+        </el-table>
       </el-row>
     </el-main>
   </el-container>
@@ -93,7 +100,10 @@ export default {
         'DMA',
         'HOST'
       ],
-      users   : []
+      users   : [],
+      projectinfo : {
+        projectname : 'mi200'
+      }
     }
   },
   methods : {
@@ -109,7 +119,8 @@ export default {
       this.groups.unshift({
         groupname   : '',
         DVgroup     : '',
-        owner       : ''
+        owner       : '',
+        projectname : this.projectinfo.projectname
       });
     },
     upload  (){
