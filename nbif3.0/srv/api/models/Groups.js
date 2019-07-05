@@ -20,6 +20,9 @@ module.exports = {
     },
     DVgroup     : {
       type      : 'string'
+    },
+    projectname : {
+      type      : 'string'
     }
 
     //  ╔═╗╔╦╗╔╗ ╔═╗╔╦╗╔═╗

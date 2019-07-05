@@ -30,15 +30,19 @@ module.exports = {
       for(let g=0;g<groups.length;g++){
         if(groups[g].groupname == ''){
         }
+        else if(groups[g].projectname == ''){
+        }
         else {
           let onegroup = await Groups.findOne({
-            groupname : groups[g].groupname
+            groupname : groups[g].groupname,
+            projectname : groups[g].projectname
           });
           if(onegroup){
             await Groups.update({
               groupname : groups[g].groupname,
               //DVgroup   : groups[g].DVgroup,
-              //owner     : groups[g].owner
+              //owner     : groups[g].owner,
+              projectname : groups[g].projectname
             },{
               //groupname : groups[g].groupname,
               DVgroup   : groups[g].DVgroup,
@@ -49,7 +53,8 @@ module.exports = {
             await Groups.create({
               groupname : groups[g].groupname,
               DVgroup   : groups[g].DVgroup,
-              owner     : groups[g].owner
+              owner     : groups[g].owner,
+              projectname : groups[g].projectname
             });
           }
         }

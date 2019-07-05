@@ -163,31 +163,7 @@ export default {
         projectname : 'mi200',
         groupname : 'sanity',
       },
-      groups  : [
-        'compliance',
-        'generic',
-        'stress',
-        'aper',
-        'mmreg',
-        'mmreg_ex',
-        'mailbox',
-        'acs',
-        'aer',
-        'aer_compliance',
-        'cfg',
-        'ats_pri',
-        'interrupt',
-        'bar',
-        'sriov',
-        'pcie_cap',
-        'reset',
-        'cg',
-        'ras',
-        'pmgr',
-        'perf_cnt',
-        'gen4',
-        'strap',
-      ],
+      groups  : [],
       regressionstatus    : [],
       testdetails         : [],
       testdetails_disp    : [],
@@ -269,21 +245,13 @@ export default {
         this.testdetails_disp.push(this.testdetails[i]);
       }
     },
-    getgroups (projectname){
-      this.$http.post('/regression/get',{
-        kind  : 'Bygrp',
-        projectname : this.groupinfo.projectname,
-        groupname   : this.groupinfo.groupname
-      }).then(
-        function(response){
-          console.log(response.body.ok);
-        },
-        function(){}
-      );
-    },
+    getinfo (projectname){
+
+    }
   },
   mounted (){
     this.getregressionstatus(this.groupinfo.projectname,this.groupinfo.groupname);
+    //this.getinfo(this.groupinfo.projectname);
   }
 }
 </script>

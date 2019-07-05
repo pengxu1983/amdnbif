@@ -67,7 +67,7 @@
           width="200">
           <template slot-scope="scope">
             <el-button
-              @click.native.prevent="deleteRow(scope.$index, tableData)"
+              @click.native.prevent="deleteRow(scope.$index, groups)"
               type="text"
               size="small">
               delete

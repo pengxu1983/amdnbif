@@ -165,13 +165,15 @@ module.exports = {
             oneRegression.groupname = grouplist[g];
             await Regressionsummary0001.create(oneRegression);
             let R = await Groups.findOne({
-              groupname : grouplist[g]
+              groupname : grouplist[g],
+              projectname : projectname
             });
             if(R){
             }
             else{
               await Groups.create({
-                groupname : grouplist[g]
+                groupname : grouplist[g],
+                projectname : projectname
               });
             }
           }
