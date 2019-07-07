@@ -191,7 +191,18 @@ export default {
           }
         },
         function(){}
-      )
+      );
+      this.$http.post('/config/projects/get',{
+        kind  : 'all',
+      }).then(
+        function(response){
+          if(response.body.ok ==  'ok'){
+            this.projects = JSON.parse(response.body.projects);
+            console.log('all projects successfully get from DB');
+          }
+        },
+        function(){}
+      );
     },
     deleteRow(index, rows) {
       console.log('index');
@@ -209,7 +220,6 @@ export default {
       console.log(this.projects);
     },
     projectupload (){
-      console.log('dbg2');
       this.$http.post('/config/projects/upload',{
         kind  : 'all',
         projects  : JSON.stringify(this.projects)
