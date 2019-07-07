@@ -33,6 +33,12 @@ module.exports.routes = {
   'POST /config/groups/get' : {
     action  : 'config/groups/get'
   },
+  'POST /config/projects/upload' : {
+    action  : 'config/projects/upload'
+  },
+  'POST /config/projects/get' : {
+    action  : 'config/projects/get'
+  },
   //For regression
   'POST /regression/upload' : {
     action  : 'regression/upload'
