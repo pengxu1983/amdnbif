@@ -209,6 +209,7 @@ export default {
       console.log(this.projects);
     },
     projectupload (){
+      console.log('dbg1');
       this.$http.post('/config/projects/upload',{
         kind  : 'all',
         projects  : this.projects
