@@ -12,7 +12,7 @@
     <el-container style="border: 1px solid #eee">
       <el-aside>
         <el-menu
-          default-active="Sanity"
+          default-active="Groups"
           class="el-menu-vertical-demo"
           @open="handleOpen"
           @close="handleClose"
