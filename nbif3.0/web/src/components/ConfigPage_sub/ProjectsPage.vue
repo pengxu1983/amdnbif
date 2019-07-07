@@ -197,9 +197,9 @@ export default {
       }).then(
         function(response){
           if(response.body.ok ==  'ok'){
-            //this.projects = JSON.parse(response.body.projects);
             console.log(response.body.projects);
             console.log('all projects successfully get from DB');
+            this.projects = JSON.parse(response.body.projects);
           }
         },
         function(){}
