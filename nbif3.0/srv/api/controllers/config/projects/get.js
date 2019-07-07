@@ -18,7 +18,7 @@ module.exports = {
 
 
   fn: async function (inputs) {
-
+    sails.log('haha');
     // All done.
     return;
 
