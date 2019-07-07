@@ -148,7 +148,7 @@ export default {
         function(response){
           if(response.body.ok == 'ok'){
             this.groups= JSON.parse(response.body.groups);
-            console.log('Project : '+this.projectinfo.projectinfo + ' groups successfully get from DB');
+            console.log('Project : '+this.projectinfo.projectname+ ' groups successfully get from DB');
           }
           else{
           }

@@ -20,8 +20,8 @@ module.exports = {
 
 
   fn: async function (inputs,exits) {
-    //sails.log('/config/variants/get');
-    //sails.log(inputs);
+    sails.log('/config/variants/get');
+    sails.log(inputs);
     if(inputs.kind  ==  'all'){
       let variants = await Variants.find({
         id  : {'>=':0}
