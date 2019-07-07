@@ -34,8 +34,8 @@
           >
             <template slot-scope="scope">
               <el-checkbox-group v-model="scope.row.validvariants" >
-                <div>
-                  <el-checkbox v-for="onevariant in variants" :label="onevariant.variantname" :key="onevariant">{{onevariant.variantname}}</el-checkbox>
+                <div v-for="onevariant in variants">
+                  <el-checkbox  :label="onevariant.variantname" :key="onevariant">{{onevariant.variantname}}</el-checkbox>
                 </div>
               </el-checkbox-group>
             </template>
