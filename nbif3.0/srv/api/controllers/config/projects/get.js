@@ -26,7 +26,7 @@ module.exports = {
       let R  = await Projects.find({
         id  : {'>=':0}
       });
-      if(projects.length  ==  0){
+      if(R.length  ==  0){
         return exits.success(JSON.stringify({
           ok  : 'notok',
           msg : 'DB is empty'
