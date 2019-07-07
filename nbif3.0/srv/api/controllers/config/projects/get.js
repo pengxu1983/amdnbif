@@ -40,11 +40,18 @@ module.exports = {
             validvariants : JSON.parse(R[r].validvariants),
             //validmodes    : JSON.parse(R[r].validmodes),
             milestones    : JSON.parse(R[r].milestones),
-            ownerships    : {
-              DVlead  : R[r].DVlead,
-              DElead  : R[r].DElead,
-              PM      : R[r].PM
-            }
+            ownerships    : [
+              {
+                title : 'DVlead',
+                name  : R[r].DVlead
+              },{
+                title : 'DElead',
+                name  : R[r].DElead
+              },{
+                title : 'PM',
+                name  : R[r].PM
+              }
+            ]
           });
         }
         return exits.success(JSON.stringify({
