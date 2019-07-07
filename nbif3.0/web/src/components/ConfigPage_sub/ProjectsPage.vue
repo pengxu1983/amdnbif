@@ -210,9 +210,9 @@ export default {
     },
     projectupload (){
       console.log('dbg1');
-      this.$http.post('/config/projects/upload',{
+      this.$http.post('/config/projects/get',{
         kind  : 'all',
-        projects  : this.projects
+        projects  : JSON.stringify(this.projects)
       }).then(
         function(response){
           if(response.body.ok ==  'ok'){
