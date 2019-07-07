@@ -34,5 +34,10 @@ export default new Router({
       name: 'sanity',
       component: () => import('./views/Sanity.vue')
     },
+    {
+      path: '/metrics',
+      name: 'metrics',
+      component: () => import('./views/Metrics.vue')
+    },
   ]
 })

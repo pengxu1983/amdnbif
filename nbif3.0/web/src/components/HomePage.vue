@@ -57,9 +57,14 @@ export default {
       items : [
         'regression',
         'config',
-        'sanity'
+        'sanity',
+        'metrics'
       ],
       versionRecord : [
+        {
+          versionID : '3.0.2',
+          versionLog  : 'Metrics page Added'
+        },
         {
           versionID : '3.0.1',
           versionLog  : 'router to Regression page added'

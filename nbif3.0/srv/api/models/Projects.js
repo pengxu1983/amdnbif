@@ -16,11 +16,27 @@ module.exports = {
       type        : 'string'
     },
     validvariants : {
-      type        : 'string'
+      type        : 'string',
+      columnType  : 'longtext'
     },
     validmodes    : {
+      type        : 'string',
+      columnType  : 'longtext'
+    },
+    DVlead        : {
+      type        : 'string',
+    },
+    DElead        : {
+      type        : 'string',
+    },
+    PM            : {
       type        : 'string'
+    },
+    milestones    : {
+      type        : 'string',
+      columnType  : 'longtext'
     }
+
 
     //  ╔═╗╔╦╗╔╗ ╔═╗╔╦╗╔═╗
     //  ║╣ ║║║╠╩╗║╣  ║║╚═╗

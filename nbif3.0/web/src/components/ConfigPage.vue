@@ -40,6 +40,7 @@
 import SanityPage from '@/components/ConfigPage_sub/SanityPage.vue'
 import VariantsPage from '@/components/ConfigPage_sub/VariantsPage.vue'
 import GroupsPage from '@/components/ConfigPage_sub/GroupsPage.vue'
+import ProjectsPage from '@/components/ConfigPage_sub/ProjectsPage.vue'
 
 export default {
   name: 'ConfigPage',
@@ -62,13 +63,14 @@ export default {
         'Variants',
         'Groups',
       ],
-      currentTab  : 'Sanity',
+      currentTab  : 'Groups',
     }
   },
   components  : {
     SanityPage,
     VariantsPage,
-    GroupsPage
+    GroupsPage,
+    ProjectsPage
   },
   computed: {
     currentTabComponent: function () {
