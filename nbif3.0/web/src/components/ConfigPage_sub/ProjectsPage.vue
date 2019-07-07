@@ -228,6 +228,7 @@ export default {
         function(response){
           if(response.body.ok ==  'ok'){
             console.log(response.body);
+            alert('projects uploaded');
           }
           else if(response.body.ok  ==  'notok'){
             console.log(response.body);
@@ -260,16 +261,17 @@ export default {
           }
         ],
         ownerships  : [
-        {
-          title : 'PM',
-          name  : ''
-        },{
-          title : 'DElead',
-          name  : ''
-        },{
-          title : 'DVlead',
-          name  : ''
-        }]
+          {
+            title : 'PM',
+            name  : ''
+          },{
+            title : 'DElead',
+            name  : ''
+          },{
+            title : 'DVlead',
+            name  : ''
+          }
+        ]
       };
       this.projects.unshift(oneproject);
     }
