@@ -38,7 +38,7 @@ module.exports = {
           projects.push({
             projectname   : R[r].projectname,
             validvariants : JSON.parse(R[r].validvariants),
-            validmodes    : JSON.parse(R[r].validmodes),
+            //validmodes    : JSON.parse(R[r].validmodes),
             milestones    : JSON.parse(R[r].milestones),
             ownerships    : JSON.parse(R[r].ownerships)
           });
