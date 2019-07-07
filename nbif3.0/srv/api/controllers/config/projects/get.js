@@ -37,10 +37,10 @@ module.exports = {
         for(let r=0;r<R.length;r++){
           projects.push({
             projectname   : R[r].projectname,
-            validvariants : R[r].validvariants,
-            validmodes    : R[r].validmodes,
-            milestones    : R[r].milestones,
-            ownerships    : R[r].ownerships
+            validvariants : JSON.parse(R[r].validvariants),
+            validmodes    : JSON.parse(R[r].validmodes),
+            milestones    : JSON.parse(R[r].milestones),
+            ownerships    : JSON.parse(R[r].ownerships)
           });
         }
         return exits.success(JSON.stringify({
