@@ -112,6 +112,7 @@ export default {
     }
   },
   mounted  (){
+    this.getinfo();
   }
 }
 </script>
