@@ -11,8 +11,8 @@
         <el-select v-model="groupinfo.groupname" placeholder="groupname">
           <el-option 
             v-for="onegroup in groups"
-            :label="onegroup" 
-            :value="onegroup"
+            :label="onegroup.groupname" 
+            :value="onegroup.groupname"
           ></el-option>
         </el-select>
       </el-form-item>
