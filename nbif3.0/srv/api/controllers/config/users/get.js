@@ -42,7 +42,7 @@ module.exports = {
         users : JSON.stringify(users)
       }));
     }
-    else(inputs.kind  ==  'search'){
+    else if(inputs.kind  ==  'search'){
       let R = await Users.find({
         realname  : {
           'contains': inputs.query
