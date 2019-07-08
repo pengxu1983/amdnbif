@@ -8,7 +8,9 @@ module.exports = {
 
 
   inputs: {
-
+    kind  : {
+      type  : 'string'
+    }
   },
 
 
@@ -17,10 +19,31 @@ module.exports = {
   },
 
 
-  fn: async function (inputs) {
-
+  fn: async function (inputs,exits) {
+    sails.log('/config/users/get');
+    sails.log(inputs);
+    if(inputs.kind  ==  'all'){
+      let R = await Users.find({
+        id  : {'>=':0}
+      });
+      let users=[];
+      for(let r=0;r<R.length;r++){
+        users.push({
+          username  : R[r].username,
+          realname  : R[r].realname,
+          email     : R[r].email
+        });
+      }
+      return exits.success(JSON.stringify({
+        ok  : 'ok',
+        users : JSON.stringify(users)
+      }));
+    }
     // All done.
-    return;
+    return exits.success(JSON.stringify({
+      ok  : 'notok',
+      msg : 'no valid kind'
+    }));
 
   }
 

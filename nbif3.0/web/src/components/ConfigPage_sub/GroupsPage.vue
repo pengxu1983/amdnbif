@@ -58,12 +58,12 @@
             label="Owner"
           >
             <template slot-scope="scope">
-              <el-select v-model="scope.row.owner" clearable placeholder="Owner">
+              <el-select v-model="scope.row.owner" filterable clearable placeholder="Owner">
                 <el-option
-                  v-for="item in users"
-                  :key="item"
-                  :label="item"
-                  :value="item">
+                  v-for="oneuser in users"
+                  :key="oneuser"
+                  :label="oneuser.realname"
+                  :value="oneuser.realname">
                 </el-option>
               </el-select>
             </template>
@@ -149,6 +149,19 @@ export default {
           if(response.body.ok == 'ok'){
             this.groups= JSON.parse(response.body.groups);
             console.log('Project : '+this.projectinfo.projectname+ ' groups successfully get from DB');
+          }
+          else{
+          }
+        },
+        function(){}
+      );
+      //get users
+      this.$http.post('/config/users/get',{
+        kind  : 'all',
+      }).then(
+        function(response){
+          if(response.body.ok == 'ok'){
+            this.users= JSON.parse(response.body.users);
           }
           else{
           }
