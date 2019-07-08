@@ -35,6 +35,21 @@ module.exports = {
       }
       else{
         for(let p = 0;p<projects.length;p++){
+          let ownerships = projects.ownerships;
+          let DVlead;
+          let DElead;
+          let PM;
+          for(let i =0;i<ownerships.length;i++){
+            if(ownerships[i].title == 'DVlead'){
+              DVlead  = ownerships[i].name
+            }
+            if(ownerships[i].title == 'DElead'){
+              DElead  = ownerships[i].name
+            }
+            if(ownerships[i].title == 'PM'){
+              PM  = ownerships[i].name
+            }
+          }
           if(projects[p].projectname == ''){
           }
           else{
@@ -47,9 +62,9 @@ module.exports = {
               },{
                 validvariants : JSON.stringify(projects[p].validvariants),
                 milestones    : JSON.stringify(projects[p].milestones),
-                DVlead        : projects[p].DVlead,
-                DElead        : projects[p].DElead,
-                PM            : projects[p].PM
+                DVlead        : DVlead,
+                DElead        : DElead,
+                PM            : PM
               });
             }
             else{
@@ -57,9 +72,9 @@ module.exports = {
                 projectname   : projects[p].projectname,
                 validvariants : JSON.stringify(projects[p].validvariants),
                 milestones    : JSON.stringify(projects[p].milestones),
-                DVlead        : projects[p].DVlead,
-                DElead        : projects[p].DElead,
-                PM            : projects[p].PM
+                DVlead        : DVlead,
+                DElead        : DElead,
+                PM            : PM
               });
             }
           }
