@@ -179,19 +179,6 @@ export default {
         },
         function(){}
       );
-      //get users
-      this.$http.post('/config/users/get',{
-        kind  : 'all',
-      }).then(
-        function(response){
-          if(response.body.ok == 'ok'){
-            this.users= JSON.parse(response.body.users);
-          }
-          else{
-          }
-        },
-        function(){}
-      );
     }
   },
   mounted  (){
