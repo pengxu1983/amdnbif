@@ -22,132 +22,132 @@
     </el-form>
     </el-header>
     <el-main>
-    <el-table
-      :data="regressionstatus"
-      border
-      style="width: 100%">
-      <el-table-column
-        prop="kickoffdate"
-        label="kickoffdate"
-        sortable
-      >
-      </el-table-column>
-      <el-table-column
-        prop="variantname"
-        label="variantname"
-      >
-      </el-table-column>
-      <el-table-column
-        prop="changelist"
-        label="changelist"
-      >
-      </el-table-column>
-      <el-table-column
-        prop="isBACO"
-        label="isBACO"
-      >
-      </el-table-column>
-      <el-table-column
-        prop="isBAPU"
-        label="isBAPU"
-      >
-      </el-table-column>
-      <el-table-column
-        prop="shelve"
-        label="shelve"
-      >
-      </el-table-column>
-      <el-table-column
-        prop="passrate"
-        label="passrate"
-      >
-      </el-table-column>
-      <el-table-column
-        prop="alltestnum"
-        label="alltestnum"
-      >
-        <template slot-scope="scope">
-          <el-button type="text" @click="gettestdetails('ALL',scope.row.projectname,scope.row.variantname,groupinfo.groupname,scope.row.changelist,scope.row.isBAPU,scope.row.isBACO,scope.row.shelve)">{{scope.row.alltestnum}}</el-button>
+      <el-table
+        :data="regressionstatus"
+        border
+        style="width: 100%">
+        <el-table-column
+          prop="kickoffdate"
+          label="kickoffdate"
+          sortable
+        >
+        </el-table-column>
+        <el-table-column
+          prop="variantname"
+          label="variantname"
+        >
+        </el-table-column>
+        <el-table-column
+          prop="changelist"
+          label="changelist"
+        >
+        </el-table-column>
+        <el-table-column
+          prop="isBACO"
+          label="isBACO"
+        >
+        </el-table-column>
+        <el-table-column
+          prop="isBAPU"
+          label="isBAPU"
+        >
+        </el-table-column>
+        <el-table-column
+          prop="shelve"
+          label="shelve"
+        >
+        </el-table-column>
+        <el-table-column
+          prop="passrate"
+          label="passrate"
+        >
+        </el-table-column>
+        <el-table-column
+          prop="alltestnum"
+          label="alltestnum"
+        >
+          <template slot-scope="scope">
+            <el-button type="text" @click="gettestdetails('ALL',scope.row.projectname,scope.row.variantname,groupinfo.groupname,scope.row.changelist,scope.row.isBAPU,scope.row.isBACO,scope.row.shelve)">{{scope.row.alltestnum}}</el-button>
 
-          <el-dialog title="ALL tests list" :visible.sync="alltestvisible" width="80%">
-            <el-pagination
-              @current-change="handleCurrentChange"
-              :page-size="100"
-              layout="prev, pager, next"
-              :total="scope.row.alltestnum">
-            </el-pagination>
-            <el-table :data="testdetails_disp">
-              <el-table-column property="testname" label="testname" width="200"></el-table-column>
-              <el-table-column property="seed" label="seed" width="200"></el-table-column>
-              <el-table-column property="signature" label="signature"></el-table-column>
-            </el-table>
-          </el-dialog>
-        </template>
-      </el-table-column>
-      <el-table-column
-        prop="passnum"
-        label="passnum">
-        <template slot-scope="scope">
-          <el-button type="text" @click="gettestdetails('PASS',scope.row.projectname,scope.row.variantname,groupinfo.groupname,scope.row.changelist,scope.row.isBAPU,scope.row.isBACO,scope.row.shelve)">{{scope.row.passnum}}</el-button>
+            <el-dialog title="ALL tests list" :visible.sync="alltestvisible" width="80%">
+              <el-pagination
+                @current-change="handleCurrentChange"
+                :page-size="100"
+                layout="prev, pager, next"
+                :total="scope.row.alltestnum">
+              </el-pagination>
+              <el-table :data="testdetails_disp">
+                <el-table-column property="testname" label="testname" width="200"></el-table-column>
+                <el-table-column property="seed" label="seed" width="200"></el-table-column>
+                <el-table-column property="signature" label="signature"></el-table-column>
+              </el-table>
+            </el-dialog>
+          </template>
+        </el-table-column>
+        <el-table-column
+          prop="passnum"
+          label="passnum">
+          <template slot-scope="scope">
+            <el-button type="text" @click="gettestdetails('PASS',scope.row.projectname,scope.row.variantname,groupinfo.groupname,scope.row.changelist,scope.row.isBAPU,scope.row.isBACO,scope.row.shelve)">{{scope.row.passnum}}</el-button>
 
-          <el-dialog title="PASS tests list" :visible.sync="passlistvisible" width="80%">
-            <el-pagination
-              @current-change="handleCurrentChange"
-              :page-size="100"
-              layout="prev, pager, next"
-              :total="scope.row.passnum">
-            </el-pagination>
-            <el-table :data="testdetails_disp">
-              <el-table-column property="testname" label="testname" width="200"></el-table-column>
-              <el-table-column property="seed" label="seed" width="200"></el-table-column>
-              <el-table-column property="signature" label="signature"></el-table-column>
-            </el-table>
-          </el-dialog>
-        </template>
-      </el-table-column>
-      <el-table-column
-        prop="failnum"
-        label="failnum">
-        <template slot-scope="scope">
-          <el-button type="text" @click="gettestdetails('FAIL',scope.row.projectname,scope.row.variantname,groupinfo.groupname,scope.row.changelist,scope.row.isBAPU,scope.row.isBACO,scope.row.shelve)">{{scope.row.failnum}}</el-button>
+            <el-dialog title="PASS tests list" :visible.sync="passlistvisible" width="80%">
+              <el-pagination
+                @current-change="handleCurrentChange"
+                :page-size="100"
+                layout="prev, pager, next"
+                :total="scope.row.passnum">
+              </el-pagination>
+              <el-table :data="testdetails_disp">
+                <el-table-column property="testname" label="testname" width="200"></el-table-column>
+                <el-table-column property="seed" label="seed" width="200"></el-table-column>
+                <el-table-column property="signature" label="signature"></el-table-column>
+              </el-table>
+            </el-dialog>
+          </template>
+        </el-table-column>
+        <el-table-column
+          prop="failnum"
+          label="failnum">
+          <template slot-scope="scope">
+            <el-button type="text" @click="gettestdetails('FAIL',scope.row.projectname,scope.row.variantname,groupinfo.groupname,scope.row.changelist,scope.row.isBAPU,scope.row.isBACO,scope.row.shelve)">{{scope.row.failnum}}</el-button>
 
-          <el-dialog title="FAIL tests list" :visible.sync="faillistvisible" width="80%">
-            <el-pagination
-              @current-change="handleCurrentChange"
-              :page-size="100"
-              layout="prev, pager, next"
-              :total="scope.row.failnum">
-            </el-pagination>
-            <el-table :data="testdetails_disp">
-              <el-table-column property="testname" label="testname" width="200"></el-table-column>
-              <el-table-column property="seed" label="seed" width="200"></el-table-column>
-              <el-table-column property="signature" label="signature"></el-table-column>
-            </el-table>
-          </el-dialog>
-        </template>
-      </el-table-column>
-      <el-table-column
-        prop="unknownnum"
-        label="unknownnum">
-        <template slot-scope="scope">
-          <el-button type="text" @click="gettestdetails('UNKNOWN',scope.row.projectname,scope.row.variantname,groupinfo.groupname,scope.row.changelist,scope.row.isBAPU,scope.row.isBACO,scope.row.shelve)">{{scope.row.unknownnum}}</el-button>
+            <el-dialog title="FAIL tests list" :visible.sync="faillistvisible" width="80%">
+              <el-pagination
+                @current-change="handleCurrentChange"
+                :page-size="100"
+                layout="prev, pager, next"
+                :total="scope.row.failnum">
+              </el-pagination>
+              <el-table :data="testdetails_disp">
+                <el-table-column property="testname" label="testname" width="200"></el-table-column>
+                <el-table-column property="seed" label="seed" width="200"></el-table-column>
+                <el-table-column property="signature" label="signature"></el-table-column>
+              </el-table>
+            </el-dialog>
+          </template>
+        </el-table-column>
+        <el-table-column
+          prop="unknownnum"
+          label="unknownnum">
+          <template slot-scope="scope">
+            <el-button type="text" @click="gettestdetails('UNKNOWN',scope.row.projectname,scope.row.variantname,groupinfo.groupname,scope.row.changelist,scope.row.isBAPU,scope.row.isBACO,scope.row.shelve)">{{scope.row.unknownnum}}</el-button>
 
-          <el-dialog title="unknown tests list" :visible.sync="unknownlistvisible" width="80%">
-            <el-pagination
-              @current-change="handleCurrentChange"
-              :page-size="100"
-              layout="prev, pager, next"
-              :total="scope.row.unknownnum">
-            </el-pagination>
-            <el-table :data="testdetails_disp">
-              <el-table-column property="testname" label="testname" width="200"></el-table-column>
-              <el-table-column property="seed" label="seed" width="200"></el-table-column>
-              <el-table-column property="signature" label="signature"></el-table-column>
-            </el-table>
-          </el-dialog>
-        </template>
-      </el-table-column>
-    </el-table>
+            <el-dialog title="unknown tests list" :visible.sync="unknownlistvisible" width="80%">
+              <el-pagination
+                @current-change="handleCurrentChange"
+                :page-size="100"
+                layout="prev, pager, next"
+                :total="scope.row.unknownnum">
+              </el-pagination>
+              <el-table :data="testdetails_disp">
+                <el-table-column property="testname" label="testname" width="200"></el-table-column>
+                <el-table-column property="seed" label="seed" width="200"></el-table-column>
+                <el-table-column property="signature" label="signature"></el-table-column>
+              </el-table>
+            </el-dialog>
+          </template>
+        </el-table-column>
+      </el-table>
     </el-main>
   </el-container>
 </template>
@@ -246,12 +246,26 @@ export default {
       }
     },
     getinfo (projectname){
-
+      //get groups
+      this.$http.post('/config/groups/get',{
+        kind  : 'Bygrp',
+        projectname : projectname
+      }).then(
+        function(response){
+          if(response.body.ok == 'ok'){
+            this.groups= JSON.parse(response.body.groups);
+            console.log('Project : '+projectname+ ' groups successfully get from DB');
+          }
+          else{
+          }
+        },
+        function(){}
+      );
     }
   },
   mounted (){
     this.getregressionstatus(this.groupinfo.projectname,this.groupinfo.groupname);
-    //this.getinfo(this.groupinfo.projectname);
+    this.getinfo(this.groupinfo.projectname);
   }
 }
 </script>

@@ -142,7 +142,7 @@ export default {
     get (){
       //get groups
       this.$http.post('/config/groups/get',{
-        kind  : 'all',
+        kind  : 'Bygrp',
         projectname : this.projectinfo.projectname
       }).then(
         function(response){

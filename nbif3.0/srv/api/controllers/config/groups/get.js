@@ -25,7 +25,7 @@ module.exports = {
   fn: async function (inputs,exits) {
     sails.log('/config/groups/get');
     sails.log(inputs);
-    if(inputs.kind  ==  'all'){
+    if(inputs.kind  ==  'Bygrp'){
       let R = await Groups.find({
         //id  : {'>=':0}
         projectname : inputs.projectname
