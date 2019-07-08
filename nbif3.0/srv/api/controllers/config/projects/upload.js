@@ -35,7 +35,7 @@ module.exports = {
       }
       else{
         for(let p = 0;p<projects.length;p++){
-          let ownerships = projects.ownerships;
+          let ownerships = JSON.parse(projects.ownerships);
           let DVlead;
           let DElead;
           let PM;
