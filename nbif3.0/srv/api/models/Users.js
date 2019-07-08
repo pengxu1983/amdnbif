@@ -23,6 +23,9 @@ module.exports = {
     },
     grouplist   : {
       type      : 'string'
+    },
+    email       : {
+      type      : 'string'
     }
 
     //  ╔═╗╔╦╗╔╗ ╔═╗╔╦╗╔═╗
