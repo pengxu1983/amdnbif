@@ -10,6 +10,9 @@ module.exports = {
   inputs: {
     kind  : {
       type  : 'string'
+    },
+    query : {
+      type  : 'string'
     }
   },
 
@@ -27,6 +30,25 @@ module.exports = {
         id  : {'>=':0}
       });
       let users=[];
+      for(let r=0;r<R.length;r++){
+        users.push({
+          username  : R[r].username,
+          realname  : R[r].realname,
+          email     : R[r].email
+        });
+      }
+      return exits.success(JSON.stringify({
+        ok  : 'ok',
+        users : JSON.stringify(users)
+      }));
+    }
+    else(inputs.kind  ==  'search'){
+      let R = await Users.find({
+        realname  : {
+          'contains': inputs.query
+        }
+      });
+      let users = [];
       for(let r=0;r<R.length;r++){
         users.push({
           username  : R[r].username,

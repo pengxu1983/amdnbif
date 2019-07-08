@@ -58,12 +58,20 @@
             label="Owner"
           >
             <template slot-scope="scope">
-              <el-select v-model="scope.row.owner" filterable clearable placeholder="Owner">
+              <el-select
+                v-model="scope.row.owner"
+                multiple
+                filterable
+                remote
+                reserve-keyword
+                placeholder="name contains"
+                :remote-method="remoteMethod"
+                :loading="loading">
                 <el-option
-                  v-for="oneuser in users"
-                  :key="oneuser"
-                  :label="oneuser.realname"
-                  :value="oneuser.realname">
+                  v-for="item in users"
+                  :key="item.realname"
+                  :label="item.realname"
+                  :value="item.realname">
                 </el-option>
               </el-select>
             </template>
@@ -107,6 +115,22 @@ export default {
     }
   },
   methods : {
+    remoteMethod(query){
+      if(query !== ''){
+        this.$http.post('/config/users/get',{
+          kind  : 'search',
+          query : query
+        }).then(
+          function(response){
+            if(response.body.ok ==  'ok'){
+              console.log(response.body);
+              this.users  = JSON.parse(response.body.users);
+            }
+          },
+          function(){}
+        );
+      }
+    },
     gotohome  (){
       this.$router.push({
         name  : 'home'
