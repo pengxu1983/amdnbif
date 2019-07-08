@@ -135,12 +135,19 @@
                   label="name"
                 >
                   <template slot-scope="scope1">
-                    <el-select v-model="scope1.row.name" clearable placeholder="name">
+                    <el-select
+                      v-model="scope1.row.name"
+                      filterable
+                      remote
+                      reserve-keyword
+                      placeholder="name contains"
+                      :remote-method="remoteMethod"
+                      :loading="loading">
                       <el-option
                         v-for="item in users"
-                        :key="item"
-                        :label="item"
-                        :value="item">
+                        :key="item.realname"
+                        :label="item.realname"
+                        :value="item.realname">
                       </el-option>
                     </el-select>
                   </template>
@@ -176,10 +183,32 @@ export default {
     return {
       variants  : [],
       projects  : [],
-      users     : []
+      users     : [],
+      loading   : false,
     }
   },
   methods : {
+    remoteMethod(query){
+      if(query !== ''){
+        this.loading  = true;
+        this.$http.post('/config/users/get',{
+          kind  : 'search',
+          query : query
+        }).then(
+          function(response){
+            this.loading  = false;
+            if(response.body.ok ==  'ok'){
+              console.log(response.body);
+              this.users  = JSON.parse(response.body.users);
+            }
+          },
+          function(){}
+        );
+      }
+      else{
+        this.users  = [];
+      }
+    },
     getinfo (){
       this.$http.post('/config/variants/get',{
         kind  : 'all',

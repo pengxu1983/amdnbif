@@ -108,6 +108,7 @@ export default {
         'HOST'
       ],
       users   : [],
+      loading : false,
       projectinfo : {
         projectname : 'mi200'
       }
@@ -115,12 +116,14 @@ export default {
   },
   methods : {
     remoteMethod(query){
+      this.loading  = true;
       if(query !== ''){
         this.$http.post('/config/users/get',{
           kind  : 'search',
           query : query
         }).then(
           function(response){
+            this.loading  = false;
             if(response.body.ok ==  'ok'){
               console.log(response.body);
               this.users  = JSON.parse(response.body.users);
@@ -128,6 +131,9 @@ export default {
           },
           function(){}
         );
+      }
+      else{
+        this.users  = [];
       }
     },
     gotohome  (){
