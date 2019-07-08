@@ -35,8 +35,8 @@ module.exports = {
       }
       else{
         for(let p = 0;p<projects.length;p++){
-          let ownerships = JSON.parse(projects.ownerships);
-          sails.log(typeof(ownerships));
+          sails.log(typeof(projects.ownerships));
+          let ownerships = projects.ownerships;
           let DVlead;
           let DElead;
           let PM;
