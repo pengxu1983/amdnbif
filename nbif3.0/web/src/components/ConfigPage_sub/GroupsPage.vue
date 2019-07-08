@@ -60,7 +60,6 @@
             <template slot-scope="scope">
               <el-select
                 v-model="scope.row.owner"
-                multiple
                 filterable
                 remote
                 reserve-keyword
