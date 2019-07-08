@@ -18,12 +18,6 @@ module.exports = {
     realname    : {
       type      : 'string'
     },
-    password    : {
-      type      : 'string'
-    },
-    grouplist   : {
-      type      : 'string'
-    },
     email       : {
       type      : 'string'
     }
