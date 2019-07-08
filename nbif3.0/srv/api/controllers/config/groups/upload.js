@@ -46,14 +46,14 @@ module.exports = {
             },{
               //groupname : groups[g].groupname,
               DVgroup   : groups[g].DVgroup,
-              owner     : groups[g].owner
+              owner     : JSON.stringify(groups[g].owner)
             });
           }
           else{
             await Groups.create({
               groupname : groups[g].groupname,
               DVgroup   : groups[g].DVgroup,
-              owner     : groups[g].owner,
+              owner     : JSON.stringify(groups[g].owner),
               projectname : groups[g].projectname
             });
           }
