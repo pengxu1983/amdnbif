@@ -25,7 +25,7 @@ export default new Router({
       component: () => import('./views/Regression.vue')
     },
     {
-      path: '/cofig',
+      path: '/config',
       name: 'config',
       component: () => import('./views/Config.vue')
     },
