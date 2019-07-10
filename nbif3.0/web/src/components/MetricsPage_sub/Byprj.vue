@@ -1,5 +1,5 @@
 <template>
-  <el-tabs v-model="activeName" type="card" @tab-click="handleClick">
+  <el-tabs v-model="currentPrj" type="card" @tab-click="handleClick">
     <el-tab-pane 
       v-for="oneproject in projects"
       :label="oneproject.projectname" 
@@ -16,10 +16,14 @@ export default {
   },
   data() {
     return {
-      projects  : []
+      projects  : [],
+      currentPrj  : 'mi200'
     }
   },
   methods : {
+    handleClick(tab, event) {
+      console.log(tab, event);
+    },
     getinfo (){
       this.$http.post('/config/projects/get',{
         kind  : 'all',

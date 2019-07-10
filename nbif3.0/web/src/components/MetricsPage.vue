@@ -28,6 +28,9 @@
         </el-menu>
       </el-aside>
       <el-main>
+        <component
+          v-bind:is="currentTab"
+        ></component>
       </el-main>
     </el-container>
   </el-container>
@@ -44,6 +47,9 @@ export default {
   },
   data() {
     return {
+      projectinfo : {
+        projectname : 'mi200'
+      },
       projects : [],
       variants : [],
       users    : [],
