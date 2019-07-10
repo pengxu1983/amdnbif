@@ -61,7 +61,10 @@ module.exports.routes = {
   'POST /regression/groupstatus' : {
     action  : 'regression/groupstatus'
   },
-
+  //For metrics
+  'POST /metrics/getvalidvariants' : {
+    action  : 'metrics/getvalidvariants'
+  },
   /***************************************************************************
   *                                                                          *
   * More custom routes here...                                               *

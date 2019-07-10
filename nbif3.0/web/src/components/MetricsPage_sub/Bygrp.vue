@@ -11,15 +11,15 @@
           :label="oneDVgroup.groupname" 
           :name="oneDVgroup.groupname"
         >
-          <el-container>
+          <el-container v-for="onevalidvariant in validvariants">
             <el-table
               :data="DVgroupPRstatus"
-              style="width: 100% "
+              style="width: 100%"
+              :cell-class-name="tableCellClassName"
             >
               <el-table-column
                 prop="groupname"
                 label="feature group"
-                cell-class-name="warning-row"
               >
               </el-table-column>
               <el-table-column slot
@@ -65,7 +65,7 @@
                 </el-table-column>
               </el-table-column>
               <el-table-column
-                :label="weekback(1)"
+                :label="weekback(-1)"
               >
                 <el-table-column
                   prop="ActPR1"
@@ -95,7 +95,7 @@ export default {
   data() {
     return {
       variants    : [],
-      validvariants : [],
+      //validvariants : [],
       DVgroups    : [
       {
         groupname : 'HOST',
@@ -111,19 +111,58 @@ export default {
       }],
       currentPrj  : 'mi200',
       currentDVgroup  : 'HOST',
-      DVgroupPRstatus : [{
-        groupname : 'aer'
-      },{
-        groupname : 'haha'
-      }]
+      //DVgroupPRstatus : [{
+      //  groupname : 'aer'
+      //},{
+      //  groupname : 'haha'
+      //}]
+    }
+  },
+  computed: {
+    validvariants (){
+      this.$http.post('/metrics/getvalidvariants',{
+        kind  : 'Bygrp',
+        projectname : this.currentPrj
+      }).then(
+        function(response){
+          console.log(response.body);
+        },
+        function(){}
+      );
+      return [];
+    },
+    DVgroupPRstatus (){
+      this.$http.post('/metrics/getDVgroupPRstatus',{
+        kind  : 'Bygrp',
+        DVgroup : this.currentDVgroup,
+        projectname : this.currentPrj
+      }).then(
+        function(response){
+          console.log(response.body);
+          return response.body.DVgroupPRstatus;
+        },
+        function(){}
+      );
     }
   },
   methods : {
-    tableRowClassName({row, rowIndex}) {
-        return 'success-row';
+    getvalidvariants  (projectname){
+      this.$http.post('/metrics/getvalidvariants',{
+        kind  : 'Bygrp',
+        projectname : this.currentPrj
+      }).then(
+        function(response){
+          console.log('abc');
+          console.log(response.body);
+        },
+        function(){}
+      );
+    },
+    tableCellClassName({row, column, rowIndex, columnIndex}) {
+      //console.log(row.groupname);
     },
     weekback  (num){
-      let R = moment().day(-1-7*num).format('YYYY-MM-DD');
+      let R = moment().day(1-7*num).format('YYYY-MM-DD');
       return R;
     },
     handleClickPrj(tab, event) {
@@ -147,6 +186,7 @@ export default {
         },
         function(){}
       );
+      this.getvalidvariants(this.currentPrj);
     },
   },
   mounted (){
