@@ -12,7 +12,27 @@ module.exports = {
     //  ╔═╗╦═╗╦╔╦╗╦╔╦╗╦╦  ╦╔═╗╔═╗
     //  ╠═╝╠╦╝║║║║║ ║ ║╚╗╔╝║╣ ╚═╗
     //  ╩  ╩╚═╩╩ ╩╩ ╩ ╩ ╚╝ ╚═╝╚═╝
-
+    projectname : {
+      type  : 'string'
+    },
+    variantname : {
+      type  : 'string'
+    },
+    DVgroup     : {
+      type  : 'string'
+    },
+    groupname   : {
+      type  : 'string'
+    },
+    target : {
+      type  : 'string'
+    },
+    targetdate : {
+      type  : 'string'
+    },
+    targetperiod : {
+      type  : 'string'
+    }
 
     //  ╔═╗╔╦╗╔╗ ╔═╗╔╦╗╔═╗
     //  ║╣ ║║║╠╩╗║╣  ║║╚═╗

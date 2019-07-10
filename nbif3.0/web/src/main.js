@@ -20,6 +20,7 @@ import echarts from 'echarts'
 import VueResource from 'vue-resource'
 Vue.use(VueResource);
 
+//For moment
 new Vue({
   router,
   store,
