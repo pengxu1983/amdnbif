@@ -34,6 +34,9 @@ export default {
         function(){}
       );
     },
+  },
+  mounted (){
+    this.getinfo();
   }
 }
 </script>
