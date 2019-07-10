@@ -12,73 +12,78 @@
           :name="oneDVgroup.groupname"
         >
           <el-container v-for="onevalidvariant in validvariants">
-            <el-table
-              :data="DVgroupPRstatus"
-              style="width: 100%"
-              :cell-class-name="tableCellClassName"
-            >
-              <el-table-column
-                prop="groupname"
-                label="feature group"
-              >
-              </el-table-column>
-              <el-table-column slot
-                :label="weekback(2)"
+            <el-header>
+              {{onevalidvariant}}
+            </el-header>
+            <el-main>
+              <el-table
+                :data="DVgroupPRstatus"
+                style="width: 100%"
+                :cell-class-name="tableCellClassName"
               >
                 <el-table-column
-                  prop="ActPRm2"
-                  label="actual passrate"
+                  prop="groupname"
+                  label="feature group"
                 >
+                </el-table-column>
+                <el-table-column slot
+                  :label="weekback(2)"
+                >
+                  <el-table-column
+                    prop="ActPRm2"
+                    label="actual passrate"
+                  >
+                  </el-table-column>
+                  <el-table-column
+                    prop="TargetPRm2"
+                    label="target passrate"
+                  >
+                  </el-table-column>
                 </el-table-column>
                 <el-table-column
-                  prop="TargetPRm2"
-                  label="target passrate"
+                  :label="weekback(1)"
                 >
-                </el-table-column>
-              </el-table-column>
-              <el-table-column
-                :label="weekback(1)"
-              >
-                <el-table-column
-                  prop="ActPRm1"
-                  label="actual passrate"
-                >
-                </el-table-column>
-                <el-table-column
-                  prop="TargetPRm1"
-                  label="target passrate"
-                >
-                </el-table-column>
-              </el-table-column>
-              <el-table-column
-                :label="weekback(0)"
-              >
-                <el-table-column
-                  prop="ActPR0"
-                  label="actual passrate"
-                >
+                  <el-table-column
+                    prop="ActPRm1"
+                    label="actual passrate"
+                  >
+                  </el-table-column>
+                  <el-table-column
+                    prop="TargetPRm1"
+                    label="target passrate"
+                  >
+                  </el-table-column>
                 </el-table-column>
                 <el-table-column
-                  prop="TargetPR0"
-                  label="target passrate"
+                  :label="weekback(0)"
                 >
+                  <el-table-column
+                    prop="ActPR0"
+                    label="actual passrate"
+                  >
+                  </el-table-column>
+                  <el-table-column
+                    prop="TargetPR0"
+                    label="target passrate"
+                  >
+                  </el-table-column>
                 </el-table-column>
-              </el-table-column>
-              <el-table-column
-                :label="weekback(-1)"
-              >
                 <el-table-column
-                  prop="ActPR1"
-                  label="actual passrate"
+                  :label="weekback(-1)"
                 >
+                  <el-table-column
+                    prop="ActPR1"
+                    label="actual passrate"
+                  >
+                  </el-table-column>
+                  <el-table-column
+                    prop="TargetPR1"
+                    label="target passrate"
+                  >
+                  </el-table-column>
                 </el-table-column>
-                <el-table-column
-                  prop="TargetPR1"
-                  label="target passrate"
-                >
-                </el-table-column>
-              </el-table-column>
-            </el-table>
+              </el-table>
+            </el-main>
           </el-container>
         </el-tab-pane>
       </el-tabs>
@@ -95,7 +100,7 @@ export default {
   data() {
     return {
       variants    : [],
-      //validvariants : [],
+      validvariants : [],
       DVgroups    : [
       {
         groupname : 'HOST',
@@ -119,18 +124,6 @@ export default {
     }
   },
   computed: {
-    validvariants (){
-      this.$http.post('/metrics/getvalidvariants',{
-        kind  : 'Bygrp',
-        projectname : this.currentPrj
-      }).then(
-        function(response){
-          console.log(response.body);
-        },
-        function(){}
-      );
-      return [];
-    },
     DVgroupPRstatus (){
       this.$http.post('/metrics/getDVgroupPRstatus',{
         kind  : 'Bygrp',
@@ -149,11 +142,12 @@ export default {
     getvalidvariants  (projectname){
       this.$http.post('/metrics/getvalidvariants',{
         kind  : 'Bygrp',
-        projectname : this.currentPrj
+        projectname : projectname
       }).then(
         function(response){
-          console.log('abc');
-          console.log(response.body);
+          console.log(response.body.validvariants);
+          console.log(typeof(response.body.validvariants));
+          this.validvariants  = JSON.parse(response.body.validvariants);
         },
         function(){}
       );
@@ -168,6 +162,7 @@ export default {
     handleClickPrj(tab, event) {
       console.log(tab, event);
       console.log(this.currentPrj);
+      this.getvalidvariants(this.currentPrj);
     },
     handleClickDVgrp(tab, event) {
       console.log(tab, event);
