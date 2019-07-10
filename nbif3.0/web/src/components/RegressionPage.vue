@@ -12,7 +12,7 @@
     <el-container style="border: 1px solid #eee">
       <el-aside width="15%">
         <el-menu
-          default-active="Overall"
+          :default-active="currentTab"
           class="el-menu-vertical-demo"
           @open="handleOpen"
           @close="handleClose"

@@ -1,5 +1,5 @@
 <template>
-  <el-container>
+  <el-container style="border: 1px solid #eee">
     <el-header>
       <nav class="navbar navbar-dark fixed-top bg-dark flex-md-nowrap p-0 shadow">
         <a class="navbar-brand col-sm-3 col-md-2 mr-0" href="/">NBIF Main Page</a>
@@ -9,54 +9,35 @@
         </ul>
       </nav>
     </el-header>
-    <el-main>
-      <el-row>
-        <el-form :inline="true" class="demo-form-inline">
-          <el-form-item>
-            <el-button 
-              type="primary"
-              @click="projectadd()"
-            >add</el-button>
-          </el-form-item>
-          <el-form-item>
-            <el-button 
-              type="primary"
-              @click="upload()"
-            >upload</el-button>
-          </el-form-item>
-        </el-form>
-      </el-row>
-      <el-row>
-        <el-table
-          :data="projects"
-          border
-          stripe
-          style="width: 100%">
-          <el-table-column
-            prop="projectname"
-            label="projectname"
+    <el-container style="border: 1px solid #eee">
+      <el-aside width="15%">
+        <el-menu
+          :default-active="currentTab"
+          class="el-menu-vertical-demo"
+          @open="handleOpen"
+          @close="handleClose"
+        >
+          <el-menu-item 
+            v-for="onekind in kinds"
+            :index="onekind"
+            @click="currentTab  = onekind"
           >
-          </el-table-column>
-          <el-table-column
-            prop="validvariants"
-            label="validvariants"
-          >
-          </el-table-column>
-          <el-table-column
-            prop="milestones"
-            label="milestones">
-          </el-table-column>
-          <el-table-column
-            prop="ownerships"
-            label="ownerships">
-          </el-table-column>
-        </el-table>
-      </el-row>
-    </el-main>
+            <i class="el-icon-setting"></i>
+            <span slot="title">{{ kind_disp(onekind)}}</span>
+          </el-menu-item>
+        </el-menu>
+      </el-aside>
+      <el-main>
+      </el-main>
+    </el-container>
   </el-container>
 </template>
 
 <script>
+import Byprj   from '@/components/MetricsPage_sub/Byprj.vue'
+import Byusr   from '@/components/MetricsPage_sub/Byusr.vue'
+import Bygrp   from '@/components/MetricsPage_sub/Bygrp.vue'
+
 export default {
   name: 'MetricsPage',
   props: {
@@ -66,35 +47,29 @@ export default {
       projects : [],
       variants : [],
       users    : [],
+      currentTab  : 'Byprj',
+      kinds     : [
+        'Byprj',
+        'Bygrp',
+        'Byusr'
+      ]
     }
   },
+  components  : {
+    Byprj,
+    Bygrp,
+    Byusr,
+  },
   methods : {
-    projectsadd (){
-      let oneproject  = {
-        projectname : '',
-        validvariants : [],
-        milestones  : [
-          {
-            milestonename : 'LSA',
-            droptime      : '',
-            integratetime : ''
-          },{
-            milestonename : 'LSB',
-            droptime      : '',
-            integratetime : ''
-          },{
-            milestonename : 'LSC',
-            droptime      : '',
-            integratetime : ''
-          },{
-            milestonename : 'LSD',
-            droptime      : '',
-            integratetime : ''
-          }
-        ],
-        ownerships  : {}
-      };
-    }
+    kind_disp (name){
+      return name;
+    },
+    handleOpen(key, keyPath) {
+      //console.log(key, keyPath);
+    },
+    handleClose(key, keyPath) {
+      //console.log(key, keyPath);
+    },
   }
 }
 </script>
