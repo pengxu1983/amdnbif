@@ -1,5 +1,5 @@
 let refTreeRoot   = '';
-let regTreeRoot   = '/proj/cip_floyd_genz/ip_regress/antti/nbif2_0_mi200/';
+let regTreeRoot   = '/proj/cip_floyd_genz/ip_regress/antti/nbif2_0_al/';//MODIFY
 //let resultDir     = regTreeRoot+'/out/linux_2.6.32_64.VCS/nbif_nv10_gpu/config/nbif_all_rtl/run/nbif-nv10_gpu-mi200';
 let out_home      = '/out/linux_3.10.0_64.VCS/';
 var moment        = require('moment');
@@ -147,7 +147,7 @@ let cron_send_request = new cronJob('* * * * * *',function(){
     postQ.splice(0,postQlimit);
   }
 },null,false,'Asia/Chongqing');
-let cron_check_result = new cronJob('0 0 */3 * * *',function(){
+let cron_check_result = new cronJob('0 10 */3 * * *',function(){
   //cron_check_result.stop();
   console.log('cron_check_result starts at '+moment().format('YYYY-MM-DD HH:mm:ss'));
   console.log('basic info :');
