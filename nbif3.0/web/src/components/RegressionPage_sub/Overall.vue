@@ -1,8 +1,9 @@
 <template>
   <el-tabs v-model="activeProj" type="card" @tab-click="handleClick">
     <el-tab-pane 
-      :label="activeProj" 
-      :name="activeProj"
+      v-for="oneproject in projects"
+      :label="oneproject.projectname" 
+      :name="oneproject.projectname"
     >
       <el-table
         :data="regressionstatus_mi200"
@@ -145,6 +146,31 @@ export default {
     }
   },
   methods : {
+    getinfo (){
+      this.$http.post('/config/variants/get',{
+        kind  : 'all',
+      }).then(
+        function(response){
+          if(response.body.ok ==  'ok'){
+            this.variants = JSON.parse(response.body.variants);
+            console.log('all variants successfully get from DB');
+          }
+        },
+        function(){}
+      );
+      this.$http.post('/config/projects/get',{
+        kind  : 'all',
+      }).then(
+        function(response){
+          if(response.body.ok ==  'ok'){
+            console.log(response.body.projects);
+            console.log('all projects successfully get from DB');
+            this.projects = JSON.parse(response.body.projects);
+          }
+        },
+        function(){}
+      );
+    },
     handleCurrentChange (val){
       console.log(val);
       this.testdetails_disp=[];
@@ -266,6 +292,7 @@ export default {
   },
   mounted (){
     this.regressionstatus(this.activeProj);
+    this.getinfo();
   }
 }
 </script>
