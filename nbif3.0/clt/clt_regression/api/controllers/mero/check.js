@@ -1,6 +1,5 @@
 let refTreeRoot   = '';
 let regTreeRoot   = '/proj/cip_floyd_genz/ip_regress/antti/nbif2_0_al/';//MODIFY
-//let resultDir     = regTreeRoot+'/out/linux_2.6.32_64.VCS/nbif_nv10_gpu/config/nbif_all_rtl/run/nbif-nv10_gpu-mi200';
 let out_home      = '/out/linux_3.10.0_64.VCS/';
 var moment        = require('moment');
 var querystring   = require('querystring');
@@ -9,16 +8,9 @@ var fs            = require('fs');
 var child_process = require('child_process');
 var cronJob       = require("cron").CronJob;
 var workspace     = '/proj/cip_floyd_genz/benpeng';////MODIFY
-//let projectname   = 'mi200';////MODIFY
-//let variantname   = 'nbif_nv10_gpu';////MODIFY
 let outDir        = {};
 let postQ=[];
 let postQlimit=20;////MODIFY
-//outDir['nbiftdl']     = resultDir+'/nbiftdl';
-//outDir['nbifresize']  = resultDir+'/nbifresize';
-//outDir['nbifrandom']  = resultDir+'/nbifrandom';
-//outDir['nbifgen4']    = resultDir+'/nbifgen4';
-//outDir['nbifdummyf']  = resultDir+'/nbifdummyf';
 let treeInfo  = {};
 let cron_send_request = new cronJob('* * * * * *',function(){
   console.log('cron_send_request starts at '+moment().format('YYYY-MM-DD HH:mm:ss'));
@@ -46,15 +38,15 @@ let cron_send_request = new cronJob('* * * * * *',function(){
     };
     
     let req = http.request(options, (res) => {
-      console.log(`STATUS: ${res.statusCode}`);
+      //console.log(`STATUS: ${res.statusCode}`);
       //console.log(`HEADERS: ${JSON.stringify(res.headers)}`);
       res.setEncoding('utf8');
       res.on('data', (chunk) => {
-        console.log(`BODY: ${chunk}`);
+        //console.log(`BODY: ${chunk}`);
         console.log('aaabbb');
       });
       res.on('end', () => {
-        console.log('No more data in response.');
+        //console.log('No more data in response.');
       });
     });
     
@@ -124,14 +116,14 @@ let cron_send_request = new cronJob('* * * * * *',function(){
       };
       
       let req = http.request(options, (res) => {
-        console.log(`STATUS: ${res.statusCode}`);
+        //console.log(`STATUS: ${res.statusCode}`);
         //console.log(`HEADERS: ${JSON.stringify(res.headers)}`);
         res.setEncoding('utf8');
         res.on('data', (chunk) => {
-          console.log(`BODY: ${chunk}`);
+          //console.log(`BODY: ${chunk}`);
         });
         res.on('end', () => {
-          console.log('No more data in response.');
+          //console.log('No more data in response.');
         });
       });
       
@@ -147,7 +139,7 @@ let cron_send_request = new cronJob('* * * * * *',function(){
     postQ.splice(0,postQlimit);
   }
 },null,false,'Asia/Chongqing');
-let cron_check_result = new cronJob('0 0 * * * *',function(){
+let cron_check_result = new cronJob('0 30 * * * *',function(){
   //cron_check_result.stop();
   console.log('cron_check_result starts at '+moment().format('YYYY-MM-DD HH:mm:ss'));
   console.log('basic info :');
@@ -359,46 +351,6 @@ let cron_check_result = new cronJob('0 0 * * * *',function(){
     console.log('invalid tree!!!');
     return;
   }
-  //get results
-  //cron_send_request.stop();
-  //for(let testName in testResult){
-  //  //console.log(testName+' :');
-  //  testResult[testName]['result']      = 'UNKNOWN';
-  //  testResult[testName]['signature']   = 'NA';
-  //  testResult[testName]['seed']        = 'NA';
-  //  testResult[testName]['runtime']     = 'NA';
-  //  if(fs.existsSync(outDir[testResult[testName]['suite']]+'/'+testName+'_nbif_all_rtl/REGRESS_PASS')){
-  //    testResult[testName]['result']      = 'PASS';
-  //  }
-  //  else if(fs.existsSync(outDir[testResult[testName]['suite']]+'/'+testName+'_nbif_all_rtl/vcs_run.log')){
-  //    let R =child_process.execSync(workspace+'/amdnbif/nbif3.0/clt/clt_regression/tools/processSimLog.pl '+outDir[testResult[testName]['suite']]+'/'+testName+'_nbif_all_rtl/vcs_run.log',{
-  //      encoding  : 'utf8',
-  //      maxBuffer : 1024*1024*100
-  //    });
-  //    let RR = R.split('\n');
-  //    testResult[testName]['seed']       = RR[0];
-  //    testResult[testName]['result']     = RR[1];
-  //    testResult[testName]['signature']  = RR[2];
-  //  }
-  //  postQ.push({
-  //    'kind'          : 'onecase',
-  //    'oneTestResult' : JSON.stringify({
-  //      kickoffdate   : treeInfo['kickoffdate'],
-  //      variantname   : treeInfo['variantname'],
-  //      changelist    : treeInfo['changelist'],
-  //      projectname   : treeInfo['projectname'],
-  //      testname      : testName,
-  //      result        : testResult[testName]['result'],
-  //      seed          : testResult[testName]['seed'],
-  //      signature     : testResult[testName]['signature'],
-  //      suite         : testResult[testName]['suite'],
-  //      shelve        : treeInfo['shelve'],
-  //      isBAPU        : treeInfo['isBAPU'],
-  //      isBACO        : treeInfo['isBACO']
-  //    })
-  //  });
-  //}
-  //cron_send_request.start();
 },null,true,'Asia/Chongqing');
 module.exports = {
 
@@ -406,7 +358,7 @@ module.exports = {
   friendlyName: 'Check',
 
 
-  description: 'Check mi 200.',
+  description: 'Check mero.',
 
 
   inputs: {
