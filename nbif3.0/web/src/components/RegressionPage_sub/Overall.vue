@@ -1,6 +1,9 @@
 <template>
   <el-tabs v-model="activeProj" type="card" @tab-click="handleClick">
-    <el-tab-pane label="mi200" name="mi200">
+    <el-tab-pane 
+      :label="activeProj" 
+      :name="activeProj"
+    >
       <el-table
         :data="regressionstatus_mi200"
         border
@@ -132,9 +135,6 @@ export default {
   data() {
     return {
       projects  : [],
-      projectinfo : {
-        projectname : 'mi200'
-      },
       activeProj: 'mi200',
       regressionstatus_mi200  : [],
       testdetails             : [],
@@ -243,7 +243,8 @@ export default {
       }
     },
     handleClick(tab, event) {
-      console.log(tab, event);
+      console.log(this.activeProj + ' clicked');
+      this.regressionstatus(this.activeProj);
     },
     regressionstatus(projectname){
       this.$http.post('/regression/get',{
@@ -261,11 +262,10 @@ export default {
         },
         function(){}
       );
-      return [];
     },
   },
   mounted (){
-    this.regressionstatus('mi200');
+    this.regressionstatus(this.activeProj);
   }
 }
 </script>

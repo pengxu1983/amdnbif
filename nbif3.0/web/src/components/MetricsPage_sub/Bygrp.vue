@@ -80,6 +80,9 @@
                     prop="TargetPR1"
                     label="target passrate"
                   >
+                    <template slot-scope="scope">
+                      <el-input v-model="scope.row.TargetPR1"></el-input><span>%</span>
+                    </template>
                   </el-table-column>
                 </el-table-column>
               </el-table>
@@ -123,21 +126,21 @@ export default {
       //}]
     }
   },
-  computed: {
-    DVgroupPRstatus (){
-      this.$http.post('/metrics/getDVgroupPRstatus',{
-        kind  : 'Bygrp',
-        DVgroup : this.currentDVgroup,
-        projectname : this.currentPrj
-      }).then(
-        function(response){
-          console.log(response.body);
-          return response.body.DVgroupPRstatus;
-        },
-        function(){}
-      );
-    }
-  },
+  //computed: {
+  //  DVgroupPRstatus (){
+  //    this.$http.post('/metrics/getDVgroupPRstatus',{
+  //      kind  : 'Bygrp',
+  //      DVgroup : this.currentDVgroup,
+  //      projectname : this.currentPrj
+  //    }).then(
+  //      function(response){
+  //        console.log(response.body);
+  //        return response.body.DVgroupPRstatus;
+  //      },
+  //      function(){}
+  //    );
+  //  }
+  //},
   methods : {
     getvalidvariants  (projectname){
       this.$http.post('/metrics/getvalidvariants',{
@@ -148,6 +151,18 @@ export default {
           console.log(response.body.validvariants);
           console.log(typeof(response.body.validvariants));
           this.validvariants  = JSON.parse(response.body.validvariants);
+        },
+        function(){}
+      );
+    },
+    getDVgroupPRstatus(){
+      this.$http.post('/metrics/getdvgroupprstatus',{
+        kind  : 'Bygrp',
+        DVgroup : this.currentDVgroup,
+        projectname : this.currentPrj
+      }).then(
+        function(response){
+          console.log(response.body.DVgroupPRstatus);
         },
         function(){}
       );
