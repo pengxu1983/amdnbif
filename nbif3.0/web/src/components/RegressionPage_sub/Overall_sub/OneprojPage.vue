@@ -1,36 +1,138 @@
 <template>
-  <el-tabs v-model="activeProj" type="card" @tab-click="handleClick">
-    <el-tab-pane 
-      v-for="oneproject in projects"
-      :label="oneproject.projectname" 
-      :name="oneproject.projectname"
-    >
-      <OneprojPage
-        v-bind:projectname="oneproject.projectname"
+  <div>
+    <el-table
+      :data="regressionstatus_disp"
+      border
+      style="width: 100%">
+      <el-table-column
+        prop="kickoffdate"
+        label="kickoffdate"
+        sortable
       >
-      </OneprojPage>
-    </el-tab-pane>
-  </el-tabs>
+      </el-table-column>
+      <el-table-column
+        prop="variantname"
+        label="variantname"
+      >
+      </el-table-column>
+      <el-table-column
+        prop="changelist"
+        label="changelist"
+      >
+      </el-table-column>
+      <el-table-column
+        prop="isBACO"
+        label="isBACO"
+      >
+      </el-table-column>
+      <el-table-column
+        prop="isBAPU"
+        label="isBAPU"
+      >
+      </el-table-column>
+      <el-table-column
+        prop="shelve"
+        label="shelve"
+      >
+      </el-table-column>
+      <el-table-column
+        prop="passrate"
+        label="passrate"
+      >
+        <template slot-scope="scope">
+          <el-button type="text" @click="getgroupstatus(scope.row.projectname,scope.row.variantname,scope.row.changelist,scope.row.isBAPU,scope.row.isBACO,scope.row.shelve)">{{scope.row.passrate}}</el-button>
+        </template>
+      </el-table-column>
+      <el-table-column
+        prop="alltestnum"
+        label="alltestnum">
+      </el-table-column>
+      <el-table-column
+        prop="passnum"
+        label="passnum">
+      </el-table-column>
+      <el-table-column
+        prop="failnum"
+        label="failnum">
+        <template slot-scope="scope">
+          <el-button type="text" @click="gettestdetails('FAIL',scope.row.projectname,scope.row.variantname,'all',scope.row.changelist,scope.row.isBAPU,scope.row.isBACO,scope.row.shelve)">{{scope.row.failnum}}</el-button>
+    
+          <el-dialog title="FAIL tests list" :visible.sync="faillistvisible_mi200" width="80%">
+            <el-pagination
+              @current-change="handleCurrentChange"
+              :page-size="100"
+              layout="prev, pager, next"
+              :total="scope.row.failnum">
+            </el-pagination>
+            <el-table :data="testdetails_disp">
+              <el-table-column property="testname" label="testname" width="200"></el-table-column>
+              <el-table-column property="seed" label="seed" width="200"></el-table-column>
+              <el-table-column property="signature" label="signature"></el-table-column>
+            </el-table>
+          </el-dialog>
+        </template>
+      </el-table-column>
+      <el-table-column
+        prop="unknownnum"
+        label="unknownnum">
+        <template slot-scope="scope">
+          <el-button type="text" @click="gettestdetails('UNKNOWN',scope.row.projectname,scope.row.variantname,'all',scope.row.changelist,scope.row.isBAPU,scope.row.isBACO,scope.row.shelve)">{{scope.row.unknownnum}}</el-button>
+    
+          <el-dialog title="unknown tests list" :visible.sync="unknownlistvisible_mi200" width="80%">
+            <el-pagination
+              @current-change="handleCurrentChange"
+              :page-size="100"
+              layout="prev, pager, next"
+              :total="scope.row.unknownnum">
+            </el-pagination>
+            <el-table :data="testdetails_disp">
+              <el-table-column property="testname" label="testname" width="200"></el-table-column>
+              <el-table-column property="seed" label="seed" width="200"></el-table-column>
+              <el-table-column property="signature" label="signature"></el-table-column>
+            </el-table>
+          </el-dialog>
+        </template>
+      </el-table-column>
+    </el-table>
+    <br />
+    <el-table
+      :data="groupstatus"
+      stripe
+      border
+      style="width: 100%">
+      <el-table-column
+        prop="DVgroup"
+        label="DVgroup"
+        sortable
+      >
+      </el-table-column>
+      <el-table-column
+        prop="groupname"
+        label="groupname"
+        sortable
+      >
+      </el-table-column>
+      <el-table-column
+        prop="passrate"
+        label="passrate"
+        sortable
+      >
+      </el-table-column>
+    </el-table>
+  </div>
 </template>
 
 <script>
-import OneprojPage  from '@/components/RegressionPage_sub/Overall_sub/OneprojPage.vue'
 export default {
-  name: 'Overall',
+  name: 'OneprojPage',
   props: {
-  },
-  components  : {
-    OneprojPage
+    projectname : ''
   },
   data() {
     return {
-      projects  : [{
-        projectname : 'mi200'
-      },{
-        projectname : 'mero'
-      }],
-      activeProj: 'mi200',
-      regressionstatus_mi200  : [],
+      //projects  : [],
+      //activeProj: 'mi200',
+      regressionstatus_disp: [],
       testdetails             : [],
       testdetails_disp        : [],
       faillistvisible_mi200   : false,
@@ -172,8 +274,8 @@ export default {
       }).then(
         function(response){
           if(response.body.ok =='ok'){
-            this.regressionstatus_mi200 =  response.body.regressions;
-            console.log(this.regressionstatus_mi200);
+            this.regressionstatus_disp=  response.body.regressions;
+            console.log(this.regressionstatus_disp);
           }
           else{
             console.log(response.body);
@@ -186,6 +288,7 @@ export default {
   mounted (){
     this.regressionstatus(this.activeProj);
     this.getinfo();
+    console.log(this.projectname);
   }
 }
 </script>
