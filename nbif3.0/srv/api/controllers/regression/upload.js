@@ -138,7 +138,7 @@ module.exports = {
       ///////////////////////////////////////
       //For 0002 Now is mero
       ///////////////////////////////////////
-      if(oneTestResult['projectname']=='mi200'){
+      if(oneTestResult['projectname']=='mero'){
         oneTestResultDB = await Regressiondetails0002.findOne({////MODIFY
           kickoffdate   : kickoffdate   ,
           variantname   : variantname   ,
@@ -281,7 +281,7 @@ module.exports = {
       ///////////////////////////////////////
       //For 0002 Now is mero
       ///////////////////////////////////////
-      else if(inputs.projectname  ==  'mero'){
+      else if(projectname  ==  'mero'){
         oneRegressionDB = await Regressionsummary0002.findOne({
           kickoffdate : kickoffdate,
           variantname : variantname,
