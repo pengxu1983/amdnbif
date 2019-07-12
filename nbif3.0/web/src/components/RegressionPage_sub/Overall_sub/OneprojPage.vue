@@ -156,7 +156,7 @@ export default {
       }).then(
         function(response){
           if(response.body.ok ==  'ok'){
-            console.log(response.body.projects);
+            //console.log(response.body.projects);
             console.log('all projects successfully get from DB');
             this.projects = JSON.parse(response.body.projects);
           }
@@ -193,6 +193,7 @@ export default {
       }
     },
     getgroupstatus(projectname,variantname,changelist,isBAPU,isBACO,shelve){
+      console.log('method : groupstatus');
       this.$http.post('/regression/groupstatus',{
         kind  : 'all',
         projectname : projectname,

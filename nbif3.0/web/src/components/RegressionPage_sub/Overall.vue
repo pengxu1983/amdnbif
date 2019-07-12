@@ -26,12 +26,12 @@ export default {
     return {
       projects  : [],
       activeProj: 'mi200',
-      regressionstatus_mi200  : [],
+      //regressionstatus_mi200  : [],
       testdetails             : [],
-      testdetails_disp        : [],
-      faillistvisible_mi200   : false,
-      unknownlistvisible_mi200: false,
-      groupstatus: []
+      //testdetails_disp        : [],
+      //faillistvisible_mi200   : false,
+      //unknownlistvisible_mi200: false,
+      //groupstatus: []
     }
   },
   methods : {
@@ -161,23 +161,23 @@ export default {
       console.log(this.activeProj + ' clicked');
       //this.regressionstatus(this.activeProj);
     },
-    regressionstatus(projectname){
-      this.$http.post('/regression/get',{
-        kind  : 'Overall',
-        projectname : projectname
-      }).then(
-        function(response){
-          if(response.body.ok =='ok'){
-            this.regressionstatus_mi200 =  response.body.regressions;
-            console.log(this.regressionstatus_mi200);
-          }
-          else{
-            console.log(response.body);
-          }
-        },
-        function(){}
-      );
-    },
+    //regressionstatus(projectname){
+    //  this.$http.post('/regression/get',{
+    //    kind  : 'Overall',
+    //    projectname : projectname
+    //  }).then(
+    //    function(response){
+    //      if(response.body.ok =='ok'){
+    //        this.regressionstatus_mi200 =  response.body.regressions;
+    //        console.log(this.regressionstatus_mi200);
+    //      }
+    //      else{
+    //        console.log(response.body);
+    //      }
+    //    },
+    //    function(){}
+    //  );
+    //},
   },
   mounted (){
     //this.regressionstatus(this.activeProj);
