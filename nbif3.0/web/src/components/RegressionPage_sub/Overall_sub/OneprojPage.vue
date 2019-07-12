@@ -57,7 +57,7 @@
         <template slot-scope="scope">
           <el-button type="text" @click="gettestdetails('FAIL',scope.row.projectname,scope.row.variantname,'all',scope.row.changelist,scope.row.isBAPU,scope.row.isBACO,scope.row.shelve)">{{scope.row.failnum}}</el-button>
     
-          <el-dialog title="FAIL tests list" :visible.sync="faillistvisible_mi200" width="80%">
+          <el-dialog title="FAIL tests list" :visible.sync="faillistvisible" width="80%">
             <el-pagination
               @current-change="handleCurrentChange"
               :page-size="100"
@@ -130,12 +130,10 @@ export default {
   },
   data() {
     return {
-      //projects  : [],
-      //activeProj: 'mi200',
       regressionstatus_disp: [],
       testdetails             : [],
       testdetails_disp        : [],
-      faillistvisible_mi200   : false,
+      faillistvisible   : false,
       unknownlistvisible_mi200: false,
       groupstatus: []
     }
@@ -219,7 +217,7 @@ export default {
     },
     gettestdetails  (kind,projectname,variantname,groupname,changelist,isBAPU,isBACO,shelve){
       if(kind == 'FAIL'){
-        this.faillistvisible_mi200 = true;
+        this.faillistvisible = true;
         this.$http.post('/regression/testdetails',{
           projectname : projectname,
           variantname : variantname,
@@ -264,8 +262,8 @@ export default {
       }
     },
     handleClick(tab, event) {
-      console.log(this.activeProj + ' clicked');
-      this.regressionstatus(this.activeProj);
+      console.log(this.projectname + ' clicked');
+      this.regressionstatus(this.projectname);
     },
     regressionstatus(projectname){
       this.$http.post('/regression/get',{
@@ -286,7 +284,7 @@ export default {
     },
   },
   mounted (){
-    this.regressionstatus(this.activeProj);
+    this.regressionstatus(this.projectname);
     this.getinfo();
     console.log(this.projectname);
   }

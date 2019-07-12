@@ -24,11 +24,7 @@ export default {
   },
   data() {
     return {
-      projects  : [{
-        projectname : 'mi200'
-      },{
-        projectname : 'mero'
-      }],
+      projects  : [],
       activeProj: 'mi200',
       regressionstatus_mi200  : [],
       testdetails             : [],
@@ -184,8 +180,8 @@ export default {
     },
   },
   mounted (){
-    this.regressionstatus(this.activeProj);
-    this.getinfo();
+    //this.regressionstatus(this.activeProj);
+    //this.getinfo();
   }
 }
 </script>
