@@ -132,13 +132,15 @@ export default {
   },
   computed  : {
     validvariants (){
+      let R ;
       console.log(this.projectinfo.projectname);
       for(let p=0;p<this.projects;p++){
         if(projects[p].projectname  ==  this.projectinfo.projectname){
           console.log(typeof(projects[p].validvariants));
-          return projects[p].validvariants;
+          break;
         }
       }
+      return projects[p].validvariants;
     }
   },
   methods : {
@@ -220,7 +222,7 @@ export default {
       }).then(
         function(response){
           if(response.body.ok ==  'ok'){
-            console.log(response.body.projects);
+            //console.log(response.body.projects);
             console.log('all projects successfully get from DB');
             this.projects = JSON.parse(response.body.projects);
           }
