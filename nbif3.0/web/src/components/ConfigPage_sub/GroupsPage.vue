@@ -126,7 +126,8 @@ export default {
       projectinfo : {
         projectname : 'mi200',
         variantname : 'nbif_nv10_gpu'
-      }
+      },
+      projects  : [],
     }
   },
   computed  : {
