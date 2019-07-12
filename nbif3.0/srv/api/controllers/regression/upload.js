@@ -261,14 +261,16 @@ module.exports = {
             await Regressionsummary0001.create(oneRegression);
             let R = await Groups.findOne({
               groupname : grouplist[g],
-              projectname : projectname
+              projectname : projectname,
+              variantname : variantname
             });
             if(R){
             }
             else{
               await Groups.create({
                 groupname : grouplist[g],
-                projectname : projectname
+                projectname : projectname,
+                variantname : variantname
               });
             }
           }
@@ -307,14 +309,16 @@ module.exports = {
             await Regressionsummary0002.create(oneRegression);
             let R = await Groups.findOne({
               groupname : grouplist[g],
-              projectname : projectname
+              projectname : projectname,
+              variantname : variantname
             });
             if(R){
             }
             else{
               await Groups.create({
                 groupname : grouplist[g],
-                projectname : projectname
+                projectname : projectname,
+                variantname : variantname
               });
             }
           }

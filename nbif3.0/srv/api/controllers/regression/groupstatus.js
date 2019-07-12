@@ -57,7 +57,9 @@ module.exports = {
         let groupstatus = [];
         for(let r=0;r<R.length;r++){
           let onegroup = await Groups.findOne({
-            groupname : R[r].groupname
+            groupname : R[r].groupname,
+            projectname : inputs.projectname,
+            variantname : inputs.variantname
           });
           sails.log(onegroup.DVgroup);
           groupstatus.push({
@@ -90,7 +92,9 @@ module.exports = {
         let groupstatus = [];
         for(let r=0;r<R.length;r++){
           let onegroup = await Groups.findOne({
-            groupname : R[r].groupname
+            groupname : R[r].groupname,
+            projectname : inputs.projectname,
+            variantname : inputs.variantname
           });
           sails.log(onegroup.DVgroup);
           groupstatus.push({
