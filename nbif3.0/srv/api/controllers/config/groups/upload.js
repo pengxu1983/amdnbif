@@ -32,17 +32,21 @@ module.exports = {
         }
         else if(groups[g].projectname == ''){
         }
+        else if(groups[g].variantname == ''){
+        }
         else {
           let onegroup = await Groups.findOne({
             groupname : groups[g].groupname,
-            projectname : groups[g].projectname
+            projectname : groups[g].projectname,
+            variantname : groups[g].variantname
           });
           if(onegroup){
             await Groups.update({
               groupname : groups[g].groupname,
               //DVgroup   : groups[g].DVgroup,
               //owner     : groups[g].owner,
-              projectname : groups[g].projectname
+              projectname : groups[g].projectname,
+              variantname : groups[g].variantname
             },{
               //groupname : groups[g].groupname,
               DVgroup   : groups[g].DVgroup,
@@ -54,7 +58,8 @@ module.exports = {
               groupname : groups[g].groupname,
               DVgroup   : groups[g].DVgroup,
               owner     : groups[g].owner,
-              projectname : groups[g].projectname
+              projectname : groups[g].projectname,
+              variantname : groups[g].variantname
             });
           }
         }

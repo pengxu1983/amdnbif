@@ -23,6 +23,9 @@ module.exports = {
     },
     projectname : {
       type      : 'string'
+    },
+    variantname : {
+      type      : 'string'
     }
 
     //  ╔═╗╔╦╗╔╗ ╔═╗╔╦╗╔═╗
