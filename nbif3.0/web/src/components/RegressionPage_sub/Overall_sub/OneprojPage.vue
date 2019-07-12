@@ -267,6 +267,8 @@ export default {
     //  this.regressionstatus(this.projectname);
     //},
     regressionstatus(projectname){
+      console.log('regressionstatus');
+      console.log(projectname);
       this.$http.post('/regression/get',{
         kind  : 'Overall',
         projectname : projectname
@@ -274,6 +276,8 @@ export default {
         function(response){
           if(response.body.ok =='ok'){
             this.regressionstatus_disp=  response.body.regressions;
+            console.log('dbg1');
+            console.log(projectname);
             console.log(this.regressionstatus_disp);
           }
           else{
