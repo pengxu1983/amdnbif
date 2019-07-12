@@ -175,7 +175,8 @@ export default {
         groupname   : '',
         DVgroup     : '',
         owner       : '',
-        projectname : this.projectinfo.projectname
+        projectname : this.projectinfo.projectname,
+        variantname : this.projectinfo.variantname
       });
     },
     upload  (){
@@ -208,6 +209,19 @@ export default {
             console.log('Project : '+this.projectinfo.projectname+ ' groups successfully get from DB');
           }
           else{
+          }
+        },
+        function(){}
+      );
+      this.projects = [];
+      this.$http.post('/config/projects/get',{
+        kind  : 'all',
+      }).then(
+        function(response){
+          if(response.body.ok ==  'ok'){
+            console.log(response.body.projects);
+            console.log('all projects successfully get from DB');
+            this.projects = JSON.parse(response.body.projects);
           }
         },
         function(){}
