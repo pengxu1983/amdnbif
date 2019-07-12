@@ -154,7 +154,7 @@ module.exports = {
           sails.log(regressions);
           return exits.success(JSON.stringify({
             ok  : 'ok',
-            projectname : 'mi200',
+            projectname : 'mero',
             regressions : regressions
           }));
         }
