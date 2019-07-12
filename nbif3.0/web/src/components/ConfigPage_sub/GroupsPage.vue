@@ -137,10 +137,11 @@ export default {
       for(let p=0;p<this.projects;p++){
         if(projects[p].projectname  ==  this.projectinfo.projectname){
           console.log(typeof(projects[p].validvariants));
+          R = projects[p].validvariants;
           break;
         }
       }
-      return projects[p].validvariants;
+      return R;
     }
   },
   methods : {
