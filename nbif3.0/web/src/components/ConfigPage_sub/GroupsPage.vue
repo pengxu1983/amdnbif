@@ -5,8 +5,22 @@
         <el-form :inline="true" :model="projectinfo" class="demo-form-inline">
           <el-form-item label="Project">
             <el-select v-model="projectinfo.projectname" placeholder="Project" @change="get()">
-              <el-option label="mi200" value="mi200"></el-option>
-              <el-option label="mero" value="mero"></el-option>
+              <el-option 
+                v-for="oneproject in projects"
+                :label="oneproject.projectname" 
+                :value="oneproject.projectname"
+              >
+              </el-option>
+            </el-select>
+          </el-form-item>
+          <el-form-item label="Variant">
+            <el-select v-model="projectinfo.variantname" placeholder="Variant" @change="get()">
+              <el-option 
+                v-for="onevariant in validvariants"
+                :label="onevariant.variantname" 
+                :value="onevariant.variantname"
+              >
+              </el-option>
             </el-select>
           </el-form-item>
           <el-form-item>
@@ -110,7 +124,19 @@ export default {
       users   : [],
       loading : false,
       projectinfo : {
-        projectname : 'mi200'
+        projectname : 'mi200',
+        variantname : 'nbif_nv10_gpu'
+      }
+    }
+  },
+  computed  : {
+    validvariants (){
+      console.log(this.projectinfo.projectname);
+      for(let p=0;p<this.projects;p++){
+        if(projects[p].projectname  ==  this.projectinfo.projectname){
+          console.log(typeof(projects[p].validvariants));
+          return projects[p].validvariants;
+        }
       }
     }
   },
@@ -169,10 +195,12 @@ export default {
       );
     },
     get (){
+      this.groups = [];
       //get groups
       this.$http.post('/config/groups/get',{
         kind  : 'Bygrp',
-        projectname : this.projectinfo.projectname
+        projectname : this.projectinfo.projectname,
+        variantname : this.projectinfo.variantname
       }).then(
         function(response){
           if(response.body.ok == 'ok'){
