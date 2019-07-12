@@ -78,7 +78,7 @@
         <template slot-scope="scope">
           <el-button type="text" @click="gettestdetails('UNKNOWN',scope.row.projectname,scope.row.variantname,'all',scope.row.changelist,scope.row.isBAPU,scope.row.isBACO,scope.row.shelve)">{{scope.row.unknownnum}}</el-button>
     
-          <el-dialog title="unknown tests list" :visible.sync="unknownlistvisible_mi200" width="80%">
+          <el-dialog title="unknown tests list" :visible.sync="unknownlistvisible" width="80%">
             <el-pagination
               @current-change="handleCurrentChange"
               :page-size="100"
@@ -134,7 +134,7 @@ export default {
       testdetails             : [],
       testdetails_disp        : [],
       faillistvisible   : false,
-      unknownlistvisible_mi200: false,
+      unknownlistvisible: false,
       groupstatus: []
     }
   },
@@ -239,7 +239,7 @@ export default {
         );
       }
       else if(kind == 'UNKNOWN'){
-        this.unknownlistvisible_mi200 = true;
+        this.unknownlistvisible = true;
         this.$http.post('/regression/testdetails',{
           projectname : projectname,
           variantname : variantname,
@@ -261,10 +261,10 @@ export default {
         );
       }
     },
-    handleClick(tab, event) {
-      console.log(this.projectname + ' clicked');
-      this.regressionstatus(this.projectname);
-    },
+    //handleClick(tab, event) {
+    //  console.log(this.projectname + ' clicked');
+    //  this.regressionstatus(this.projectname);
+    //},
     regressionstatus(projectname){
       this.$http.post('/regression/get',{
         kind  : 'Overall',
@@ -286,7 +286,7 @@ export default {
   mounted (){
     this.regressionstatus(this.projectname);
     this.getinfo();
-    console.log(this.projectname);
+    console.log('mounted : ' +this.projectname);
   }
 }
 </script>

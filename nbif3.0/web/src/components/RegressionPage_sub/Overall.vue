@@ -159,7 +159,7 @@ export default {
     },
     handleClick(tab, event) {
       console.log(this.activeProj + ' clicked');
-      this.regressionstatus(this.activeProj);
+      //this.regressionstatus(this.activeProj);
     },
     regressionstatus(projectname){
       this.$http.post('/regression/get',{
@@ -181,7 +181,7 @@ export default {
   },
   mounted (){
     //this.regressionstatus(this.activeProj);
-    //this.getinfo();
+    this.getinfo();
   }
 }
 </script>
