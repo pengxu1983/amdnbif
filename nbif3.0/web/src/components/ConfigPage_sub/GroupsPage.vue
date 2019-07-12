@@ -128,20 +128,7 @@ export default {
         variantname : 'nbif_nv10_gpu'
       },
       projects  : [],
-    }
-  },
-  computed  : {
-    validvariants (){
-      let R ;
-      console.log(this.projectinfo.projectname);
-      for(let p=0;p<this.projects;p++){
-        if(projects[p].projectname  ==  this.projectinfo.projectname){
-          console.log(typeof(projects[p].validvariants));
-          R = projects[p].validvariants;
-          break;
-        }
-      }
-      return R;
+      validvariants : []
     }
   },
   methods : {
@@ -218,6 +205,7 @@ export default {
         function(){}
       );
       this.projects = [];
+      this.validvariants  = [];
       this.$http.post('/config/projects/get',{
         kind  : 'all',
       }).then(
@@ -226,6 +214,14 @@ export default {
             //console.log(response.body.projects);
             console.log('all projects successfully get from DB');
             this.projects = JSON.parse(response.body.projects);
+            for(let p=0;p<this.projects.length;p++){
+              if(this.projects[p].projectname ==  this.projectinfo.projectname){
+                console.log(this.projectinfo.projectname);
+                console.log(projects[p].validvariants);
+                this.validvariants  = projects[p].validvariants;
+                break;
+              }
+            }
           }
         },
         function(){}
