@@ -217,8 +217,8 @@ export default {
             for(let p=0;p<this.projects.length;p++){
               if(this.projects[p].projectname ==  this.projectinfo.projectname){
                 console.log(this.projectinfo.projectname);
-                console.log(projects[p].validvariants);
-                this.validvariants  = projects[p].validvariants;
+                console.log(this.projects[p].validvariants);
+                this.validvariants  = this.projects[p].validvariants;
                 break;
               }
             }
