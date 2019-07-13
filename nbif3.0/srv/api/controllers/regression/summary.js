@@ -259,6 +259,71 @@ module.exports = {
               passrate  : passrate,
               checkedtime : checkedtime
             });
+            /////////////////////////////////////
+            //
+            //
+            //
+            /////////////////////////////////////
+            R = await Groups.findOne({
+              projectname : inputs.projectname,
+              variantname : inputs.variantname,
+              isBACO      : inputs.isBACO,
+              isBAPU      : inputs.isBAPU,
+              groupname   : oneregressiongroups[g].groupname
+            });
+            let DVgroup = R.DVgroup;
+            R = await Regressiontarget.findOne({
+              projectname : inputs.projectname,
+              variantname : inputs.variantname,
+              isBACO      : inputs.isBACO,
+              isBAPU      : inputs.isBAPU,
+              groupname   : oneregressiongroups[g].groupname
+            });
+            if(R){
+              if(R.target){
+                await Regressiontarget.update({
+                  projectname : inputs.projectname,
+                  variantname : inputs.variantname,
+                  isBACO      : inputs.isBACO,
+                  isBAPU      : inputs.isBAPU,
+                  groupname   : oneregressiongroups[g].groupname
+                },{
+                  DVgroup     : DVgroup,
+                  actpassrate : passrate,
+                });
+              }
+              else{
+                //TODO
+                await Regressiontarget.update({
+                  projectname : inputs.projectname,
+                  variantname : inputs.variantname,
+                  isBACO      : inputs.isBACO,
+                  isBAPU      : inputs.isBAPU,
+                  groupname   : oneregressiongroups[g].groupname
+                },{
+                  DVgroup     : DVgroup,
+                  actpassrate : passrate,
+                  target      : 95.00
+                });
+              }
+            }
+            else{
+              await Regressiontarget.create({
+                projectname : inputs.projectname,
+                variantname : inputs.variantname,
+                isBACO      : inputs.isBACO,
+                isBAPU      : inputs.isBAPU,
+                groupname   : oneregressiongroups[g].groupname
+                DVgroup     : DVgroup,
+                actpassrate : passrate,
+                target      : 95.00
+              });
+            }
+            ////////////////////////////////
+            ////////////////////////////////
+            ////////////////////////////////
+            ////////////////////////////////
+            ////////////////////////////////
           }
         }
         return exits.success(JSON.stringify({
@@ -545,6 +610,67 @@ module.exports = {
               passrate  : passrate,
               checkedtime : checkedtime
             });
+            //////////////////////////
+            //
+            //
+            //
+            //
+            //////////////////////////
+            R = await Groups.findOne({
+              projectname : inputs.projectname,
+              variantname : inputs.variantname,
+              isBACO      : inputs.isBACO,
+              isBAPU      : inputs.isBAPU,
+              groupname   : oneregressiongroups[g].groupname
+            });
+            let DVgroup = R.DVgroup;
+            R = await Regressiontarget.findOne({
+              projectname : inputs.projectname,
+              variantname : inputs.variantname,
+              isBACO      : inputs.isBACO,
+              isBAPU      : inputs.isBAPU,
+              groupname   : oneregressiongroups[g].groupname
+            });
+            if(R){
+              if(R.target){
+                await Regressiontarget.update({
+                  projectname : inputs.projectname,
+                  variantname : inputs.variantname,
+                  isBACO      : inputs.isBACO,
+                  isBAPU      : inputs.isBAPU,
+                  groupname   : oneregressiongroups[g].groupname
+                },{
+                  DVgroup     : DVgroup,
+                  actpassrate : passrate,
+                });
+              }
+              else{
+                //TODO
+                await Regressiontarget.update({
+                  projectname : inputs.projectname,
+                  variantname : inputs.variantname,
+                  isBACO      : inputs.isBACO,
+                  isBAPU      : inputs.isBAPU,
+                  groupname   : oneregressiongroups[g].groupname
+                },{
+                  DVgroup     : DVgroup,
+                  actpassrate : passrate,
+                  target      : 95.00
+                });
+              }
+            }
+            else{
+              await Regressiontarget.create({
+                projectname : inputs.projectname,
+                variantname : inputs.variantname,
+                isBACO      : inputs.isBACO,
+                isBAPU      : inputs.isBAPU,
+                groupname   : oneregressiongroups[g].groupname
+                DVgroup     : DVgroup,
+                actpassrate : passrate,
+                target      : 95.00
+              });
+            }
           }
         }
         return exits.success(JSON.stringify({

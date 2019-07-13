@@ -53,7 +53,7 @@ export default {
       projects : [],
       variants : [],
       users    : [],
-      currentTab  : 'Byprj',
+      currentTab  : 'Bygrp',
       kinds     : [
         'Byprj',
         'Bygrp',

@@ -36,7 +36,7 @@ module.exports = {
 
   fn: async function (inputs,exits) {
     sails.log('/regression/upload');
-    sails.log(inputs);
+    sails.log(inputs.kind);
     //=============================================//
     //========For onecase info=====================//
     //========For onecase info=====================//
@@ -262,7 +262,9 @@ module.exports = {
             let R = await Groups.findOne({
               groupname : grouplist[g],
               projectname : projectname,
-              variantname : variantname
+              variantname : variantname,
+              isBACO      : isBACO,
+              isBAPU      : isBAPU
             });
             if(R){
             }
@@ -270,7 +272,9 @@ module.exports = {
               await Groups.create({
                 groupname : grouplist[g],
                 projectname : projectname,
-                variantname : variantname
+                variantname : variantname,
+                isBACO      : isBACO,
+                isBAPU      : isBAPU
               });
             }
           }
@@ -310,7 +314,9 @@ module.exports = {
             let R = await Groups.findOne({
               groupname : grouplist[g],
               projectname : projectname,
-              variantname : variantname
+              variantname : variantname,
+              isBACO      : isBACO,
+              isBAPU      : isBAPU
             });
             if(R){
             }
@@ -318,7 +324,9 @@ module.exports = {
               await Groups.create({
                 groupname : grouplist[g],
                 projectname : projectname,
-                variantname : variantname
+                variantname : variantname,
+                isBACO      : isBACO,
+                isBAPU      : isBAPU
               });
             }
           }

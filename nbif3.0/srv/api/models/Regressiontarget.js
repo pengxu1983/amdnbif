@@ -27,10 +27,19 @@ module.exports = {
     target : {
       type  : 'string'
     },
+    actpassrate : {
+      type  : 'string'
+    },
     targetdate : {
       type  : 'string'
     },
     targetperiod : {
+      type  : 'string'
+    },
+    isBACO  : {
+      type  : 'string'
+    },
+    isBAPU  : {
       type  : 'string'
     }
 

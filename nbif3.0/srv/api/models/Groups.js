@@ -26,6 +26,12 @@ module.exports = {
     },
     variantname : {
       type      : 'string'
+    },
+    isBAPU      : {
+      type      : 'string'
+    },
+    isBACO      : {
+      type      : 'string'
     }
 
     //  ╔═╗╔╦╗╔╗ ╔═╗╔╦╗╔═╗

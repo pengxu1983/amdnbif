@@ -11,83 +11,12 @@
           :label="oneDVgroup.groupname" 
           :name="oneDVgroup.groupname"
         >
-          <el-container v-for="onevalidvariant in validvariants">
-            <el-header>
-              {{onevalidvariant}}
-            </el-header>
-            <el-main>
-              <el-table
-                :data="DVgroupPRstatus"
-                style="width: 100%"
-                :cell-class-name="tableCellClassName"
-              >
-                <el-table-column
-                  prop="groupname"
-                  label="feature group"
-                >
-                </el-table-column>
-                <el-table-column slot
-                  :label="weekback(2)"
-                >
-                  <el-table-column
-                    prop="ActPRm2"
-                    label="actual passrate"
-                  >
-                  </el-table-column>
-                  <el-table-column
-                    prop="TargetPRm2"
-                    label="target passrate"
-                  >
-                  </el-table-column>
-                </el-table-column>
-                <el-table-column
-                  :label="weekback(1)"
-                >
-                  <el-table-column
-                    prop="ActPRm1"
-                    label="actual passrate"
-                  >
-                  </el-table-column>
-                  <el-table-column
-                    prop="TargetPRm1"
-                    label="target passrate"
-                  >
-                  </el-table-column>
-                </el-table-column>
-                <el-table-column
-                  :label="weekback(0)"
-                >
-                  <el-table-column
-                    prop="ActPR0"
-                    label="actual passrate"
-                  >
-                  </el-table-column>
-                  <el-table-column
-                    prop="TargetPR0"
-                    label="target passrate"
-                  >
-                  </el-table-column>
-                </el-table-column>
-                <el-table-column
-                  :label="weekback(-1)"
-                >
-                  <el-table-column
-                    prop="ActPR1"
-                    label="actual passrate"
-                  >
-                  </el-table-column>
-                  <el-table-column
-                    prop="TargetPR1"
-                    label="target passrate"
-                  >
-                    <template slot-scope="scope">
-                      <el-input v-model="scope.row.TargetPR1"></el-input><span>%</span>
-                    </template>
-                  </el-table-column>
-                </el-table-column>
-              </el-table>
-            </el-main>
-          </el-container>
+          <PrjDVgrpVrntPage
+            v-for="onevalidvariant in validvariants"
+            v-bind:projectname="oneproject.projectname"
+            v-bind:variantname="onevalidvariant"
+            v-bind:DVgroup="oneDVgroup.groupname"
+          ></PrjDVgrpVrntPage>
         </el-tab-pane>
       </el-tabs>
     </el-tab-pane>
@@ -96,6 +25,7 @@
 
 <script>
 let moment =require('moment');
+import PrjDVgrpVrntPage from '@/components/MetricsPage_sub/Bygrp_sub/PrjDVgrpVrntPage.vue'
 export default {
   name: 'Byprj',
   props: {
@@ -103,7 +33,7 @@ export default {
   data() {
     return {
       variants    : [],
-      validvariants : [],
+      validvariants : ['nbif_nv10_gpu','abc'],
       DVgroups    : [
       {
         groupname : 'HOST',
@@ -119,28 +49,12 @@ export default {
       }],
       currentPrj  : 'mi200',
       currentDVgroup  : 'HOST',
-      //DVgroupPRstatus : [{
-      //  groupname : 'aer'
-      //},{
-      //  groupname : 'haha'
-      //}]
+      DVgroupPRstatus : [],
     }
   },
-  //computed: {
-  //  DVgroupPRstatus (){
-  //    this.$http.post('/metrics/getDVgroupPRstatus',{
-  //      kind  : 'Bygrp',
-  //      DVgroup : this.currentDVgroup,
-  //      projectname : this.currentPrj
-  //    }).then(
-  //      function(response){
-  //        console.log(response.body);
-  //        return response.body.DVgroupPRstatus;
-  //      },
-  //      function(){}
-  //    );
-  //  }
-  //},
+  components  : {
+    PrjDVgrpVrntPage
+  },
   methods : {
     getvalidvariants  (projectname){
       this.$http.post('/metrics/getvalidvariants',{
