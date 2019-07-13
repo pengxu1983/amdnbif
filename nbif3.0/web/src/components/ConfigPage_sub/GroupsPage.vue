@@ -203,6 +203,7 @@ export default {
                 console.log(this.projects[p].validvariants);
                 this.validvariants  = this.projects[p].validvariants;
                 this.projectinfo.variantname  = this.validvariants[0];
+                this.getgroups();
                 break;
               }
             }
