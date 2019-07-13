@@ -4,7 +4,7 @@
       <el-row>
         <el-form :inline="true" :model="projectinfo" class="demo-form-inline">
           <el-form-item label="Project">
-            <el-select v-model="projectinfo.projectname" placeholder="Project" @change="get()">
+            <el-select v-model="projectinfo.projectname" placeholder="Project" @change="getprojects()">
               <el-option 
                 v-for="oneproject in projects"
                 :label="oneproject.projectname" 
@@ -14,7 +14,7 @@
             </el-select>
           </el-form-item>
           <el-form-item label="Variant">
-            <el-select v-model="projectinfo.variantname" placeholder="Variant" @change="get()">
+            <el-select v-model="projectinfo.variantname" placeholder="Variant" @change="getgroups()">
               <el-option 
                 v-for="onevariant in validvariants"
                 :label="onevariant" 
@@ -186,7 +186,32 @@ export default {
         function(){}
       );
     },
-    get (){
+    getprojects (){
+      this.projects = [];
+      this.validvariants  = [];
+      this.$http.post('/config/projects/get',{
+        kind  : 'all',
+      }).then(
+        function(response){
+          if(response.body.ok ==  'ok'){
+            //console.log(response.body.projects);
+            console.log('all projects successfully get from DB');
+            this.projects = JSON.parse(response.body.projects);
+            for(let p=0;p<this.projects.length;p++){
+              if(this.projects[p].projectname ==  this.projectinfo.projectname){
+                console.log(this.projectinfo.projectname);
+                console.log(this.projects[p].validvariants);
+                this.validvariants  = this.projects[p].validvariants;
+                this.projectinfo.variantname  = this.validvariants[0];
+                break;
+              }
+            }
+          }
+        },
+        function(){}
+      );
+    },
+    getgroups (){
       this.groups = [];
       //get groups
       this.$http.post('/config/groups/get',{
@@ -197,6 +222,29 @@ export default {
         function(response){
           if(response.body.ok == 'ok'){
             this.groups= JSON.parse(response.body.groups);
+            console.log(response.body.groups);
+            console.log('Project : '+this.projectinfo.projectname+ ' groups successfully get from DB');
+          }
+          else{
+          }
+        },
+        function(){}
+      );
+    },
+    get (){
+      console.log('get');
+      console.log(this.projectinfo);
+      this.groups = [];
+      //get groups
+      this.$http.post('/config/groups/get',{
+        kind  : 'Bygrp',
+        projectname : this.projectinfo.projectname,
+        variantname : this.projectinfo.variantname
+      }).then(
+        function(response){
+          if(response.body.ok == 'ok'){
+            this.groups= JSON.parse(response.body.groups);
+            console.log(response.body.groups);
             console.log('Project : '+this.projectinfo.projectname+ ' groups successfully get from DB');
           }
           else{
@@ -230,7 +278,8 @@ export default {
     }
   },
   mounted  (){
-    this.get();
+    this.getgroups();
+    this.getprojects();
   }
 }
 </script>
