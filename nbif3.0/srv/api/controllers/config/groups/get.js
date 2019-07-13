@@ -13,6 +13,9 @@ module.exports = {
     },
     projectname : {
       type  : 'string'
+    },
+    variantname : {
+      type  : 'string'
     }
   },
 
@@ -28,7 +31,8 @@ module.exports = {
     if(inputs.kind  ==  'Bygrp'){
       let R = await Groups.find({
         //id  : {'>=':0}
-        projectname : inputs.projectname
+        projectname : inputs.projectname,
+        variantname : inputs.variantname
       })
       return exits.success(JSON.stringify({
         ok  : 'ok',

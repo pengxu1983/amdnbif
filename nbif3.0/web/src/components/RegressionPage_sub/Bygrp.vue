@@ -4,7 +4,12 @@
     <el-form :inline="true" :model="groupinfo" class="demo-form-inline">
       <el-form-item label="Project">
         <el-select v-model="groupinfo.projectname" placeholder="projectname">
-          <el-option label="mi200" value="mi200"></el-option>
+          <el-option 
+            v-for="oneproject in projects"
+            :label="oneproject.projectname" 
+            :value="oneproject.projectname"
+          >
+          </el-option>
         </el-select>
       </el-form-item>
       <el-form-item label="Group">
@@ -162,6 +167,7 @@ export default {
       groupinfo : {
         projectname : 'mi200',
         groupname : 'sanity',
+        variantname : 'nbif_nv10_gpu'
       },
       groups  : [],
       regressionstatus    : [],
@@ -171,6 +177,7 @@ export default {
       passlistvisible     : false,
       unknownlistvisible  : false,
       alltestvisible      : false,
+      projects  : [],
     }
   },
   methods : {
@@ -245,18 +252,32 @@ export default {
         this.testdetails_disp.push(this.testdetails[i]);
       }
     },
-    getinfo (projectname){
+    getinfo (){
       //get groups
       this.$http.post('/config/groups/get',{
         kind  : 'Bygrp',
-        projectname : projectname
+        projectname : this.groupinfo.projectname,
+        variantname : this.groupinfo.variantname
       }).then(
         function(response){
           if(response.body.ok == 'ok'){
             this.groups= JSON.parse(response.body.groups);
-            console.log('Project : '+projectname+ ' groups successfully get from DB');
+            console.log('Project : '+this.groupinfo.projectname+ ' groups successfully get from DB');
           }
           else{
+          }
+        },
+        function(){}
+      );
+      //get projects
+      this.$http.post('/config/projects/get',{
+        kind  : 'all',
+      }).then(
+        function(response){
+          if(response.body.ok ==  'ok'){
+            //console.log(response.body.projects);
+            console.log('all projects successfully get from DB');
+            this.projects = JSON.parse(response.body.projects);
           }
         },
         function(){}
@@ -265,7 +286,7 @@ export default {
   },
   mounted (){
     this.getregressionstatus(this.groupinfo.projectname,this.groupinfo.groupname);
-    this.getinfo(this.groupinfo.projectname);
+    this.getinfo();
   }
 }
 </script>
