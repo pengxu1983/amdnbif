@@ -17,8 +17,8 @@
             <el-select v-model="projectinfo.variantname" placeholder="Variant" @change="get()">
               <el-option 
                 v-for="onevariant in validvariants"
-                :label="onevariant.variantname" 
-                :value="onevariant.variantname"
+                :label="onevariant" 
+                :value="onevariant"
               >
               </el-option>
             </el-select>
