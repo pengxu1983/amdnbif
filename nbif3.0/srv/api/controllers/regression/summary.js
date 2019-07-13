@@ -313,7 +313,7 @@ module.exports = {
                 variantname : inputs.variantname,
                 isBACO      : inputs.isBACO,
                 isBAPU      : inputs.isBAPU,
-                groupname   : oneregressiongroups[g].groupname
+                groupname   : oneregressiongroups[g].groupname,
                 DVgroup     : DVgroup,
                 actpassrate : passrate,
                 target      : 95.00
@@ -665,7 +665,7 @@ module.exports = {
                 variantname : inputs.variantname,
                 isBACO      : inputs.isBACO,
                 isBAPU      : inputs.isBAPU,
-                groupname   : oneregressiongroups[g].groupname
+                groupname   : oneregressiongroups[g].groupname,
                 DVgroup     : DVgroup,
                 actpassrate : passrate,
                 target      : 95.00
