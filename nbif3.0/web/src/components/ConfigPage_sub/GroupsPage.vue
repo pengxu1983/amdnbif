@@ -219,6 +219,7 @@ export default {
                 console.log(this.projectinfo.projectname);
                 console.log(this.projects[p].validvariants);
                 this.validvariants  = this.projects[p].validvariants;
+                this.projectinfo.variantname  = this.validvariants[0];
                 break;
               }
             }
