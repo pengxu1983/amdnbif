@@ -260,9 +260,7 @@ module.exports = {
               checkedtime : checkedtime
             });
             /////////////////////////////////////
-            //
-            //
-            //
+            //Groups target update
             /////////////////////////////////////
             R = await Groups.findOne({
               projectname : inputs.projectname,
@@ -277,7 +275,8 @@ module.exports = {
               variantname : inputs.variantname,
               isBACO      : inputs.isBACO,
               isBAPU      : inputs.isBAPU,
-              groupname   : oneregressiongroups[g].groupname
+              groupname   : oneregressiongroups[g].groupname,
+              targetdate  : moment().day(1+7).format('YYYY-MM-DD'),
             });
             if(R){
               if(R.target){
@@ -286,7 +285,8 @@ module.exports = {
                   variantname : inputs.variantname,
                   isBACO      : inputs.isBACO,
                   isBAPU      : inputs.isBAPU,
-                  groupname   : oneregressiongroups[g].groupname
+                  groupname   : oneregressiongroups[g].groupname,
+                  targetdate  : moment().day(1+7).format('YYYY-MM-DD'),
                 },{
                   DVgroup     : DVgroup,
                   actpassrate : passrate,
@@ -299,7 +299,8 @@ module.exports = {
                   variantname : inputs.variantname,
                   isBACO      : inputs.isBACO,
                   isBAPU      : inputs.isBAPU,
-                  groupname   : oneregressiongroups[g].groupname
+                  groupname   : oneregressiongroups[g].groupname,
+                  targetdate  : moment().day(1+7).format('YYYY-MM-DD'),
                 },{
                   DVgroup     : DVgroup,
                   actpassrate : passrate,
@@ -314,6 +315,7 @@ module.exports = {
                 isBACO      : inputs.isBACO,
                 isBAPU      : inputs.isBAPU,
                 groupname   : oneregressiongroups[g].groupname,
+                targetdate  : moment().day(1+7).format('YYYY-MM-DD'),
                 DVgroup     : DVgroup,
                 actpassrate : passrate,
                 target      : 95.00
@@ -611,10 +613,7 @@ module.exports = {
               checkedtime : checkedtime
             });
             //////////////////////////
-            //
-            //
-            //
-            //
+            //Groups target update
             //////////////////////////
             R = await Groups.findOne({
               projectname : inputs.projectname,
@@ -622,14 +621,15 @@ module.exports = {
               isBACO      : inputs.isBACO,
               isBAPU      : inputs.isBAPU,
               groupname   : oneregressiongroups[g].groupname
-            });
+            });//Get DVgroup info
             let DVgroup = R.DVgroup;
             R = await Regressiontarget.findOne({
               projectname : inputs.projectname,
               variantname : inputs.variantname,
               isBACO      : inputs.isBACO,
               isBAPU      : inputs.isBAPU,
-              groupname   : oneregressiongroups[g].groupname
+              groupname   : oneregressiongroups[g].groupname,
+              targetdate  : moment().day(1+7).format('YYYY-MM-DD')
             });
             if(R){
               if(R.target){
@@ -638,24 +638,25 @@ module.exports = {
                   variantname : inputs.variantname,
                   isBACO      : inputs.isBACO,
                   isBAPU      : inputs.isBAPU,
-                  groupname   : oneregressiongroups[g].groupname
+                  groupname   : oneregressiongroups[g].groupname,
+                  targetdate  : moment().day(1+7).format('YYYY-MM-DD')
                 },{
                   DVgroup     : DVgroup,
                   actpassrate : passrate,
                 });
               }
               else{
-                //TODO
                 await Regressiontarget.update({
                   projectname : inputs.projectname,
                   variantname : inputs.variantname,
                   isBACO      : inputs.isBACO,
                   isBAPU      : inputs.isBAPU,
-                  groupname   : oneregressiongroups[g].groupname
+                  groupname   : oneregressiongroups[g].groupname,
+                  targetdate  : moment().day(1+7).format('YYYY-MM-DD')
                 },{
                   DVgroup     : DVgroup,
                   actpassrate : passrate,
-                  target      : 95.00
+                  target      : 95.00       //TODO
                 });
               }
             }
@@ -666,6 +667,7 @@ module.exports = {
                 isBACO      : inputs.isBACO,
                 isBAPU      : inputs.isBAPU,
                 groupname   : oneregressiongroups[g].groupname,
+                targetdate  : moment().day(1+7).format('YYYY-MM-DD'),
                 DVgroup     : DVgroup,
                 actpassrate : passrate,
                 target      : 95.00
