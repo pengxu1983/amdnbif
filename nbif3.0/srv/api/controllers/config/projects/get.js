@@ -40,6 +40,8 @@ module.exports = {
             validvariants : JSON.parse(R[r].validvariants),
             //validmodes    : JSON.parse(R[r].validmodes),
             milestones    : JSON.parse(R[r].milestones),
+            hasBACO       : R[r].hasBACO,
+            hasBAPU       : R[r].hasBAPU,
             ownerships    : [
               {
                 title : 'DVlead',

@@ -35,6 +35,12 @@ module.exports = {
     milestones    : {
       type        : 'string',
       columnType  : 'longtext'
+    },
+    hasBACO       : {
+      type        : 'string'
+    },
+    hasBAPU       : {
+      type        : 'string'
     }
 
 

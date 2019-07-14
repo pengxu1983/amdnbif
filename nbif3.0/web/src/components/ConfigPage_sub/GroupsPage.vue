@@ -186,6 +186,11 @@ export default {
     },
     deleteRow(index, rows) {
       rows.splice(index, 1);
+      if(rows[0].groupname == ''){
+        //do nothing
+      }
+      else{
+      }
     },
     add (){
       this.groups.unshift({

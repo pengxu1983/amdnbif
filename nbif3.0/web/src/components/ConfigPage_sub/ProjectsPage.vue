@@ -24,9 +24,10 @@
           stripe
           style="width: 100%">
           <el-table-column
+            fixed
             prop="projectname"
             label="projectname"
-            width="200px"
+            width="200"
           >
             <template slot-scope="scope">
               <el-input v-model="scope.row.projectname"></el-input>
@@ -35,7 +36,7 @@
           <el-table-column
             prop="validvariants"
             label="validvariants"
-            width="200px"
+            width="200"
           >
             <template slot-scope="scope">
               <el-checkbox-group v-model="scope.row.validvariants" >
@@ -46,8 +47,41 @@
             </template>
           </el-table-column>
           <el-table-column
+            prop="hasBACO"
+            label="hasBACO"
+            width="200"
+          >
+            <template slot-scope="scope">
+              <el-select v-model="scope.row.hasBACO" placeholder="Yes or No">
+                <el-option
+                  v-for="item in options"
+                  :key="item"
+                  :label="item"
+                  :value="item">
+                </el-option>
+              </el-select>
+            </template>
+          </el-table-column>
+          <el-table-column
+            prop="hasBAPU"
+            label="hasBAPU"
+            width="200"
+          >
+            <template slot-scope="scope">
+              <el-select v-model="scope.row.hasBAPU" placeholder="Yes or No">
+                <el-option
+                  v-for="item in options"
+                  :key="item"
+                  :label="item"
+                  :value="item">
+                </el-option>
+              </el-select>
+            </template>
+          </el-table-column>
+          <el-table-column
             prop="milestones"
             label="milestones"
+            width="800"
           >
             <template slot-scope="scope">
               <el-row>
@@ -119,6 +153,7 @@
           <el-table-column
             prop="ownerships"
             label="ownerships"
+            width="600"
           >
             <template slot-scope="scope">
               <el-table
@@ -185,6 +220,10 @@ export default {
       projects  : [],
       users     : [],
       loading   : false,
+      options   : [
+        'yes',
+        'no'
+      ],
     }
   },
   methods : {
@@ -270,6 +309,8 @@ export default {
       let oneproject  = {
         projectname : 'new project',
         validvariants : [],
+        hasBAPU :  'no',
+        hasBACO :   'no',
         milestones  : [
           {
             milestonename : 'LSA',
