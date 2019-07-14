@@ -16,6 +16,12 @@ module.exports = {
     },
     variantname : {
       type  : 'string'
+    },
+    isBAPU      : {
+      type  : 'string'
+    },
+    isBACO      : {
+      type  : 'string'
     }
   },
 
@@ -32,7 +38,9 @@ module.exports = {
       let R = await Groups.find({
         //id  : {'>=':0}
         projectname : inputs.projectname,
-        variantname : inputs.variantname
+        variantname : inputs.variantname,
+        isBACO      : inputs.isBACO,
+        isBAPU      : inputs.isBAPU
       })
       return exits.success(JSON.stringify({
         ok  : 'ok',
