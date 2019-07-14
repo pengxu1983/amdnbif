@@ -38,7 +38,9 @@ module.exports = {
           let onegroup = await Groups.findOne({
             groupname : groups[g].groupname,
             projectname : groups[g].projectname,
-            variantname : groups[g].variantname
+            variantname : groups[g].variantname,
+            isBAPU      : groups[g].isBAPU,
+            isBACO      : groups[g].isBACO
           });
           if(onegroup){
             await Groups.update({
@@ -46,7 +48,9 @@ module.exports = {
               //DVgroup   : groups[g].DVgroup,
               //owner     : groups[g].owner,
               projectname : groups[g].projectname,
-              variantname : groups[g].variantname
+              variantname : groups[g].variantname,
+              isBAPU      : groups[g].isBAPU,
+              isBACO      : groups[g].isBACO
             },{
               //groupname : groups[g].groupname,
               DVgroup   : groups[g].DVgroup,
@@ -59,7 +63,9 @@ module.exports = {
               DVgroup   : groups[g].DVgroup,
               owner     : groups[g].owner,
               projectname : groups[g].projectname,
-              variantname : groups[g].variantname
+              variantname : groups[g].variantname,
+              isBAPU      : groups[g].isBAPU,
+              isBACO      : groups[g].isBACO
             });
           }
         }

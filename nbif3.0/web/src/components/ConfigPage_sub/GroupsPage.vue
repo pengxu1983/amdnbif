@@ -23,6 +23,26 @@
               </el-option>
             </el-select>
           </el-form-item>
+          <el-form-item label="isBAPU">
+            <el-select v-model="projectinfo.isBAPU" placeholder="BAPU" @change="getgroups()">
+              <el-option 
+                v-for="item in options"
+                :label="item" 
+                :value="item"
+              >
+              </el-option>
+            </el-select>
+          </el-form-item>
+          <el-form-item label="isBACO">
+            <el-select v-model="projectinfo.isBACO" placeholder="BACO" @change="getgroups()">
+              <el-option 
+                v-for="item in options"
+                :label="item" 
+                :value="item"
+              >
+              </el-option>
+            </el-select>
+          </el-form-item>
           <el-form-item>
             <el-button 
               type="primary"
@@ -115,6 +135,10 @@ export default {
   },
   data() {
     return {
+      options : [
+        'yes',
+        'no'
+      ],
       groups  : [],
       DVgroups: [
         'MISC',
@@ -125,7 +149,9 @@ export default {
       loading : false,
       projectinfo : {
         projectname : 'mi200',
-        variantname : 'nbif_nv10_gpu'
+        variantname : 'nbif_nv10_gpu',
+        isBACO      : 'no',
+        isBAPU      : 'no'
       },
       projects  : [],
       validvariants : []
@@ -167,7 +193,9 @@ export default {
         DVgroup     : '',
         owner       : '',
         projectname : this.projectinfo.projectname,
-        variantname : this.projectinfo.variantname
+        variantname : this.projectinfo.variantname,
+        isBACO      : 'no',
+        isBAPU      : 'no'
       });
     },
     upload  (){
@@ -218,7 +246,9 @@ export default {
       this.$http.post('/config/groups/get',{
         kind  : 'Bygrp',
         projectname : this.projectinfo.projectname,
-        variantname : this.projectinfo.variantname
+        variantname : this.projectinfo.variantname,
+        isBAPU      : this.projectinfo.isBAPU,
+        isBACO      : this.projectinfo.isBACO
       }).then(
         function(response){
           if(response.body.ok == 'ok'){
