@@ -41,7 +41,11 @@ module.exports = {
     },
     isBAPU  : {
       type  : 'string'
-    }
+    },
+    comment : {
+      type  : 'string',
+      columnType  : 'longtext'
+    },
 
     //  ╔═╗╔╦╗╔╗ ╔═╗╔╦╗╔═╗
     //  ║╣ ║║║╠╩╗║╣  ║║╚═╗
