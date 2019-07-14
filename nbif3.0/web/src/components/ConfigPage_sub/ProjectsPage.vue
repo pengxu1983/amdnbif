@@ -22,7 +22,9 @@
           :data="projects"
           border
           stripe
-          style="width: 100%">
+          style="width: 100%"
+          max-height="1000"
+        >
           <el-table-column
             fixed
             prop="projectname"

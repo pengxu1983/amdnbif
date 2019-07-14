@@ -13,6 +13,16 @@
           label="feature group"
         >
         </el-table-column>
+        <el-table-column
+          prop="isBACO"
+          label="isBACO"
+        >
+        </el-table-column>
+        <el-table-column
+          prop="isBAPU"
+          label="isBAPU"
+        >
+        </el-table-column>
         <el-table-column 
           :label="weekback(2)"
         >
@@ -110,7 +120,15 @@ export default {
         projectname : this.projectname,
         variantname : this.variantname,
         DVgroup     : this.DVgroup
-      }).then();
+      }).then(
+        function(response){
+          console.log(response.body.ok);
+          console.log(response.body.featuregroups);
+          console.log(typeof(response.body.featuregroups));
+          this.DVgroupPRstatus  = JSON.parse(response.body.featuregroups);
+        },
+        function(){}
+      );
     }
 
   },
