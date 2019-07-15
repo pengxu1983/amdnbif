@@ -62,6 +62,9 @@ module.exports.routes = {
     action  : 'regression/groupstatus'
   },
   //For metrics
+  'POST /metrics/getdvgroupprstatus' : {
+    action  : 'metrics/getdvgroupprstatus'
+  },
   'POST /metrics/getvalidvariants' : {
     action  : 'metrics/getvalidvariants'
   },
