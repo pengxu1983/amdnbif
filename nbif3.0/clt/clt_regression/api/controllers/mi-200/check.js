@@ -351,7 +351,7 @@ let cron_check_result = new cronJob('0 0 * * * *',function(){
     console.log('invalid tree!!!');
     return;
   }
-},null,true,'Asia/Chongqing');
+},null,false,'Asia/Chongqing');
 module.exports = {
 
 

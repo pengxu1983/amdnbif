@@ -1,5 +1,5 @@
 let refTreeRoot   = '';
-let regTreeRoot   = '/proj/cip_floyd_genz/ip_regress/antti/nbif2_0_al/';//MODIFY
+let regTreeRoot   = '/proj/cip_floyd_genz/ip_regress/antti/nbif2_0_al_long/';//MODIFY
 let out_home      = '/out/linux_3.10.0_64.VCS/';
 var moment        = require('moment');
 var querystring   = require('querystring');
@@ -139,7 +139,7 @@ let cron_send_request = new cronJob('* * * * * *',function(){
     postQ.splice(0,postQlimit);
   }
 },null,false,'Asia/Chongqing');
-let cron_check_result = new cronJob('0 0 * * * *',function(){
+let cron_check_result = new cronJob('0 15 1/2 * * *',function(){
   //cron_check_result.stop();
   console.log('cron_check_result starts at '+moment().format('YYYY-MM-DD HH:mm:ss'));
   console.log('basic info :');
@@ -351,14 +351,14 @@ let cron_check_result = new cronJob('0 0 * * * *',function(){
     console.log('invalid tree!!!');
     return;
   }
-},null,false,'Asia/Chongqing');
+},null,true,'Asia/Chongqing');
 module.exports = {
 
 
   friendlyName: 'Check',
 
 
-  description: 'Check mero.',
+  description: 'Check mero long.',
 
 
   inputs: {

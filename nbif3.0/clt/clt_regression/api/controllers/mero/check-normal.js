@@ -139,7 +139,7 @@ let cron_send_request = new cronJob('* * * * * *',function(){
     postQ.splice(0,postQlimit);
   }
 },null,false,'Asia/Chongqing');
-let cron_check_result = new cronJob('0 0 * * * *',function(){
+let cron_check_result = new cronJob('0 0 1/2 * * *',function(){
   //cron_check_result.stop();
   console.log('cron_check_result starts at '+moment().format('YYYY-MM-DD HH:mm:ss'));
   console.log('basic info :');
@@ -351,14 +351,14 @@ let cron_check_result = new cronJob('0 0 * * * *',function(){
     console.log('invalid tree!!!');
     return;
   }
-},null,false,'Asia/Chongqing');
+},null,true,'Asia/Chongqing');
 module.exports = {
 
 
   friendlyName: 'Check',
 
 
-  description: 'Check mero.',
+  description: 'Check mero normal.',
 
 
   inputs: {
