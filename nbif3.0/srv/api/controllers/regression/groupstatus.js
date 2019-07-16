@@ -59,7 +59,9 @@ module.exports = {
           let onegroup = await Groups.findOne({
             groupname : R[r].groupname,
             projectname : inputs.projectname,
-            variantname : inputs.variantname
+            variantname : inputs.variantname,
+            isBACO      : inputs.isBACO,
+            isBAPU      : inputs.isBAPU
           });
           sails.log(onegroup.DVgroup);
           groupstatus.push({
@@ -94,7 +96,9 @@ module.exports = {
           let onegroup = await Groups.findOne({
             groupname : R[r].groupname,
             projectname : inputs.projectname,
-            variantname : inputs.variantname
+            variantname : inputs.variantname,
+            isBACO      : inputs.isBACO,
+            isBAPU      : inputs.isBAPU
           });
           sails.log(onegroup.DVgroup);
           groupstatus.push({
