@@ -43,9 +43,6 @@ module.exports = {
     isBAPU      : {
       type      : 'string'
     },
-    isBACO      : {
-      type      : 'string'
-    },
     suite       : {
       type      : 'string'
     },

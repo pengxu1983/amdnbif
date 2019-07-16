@@ -20,9 +20,6 @@ module.exports = {
     isBAPU      : {
       type  : 'string'
     },
-    isBACO      : {
-      type  : 'string'
-    }
   },
 
 
@@ -39,7 +36,6 @@ module.exports = {
         //id  : {'>=':0}
         projectname : inputs.projectname,
         variantname : inputs.variantname,
-        isBACO      : inputs.isBACO,
         isBAPU      : inputs.isBAPU
       })
       return exits.success(JSON.stringify({

@@ -31,9 +31,6 @@ module.exports = {
     variantname : {
       type  : 'string'
     },
-    isBACO  : {
-      type  : 'string'
-    },
     isBAPU  : {
       type  : 'string'
     },
@@ -65,7 +62,6 @@ module.exports = {
         projectname : inputs.projectname,
         variantname : inputs.variantname,
         isBAPU      : inputs.isBAPU,
-        isBACO      : inputs.isBACO,
         kickoffdate : inputs.kickoffdate,
         changelist  : inputs.changelist,
         shelve      : inputs.shelve,
@@ -83,7 +79,6 @@ module.exports = {
               projectname : inputs.projectname,
               variantname : inputs.variantname,
               isBAPU      : inputs.isBAPU,
-              isBACO      : inputs.isBACO,
               kickoffdate : inputs.kickoffdate,
               changelist  : inputs.changelist,
               shelve      : inputs.shelve,
@@ -98,7 +93,6 @@ module.exports = {
               projectname : inputs.projectname,
               variantname : inputs.variantname,
               isBAPU      : inputs.isBAPU,
-              isBACO      : inputs.isBACO,
               kickoffdate : inputs.kickoffdate,
               changelist  : inputs.changelist,
               shelve      : inputs.shelve,
@@ -114,7 +108,6 @@ module.exports = {
               projectname : inputs.projectname,
               variantname : inputs.variantname,
               isBAPU      : inputs.isBAPU,
-              isBACO      : inputs.isBACO,
               kickoffdate : inputs.kickoffdate,
               changelist  : inputs.changelist,
               shelve      : inputs.shelve,
@@ -130,7 +123,6 @@ module.exports = {
               projectname : inputs.projectname,
               variantname : inputs.variantname,
               isBAPU      : inputs.isBAPU,
-              isBACO      : inputs.isBACO,
               kickoffdate : inputs.kickoffdate,
               changelist  : inputs.changelist,
               shelve      : inputs.shelve,
@@ -155,7 +147,6 @@ module.exports = {
               projectname : inputs.projectname,
               variantname : inputs.variantname,
               isBAPU      : inputs.isBAPU,
-              isBACO      : inputs.isBACO,
               kickoffdate : inputs.kickoffdate,
               changelist  : inputs.changelist,
               shelve      : inputs.shelve,
@@ -174,7 +165,6 @@ module.exports = {
               projectname : inputs.projectname,
               variantname : inputs.variantname,
               isBAPU      : inputs.isBAPU,
-              isBACO      : inputs.isBACO,
               kickoffdate : inputs.kickoffdate,
               changelist  : inputs.changelist,
               shelve      : inputs.shelve,
@@ -189,7 +179,6 @@ module.exports = {
               projectname : inputs.projectname,
               variantname : inputs.variantname,
               isBAPU      : inputs.isBAPU,
-              isBACO      : inputs.isBACO,
               kickoffdate : inputs.kickoffdate,
               changelist  : inputs.changelist,
               shelve      : inputs.shelve,
@@ -205,7 +194,6 @@ module.exports = {
               projectname : inputs.projectname,
               variantname : inputs.variantname,
               isBAPU      : inputs.isBAPU,
-              isBACO      : inputs.isBACO,
               kickoffdate : inputs.kickoffdate,
               changelist  : inputs.changelist,
               shelve      : inputs.shelve,
@@ -221,7 +209,6 @@ module.exports = {
               projectname : inputs.projectname,
               variantname : inputs.variantname,
               isBAPU      : inputs.isBAPU,
-              isBACO      : inputs.isBACO,
               kickoffdate : inputs.kickoffdate,
               changelist  : inputs.changelist,
               shelve      : inputs.shelve,
@@ -246,7 +233,6 @@ module.exports = {
               projectname : inputs.projectname,
               variantname : inputs.variantname,
               isBAPU      : inputs.isBAPU,
-              isBACO      : inputs.isBACO,
               kickoffdate : inputs.kickoffdate,
               changelist  : inputs.changelist,
               shelve      : inputs.shelve,
@@ -265,7 +251,6 @@ module.exports = {
             R = await Groups.findOne({
               projectname : inputs.projectname,
               variantname : inputs.variantname,
-              isBACO      : inputs.isBACO,
               isBAPU      : inputs.isBAPU,
               groupname   : oneregressiongroups[g].groupname
             });
@@ -273,7 +258,6 @@ module.exports = {
             R = await Regressiontarget.findOne({
               projectname : inputs.projectname,
               variantname : inputs.variantname,
-              isBACO      : inputs.isBACO,
               isBAPU      : inputs.isBAPU,
               groupname   : oneregressiongroups[g].groupname,
               targetdate  : moment().day(1+7).format('YYYY-MM-DD'),
@@ -283,7 +267,6 @@ module.exports = {
                 await Regressiontarget.update({
                   projectname : inputs.projectname,
                   variantname : inputs.variantname,
-                  isBACO      : inputs.isBACO,
                   isBAPU      : inputs.isBAPU,
                   groupname   : oneregressiongroups[g].groupname,
                   targetdate  : moment().day(1+7).format('YYYY-MM-DD'),
@@ -297,7 +280,6 @@ module.exports = {
                 await Regressiontarget.update({
                   projectname : inputs.projectname,
                   variantname : inputs.variantname,
-                  isBACO      : inputs.isBACO,
                   isBAPU      : inputs.isBAPU,
                   groupname   : oneregressiongroups[g].groupname,
                   targetdate  : moment().day(1+7).format('YYYY-MM-DD'),
@@ -312,7 +294,6 @@ module.exports = {
               await Regressiontarget.create({
                 projectname : inputs.projectname,
                 variantname : inputs.variantname,
-                isBACO      : inputs.isBACO,
                 isBAPU      : inputs.isBAPU,
                 groupname   : oneregressiongroups[g].groupname,
                 targetdate  : moment().day(1+7).format('YYYY-MM-DD'),
@@ -346,7 +327,6 @@ module.exports = {
         projectname : inputs.projectname,
         variantname : inputs.variantname,
         isBAPU      : inputs.isBAPU,
-        isBACO      : inputs.isBACO,
         kickoffdate : inputs.kickoffdate,
         changelist  : inputs.changelist,
         shelve      : inputs.shelve,
@@ -364,7 +344,6 @@ module.exports = {
               projectname : inputs.projectname,
               variantname : inputs.variantname,
               isBAPU      : inputs.isBAPU,
-              isBACO      : inputs.isBACO,
               kickoffdate : inputs.kickoffdate,
               changelist  : inputs.changelist,
               shelve      : inputs.shelve,
@@ -379,7 +358,6 @@ module.exports = {
               projectname : inputs.projectname,
               variantname : inputs.variantname,
               isBAPU      : inputs.isBAPU,
-              isBACO      : inputs.isBACO,
               kickoffdate : inputs.kickoffdate,
               changelist  : inputs.changelist,
               shelve      : inputs.shelve,
@@ -395,7 +373,6 @@ module.exports = {
               projectname : inputs.projectname,
               variantname : inputs.variantname,
               isBAPU      : inputs.isBAPU,
-              isBACO      : inputs.isBACO,
               kickoffdate : inputs.kickoffdate,
               changelist  : inputs.changelist,
               shelve      : inputs.shelve,
@@ -411,7 +388,6 @@ module.exports = {
               projectname : inputs.projectname,
               variantname : inputs.variantname,
               isBAPU      : inputs.isBAPU,
-              isBACO      : inputs.isBACO,
               kickoffdate : inputs.kickoffdate,
               changelist  : inputs.changelist,
               shelve      : inputs.shelve,
@@ -436,7 +412,6 @@ module.exports = {
               projectname : inputs.projectname,
               variantname : inputs.variantname,
               isBAPU      : inputs.isBAPU,
-              isBACO      : inputs.isBACO,
               kickoffdate : inputs.kickoffdate,
               changelist  : inputs.changelist,
               shelve      : inputs.shelve,
@@ -454,7 +429,6 @@ module.exports = {
               projectname : inputs.projectname,
               variantname : inputs.variantname,
               isBAPU      : inputs.isBAPU,
-              isBACO      : inputs.isBACO,
               kickoffdate : inputs.kickoffdate,
               changelist  : inputs.changelist,
               shelve      : inputs.shelve,
@@ -472,7 +446,6 @@ module.exports = {
               projectname : inputs.projectname,
               variantname : inputs.variantname,
               isBAPU      : inputs.isBAPU,
-              isBACO      : inputs.isBACO,
               kickoffdate : inputs.kickoffdate,
               changelist  : inputs.changelist,
               shelve      : inputs.shelve,
@@ -490,7 +463,6 @@ module.exports = {
               projectname : inputs.projectname,
               variantname : inputs.variantname,
               isBAPU      : inputs.isBAPU,
-              isBACO      : inputs.isBACO,
               kickoffdate : inputs.kickoffdate,
               changelist  : inputs.changelist,
               shelve      : inputs.shelve,
@@ -508,7 +480,6 @@ module.exports = {
               projectname : inputs.projectname,
               variantname : inputs.variantname,
               isBAPU      : inputs.isBAPU,
-              isBACO      : inputs.isBACO,
               kickoffdate : inputs.kickoffdate,
               changelist  : inputs.changelist,
               shelve      : inputs.shelve,
@@ -527,7 +498,6 @@ module.exports = {
               projectname : inputs.projectname,
               variantname : inputs.variantname,
               isBAPU      : inputs.isBAPU,
-              isBACO      : inputs.isBACO,
               kickoffdate : inputs.kickoffdate,
               changelist  : inputs.changelist,
               shelve      : inputs.shelve,
@@ -542,7 +512,6 @@ module.exports = {
               projectname : inputs.projectname,
               variantname : inputs.variantname,
               isBAPU      : inputs.isBAPU,
-              isBACO      : inputs.isBACO,
               kickoffdate : inputs.kickoffdate,
               changelist  : inputs.changelist,
               shelve      : inputs.shelve,
@@ -558,7 +527,6 @@ module.exports = {
               projectname : inputs.projectname,
               variantname : inputs.variantname,
               isBAPU      : inputs.isBAPU,
-              isBACO      : inputs.isBACO,
               kickoffdate : inputs.kickoffdate,
               changelist  : inputs.changelist,
               shelve      : inputs.shelve,
@@ -574,7 +542,6 @@ module.exports = {
               projectname : inputs.projectname,
               variantname : inputs.variantname,
               isBAPU      : inputs.isBAPU,
-              isBACO      : inputs.isBACO,
               kickoffdate : inputs.kickoffdate,
               changelist  : inputs.changelist,
               shelve      : inputs.shelve,
@@ -599,7 +566,6 @@ module.exports = {
               projectname : inputs.projectname,
               variantname : inputs.variantname,
               isBAPU      : inputs.isBAPU,
-              isBACO      : inputs.isBACO,
               kickoffdate : inputs.kickoffdate,
               changelist  : inputs.changelist,
               shelve      : inputs.shelve,
@@ -618,7 +584,6 @@ module.exports = {
             R = await Groups.findOne({
               projectname : inputs.projectname,
               variantname : inputs.variantname,
-              isBACO      : inputs.isBACO,
               isBAPU      : inputs.isBAPU,
               groupname   : oneregressiongroups[g].groupname
             });//Get DVgroup info
@@ -626,7 +591,6 @@ module.exports = {
             R = await Regressiontarget.findOne({
               projectname : inputs.projectname,
               variantname : inputs.variantname,
-              isBACO      : inputs.isBACO,
               isBAPU      : inputs.isBAPU,
               groupname   : oneregressiongroups[g].groupname,
               targetdate  : moment().day(1+7).format('YYYY-MM-DD')
@@ -636,7 +600,6 @@ module.exports = {
                 await Regressiontarget.update({
                   projectname : inputs.projectname,
                   variantname : inputs.variantname,
-                  isBACO      : inputs.isBACO,
                   isBAPU      : inputs.isBAPU,
                   groupname   : oneregressiongroups[g].groupname,
                   targetdate  : moment().day(1+7).format('YYYY-MM-DD')
@@ -649,7 +612,6 @@ module.exports = {
                 await Regressiontarget.update({
                   projectname : inputs.projectname,
                   variantname : inputs.variantname,
-                  isBACO      : inputs.isBACO,
                   isBAPU      : inputs.isBAPU,
                   groupname   : oneregressiongroups[g].groupname,
                   targetdate  : moment().day(1+7).format('YYYY-MM-DD')
@@ -664,7 +626,6 @@ module.exports = {
               await Regressiontarget.create({
                 projectname : inputs.projectname,
                 variantname : inputs.variantname,
-                isBACO      : inputs.isBACO,
                 isBAPU      : inputs.isBAPU,
                 groupname   : oneregressiongroups[g].groupname,
                 targetdate  : moment().day(1+7).format('YYYY-MM-DD'),

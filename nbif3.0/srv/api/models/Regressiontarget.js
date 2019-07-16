@@ -36,9 +36,6 @@ module.exports = {
     targetperiod : {
       type  : 'string'
     },
-    isBACO  : {
-      type  : 'string'
-    },
     isBAPU  : {
       type  : 'string'
     },

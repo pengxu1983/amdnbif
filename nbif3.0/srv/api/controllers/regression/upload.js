@@ -60,7 +60,6 @@ module.exports = {
       let suite         = oneTestResult.suite        ;
       let shelve        = oneTestResult.shelve       ;
       let isBAPU        = oneTestResult.isBAPU       ;
-      let isBACO        = oneTestResult.isBACO       ;
       let groupname     = oneTestResult.groupname    ;
       let oneTestResultDB;
       ///////////////////////////////////////
@@ -79,7 +78,6 @@ module.exports = {
           suite         : suite         ,
           shelve        : shelve        ,
           isBAPU        : isBAPU        ,
-          isBACO        : isBACO        ,
           //groupname     : groupname
         });
         if(oneTestResultDB){
@@ -95,7 +93,6 @@ module.exports = {
             suite         : suite         ,
             shelve        : shelve        ,
             isBAPU        : isBAPU        ,
-            isBACO        : isBACO        ,
             //groupname     : groupname   
           },{
             //kickoffdate   : kickoffdate   ,
@@ -109,7 +106,6 @@ module.exports = {
             suite         : suite         ,
             //shelve        : shelve        ,
             //isBAPU        : isBAPU        ,
-            //isBACO        : isBACO        ,
             groupname     : groupname
           });
         }
@@ -126,7 +122,6 @@ module.exports = {
             suite         : suite         ,
             shelve        : shelve        ,
             isBAPU        : isBAPU        ,
-            isBACO        : isBACO        ,
             groupname     : groupname     ,
           });
         }
@@ -151,7 +146,6 @@ module.exports = {
           suite         : suite         ,
           shelve        : shelve        ,
           isBAPU        : isBAPU        ,
-          isBACO        : isBACO        ,
           //groupname     : groupname
         });
         if(oneTestResultDB){
@@ -167,7 +161,6 @@ module.exports = {
             suite         : suite         ,
             shelve        : shelve        ,
             isBAPU        : isBAPU        ,
-            isBACO        : isBACO        ,
             //groupname     : groupname   
           },{
             //kickoffdate   : kickoffdate   ,
@@ -181,7 +174,6 @@ module.exports = {
             suite         : suite         ,
             //shelve        : shelve        ,
             //isBAPU        : isBAPU        ,
-            //isBACO        : isBACO        ,
             groupname     : groupname
           });
         }
@@ -198,7 +190,6 @@ module.exports = {
             suite         : suite         ,
             shelve        : shelve        ,
             isBAPU        : isBAPU        ,
-            isBACO        : isBACO        ,
             groupname     : groupname     ,
           });
         }
@@ -225,7 +216,6 @@ module.exports = {
       let projectname   = oneRegression.projectname;
       let shelve        = oneRegression.shelve     ;
       let isBAPU        = oneRegression.isBAPU     ;
-      let isBACO        = oneRegression.isBACO     ;
       let testlist      = oneRegression.testlist   ;
       let grouplist     = oneRegression.grouplist  ;
       sails.log('grouplist');
@@ -243,7 +233,6 @@ module.exports = {
           projectname : projectname,
           shelve      : shelve     ,
           isBAPU      : isBAPU     ,
-          isBACO      : isBACO     ,
           groupname   : 'all'
         });
         console.log(oneRegressionDB);
@@ -263,7 +252,6 @@ module.exports = {
               groupname : grouplist[g],
               projectname : projectname,
               variantname : variantname,
-              isBACO      : isBACO,
               isBAPU      : isBAPU
             });
             if(R){
@@ -273,7 +261,6 @@ module.exports = {
                 groupname : grouplist[g],
                 projectname : projectname,
                 variantname : variantname,
-                isBACO      : isBACO,
                 isBAPU      : isBAPU
               });
             }
@@ -295,7 +282,6 @@ module.exports = {
           projectname : projectname,
           shelve      : shelve     ,
           isBAPU      : isBAPU     ,
-          isBACO      : isBACO     ,
           groupname   : 'all'
         });
         console.log(oneRegressionDB);
@@ -315,7 +301,6 @@ module.exports = {
               groupname : grouplist[g],
               projectname : projectname,
               variantname : variantname,
-              isBACO      : isBACO,
               isBAPU      : isBAPU
             });
             if(R){
@@ -325,7 +310,6 @@ module.exports = {
                 groupname : grouplist[g],
                 projectname : projectname,
                 variantname : variantname,
-                isBACO      : isBACO,
                 isBAPU      : isBAPU
               });
             }

@@ -20,9 +20,6 @@ module.exports = {
     changelist  : {
       type  : 'string'
     },
-    isBACO  : {
-      type  : 'string'
-    },
     isBAPU  : {
       type  : 'string'
     },
@@ -53,7 +50,6 @@ module.exports = {
             projectname : inputs.projectname,
             variantname : inputs.variantname,
             isBAPU      : inputs.isBAPU,
-            isBACO      : inputs.isBACO,
             changelist  : inputs.changelist,
             kickoffdate : inputs.kickoffdate,
             shelve      : inputs.shelve,
@@ -87,7 +83,6 @@ module.exports = {
             projectname : inputs.projectname,
             variantname : inputs.variantname,
             isBAPU      : inputs.isBAPU,
-            isBACO      : inputs.isBACO,
             changelist  : inputs.changelist,
             kickoffdate : inputs.kickoffdate,
             shelve      : inputs.shelve,
@@ -126,7 +121,6 @@ module.exports = {
             projectname : inputs.projectname,
             variantname : inputs.variantname,
             isBAPU      : inputs.isBAPU,
-            isBACO      : inputs.isBACO,
             changelist  : inputs.changelist,
             kickoffdate : inputs.kickoffdate,
             shelve      : inputs.shelve,
@@ -160,7 +154,6 @@ module.exports = {
             projectname : inputs.projectname,
             variantname : inputs.variantname,
             isBAPU      : inputs.isBAPU,
-            isBACO      : inputs.isBACO,
             changelist  : inputs.changelist,
             kickoffdate : inputs.kickoffdate,
             shelve      : inputs.shelve,

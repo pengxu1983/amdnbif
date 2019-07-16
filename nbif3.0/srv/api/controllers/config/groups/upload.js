@@ -40,7 +40,6 @@ module.exports = {
             projectname : groups[g].projectname,
             variantname : groups[g].variantname,
             isBAPU      : groups[g].isBAPU,
-            isBACO      : groups[g].isBACO
           });
           if(onegroup){
             await Groups.update({
@@ -50,7 +49,6 @@ module.exports = {
               projectname : groups[g].projectname,
               variantname : groups[g].variantname,
               isBAPU      : groups[g].isBAPU,
-              isBACO      : groups[g].isBACO
             },{
               //groupname : groups[g].groupname,
               DVgroup   : groups[g].DVgroup,
@@ -65,7 +63,6 @@ module.exports = {
               projectname : groups[g].projectname,
               variantname : groups[g].variantname,
               isBAPU      : groups[g].isBAPU,
-              isBACO      : groups[g].isBACO
             });
           }
         }
