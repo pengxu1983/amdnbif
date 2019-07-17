@@ -125,6 +125,22 @@ module.exports = {
             groupname     : groupname     ,
           });
         }
+        let R = await Groups.findOne({
+          projectname : projectname,
+          variantname : variantname,
+          isBAPU      : isBAPU,
+          groupname   : groupname
+        });
+        if(R){
+        }
+        else{
+          await Groups.create({
+            projectname : projectname,
+            variantname : variantname,
+            isBAPU      : isBAPU,
+            groupname   : groupname
+          });
+        }
         return exits.success(JSON.stringify({
           ok  : 'ok',
           msg : 'done'
@@ -191,6 +207,22 @@ module.exports = {
             shelve        : shelve        ,
             isBAPU        : isBAPU        ,
             groupname     : groupname     ,
+          });
+        }
+        let R = await Groups.findOne({
+          projectname : projectname,
+          variantname : variantname,
+          isBAPU      : isBAPU,
+          groupname   : groupname
+        });
+        if(R){
+        }
+        else{
+          await Groups.create({
+            projectname : projectname,
+            variantname : variantname,
+            isBAPU      : isBAPU,
+            groupname   : groupname
           });
         }
         return exits.success(JSON.stringify({
