@@ -19,12 +19,12 @@ let cron_send_request = new cronJob('* * * * * *',function(){
   console.log('cron_send_request starts at '+moment().format('YYYY-MM-DD HH:mm:ss'));
   console.log(treeInfoList);
   console.log(treeInfoList.length);
-  for(let t = 0;t<treeInfoList.length;t++){
-    let treeInfo = treeInfoList[t];
-    console.log('current treeInfo is');
-    console.log(treeInfo);
-    if(postQ.length ==  0){
-      cron_send_request.stop();
+  if(postQ.length ==  0){
+    cron_send_request.stop();
+    for(let t = 0;t<treeInfoList.length;t++){
+      let treeInfo = treeInfoList[t];
+      console.log('current treeInfo is');
+      console.log(treeInfo);
       let postData = querystring.stringify({
         projectname : treeInfo['projectname'],
         variantname : treeInfo['variantname'],
@@ -65,53 +65,52 @@ let cron_send_request = new cronJob('* * * * * *',function(){
       // write data to request body
       req.write(postData);
       req.end();
-
-    }
-    else{
-      let indexmax  = postQlimit;
-      if(postQlimit>=postQ.length){
-        indexmax  = postQ.length;
-      }
-      for(let onereq=0;onereq<indexmax;onereq++){
-        let postData  = querystring.stringify(postQ[onereq]);
-        console.log('To send : ');
-        console.log(postQ[onereq]);
-        let options = {
-          hostname: 'amdnbif3.thehunters.club',
-          port: 80,
-          path: '/regression/upload',
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/x-www-form-urlencoded',
-            'Content-Length': Buffer.byteLength(postData)
-          }
-        };
-        
-        let req = http.request(options, (res) => {
-          //console.log(`STATUS: ${res.statusCode}`);
-          //console.log(`HEADERS: ${JSON.stringify(res.headers)}`);
-          res.setEncoding('utf8');
-          res.on('data', (chunk) => {
-            //console.log(`BODY: ${chunk}`);
-          });
-          res.on('end', () => {
-            //console.log('No more data in response.');
-          });
-        });
-        
-        req.on('error', (e) => {
-          console.error(`problem with request: ${e.message}`);
-        });
-        
-        // write data to request body
-        req.write(postData);
-        req.end();
-      }
-      postQ.splice(0,indexmax);
     }
   }
+  else{
+    let indexmax  = postQlimit;
+    if(postQlimit>=postQ.length){
+      indexmax  = postQ.length;
+    }
+    for(let onereq=0;onereq<indexmax;onereq++){
+      let postData  = querystring.stringify(postQ[onereq]);
+      console.log('To send : ');
+      console.log(postQ[onereq]);
+      let options = {
+        hostname: 'amdnbif3.thehunters.club',
+        port: 80,
+        path: '/regression/upload',
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/x-www-form-urlencoded',
+          'Content-Length': Buffer.byteLength(postData)
+        }
+      };
+      
+      let req = http.request(options, (res) => {
+        //console.log(`STATUS: ${res.statusCode}`);
+        //console.log(`HEADERS: ${JSON.stringify(res.headers)}`);
+        res.setEncoding('utf8');
+        res.on('data', (chunk) => {
+          //console.log(`BODY: ${chunk}`);
+        });
+        res.on('end', () => {
+          //console.log('No more data in response.');
+        });
+      });
+      
+      req.on('error', (e) => {
+        console.error(`problem with request: ${e.message}`);
+      });
+      
+      // write data to request body
+      req.write(postData);
+      req.end();
+    }
+    postQ.splice(0,indexmax);
+  }
 },null,false,'Asia/Chongqing');
-let cron_check_result = new cronJob('0 5 17 * * *',function(){
+let cron_check_result = new cronJob('0 3 * * * *',function(){
   console.log('cron_check_result starts at '+moment().format('YYYY-MM-DD HH:mm:ss'));
   console.log('basic info :');
   console.log('refTreeRoot is '+refTreeRoot);
@@ -292,11 +291,11 @@ let cron_check_result = new cronJob('0 5 17 * * *',function(){
     postQ.push({
       'kind'          : 'onecase',
       'oneTestResult' : JSON.stringify({
+        testname      : testName,
         kickoffdate   : testResult[testName]['kickoffdate'],
         variantname   : testResult[testName]['variantname'],
         changelist    : testResult[testName]['changelist'],
         projectname   : testResult[testName]['projectname'],
-        testname      : testName,
         result        : testResult[testName]['result'],
         seed          : testResult[testName]['seed'],
         signature     : testResult[testName]['signature'],
