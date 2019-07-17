@@ -22,7 +22,6 @@ let cron_send_request = new cronJob('* * * * * *',function(){
     let postData = querystring.stringify({
       projectname : treeInfo['projectname'],
       variantname : treeInfo['variantname'],
-      isBACO      : treeInfo['isBACO'],    
       isBAPU      : treeInfo['isBAPU'],     
       kickoffdate : treeInfo['kickoffdate'],
       changelist  : treeInfo['changelist'], 
@@ -61,7 +60,6 @@ let cron_send_request = new cronJob('* * * * * *',function(){
     req.write(postData);
     req.end();
 
-    return;
   }
   else{
     let indexmax  = postQlimit;
@@ -106,7 +104,7 @@ let cron_send_request = new cronJob('* * * * * *',function(){
     postQ.splice(0,indexmax);
   }
 },null,false,'Asia/Chongqing');
-let cron_check_result = new cronJob('0 0 * * * *',function(){
+let cron_check_result = new cronJob('0 27 10 * * *',function(){
   console.log('cron_check_result starts at '+moment().format('YYYY-MM-DD HH:mm:ss'));
   console.log('basic info :');
   console.log('refTreeRoot is '+refTreeRoot);
@@ -157,11 +155,17 @@ let cron_check_result = new cronJob('0 0 * * * *',function(){
             let suite    = R2[0];
             testResult[testname]={};
             testResult[testname]['suite']=suite;
-            testlist.push(testname);
-            console.log('testname :');
-            console.log(testname);
-            console.log('suite');
-            console.log(testResult[testname]['suite']);
+            testResult[testname]['kickoffdate']  = treeInfo['kickoffdate'];
+            testResult[testname]['variantname']  = treeInfo['variantname'];
+            testResult[testname]['changelist']   = treeInfo['changelist'];
+            testResult[testname]['projectname']  = treeInfo['projectname'];
+            if(testlist.indexOf(testname)==-1){
+              testlist.push(testname);
+              console.log('testname :');
+              console.log(testname);
+              console.log('suite');
+              console.log(testResult[testname]['suite']);
+            }
           });
         }
         else if(regx02.test(lines[l])){
@@ -229,6 +233,88 @@ let cron_check_result = new cronJob('0 0 * * * *',function(){
   console.log(testlist.length);
   console.log('group number is');
   console.log(grouplist.length);
+  let postData = querystring.stringify({
+    'kind': 'oneregression',
+    'oneRegression' : JSON.stringify({
+      kickoffdate   : treeInfo['kickoffdate'],
+      variantname   : treeInfo['variantname'],
+      changelist    : treeInfo['changelist'], 
+      projectname   : treeInfo['projectname'],
+      shelve        : treeInfo['shelve'],     
+      isBAPU        : treeInfo['isBAPU'],     
+      grouplist     : grouplist
+    })
+  });
+  
+  let options = {
+    hostname: 'amdnbif3.thehunters.club',
+    port: 80,
+    path: '/regression/upload',
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/x-www-form-urlencoded',
+      'Content-Length': Buffer.byteLength(postData)
+    }
+  };
+  
+  let req = http.request(options, (res) => {
+    console.log(`STATUS: ${res.statusCode}`);
+    //console.log(`HEADERS: ${JSON.stringify(res.headers)}`);
+    res.setEncoding('utf8');
+    res.on('data', (chunk) => {
+      //console.log(`BODY: ${chunk}`);
+      cron_send_request.stop();
+      for(let testName in testResult){
+        console.log(' checking ...'+testName);
+        testResult[testName]['result']      = 'UNKNOWN';
+        testResult[testName]['signature']   = 'NA';
+        testResult[testName]['seed']        = 'NA';
+        testResult[testName]['runtime']     = 'NA';
+        if(fs.existsSync(testResult[testName]['run_out_path']+'/REGRESS_PASS')){
+          testResult[testName]['result']      = 'PASS';
+        }
+        else if(fs.existsSync(testResult[testName]['run_out_path']+'/vcs_run.log')){
+          let R =child_process.execSync(workspace+'/amdnbif/nbif3.0/clt/clt_regression/tools/processSimLog.pl '+testResult[testName]['run_out_path']+'/vcs_run.log',{
+            encoding  : 'utf8',
+            maxBuffer : 1024*1024*100
+          });
+          let RR = R.split('\n');
+          testResult[testName]['seed']       = RR[0];
+          testResult[testName]['result']     = RR[1];
+          testResult[testName]['signature']  = RR[2];
+        }
+        postQ.push({
+          'kind'          : 'onecase',
+          'oneTestResult' : JSON.stringify({
+            kickoffdate   : testResult[testName]['kickoffdate'],
+            variantname   : testResult[testName]['variantname'],
+            changelist    : testResult[testName]['changelist'],
+            projectname   : testResult[testName]['projectname'],
+            testname      : testName,
+            result        : testResult[testName]['result'],
+            seed          : testResult[testName]['seed'],
+            signature     : testResult[testName]['signature'],
+            suite         : testResult[testName]['suite'],
+            shelve        : testResult[testName]['shelve'],
+            isBAPU        : testResult[testName]['isBAPU'],
+            groupname     : testResult[testName]['groupname']
+          })
+        });
+      }
+      cron_send_request.start();
+    });
+    res.on('end', () => {
+      console.log('No more data in response.');
+    });
+  });
+  
+  req.on('error', (e) => {
+    console.error(`problem with request: ${e.message}`);
+  });
+  
+  // write data to request body
+  req.write(postData);
+  req.end();
 },null,true,'Asia/Chongqing');
 module.exports = {
 
