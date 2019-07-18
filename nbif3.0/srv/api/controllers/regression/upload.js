@@ -196,11 +196,113 @@ module.exports = {
       let mergedgrouplist = oneRegression.mergedgrouplist;
       sails.log(typeof(mergedgrouplist));
       for(let i = 0;i<mergedgrouplist.length;i++){
-        let R = await Groups.findOne(mergedgrouplist[i]);
+        let R = await Groups.findOne({
+          groupname   : mergedgrouplist[i].groupname,
+          isBAPU      : mergedgrouplist[i].isBAPU,
+          projectname : mergedgrouplist[i].projectname,
+          variantname : mergedgrouplist[i].variantname
+        });
         if(R){
         }
         else{
-          await Groups.create(mergedgrouplist[i]);
+          await Groups.create({
+            groupname   : mergedgrouplist[i].groupname,
+            isBAPU      : mergedgrouplist[i].isBAPU,
+            projectname : mergedgrouplist[i].projectname,
+            variantname : mergedgrouplist[i].variantname
+          });
+        }
+        if(mergedgrouplist[i].projectname ==  'mi200'){
+          let R = await Regressionsummary0001.findOne({
+            groupname   : mergedgrouplist[i].groupname,
+            isBAPU      : mergedgrouplist[i].isBAPU,
+            projectname : mergedgrouplist[i].projectname,
+            variantname : mergedgrouplist[i].variantname
+            changelist  : mergedgrouplist[i].changelist,
+            kickoffdate : mergedgrouplist[i].kickoffdate,
+            shelve      : mergedgrouplist[i].shelve
+          });
+          if(R){
+          }
+          else{
+            await Regressionsummary0001.findOne({
+              groupname   : mergedgrouplist[i].groupname,
+              isBAPU      : mergedgrouplist[i].isBAPU,
+              projectname : mergedgrouplist[i].projectname,
+              variantname : mergedgrouplist[i].variantname
+              changelist  : mergedgrouplist[i].changelist,
+              kickoffdate : mergedgrouplist[i].kickoffdate,
+              shelve      : mergedgrouplist[i].shelve
+            });
+          }
+          R = await Regressionsummary0001.findOne({
+            groupname   : 'all',
+            isBAPU      : mergedgrouplist[i].isBAPU,
+            projectname : mergedgrouplist[i].projectname,
+            variantname : mergedgrouplist[i].variantname
+            changelist  : mergedgrouplist[i].changelist,
+            kickoffdate : mergedgrouplist[i].kickoffdate,
+            shelve      : mergedgrouplist[i].shelve
+          });
+          if(R){
+          }
+          else{
+            await Regressionsummary0001.findOne({
+              groupname   : 'all',
+              isBAPU      : mergedgrouplist[i].isBAPU,
+              projectname : mergedgrouplist[i].projectname,
+              variantname : mergedgrouplist[i].variantname
+              changelist  : mergedgrouplist[i].changelist,
+              kickoffdate : mergedgrouplist[i].kickoffdate,
+              shelve      : mergedgrouplist[i].shelve
+            });
+          }
+        }
+        if(mergedgrouplist[i].projectname ==  'mero'){
+          let R = await Regressionsummary0002.findOne({
+            groupname   : mergedgrouplist[i].groupname,
+            isBAPU      : mergedgrouplist[i].isBAPU,
+            projectname : mergedgrouplist[i].projectname,
+            variantname : mergedgrouplist[i].variantname
+            changelist  : mergedgrouplist[i].changelist,
+            kickoffdate : mergedgrouplist[i].kickoffdate,
+            shelve      : mergedgrouplist[i].shelve
+          });
+          if(R){
+          }
+          else{
+            await Regressionsummary0002.findOne({
+              groupname   : mergedgrouplist[i].groupname,
+              isBAPU      : mergedgrouplist[i].isBAPU,
+              projectname : mergedgrouplist[i].projectname,
+              variantname : mergedgrouplist[i].variantname
+              changelist  : mergedgrouplist[i].changelist,
+              kickoffdate : mergedgrouplist[i].kickoffdate,
+              shelve      : mergedgrouplist[i].shelve
+            });
+          }
+          R = await Regressionsummary0002.findOne({
+            groupname   : 'all',
+            isBAPU      : mergedgrouplist[i].isBAPU,
+            projectname : mergedgrouplist[i].projectname,
+            variantname : mergedgrouplist[i].variantname
+            changelist  : mergedgrouplist[i].changelist,
+            kickoffdate : mergedgrouplist[i].kickoffdate,
+            shelve      : mergedgrouplist[i].shelve
+          });
+          if(R){
+          }
+          else{
+            await Regressionsummary0002.findOne({
+              groupname   : 'all',
+              isBAPU      : mergedgrouplist[i].isBAPU,
+              projectname : mergedgrouplist[i].projectname,
+              variantname : mergedgrouplist[i].variantname
+              changelist  : mergedgrouplist[i].changelist,
+              kickoffdate : mergedgrouplist[i].kickoffdate,
+              shelve      : mergedgrouplist[i].shelve
+            });
+          }
         }
       }
       return exits.success(JSON.stringify({

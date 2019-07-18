@@ -323,7 +323,6 @@ module.exports = {
     //For 0002 mero
     ///////////////////////////////////////
     else if(inputs.projectname  ==  'mero'){
-      sails.log('dbg1');
       let oneregressiongroups = await Regressionsummary0002.find({
         projectname : inputs.projectname,
         variantname : inputs.variantname,
@@ -339,7 +338,6 @@ module.exports = {
         }));
       }
       else{
-        sails.log('dbg2')
         for(let g=0;g<oneregressiongroups.length;g++){
           sails.log(oneregressiongroups[g].groupname);
           if(oneregressiongroups[g].groupname == 'all'){

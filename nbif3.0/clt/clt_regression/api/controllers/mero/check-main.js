@@ -295,7 +295,10 @@ let cron_check_result = new cronJob('0 36 * * * *',function(){
         groupname   : testResult[testName]['groupname'],
         isBAPU      : testResult[testName]['isBAPU'],
         projectname : testResult[testName]['projectname'],
-        variantname : testResult[testName]['variantname']    
+        variantname : testResult[testName]['variantname'],
+        kickoffdate : testResult[testName]['kickoffdate'],
+        changelist  : testResult[testName]['changelist'],
+        shelve      : testResult[testName]['shelve']
       });
     }
     else{
