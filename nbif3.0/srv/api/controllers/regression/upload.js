@@ -225,7 +225,7 @@ module.exports = {
           if(R){
           }
           else{
-            await Regressionsummary0001.findOne({
+            await Regressionsummary0001.create({
               groupname   : mergedgrouplist[i].groupname,
               isBAPU      : mergedgrouplist[i].isBAPU,
               projectname : mergedgrouplist[i].projectname,
@@ -247,7 +247,7 @@ module.exports = {
           if(R){
           }
           else{
-            await Regressionsummary0001.findOne({
+            await Regressionsummary0001.create({
               groupname   : 'all',
               isBAPU      : mergedgrouplist[i].isBAPU,
               projectname : mergedgrouplist[i].projectname,
@@ -271,7 +271,7 @@ module.exports = {
           if(R){
           }
           else{
-            await Regressionsummary0002.findOne({
+            await Regressionsummary0002.create({
               groupname   : mergedgrouplist[i].groupname,
               isBAPU      : mergedgrouplist[i].isBAPU,
               projectname : mergedgrouplist[i].projectname,
@@ -293,7 +293,7 @@ module.exports = {
           if(R){
           }
           else{
-            await Regressionsummary0002.findOne({
+            await Regressionsummary0002.create({
               groupname   : 'all',
               isBAPU      : mergedgrouplist[i].isBAPU,
               projectname : mergedgrouplist[i].projectname,
