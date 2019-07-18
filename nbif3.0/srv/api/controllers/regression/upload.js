@@ -217,7 +217,7 @@ module.exports = {
             groupname   : mergedgrouplist[i].groupname,
             isBAPU      : mergedgrouplist[i].isBAPU,
             projectname : mergedgrouplist[i].projectname,
-            variantname : mergedgrouplist[i].variantname
+            variantname : mergedgrouplist[i].variantname,
             changelist  : mergedgrouplist[i].changelist,
             kickoffdate : mergedgrouplist[i].kickoffdate,
             shelve      : mergedgrouplist[i].shelve
@@ -229,7 +229,7 @@ module.exports = {
               groupname   : mergedgrouplist[i].groupname,
               isBAPU      : mergedgrouplist[i].isBAPU,
               projectname : mergedgrouplist[i].projectname,
-              variantname : mergedgrouplist[i].variantname
+              variantname : mergedgrouplist[i].variantname,
               changelist  : mergedgrouplist[i].changelist,
               kickoffdate : mergedgrouplist[i].kickoffdate,
               shelve      : mergedgrouplist[i].shelve
@@ -239,7 +239,7 @@ module.exports = {
             groupname   : 'all',
             isBAPU      : mergedgrouplist[i].isBAPU,
             projectname : mergedgrouplist[i].projectname,
-            variantname : mergedgrouplist[i].variantname
+            variantname : mergedgrouplist[i].variantname,
             changelist  : mergedgrouplist[i].changelist,
             kickoffdate : mergedgrouplist[i].kickoffdate,
             shelve      : mergedgrouplist[i].shelve
@@ -251,7 +251,7 @@ module.exports = {
               groupname   : 'all',
               isBAPU      : mergedgrouplist[i].isBAPU,
               projectname : mergedgrouplist[i].projectname,
-              variantname : mergedgrouplist[i].variantname
+              variantname : mergedgrouplist[i].variantname,
               changelist  : mergedgrouplist[i].changelist,
               kickoffdate : mergedgrouplist[i].kickoffdate,
               shelve      : mergedgrouplist[i].shelve
@@ -263,7 +263,7 @@ module.exports = {
             groupname   : mergedgrouplist[i].groupname,
             isBAPU      : mergedgrouplist[i].isBAPU,
             projectname : mergedgrouplist[i].projectname,
-            variantname : mergedgrouplist[i].variantname
+            variantname : mergedgrouplist[i].variantname,
             changelist  : mergedgrouplist[i].changelist,
             kickoffdate : mergedgrouplist[i].kickoffdate,
             shelve      : mergedgrouplist[i].shelve
@@ -275,7 +275,7 @@ module.exports = {
               groupname   : mergedgrouplist[i].groupname,
               isBAPU      : mergedgrouplist[i].isBAPU,
               projectname : mergedgrouplist[i].projectname,
-              variantname : mergedgrouplist[i].variantname
+              variantname : mergedgrouplist[i].variantname,
               changelist  : mergedgrouplist[i].changelist,
               kickoffdate : mergedgrouplist[i].kickoffdate,
               shelve      : mergedgrouplist[i].shelve
@@ -285,7 +285,7 @@ module.exports = {
             groupname   : 'all',
             isBAPU      : mergedgrouplist[i].isBAPU,
             projectname : mergedgrouplist[i].projectname,
-            variantname : mergedgrouplist[i].variantname
+            variantname : mergedgrouplist[i].variantname,
             changelist  : mergedgrouplist[i].changelist,
             kickoffdate : mergedgrouplist[i].kickoffdate,
             shelve      : mergedgrouplist[i].shelve
@@ -297,7 +297,7 @@ module.exports = {
               groupname   : 'all',
               isBAPU      : mergedgrouplist[i].isBAPU,
               projectname : mergedgrouplist[i].projectname,
-              variantname : mergedgrouplist[i].variantname
+              variantname : mergedgrouplist[i].variantname,
               changelist  : mergedgrouplist[i].changelist,
               kickoffdate : mergedgrouplist[i].kickoffdate,
               shelve      : mergedgrouplist[i].shelve
