@@ -308,7 +308,10 @@ let cron_check_result = new cronJob('0 36 * * * *',function(){
           (R[g].groupname   == testResult[testName]['groupname']  ) &&
           (R[g].isBAPU      == testResult[testName]['isBAPU']     ) &&
           (R[g].variantname == testResult[testName]['variantname']) &&
-          (R[g].projectname == testResult[testName]['projectname'])
+          (R[g].projectname == testResult[testName]['projectname']) &&
+          (R[g].kickoffdate == testResult[testName]['kickoffdate']) &&
+          (R[g].changelist  == testResult[testName]['changelist'])  &&
+          (R[g].shelve      == testResult[testName]['shelve'])
         ){
           flag = 0;
         }
@@ -318,7 +321,10 @@ let cron_check_result = new cronJob('0 36 * * * *',function(){
           groupname   : testResult[testName]['groupname'],
           isBAPU      : testResult[testName]['isBAPU'],
           projectname : testResult[testName]['projectname'],
-          variantname : testResult[testName]['variantname']    
+          variantname : testResult[testName]['variantname'],
+          kickoffdate : testResult[testName]['kickoffdate'],
+          changelist  : testResult[testName]['changelist'],
+          shelve      : testResult[testName]['shelve']
         });
       }
     }
