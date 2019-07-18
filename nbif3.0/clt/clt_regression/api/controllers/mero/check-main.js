@@ -51,10 +51,10 @@ let cron_send_request = new cronJob('* * * * * *',function(){
         res.setEncoding('utf8');
         res.on('data', (chunk) => {
           //console.log(`BODY: ${chunk}`);
-          console.log('summary DONE');
         });
         res.on('end', () => {
           //console.log('No more data in response.');
+          console.log('summary DONE');
         });
       });
       
@@ -110,7 +110,7 @@ let cron_send_request = new cronJob('* * * * * *',function(){
     postQ.splice(0,indexmax);
   }
 },null,false,'Asia/Chongqing');
-let cron_check_result = new cronJob('0 37 * * * *',function(){
+let cron_check_result = new cronJob('0 36 * * * *',function(){
   console.log('cron_check_result starts at '+moment().format('YYYY-MM-DD HH:mm:ss'));
   console.log('basic info :');
   console.log('refTreeRoot is '+refTreeRoot);
@@ -342,7 +342,7 @@ let cron_check_result = new cronJob('0 37 * * * *',function(){
   console.log(mergedgrouplist);
   let postData = querystring.stringify({
     'kind': 'oneregression',
-    'oneRegression':  ; JSON.stringify({
+    'oneRegression':  JSON.stringify({
       mergedgrouplist : mergedgrouplist
     })
   });
