@@ -125,26 +125,6 @@ module.exports = {
             groupname     : groupname     ,
           });
         }
-        let R = await Groups.findOne({
-          projectname : projectname,
-          variantname : variantname,
-          isBAPU      : isBAPU,
-          groupname   : groupname
-        });
-        if(R){
-        }
-        else{
-          await Groups.create({
-            projectname : projectname,
-            variantname : variantname,
-            isBAPU      : isBAPU,
-            groupname   : groupname
-          });
-        }
-        return exits.success(JSON.stringify({
-          ok  : 'ok',
-          msg : 'done'
-        }));
       }
       ///////////////////////////////////////
       //For 0002 Now is mero
@@ -209,27 +189,24 @@ module.exports = {
             groupname     : groupname     ,
           });
         }
-        let R = await Groups.findOne({
-          projectname : projectname,
-          variantname : variantname,
-          isBAPU      : isBAPU,
-          groupname   : groupname
-        });
+      }
+    }
+    else if(inputs.kind ==  'oneregression'){
+      let oneRegression = JSON.parse(inputs.oneRegression);
+      let mergedgrouplist = oneRegression.mergedgrouplist;
+      sails.log(typeof(mergedgrouplist));
+      for(let i = 0;i<mergedgrouplist.length;i++){
+        let R = await Groups.findOne(mergedgrouplist[i]);
         if(R){
         }
         else{
-          await Groups.create({
-            projectname : projectname,
-            variantname : variantname,
-            isBAPU      : isBAPU,
-            groupname   : groupname
-          });
+          await Groups.create(mergedgrouplist[i]);
         }
-        return exits.success(JSON.stringify({
-          ok  : 'ok',
-          msg : 'done'
-        }));
       }
+      return exits.success(JSON.stringify({
+        ok  : 'ok',
+        msg : 'group info done'
+      }));
     }
     return exits.success(JSON.stringify({
       ok  : 'notok',

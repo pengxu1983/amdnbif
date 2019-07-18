@@ -118,6 +118,7 @@ let cron_check_result = new cronJob('0 37 * * * *',function(){
   console.log(regTreeRootList);
   let testlist    = [];
   let grouplist   = [];
+  let mergedgrouplist   = [];
   let testResult  = {};
   //testlist get
   for(let i=0;i<regTreeRootList.length;i++){
@@ -266,8 +267,8 @@ let cron_check_result = new cronJob('0 37 * * * *',function(){
   console.log(treeInfoList);
   console.log('test number is');
   console.log(testlist.length);
-  console.log('group number is');
-  console.log(grouplist.length);
+  //console.log('group number is');
+  //console.log(grouplist.length);
   cron_send_request.stop();
   for(let testName in testResult){
     console.log(' checking ...'+testName);
@@ -288,6 +289,36 @@ let cron_check_result = new cronJob('0 37 * * * *',function(){
       testResult[testName]['result']     = RR[1];
       testResult[testName]['signature']  = RR[2];
     }
+    let R = mergedgrouplist;
+    if(R.length == 0){
+      mergedgrouplist.push({
+        groupname   : testResult[testName]['groupname'],
+        isBAPU      : testResult[testName]['isBAPU'],
+        projectname : testResult[testName]['projectname'],
+        variantname : testResult[testName]['variantname']    
+      });
+    }
+    else{
+      let flag = 1;
+      for(let g=0;g<R.length;g++){
+        if(
+          (R[g].groupname   == testResult[testName]['groupname']  ) &&
+          (R[g].isBAPU      == testResult[testName]['isBAPU']     ) &&
+          (R[g].variantname == testResult[testName]['variantname']) &&
+          (R[g].projectname == testResult[testName]['projectname'])
+        ){
+          flag = 0;
+        }
+      }
+      if(flag ==  1){
+        mergedgrouplist.push({
+          groupname   : testResult[testName]['groupname'],
+          isBAPU      : testResult[testName]['isBAPU'],
+          projectname : testResult[testName]['projectname'],
+          variantname : testResult[testName]['variantname']    
+        });
+      }
+    }
     postQ.push({
       'kind'          : 'onecase',
       'oneTestResult' : JSON.stringify({
@@ -306,7 +337,47 @@ let cron_check_result = new cronJob('0 37 * * * *',function(){
       })
     });
   }
-  cron_send_request.start();
+  console.log('group number');
+  console.log(mergedgrouplist.length);
+  console.log(mergedgrouplist);
+  let postData = querystring.stringify({
+    'kind': 'oneregression',
+    'oneRegression':  ; JSON.stringify({
+      mergedgrouplist : mergedgrouplist
+    })
+  });
+  
+  let options = {
+    hostname: 'amdnbif3.thehunters.club',
+    port: 80,
+    path: '/regression/upload',
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/x-www-form-urlencoded',
+      'Content-Length': Buffer.byteLength(postData)
+    }
+  };
+  
+  let req = http.request(options, (res) => {
+    //console.log(`STATUS: ${res.statusCode}`);
+    //console.log(`HEADERS: ${JSON.stringify(res.headers)}`);
+    res.setEncoding('utf8');
+    res.on('data', (chunk) => {
+      console.log(`BODY: ${chunk}`);
+    });
+    res.on('end', () => {
+      console.log('No more data in response.');
+      cron_send_request.start();
+    });
+  });
+  
+  req.on('error', (e) => {
+    console.error(`problem with request: ${e.message}`);
+  });
+  
+  // write data to request body
+  req.write(postData);
+  req.end();
 },null,true,'Asia/Chongqing');
 module.exports = {
 
