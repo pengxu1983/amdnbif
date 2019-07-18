@@ -20,7 +20,9 @@ module.exports.routes = {
   ***************************************************************************/
 
   '/': { view: 'pages/homepage' },
-
+  'POST /process/uploadchangelist'  : {
+    action  : 'process/uploadchangelist'
+  }
 
   /***************************************************************************
   *                                                                          *
