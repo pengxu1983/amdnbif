@@ -110,7 +110,7 @@ let cron_send_request = new cronJob('* * * * * *',function(){
     postQ.splice(0,indexmax);
   }
 },null,false,'Asia/Chongqing');
-let cron_check_result = new cronJob('0 36 * * * *',function(){
+let cron_check_result = new cronJob('0 26 * * * *',function(){
   console.log('cron_check_result starts at '+moment().format('YYYY-MM-DD HH:mm:ss'));
   console.log('basic info :');
   console.log('refTreeRoot is '+refTreeRoot);
@@ -142,24 +142,48 @@ let cron_check_result = new cronJob('0 36 * * * *',function(){
     let R = treeInfoList;
     console.log('treeInfo is :::');
     console.log(treeInfo);
+    console.log(R);
     if(R.length == 0){
-      treeInfoList.push(treeInfo);
+      treeInfoList.push({
+        projectname : treeInfo['projectname'],
+        variantname : treeInfo['variantname'],
+        kickoffdate : treeInfo['kickoffdate'],
+        changelist  : treeInfo['changelist'],
+        shelve      : treeInfo['shelve'],
+        isBAPU      : treeInfo['isBAPU']
+      });
+      console.log('first push');
     }
     else{
-      for(let t = 0;t<R.length;t++){
+      let flag = 1;
+      for(let t=0;t<R.length;t++){
+        console.log('dbg');
+        console.log(R[t]);
         if(
           (R[t]['projectname'] == treeInfo['projectname']) &&
           (R[t]['variantname'] == treeInfo['variantname']) &&
           (R[t]['kickoffdate'] == treeInfo['kickoffdate']) &&
-          (R[t]['changelist']  == treeInfo['changelist']) &&
-          (R[t]['shelve']      == treeInfo['shelve']) &&
+          (R[t]['changelist']  == treeInfo['changelist'])  &&
+          (R[t]['shelve']      == treeInfo['shelve'])      &&
           (R[t]['isBAPU']      == treeInfo['isBAPU']) 
         ){
+          flag  = 0;
+          break;
         }
-        else{
-          console.log('push');
-          treeInfoList.push(treeInfo);
-        }
+      }
+      if(flag ==  1){
+        console.log('push');
+        treeInfoList.push({
+          projectname : treeInfo['projectname'],
+          variantname : treeInfo['variantname'],
+          kickoffdate : treeInfo['kickoffdate'],
+          changelist  : treeInfo['changelist'],
+          shelve      : treeInfo['shelve'],
+          isBAPU      : treeInfo['isBAPU']
+        });
+      }
+      else{
+        console.log('not push');
       }
     }
     if(fs.existsSync(regTreeRoot+'/testlist.log')){
