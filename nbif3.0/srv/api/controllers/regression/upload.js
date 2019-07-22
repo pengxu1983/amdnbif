@@ -232,7 +232,11 @@ module.exports = {
               variantname : mergedgrouplist[i].variantname,
               changelist  : mergedgrouplist[i].changelist,
               kickoffdate : mergedgrouplist[i].kickoffdate,
-              shelve      : mergedgrouplist[i].shelve
+              shelve      : mergedgrouplist[i].shelve,
+              testlist    : JSON.stringify([]),
+              passlist    : JSON.stringify([]),
+              unknownlist : JSON.stringify([]),
+              passrate    : 0
             });
           }
           R = await Regressionsummary0001.findOne({
@@ -254,7 +258,11 @@ module.exports = {
               variantname : mergedgrouplist[i].variantname,
               changelist  : mergedgrouplist[i].changelist,
               kickoffdate : mergedgrouplist[i].kickoffdate,
-              shelve      : mergedgrouplist[i].shelve
+              shelve      : mergedgrouplist[i].shelve,
+              testlist    : JSON.stringify([]),
+              passlist    : JSON.stringify([]),
+              unknownlist : JSON.stringify([]),
+              passrate    : 0
             });
           }
         }
@@ -278,7 +286,11 @@ module.exports = {
               variantname : mergedgrouplist[i].variantname,
               changelist  : mergedgrouplist[i].changelist,
               kickoffdate : mergedgrouplist[i].kickoffdate,
-              shelve      : mergedgrouplist[i].shelve
+              shelve      : mergedgrouplist[i].shelve,
+              testlist    : JSON.stringify([]),
+              passlist    : JSON.stringify([]),
+              unknownlist : JSON.stringify([]),
+              passrate    : 0
             });
           }
           R = await Regressionsummary0002.findOne({
@@ -300,7 +312,11 @@ module.exports = {
               variantname : mergedgrouplist[i].variantname,
               changelist  : mergedgrouplist[i].changelist,
               kickoffdate : mergedgrouplist[i].kickoffdate,
-              shelve      : mergedgrouplist[i].shelve
+              shelve      : mergedgrouplist[i].shelve,
+              testlist    : JSON.stringify([]),
+              passlist    : JSON.stringify([]),
+              unknownlist : JSON.stringify([]),
+              passrate    : 0
             });
           }
         }
