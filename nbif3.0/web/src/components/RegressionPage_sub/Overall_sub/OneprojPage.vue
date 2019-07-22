@@ -173,20 +173,6 @@ export default {
         this.testdetails_disp.push(this.testdetails[i]);
       }
     },
-    handleCurrentChange_mi200_unknown (val){
-      console.log(val);
-      this.testdetails_disp=[];
-      let maxindex;
-      if((val*100)<this.testdetails.length){
-        maxindex = (val*100);
-      }
-      else{
-        maxindex = this.testdetails.length;
-      }
-      for(let i=((val-1)*100);i<maxindex;i++){
-        this.testdetails_disp.push(this.testdetails[i]);
-      }
-    },
     getgroupstatus(projectname,variantname,changelist,isBAPU,shelve,kickoffdate){
       console.log('method : groupstatus');
       this.$http.post('/regression/groupstatus',{
@@ -226,7 +212,7 @@ export default {
           result      : kind
         }).then(
           function(response){
-            console.log(response.body.ok);
+            console.log(kind);
             console.log(response.body.testdetails);
             this.testdetails = response.body.testdetails;
             this.handleCurrentChange(1);
@@ -248,7 +234,7 @@ export default {
           result      : kind
         }).then(
           function(response){
-            console.log(response.body.ok);
+            console.log(kind);
             console.log(response.body.testdetails);
             this.testdetails = response.body.testdetails;
             this.handleCurrentChange(1);
@@ -257,10 +243,6 @@ export default {
         );
       }
     },
-    //handleClick(tab, event) {
-    //  console.log(this.projectname + ' clicked');
-    //  this.regressionstatus(this.projectname);
-    //},
     regressionstatus(projectname){
       console.log('regressionstatus');
       console.log(projectname);
