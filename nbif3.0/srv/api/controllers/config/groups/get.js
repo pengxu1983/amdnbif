@@ -33,13 +33,12 @@ module.exports = {
     sails.log(inputs);
     if(inputs.kind  ==  'Bygrp'){
       let R = await Groups.find({
-      where : {
-        //id  : {'>=':0}
-        projectname : inputs.projectname,
-        variantname : inputs.variantname,
-        isBAPU      : inputs.isBAPU
-      },
-      sort  : 'groupname  ASC'
+        where : {
+          projectname : inputs.projectname,
+          variantname : inputs.variantname,
+          isBAPU      : inputs.isBAPU
+        },
+        sort  : 'groupname  ASC'
       });
       return exits.success(JSON.stringify({
         ok  : 'ok',

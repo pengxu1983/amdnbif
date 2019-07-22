@@ -3,7 +3,7 @@
     <el-header>
     <el-form :inline="true" :model="groupinfo" class="demo-form-inline">
       <el-form-item label="Project">
-        <el-select v-model="groupinfo.projectname" placeholder="projectname">
+        <el-select v-model="groupinfo.projectname" placeholder="projectname" @change="projectchange()">
           <el-option 
             v-for="oneproject in projects"
             :label="oneproject.projectname" 
@@ -54,11 +54,6 @@
         >
         </el-table-column>
         <el-table-column
-          prop="isBACO"
-          label="isBACO"
-        >
-        </el-table-column>
-        <el-table-column
           prop="isBAPU"
           label="isBAPU"
         >
@@ -78,7 +73,7 @@
           label="alltestnum"
         >
           <template slot-scope="scope">
-            <el-button type="text" @click="gettestdetails('ALL',scope.row.projectname,scope.row.variantname,groupinfo.groupname,scope.row.changelist,scope.row.isBAPU,scope.row.isBACO,scope.row.shelve)">{{scope.row.alltestnum}}</el-button>
+            <el-button type="text" @click="gettestdetails('ALL',scope.row.projectname,scope.row.variantname,groupinfo.groupname,scope.row.changelist,scope.row.isBAPU,scope.row.shelve)">{{scope.row.alltestnum}}</el-button>
 
             <el-dialog title="ALL tests list" :visible.sync="alltestvisible" width="80%">
               <el-pagination
@@ -99,7 +94,7 @@
           prop="passnum"
           label="passnum">
           <template slot-scope="scope">
-            <el-button type="text" @click="gettestdetails('PASS',scope.row.projectname,scope.row.variantname,groupinfo.groupname,scope.row.changelist,scope.row.isBAPU,scope.row.isBACO,scope.row.shelve)">{{scope.row.passnum}}</el-button>
+            <el-button type="text" @click="gettestdetails('PASS',scope.row.projectname,scope.row.variantname,groupinfo.groupname,scope.row.changelist,scope.row.isBAPU,scope.row.shelve)">{{scope.row.passnum}}</el-button>
 
             <el-dialog title="PASS tests list" :visible.sync="passlistvisible" width="80%">
               <el-pagination
@@ -120,7 +115,7 @@
           prop="failnum"
           label="failnum">
           <template slot-scope="scope">
-            <el-button type="text" @click="gettestdetails('FAIL',scope.row.projectname,scope.row.variantname,groupinfo.groupname,scope.row.changelist,scope.row.isBAPU,scope.row.isBACO,scope.row.shelve)">{{scope.row.failnum}}</el-button>
+            <el-button type="text" @click="gettestdetails('FAIL',scope.row.projectname,scope.row.variantname,groupinfo.groupname,scope.row.changelist,scope.row.isBAPU,scope.row.shelve)">{{scope.row.failnum}}</el-button>
 
             <el-dialog title="FAIL tests list" :visible.sync="faillistvisible" width="80%">
               <el-pagination
@@ -141,7 +136,7 @@
           prop="unknownnum"
           label="unknownnum">
           <template slot-scope="scope">
-            <el-button type="text" @click="gettestdetails('UNKNOWN',scope.row.projectname,scope.row.variantname,groupinfo.groupname,scope.row.changelist,scope.row.isBAPU,scope.row.isBACO,scope.row.shelve)">{{scope.row.unknownnum}}</el-button>
+            <el-button type="text" @click="gettestdetails('UNKNOWN',scope.row.projectname,scope.row.variantname,groupinfo.groupname,scope.row.changelist,scope.row.isBAPU,scope.row.shelve)">{{scope.row.unknownnum}}</el-button>
 
             <el-dialog title="unknown tests list" :visible.sync="unknownlistvisible" width="80%">
               <el-pagination
@@ -189,6 +184,7 @@ export default {
   },
   methods : {
     getregressionstatus(projectname,groupname,isBAPU){
+      this.regressionstatus = [];
       this.$http.post('/regression/get',{
         kind  : 'Bygrp',
         projectname : projectname,
@@ -206,14 +202,13 @@ export default {
         function(){}
       );
     },
-    gettestdetails  (kind,projectname,variantname,groupname,changelist,isBAPU,isBACO,shelve){
+    gettestdetails  (kind,projectname,variantname,groupname,changelist,isBAPU,shelve){
       
       let postdata = {
         projectname : projectname,
         variantname : variantname,
         changelist  : changelist,
         isBAPU      : isBAPU,
-        isBACO      : isBACO,
         shelve      : shelve,
         kind        : 'testdetails',
         //result      : kind,
@@ -258,6 +253,25 @@ export default {
       for(let i=((val-1)*100);i<maxindex;i++){
         this.testdetails_disp.push(this.testdetails[i]);
       }
+    },
+    projectchange(){
+      //get groups
+      this.$http.post('/config/groups/get',{
+        kind  : 'Bygrp',
+        projectname : this.groupinfo.projectname,
+        variantname : this.groupinfo.variantname,
+        isBAPU      : this.groupinfo.isBAPU
+      }).then(
+        function(response){
+          if(response.body.ok == 'ok'){
+            this.groups= JSON.parse(response.body.groups);
+            console.log('Project : '+this.groupinfo.projectname+ ' groups successfully get from DB');
+          }
+          else{
+          }
+        },
+        function(){}
+      );
     },
     getinfo (){
       //get groups
