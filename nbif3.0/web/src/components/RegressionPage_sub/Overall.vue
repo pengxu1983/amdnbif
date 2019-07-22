@@ -24,14 +24,9 @@ export default {
   },
   data() {
     return {
-      projects  : [],
-      activeProj: 'mi200',
-      //regressionstatus_mi200  : [],
-      testdetails             : [],
-      //testdetails_disp        : [],
-      //faillistvisible_mi200   : false,
-      //unknownlistvisible_mi200: false,
-      //groupstatus: []
+      projects    : [],
+      activeProj  : 'mi200',
+      testdetails : [],
     }
   },
   methods : {
@@ -95,7 +90,6 @@ export default {
         variantname : variantname,
         changelist  : changelist,
         isBAPU      : isBAPU,
-        isBACO      : isBACO,
         shelve      : shelve
       }).then(
         function(response){

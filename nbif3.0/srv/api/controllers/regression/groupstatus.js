@@ -23,9 +23,6 @@ module.exports = {
     isBAPU      : {
       type  : 'string'
     },
-    isBACO      : {
-      type  : 'string'
-    },
     shelve      : {
       type  : 'string'
     }
@@ -47,7 +44,6 @@ module.exports = {
           variantname : inputs.variantname,
           changelist  : inputs.changelist,
           isBAPU      : inputs.isBAPU,
-          isBACO      : inputs.isBACO,
           shelve      : inputs.shelve,
           groupname   : {'!=':'all'}
         };
@@ -60,7 +56,6 @@ module.exports = {
             groupname : R[r].groupname,
             projectname : inputs.projectname,
             variantname : inputs.variantname,
-            isBACO      : inputs.isBACO,
             isBAPU      : inputs.isBAPU
           });
           sails.log(onegroup.DVgroup);
@@ -84,7 +79,6 @@ module.exports = {
           variantname : inputs.variantname,
           changelist  : inputs.changelist,
           isBAPU      : inputs.isBAPU,
-          isBACO      : inputs.isBACO,
           shelve      : inputs.shelve,
           groupname   : {'!=':'all'}
         };
@@ -97,7 +91,6 @@ module.exports = {
             groupname : R[r].groupname,
             projectname : inputs.projectname,
             variantname : inputs.variantname,
-            isBACO      : inputs.isBACO,
             isBAPU      : inputs.isBAPU
           });
           sails.log(onegroup.DVgroup);

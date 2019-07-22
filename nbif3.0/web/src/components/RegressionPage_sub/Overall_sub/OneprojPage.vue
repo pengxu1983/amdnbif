@@ -21,11 +21,6 @@
       >
       </el-table-column>
       <el-table-column
-        prop="isBACO"
-        label="isBACO"
-      >
-      </el-table-column>
-      <el-table-column
         prop="isBAPU"
         label="isBAPU"
       >
@@ -40,7 +35,7 @@
         label="passrate"
       >
         <template slot-scope="scope">
-          <el-button type="text" @click="getgroupstatus(scope.row.projectname,scope.row.variantname,scope.row.changelist,scope.row.isBAPU,scope.row.isBACO,scope.row.shelve)">{{scope.row.passrate}}</el-button>
+          <el-button type="text" @click="getgroupstatus(scope.row.projectname,scope.row.variantname,scope.row.changelist,scope.row.isBAPU,scope.row.shelve)">{{scope.row.passrate}}</el-button>
         </template>
       </el-table-column>
       <el-table-column
@@ -55,7 +50,7 @@
         prop="failnum"
         label="failnum">
         <template slot-scope="scope">
-          <el-button type="text" @click="gettestdetails('FAIL',scope.row.projectname,scope.row.variantname,'all',scope.row.changelist,scope.row.isBAPU,scope.row.isBACO,scope.row.shelve)">{{scope.row.failnum}}</el-button>
+          <el-button type="text" @click="gettestdetails('FAIL',scope.row.projectname,scope.row.variantname,'all',scope.row.changelist,scope.row.isBAPU,scope.row.shelve)">{{scope.row.failnum}}</el-button>
     
           <el-dialog title="FAIL tests list" :visible.sync="faillistvisible" width="80%">
             <el-pagination
@@ -76,7 +71,7 @@
         prop="unknownnum"
         label="unknownnum">
         <template slot-scope="scope">
-          <el-button type="text" @click="gettestdetails('UNKNOWN',scope.row.projectname,scope.row.variantname,'all',scope.row.changelist,scope.row.isBAPU,scope.row.isBACO,scope.row.shelve)">{{scope.row.unknownnum}}</el-button>
+          <el-button type="text" @click="gettestdetails('UNKNOWN',scope.row.projectname,scope.row.variantname,'all',scope.row.changelist,scope.row.isBAPU,scope.row.shelve)">{{scope.row.unknownnum}}</el-button>
     
           <el-dialog title="unknown tests list" :visible.sync="unknownlistvisible" width="80%">
             <el-pagination
@@ -192,7 +187,7 @@ export default {
         this.testdetails_disp.push(this.testdetails[i]);
       }
     },
-    getgroupstatus(projectname,variantname,changelist,isBAPU,isBACO,shelve){
+    getgroupstatus(projectname,variantname,changelist,isBAPU,shelve){
       console.log('method : groupstatus');
       this.$http.post('/regression/groupstatus',{
         kind  : 'all',
@@ -200,7 +195,6 @@ export default {
         variantname : variantname,
         changelist  : changelist,
         isBAPU      : isBAPU,
-        isBACO      : isBACO,
         shelve      : shelve
       }).then(
         function(response){
@@ -216,7 +210,7 @@ export default {
         function(){},
       );
     },
-    gettestdetails  (kind,projectname,variantname,groupname,changelist,isBAPU,isBACO,shelve){
+    gettestdetails  (kind,projectname,variantname,groupname,changelist,isBAPU,shelve){
       if(kind == 'FAIL'){
         this.faillistvisible = true;
         this.$http.post('/regression/testdetails',{
@@ -225,7 +219,6 @@ export default {
           groupname   : groupname,
           changelist  : changelist,
           isBAPU      : isBAPU,
-          isBACO      : isBACO,
           shelve      : shelve,
           kind        : 'testdetails',
           result      : kind
@@ -247,7 +240,6 @@ export default {
           groupname   : groupname,
           changelist  : changelist,
           isBAPU      : isBAPU,
-          isBACO      : isBACO,
           shelve      : shelve,
           kind        : 'testdetails',
           result      : kind
