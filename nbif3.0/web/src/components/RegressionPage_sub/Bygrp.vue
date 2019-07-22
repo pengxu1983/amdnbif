@@ -21,8 +21,14 @@
           ></el-option>
         </el-select>
       </el-form-item>
+      <el-form-item label="isBAPU">
+        <el-select v-model="groupinfo.isBAPU" placeholder="isBAPU">
+          <el-option label="yes" value="yes" ></el-option>
+          <el-option label="no" value="no" ></el-option>
+        </el-select>
+      </el-form-item>
       <el-form-item>
-        <el-button type="primary" @click="getregressionstatus(groupinfo.projectname,groupinfo.groupname)">check</el-button>
+        <el-button type="primary" @click="getregressionstatus(groupinfo.projectname,groupinfo.groupname,groupinfo.isBAPU)">check</el-button>
       </el-form-item>
     </el-form>
     </el-header>
@@ -167,7 +173,8 @@ export default {
       groupinfo : {
         projectname : 'mi200',
         groupname : 'sanity',
-        variantname : 'nbif_nv10_gpu'
+        variantname : 'nbif_nv10_gpu',
+        isBAPU      : 'no'
       },
       groups  : [],
       regressionstatus    : [],
@@ -181,11 +188,12 @@ export default {
     }
   },
   methods : {
-    getregressionstatus(projectname,groupname){
+    getregressionstatus(projectname,groupname,isBAPU){
       this.$http.post('/regression/get',{
         kind  : 'Bygrp',
         projectname : projectname,
-        groupname : groupname
+        groupname : groupname,
+        isBAPU    : isBAPU
       }).then(
         function(response){
           if(response.body.ok =='ok'){
@@ -197,7 +205,6 @@ export default {
         },
         function(){}
       );
-      return [];
     },
     gettestdetails  (kind,projectname,variantname,groupname,changelist,isBAPU,isBACO,shelve){
       
@@ -257,7 +264,8 @@ export default {
       this.$http.post('/config/groups/get',{
         kind  : 'Bygrp',
         projectname : this.groupinfo.projectname,
-        variantname : this.groupinfo.variantname
+        variantname : this.groupinfo.variantname,
+        isBAPU      : this.groupinfo.isBAPU
       }).then(
         function(response){
           if(response.body.ok == 'ok'){
@@ -285,7 +293,7 @@ export default {
     }
   },
   mounted (){
-    this.getregressionstatus(this.groupinfo.projectname,this.groupinfo.groupname);
+    this.getregressionstatus(this.groupinfo.projectname,this.groupinfo.groupname,this.groupinfo.isBAPU);
     this.getinfo();
   }
 }
