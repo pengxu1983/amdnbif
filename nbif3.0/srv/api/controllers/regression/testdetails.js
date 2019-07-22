@@ -28,6 +28,9 @@ module.exports = {
     },
     result    : {
       type  : 'string'
+    },
+    kickoffdate : {
+      type  : 'string'
     }
   },
 

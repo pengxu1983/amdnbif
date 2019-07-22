@@ -73,7 +73,7 @@
           label="alltestnum"
         >
           <template slot-scope="scope">
-            <el-button type="text" @click="gettestdetails('ALL',scope.row.projectname,scope.row.variantname,groupinfo.groupname,scope.row.changelist,scope.row.isBAPU,scope.row.shelve)">{{scope.row.alltestnum}}</el-button>
+            <el-button type="text" @click="gettestdetails('ALL',scope.row.projectname,scope.row.variantname,groupinfo.groupname,scope.row.changelist,scope.row.isBAPU,scope.row.shelve,scope.row.kickoffdate)">{{scope.row.alltestnum}}</el-button>
 
             <el-dialog title="ALL tests list" :visible.sync="alltestvisible" width="80%">
               <el-pagination
@@ -94,7 +94,7 @@
           prop="passnum"
           label="passnum">
           <template slot-scope="scope">
-            <el-button type="text" @click="gettestdetails('PASS',scope.row.projectname,scope.row.variantname,groupinfo.groupname,scope.row.changelist,scope.row.isBAPU,scope.row.shelve)">{{scope.row.passnum}}</el-button>
+            <el-button type="text" @click="gettestdetails('PASS',scope.row.projectname,scope.row.variantname,groupinfo.groupname,scope.row.changelist,scope.row.isBAPU,scope.row.shelve,scope.row.kickoffdate)">{{scope.row.passnum}}</el-button>
 
             <el-dialog title="PASS tests list" :visible.sync="passlistvisible" width="80%">
               <el-pagination
@@ -115,7 +115,7 @@
           prop="failnum"
           label="failnum">
           <template slot-scope="scope">
-            <el-button type="text" @click="gettestdetails('FAIL',scope.row.projectname,scope.row.variantname,groupinfo.groupname,scope.row.changelist,scope.row.isBAPU,scope.row.shelve)">{{scope.row.failnum}}</el-button>
+            <el-button type="text" @click="gettestdetails('FAIL',scope.row.projectname,scope.row.variantname,groupinfo.groupname,scope.row.changelist,scope.row.isBAPU,scope.row.shelve,scope.row.kickoffdate)">{{scope.row.failnum}}</el-button>
 
             <el-dialog title="FAIL tests list" :visible.sync="faillistvisible" width="80%">
               <el-pagination
@@ -136,7 +136,7 @@
           prop="unknownnum"
           label="unknownnum">
           <template slot-scope="scope">
-            <el-button type="text" @click="gettestdetails('UNKNOWN',scope.row.projectname,scope.row.variantname,groupinfo.groupname,scope.row.changelist,scope.row.isBAPU,scope.row.shelve)">{{scope.row.unknownnum}}</el-button>
+            <el-button type="text" @click="gettestdetails('UNKNOWN',scope.row.projectname,scope.row.variantname,groupinfo.groupname,scope.row.changelist,scope.row.isBAPU,scope.row.shelve,scope.row.kickoffdate)">{{scope.row.unknownnum}}</el-button>
 
             <el-dialog title="unknown tests list" :visible.sync="unknownlistvisible" width="80%">
               <el-pagination
@@ -202,7 +202,7 @@ export default {
         function(){}
       );
     },
-    gettestdetails  (kind,projectname,variantname,groupname,changelist,isBAPU,shelve){
+    gettestdetails  (kind,projectname,variantname,groupname,changelist,isBAPU,shelve,kickoffdate){
       
       let postdata = {
         projectname : projectname,
@@ -213,6 +213,7 @@ export default {
         kind        : 'testdetails',
         //result      : kind,
         groupname   : groupname,
+        kickoffdate : kickoffdate
       };
       if(kind == 'FAIL'){
         this.faillistvisible    = true;
