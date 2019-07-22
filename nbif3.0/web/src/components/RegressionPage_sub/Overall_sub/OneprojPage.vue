@@ -57,7 +57,7 @@
               @current-change="handleCurrentChange"
               :page-size="100"
               layout="prev, pager, next"
-              :total="scope.row.failnum">
+              :total="testdetails_disp.length">
             </el-pagination>
             <el-table :data="testdetails_disp">
               <el-table-column property="testname" label="testname" width="200"></el-table-column>
@@ -78,7 +78,7 @@
               @current-change="handleCurrentChange"
               :page-size="100"
               layout="prev, pager, next"
-              :total="scope.row.unknownnum">
+              :total="testdetails_disp.length">
             </el-pagination>
             <el-table :data="testdetails_disp">
               <el-table-column property="testname" label="testname" width="200"></el-table-column>
