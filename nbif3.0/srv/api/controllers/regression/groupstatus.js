@@ -25,6 +25,9 @@ module.exports = {
     },
     shelve      : {
       type  : 'string'
+    },
+    kickoffdate : {
+      type  : 'string'
     }
   },
 
@@ -45,6 +48,7 @@ module.exports = {
           changelist  : inputs.changelist,
           isBAPU      : inputs.isBAPU,
           shelve      : inputs.shelve,
+          kickoffdate : inputs.kickoffdate,
           groupname   : {'!=':'all'}
         };
         let R = await Regressionsummary0001.find({
@@ -80,6 +84,7 @@ module.exports = {
           changelist  : inputs.changelist,
           isBAPU      : inputs.isBAPU,
           shelve      : inputs.shelve,
+          kickoffdate : inputs.kickoffdate,
           groupname   : {'!=':'all'}
         };
         let R = await Regressionsummary0002.find({
