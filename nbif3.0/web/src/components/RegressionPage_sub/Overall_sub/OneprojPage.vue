@@ -78,7 +78,7 @@
               @current-change="handleCurrentChange"
               :page-size="100"
               layout="prev, pager, next"
-              :total="scope.row.passnum">
+              :total="scope.row.unknownnum">
             </el-pagination>
             <el-table :data="testdetails_disp">
               <el-table-column property="testname" label="testname" width="200"></el-table-column>
@@ -198,50 +198,32 @@ export default {
       );
     },
     gettestdetails  (kind,projectname,variantname,groupname,changelist,isBAPU,shelve,kickoffdate){
+      console.log();
       if(kind == 'FAIL'){
         this.faillistvisible = true;
-        this.$http.post('/regression/testdetails',{
-          projectname : projectname,
-          variantname : variantname,
-          groupname   : groupname,
-          changelist  : changelist,
-          isBAPU      : isBAPU,
-          shelve      : shelve,
-          kickoffdate : kickoffdate,
-          kind        : 'testdetails',
-          result      : kind
-        }).then(
-          function(response){
-            console.log(kind);
-            console.log(response.body.testdetails);
-            this.testdetails = response.body.testdetails;
-            this.handleCurrentChange(1);
-          },
-          function(){}
-        );
       }
       else if(kind == 'UNKNOWN'){
         this.unknownlistvisible = true;
-        this.$http.post('/regression/testdetails',{
-          projectname : projectname,
-          variantname : variantname,
-          groupname   : groupname,
-          changelist  : changelist,
-          isBAPU      : isBAPU,
-          shelve      : shelve,
-          kickoffdate : kickoffdate,
-          kind        : 'testdetails',
-          result      : kind
-        }).then(
-          function(response){
-            console.log(kind);
-            console.log(response.body.testdetails);
-            this.testdetails = response.body.testdetails;
-            this.handleCurrentChange(1);
-          },
-          function(){}
-        );
       }
+      this.$http.post('/regression/testdetails',{
+        projectname : projectname,
+        variantname : variantname,
+        groupname   : groupname,
+        changelist  : changelist,
+        isBAPU      : isBAPU,
+        shelve      : shelve,
+        kickoffdate : kickoffdate,
+        kind        : 'testdetails',
+        result      : kind
+      }).then(
+        function(response){
+          console.log(kind);
+          console.log(response.body.testdetails);
+          this.testdetails = response.body.testdetails;
+          this.handleCurrentChange(1);
+        },
+        function(){}
+      );
     },
     regressionstatus(projectname){
       console.log('regressionstatus');
