@@ -69,24 +69,21 @@
       </el-table-column>
       <el-table-column
         prop="unknownnum"
-        label="unknownnum">
-        <template slot-scope="scope">
-          <el-button type="text" @click="gettestdetails('UNKNOWN',scope.row.projectname,scope.row.variantname,'all',scope.row.changelist,scope.row.isBAPU,scope.row.shelve,scope.row.kickoffdate)">{{scope.row.unknownnum}}</el-button>
-    
-          <el-dialog title="unknown tests list" :visible.sync="unknownlistvisible" width="80%">
-            <el-pagination
-              @current-change="handleCurrentChange"
-              :page-size="100"
-              layout="prev, pager, next"
-              :total="testdetails_disp.length">
-            </el-pagination>
-            <el-table :data="testdetails_disp">
-              <el-table-column property="testname" label="testname" width="200"></el-table-column>
-              <el-table-column property="seed" label="seed" width="200"></el-table-column>
-              <el-table-column property="signature" label="signature"></el-table-column>
-            </el-table>
-          </el-dialog>
-        </template>
+        label="unknownnum"
+      >
+      <template slot-scope="scope">
+        <Onetestdetails
+          v-bind:projectname="scope.row.projectname"
+          v-bind:variantname="scope.row.variantname"
+          v-bind:kind="'UNKNOWN'"
+          v-bind:groupname="'all'"
+          v-bind:changelist="scope.row.changelist"
+          v-bind:shelve="scope.row.shelve"
+          v-bind:kickoffdate="scope.row.kickoffdate"
+          v-bind:testnum="scope.row.unknownnum"
+        >
+        </Onetestdetails>
+      </template>
       </el-table-column>
     </el-table>
     <br />
@@ -118,6 +115,7 @@
 </template>
 
 <script>
+import Onetestdetails from '@/components/RegressionPage_sub/Overall_sub/OneprojPage_sub/Onetestdetails.vue'
 export default {
   name: 'OneprojPage',
   props: {
@@ -132,6 +130,9 @@ export default {
       unknownlistvisible: false,
       groupstatus: []
     }
+  },
+  component:{
+    Onetestdetails
   },
   methods : {
     getinfo (){
