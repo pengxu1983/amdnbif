@@ -71,19 +71,9 @@
         prop="unknownnum"
         label="unknownnum"
       >
-      <template slot-scope="scope">
-        <Onetestdetails
-          v-bind:projectname="scope.row.projectname"
-          v-bind:variantname="scope.row.variantname"
-          v-bind:kind="'UNKNOWN'"
-          v-bind:groupname="'all'"
-          v-bind:changelist="scope.row.changelist"
-          v-bind:shelve="scope.row.shelve"
-          v-bind:kickoffdate="scope.row.kickoffdate"
-          v-bind:testnum="scope.row.unknownnum"
-        >
-        </Onetestdetails>
-      </template>
+        <template slot-scope="scope">
+          <el-button type="text" @click="gettestdetails('unknownnum',scope.row.projectname,scope.row.variantname,'all',scope.row.changelist,scope.row.isBAPU,scope.row.shelve,scope.row.kickoffdate)">{{scope.row.unknownnum}}</el-button>
+        </template>
       </el-table-column>
     </el-table>
     <br />

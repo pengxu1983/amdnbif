@@ -1,6 +1,6 @@
 <template>
   <div>
-    <el-button type="text" @click="gettestdetails()">{{testnum}}</el-button>
+    <el-button type="text" @click="gettestdetails()">abc</el-button>
     
   </div>
 </template>
