@@ -105,7 +105,6 @@
 </template>
 
 <script>
-import Onetestdetails from '@/components/RegressionPage_sub/Overall_sub/OneprojPage_sub/Onetestdetails.vue'
 export default {
   name: 'OneprojPage',
   props: {
@@ -122,7 +121,6 @@ export default {
     }
   },
   component:{
-    Onetestdetails
   },
   methods : {
     getinfo (){
