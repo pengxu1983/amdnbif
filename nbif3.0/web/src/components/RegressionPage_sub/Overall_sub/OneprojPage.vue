@@ -101,6 +101,19 @@
       >
       </el-table-column>
     </el-table>
+    <el-dialog title="FAIL tests list" :visible.sync="visible" width="80%">
+      <el-pagination
+        @current-change="handleCurrentChange"
+        :page-size="100"
+        layout="prev, pager, next"
+        :total="testdetails_disp.length">
+      </el-pagination>
+      <el-table :data="testdetails_disp">
+        <el-table-column property="testname" label="testname" width="200"></el-table-column>
+        <el-table-column property="seed" label="seed" width="200"></el-table-column>
+        <el-table-column property="signature" label="signature"></el-table-column>
+      </el-table>
+    </el-dialog>
   </div>
 </template>
 
@@ -117,10 +130,10 @@ export default {
       testdetails_disp        : [],
       faillistvisible   : false,
       unknownlistvisible: false,
-      groupstatus: []
+      visible : false,
+      groupstatus: [],
+      title : ''
     }
-  },
-  component:{
   },
   methods : {
     getinfo (){
@@ -187,12 +200,11 @@ export default {
       );
     },
     gettestdetails  (kind,projectname,variantname,groupname,changelist,isBAPU,shelve,kickoffdate){
-      console.log();
       if(kind == 'FAIL'){
         this.faillistvisible = true;
       }
       else if(kind == 'UNKNOWN'){
-        this.unknownlistvisible = true;
+        this.visible  = true;
       }
       this.$http.post('/regression/testdetails',{
         projectname : projectname,
