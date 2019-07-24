@@ -101,7 +101,7 @@
       >
       </el-table-column>
     </el-table>
-    <el-dialog title="FAIL tests list" :visible.sync="visible" width="80%">
+    <el-dialog title="common" :visible.sync="visible" width="80%">
       <el-pagination
         @current-change="handleCurrentChange"
         :page-size="100"
@@ -200,6 +200,8 @@ export default {
       );
     },
     gettestdetails  (kind,projectname,variantname,groupname,changelist,isBAPU,shelve,kickoffdate){
+      console.log('gettestdetails');
+      console.log(kind);
       if(kind == 'FAIL'){
         this.faillistvisible = true;
       }
