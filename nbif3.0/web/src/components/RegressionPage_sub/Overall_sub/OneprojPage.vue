@@ -106,7 +106,7 @@
         @current-change="handleCurrentChange"
         :page-size="100"
         layout="prev, pager, next"
-        :total="testdetails_disp.length">
+        :total="testdetails.length">
       </el-pagination>
       <el-table :data="testdetails_disp">
         <el-table-column property="testname" label="testname" width="200"></el-table-column>
