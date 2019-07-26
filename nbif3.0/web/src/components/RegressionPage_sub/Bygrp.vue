@@ -74,20 +74,6 @@
         >
           <template slot-scope="scope">
             <el-button type="text" @click="gettestdetails('ALL',scope.row.projectname,scope.row.variantname,groupinfo.groupname,scope.row.changelist,scope.row.isBAPU,scope.row.shelve,scope.row.kickoffdate)">{{scope.row.alltestnum}}</el-button>
-
-            <el-dialog title="ALL tests list" :visible.sync="alltestvisible" width="80%">
-              <el-pagination
-                @current-change="handleCurrentChange"
-                :page-size="100"
-                layout="prev, pager, next"
-                :total="scope.row.alltestnum">
-              </el-pagination>
-              <el-table :data="testdetails_disp">
-                <el-table-column property="testname" label="testname" width="200"></el-table-column>
-                <el-table-column property="seed" label="seed" width="200"></el-table-column>
-                <el-table-column property="signature" label="signature"></el-table-column>
-              </el-table>
-            </el-dialog>
           </template>
         </el-table-column>
         <el-table-column
@@ -95,19 +81,6 @@
           label="passnum">
           <template slot-scope="scope">
             <el-button type="text" @click="gettestdetails('PASS',scope.row.projectname,scope.row.variantname,groupinfo.groupname,scope.row.changelist,scope.row.isBAPU,scope.row.shelve,scope.row.kickoffdate)">{{scope.row.passnum}}</el-button>
-
-            <el-dialog title="PASS tests list" :visible.sync="passlistvisible" width="80%">
-              <el-pagination
-                @current-change="handleCurrentChange"
-                :page-size="100"
-                layout="prev, pager, next"
-                :total="scope.row.passnum">
-              </el-pagination>
-              <el-table :data="testdetails_disp">
-                <el-table-column property="testname" label="testname" width="200"></el-table-column>
-                <el-table-column property="seed" label="seed" width="200"></el-table-column>
-                <el-table-column property="signature" label="signature"></el-table-column>
-              </el-table>
             </el-dialog>
           </template>
         </el-table-column>
@@ -188,10 +161,7 @@ export default {
       regressionstatus    : [],
       testdetails         : [],
       testdetails_disp    : [],
-      faillistvisible     : false,
-      passlistvisible     : false,
-      unknownlistvisible  : false,
-      alltestvisible      : false,
+      visible             : false,
       projects  : [],
     }
   },
@@ -216,40 +186,37 @@ export default {
       );
     },
     gettestdetails  (kind,projectname,variantname,groupname,changelist,isBAPU,shelve,kickoffdate){
-      
-      let postdata = {
+      console.log('gettestdetails');
+      console.log(kind);
+      this.visible  = true;
+      this.$http.post('/regression/testdetails',{
         projectname : projectname,
         variantname : variantname,
+        groupname   : groupname,
         changelist  : changelist,
         isBAPU      : isBAPU,
         shelve      : shelve,
+        kickoffdate : kickoffdate,
         kind        : 'testdetails',
-        //result      : kind,
-        groupname   : groupname,
-        kickoffdate : kickoffdate
-      };
-      if(kind == 'FAIL'){
-        this.faillistvisible    = true;
-        postdata.result         = kind;
-      }
-      if(kind == 'PASS'){
-        this.passlistvisible    = true;
-        postdata.result         = kind;
-      }
-      if(kind == 'UNKNOWN'){
-        this.unknownlistvisible = true;
-        postdata.result         = kind;
-      }
-      if(kind == 'ALL'){
-        this.alltestvisible     = true;
-        //postdata.result         = kind;
-      }
-      this.$http.post('/regression/testdetails',postdata).then(
+        result      : kind
+      }).then(
         function(response){
-          console.log(response.body.ok);
+          console.log(kind);
           console.log(response.body.testdetails);
           this.testdetails = response.body.testdetails;
           this.handleCurrentChange(1);
+          if(kind       == 'FAIL'){
+            this.title  = 'FAIL tests list'
+          }
+          else if(kind  == 'UNKNOWN'){
+            this.title  = 'UNKNOWN tests list'
+          }
+          else if(kind  ==  'PASS'){
+            this.title  = 'PASS tests list'
+          }
+          else if(kind  ==  'ALL'){
+            this.title  = 'ALL tests list'
+          }
         },
         function(){}
       );

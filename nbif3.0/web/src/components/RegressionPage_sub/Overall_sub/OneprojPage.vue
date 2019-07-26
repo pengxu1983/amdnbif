@@ -203,11 +203,17 @@ export default {
           console.log(response.body.testdetails);
           this.testdetails = response.body.testdetails;
           this.handleCurrentChange(1);
-          if(kind == 'FAIL'){
+          if(kind       == 'FAIL'){
             this.title  = 'FAIL tests list'
           }
-          else if(kind == 'UNKNOWN'){
+          else if(kind  == 'UNKNOWN'){
             this.title  = 'UNKNOWN tests list'
+          }
+          else if(kind  ==  'PASS'){
+            this.title  = 'PASS tests list'
+          }
+          else if(kind  ==  'ALL'){
+            this.title  = 'ALL tests list'
           }
         },
         function(){}
