@@ -90,7 +90,7 @@
     <el-dialog :title="title" :visible.sync="visible" width="80%">
       <el-pagination
         @current-change="handleCurrentChange"
-        :page-size="500"
+        :page-size="pagesize"
         layout="prev, pager, next"
         :total="testdetails.length">
       </el-pagination>
@@ -116,7 +116,8 @@ export default {
       testdetails_disp     : [],
       visible : false,
       groupstatus: [],
-      title : ''
+      title : '',
+      pagesize : 500
     }
   },
   methods : {
@@ -149,13 +150,13 @@ export default {
       console.log(val);
       this.testdetails_disp=[];
       let maxindex;
-      if((val*100)<this.testdetails.length){
-        maxindex = (val*100);
+      if((val*this.pagesize)<this.testdetails.length){
+        maxindex = (val*this.pagesize);
       }
       else{
         maxindex = this.testdetails.length;
       }
-      for(let i=((val-1)*100);i<maxindex;i++){
+      for(let i=((val-1)*this.pagesize);i<maxindex;i++){
         this.testdetails_disp.push(this.testdetails[i]);
       }
     },
