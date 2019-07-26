@@ -154,6 +154,19 @@
           </template>
         </el-table-column>
       </el-table>
+      <el-dialog :title="title" :visible.sync="visible" width="80%">
+        <el-pagination
+          @current-change="handleCurrentChange"
+          :page-size="500"
+          layout="prev, pager, next"
+          :total="testdetails.length">
+        </el-pagination>
+        <el-table :data="testdetails_disp">
+          <el-table-column property="testname" label="testname" width="200"></el-table-column>
+          <el-table-column property="seed" label="seed" width="200"></el-table-column>
+          <el-table-column property="signature" label="signature"></el-table-column>
+        </el-table>
+      </el-dialog>
     </el-main>
   </el-container>
 </template>

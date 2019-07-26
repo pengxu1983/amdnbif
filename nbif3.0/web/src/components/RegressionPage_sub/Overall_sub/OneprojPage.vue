@@ -51,20 +51,6 @@
         label="failnum">
         <template slot-scope="scope">
           <el-button type="text" @click="gettestdetails('FAIL',scope.row.projectname,scope.row.variantname,'all',scope.row.changelist,scope.row.isBAPU,scope.row.shelve,scope.row.kickoffdate)">{{scope.row.failnum}}</el-button>
-    
-          <el-dialog title="FAIL tests list" :visible.sync="faillistvisible" width="80%">
-            <el-pagination
-              @current-change="handleCurrentChange"
-              :page-size="100"
-              layout="prev, pager, next"
-              :total="testdetails_disp.length">
-            </el-pagination>
-            <el-table :data="testdetails_disp">
-              <el-table-column property="testname" label="testname" width="200"></el-table-column>
-              <el-table-column property="seed" label="seed" width="200"></el-table-column>
-              <el-table-column property="signature" label="signature"></el-table-column>
-            </el-table>
-          </el-dialog>
         </template>
       </el-table-column>
       <el-table-column
@@ -101,10 +87,10 @@
       >
       </el-table-column>
     </el-table>
-    <el-dialog title="common" :visible.sync="visible" width="80%">
+    <el-dialog :title="title" :visible.sync="visible" width="80%">
       <el-pagination
         @current-change="handleCurrentChange"
-        :page-size="100"
+        :page-size="500"
         layout="prev, pager, next"
         :total="testdetails.length">
       </el-pagination>
@@ -126,10 +112,8 @@ export default {
   data() {
     return {
       regressionstatus_disp: [],
-      testdetails             : [],
-      testdetails_disp        : [],
-      faillistvisible   : false,
-      unknownlistvisible: false,
+      testdetails          : [],
+      testdetails_disp     : [],
       visible : false,
       groupstatus: [],
       title : ''
@@ -202,6 +186,7 @@ export default {
     gettestdetails  (kind,projectname,variantname,groupname,changelist,isBAPU,shelve,kickoffdate){
       console.log('gettestdetails');
       console.log(kind);
+      this.visible  = true;
       this.$http.post('/regression/testdetails',{
         projectname : projectname,
         variantname : variantname,
@@ -219,10 +204,10 @@ export default {
           this.testdetails = response.body.testdetails;
           this.handleCurrentChange(1);
           if(kind == 'FAIL'){
-            this.faillistvisible = true;
+            this.title  = 'FAIL tests list'
           }
           else if(kind == 'UNKNOWN'){
-            this.visible  = true;
+            this.title  = 'UNKNOWN tests list'
           }
         },
         function(){}
