@@ -202,12 +202,6 @@ export default {
     gettestdetails  (kind,projectname,variantname,groupname,changelist,isBAPU,shelve,kickoffdate){
       console.log('gettestdetails');
       console.log(kind);
-      if(kind == 'FAIL'){
-        this.faillistvisible = true;
-      }
-      else if(kind == 'UNKNOWN'){
-        this.visible  = true;
-      }
       this.$http.post('/regression/testdetails',{
         projectname : projectname,
         variantname : variantname,
@@ -224,6 +218,12 @@ export default {
           console.log(response.body.testdetails);
           this.testdetails = response.body.testdetails;
           this.handleCurrentChange(1);
+          if(kind == 'FAIL'){
+            this.faillistvisible = true;
+          }
+          else if(kind == 'UNKNOWN'){
+            this.visible  = true;
+          }
         },
         function(){}
       );
