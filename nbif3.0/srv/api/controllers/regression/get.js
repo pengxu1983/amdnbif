@@ -16,6 +16,9 @@ module.exports = {
     },
     groupname : {
       type  : 'string'
+    },
+    isBAPU    : {
+      type  : 'string'
     }
   },
 
@@ -75,7 +78,8 @@ module.exports = {
       else if(inputs.kind ==  'Bygrp'){
         let R = await Regressionsummary0001.find({
           projectname : inputs.projectname,
-          groupname   : inputs.groupname
+          groupname   : inputs.groupname,
+          isBAPU      : inputs.isBAPU
         });
         if(R.length == 0){
           return exits.success(JSON.stringify({
@@ -159,7 +163,8 @@ module.exports = {
       else if(inputs.kind ==  'Bygrp'){
         let R = await Regressionsummary0002.find({
           projectname : inputs.projectname,
-          groupname   : inputs.groupname
+          groupname   : inputs.groupname,
+          isBAPU      : inputs.isBAPU
         });
         if(R.length == 0){
           return exits.success(JSON.stringify({
