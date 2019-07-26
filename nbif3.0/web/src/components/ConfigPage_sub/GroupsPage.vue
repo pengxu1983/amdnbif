@@ -33,16 +33,6 @@
               </el-option>
             </el-select>
           </el-form-item>
-          <el-form-item label="isBACO">
-            <el-select v-model="projectinfo.isBACO" placeholder="BACO" @change="getgroups()">
-              <el-option 
-                v-for="item in options"
-                :label="item" 
-                :value="item"
-              >
-              </el-option>
-            </el-select>
-          </el-form-item>
           <el-form-item>
             <el-button 
               type="primary"
@@ -199,7 +189,6 @@ export default {
         owner       : '',
         projectname : this.projectinfo.projectname,
         variantname : this.projectinfo.variantname,
-        isBACO      : 'no',
         isBAPU      : 'no'
       });
     },
@@ -252,8 +241,7 @@ export default {
         kind  : 'Bygrp',
         projectname : this.projectinfo.projectname,
         variantname : this.projectinfo.variantname,
-        isBAPU      : this.projectinfo.isBAPU,
-        isBACO      : this.projectinfo.isBACO
+        isBAPU      : this.projectinfo.isBAPU
       }).then(
         function(response){
           if(response.body.ok == 'ok'){
