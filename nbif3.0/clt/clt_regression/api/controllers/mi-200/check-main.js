@@ -1,8 +1,7 @@
 let refTreeRoot     = '';
 let regTreeRootList = [
-  '/proj/cip_floyd_genz/ip_regress/antti/nbif2_0_al/',
-  '/proj/cip_floyd_genz/ip_regress/antti/nbif2_0_al_pg/',
-  '/proj/cip_floyd_genz/ip_regress/antti/nbif2_0_al_long/'
+  '/proj/cip_floyd_genz/ip_regress/antti/nbif2_0_mi200/',
+  '/proj/cip_floyd_genz/ip_regress/antti/nbif2_0_mi200_apu/'
 ];//MODIFY
 let out_home        = '/out/linux_3.10.0_64.VCS/';
 var moment          = require('moment');
@@ -110,7 +109,7 @@ let cron_send_request = new cronJob('* * * * * *',function(){
     postQ.splice(0,indexmax);
   }
 },null,false,'Asia/Chongqing');
-let cron_check_result = new cronJob('0 40 * * * *',function(){
+let cron_check_result = new cronJob('0 0 * * * *',function(){
   console.log('cron_check_result starts at '+moment().format('YYYY-MM-DD HH:mm:ss'));
   console.log('basic info :');
   console.log('refTreeRoot is '+refTreeRoot);
