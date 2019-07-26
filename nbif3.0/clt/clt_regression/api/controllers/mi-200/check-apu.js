@@ -1,6 +1,6 @@
 let refTreeRoot     = '';
 let regTreeRootList = [
-  '/proj/cip_floyd_genz/ip_regress/antti/nbif2_0_mi200/',
+  '/proj/cip_floyd_genz/ip_regress/antti/nbif2_0_mi200_apu/'
 ];//MODIFY
 let out_home        = '/out/linux_3.10.0_64.VCS/';
 var moment          = require('moment');
