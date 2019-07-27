@@ -31,6 +31,12 @@ module.exports = {
     },
     kickoffdate : {
       type  : 'string'
+    },
+    testnamesrch  : {
+      type  : 'string'
+    },
+    sigsrch     : {
+      type  : 'string'
     }
   },
 
@@ -64,6 +70,22 @@ module.exports = {
           else{
             W.result  = inputs.result;
           }
+          // search param
+          if(inputs.testnamesrch  == ''){
+          }
+          else{
+            W.testname  = {
+              contains  : inputs.testnamesrch
+            };
+          }
+          if(inputs.sigsrch ==  ''){
+          }
+          else{
+            W.signature = {
+              contains  : inputs.sigsrch
+            };
+          }
+          // search param
           let R = await Regressiondetails0001.find({
             where : W,
             sort  : 'testname ASC'
@@ -97,6 +119,22 @@ module.exports = {
           else{
             W.result  = inputs.result;
           }
+          // search param
+          if(inputs.testnamesrch  == ''){
+          }
+          else{
+            W.testname  = {
+              contains  : inputs.testnamesrch
+            };
+          }
+          if(inputs.sigsrch ==  ''){
+          }
+          else{
+            W.signature = {
+              contains  : inputs.sigsrch
+            };
+          }
+          // search param
           let R = await Regressiondetails0001.find({
             where : W,
             sort  : 'testname ASC'
@@ -135,6 +173,22 @@ module.exports = {
           else{
             W.result  = inputs.result;
           }
+          // search param
+          if(inputs.testnamesrch  == ''){
+          }
+          else{
+            W.testname  = {
+              contains  : inputs.testnamesrch
+            };
+          }
+          if(inputs.sigsrch ==  ''){
+          }
+          else{
+            W.signature = {
+              contains  : inputs.sigsrch
+            };
+          }
+          // search param
           let R = await Regressiondetails0002.find({
             where : W,
             sort  : 'testname ASC'
@@ -168,6 +222,22 @@ module.exports = {
           else{
             W.result  = inputs.result;
           }
+          // search param
+          if(inputs.testnamesrch  == ''){
+          }
+          else{
+            W.testname  = {
+              contains  : inputs.testnamesrch
+            };
+          }
+          if(inputs.sigsrch ==  ''){
+          }
+          else{
+            W.signature = {
+              contains  : inputs.sigsrch
+            };
+          }
+          // search param
           let R = await Regressiondetails0002.find({
             where : W,
             sort  : 'testname ASC'
