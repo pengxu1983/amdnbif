@@ -89,20 +89,6 @@
           label="failnum">
           <template slot-scope="scope">
             <el-button type="text" @click="gettestdetails('FAIL',scope.row.projectname,scope.row.variantname,groupinfo.groupname,scope.row.changelist,scope.row.isBAPU,scope.row.shelve,scope.row.kickoffdate)">{{scope.row.failnum}}</el-button>
-
-            <el-dialog title="FAIL tests list" :visible.sync="faillistvisible" width="80%">
-              <el-pagination
-                @current-change="handleCurrentChange"
-                :page-size="100"
-                layout="prev, pager, next"
-                :total="scope.row.failnum">
-              </el-pagination>
-              <el-table :data="testdetails_disp">
-                <el-table-column property="testname" label="testname" width="200"></el-table-column>
-                <el-table-column property="seed" label="seed" width="200"></el-table-column>
-                <el-table-column property="signature" label="signature"></el-table-column>
-              </el-table>
-            </el-dialog>
           </template>
         </el-table-column>
         <el-table-column
@@ -110,31 +96,28 @@
           label="unknownnum">
           <template slot-scope="scope">
             <el-button type="text" @click="gettestdetails('UNKNOWN',scope.row.projectname,scope.row.variantname,groupinfo.groupname,scope.row.changelist,scope.row.isBAPU,scope.row.shelve,scope.row.kickoffdate)">{{scope.row.unknownnum}}</el-button>
-
-            <el-dialog title="unknown tests list" :visible.sync="unknownlistvisible" width="80%">
-              <el-pagination
-                @current-change="handleCurrentChange"
-                :page-size="100"
-                layout="prev, pager, next"
-                :total="scope.row.unknownnum">
-              </el-pagination>
-              <el-table :data="testdetails_disp">
-                <el-table-column property="testname" label="testname" width="200"></el-table-column>
-                <el-table-column property="seed" label="seed" width="200"></el-table-column>
-                <el-table-column property="signature" label="signature"></el-table-column>
-              </el-table>
-            </el-dialog>
           </template>
         </el-table-column>
       </el-table>
       <el-dialog :title="title" :visible.sync="visible" width="80%">
         <el-pagination
           @current-change="handleCurrentChange"
-          :page-size="500"
+          :page-size="pagesize"
           layout="prev, pager, next"
           :total="testdetails.length">
         </el-pagination>
-        <el-table :data="testdetails_disp">
+        <el-form :inline="true" :model="searchparam" class="demo-form-inline">
+          <el-form-item label="testname contains">
+            <el-input v-model="searchparam.testnamesrch" placeholder="testname contains"></el-input>
+          </el-form-item>
+          <el-form-item label="signature contains">
+            <el-input v-model="searchparam.sigsrch" placeholder="signature contains"></el-input>
+          </el-form-item>
+          <el-form-item>
+            <el-button type="primary" @click="gettestdetails(searchparam.kind,searchparam.projectname,searchparam.variantname,searchparam.groupname,searchparam.changelist,searchparam.isBAPU,searchparam.shelve,searchparam.kickoffdate)">Filter</el-button>
+          </el-form-item>
+        </el-form>
+        <el-table :data="testdetails_disp" style="width: 100%">
           <el-table-column property="testname" label="testname" width="200"></el-table-column>
           <el-table-column property="seed" label="seed" width="200"></el-table-column>
           <el-table-column property="signature" label="signature"></el-table-column>
@@ -153,7 +136,7 @@ export default {
     return {
       groupinfo : {
         projectname : 'mi200',
-        groupname : 'sanity',
+        groupname   : 'sanity',
         variantname : 'nbif_nv10_gpu',
         isBAPU      : 'no'
       },
@@ -163,6 +146,20 @@ export default {
       testdetails_disp    : [],
       visible             : false,
       projects  : [],
+      searchparam : {
+        testnamesrch  : '',
+        sigsrch: '',
+        kind      : '',
+        projectname:'',
+        variantname:'',
+        groupname : '',
+        changelist: '',
+        isBAPU    : '',
+        shelve    : '',
+        kickoffdate:''
+      },
+      pagesize : 500,
+      title : '',
     }
   },
   methods : {
@@ -186,19 +183,31 @@ export default {
       );
     },
     gettestdetails  (kind,projectname,variantname,groupname,changelist,isBAPU,shelve,kickoffdate){
+      this.searchparam.testnamesrch = '';
+      this.searchparam.sigsrch      = '';
+      this.searchparam.kind         = kind;
+      this.searchparam.projectname  = projectname;
+      this.searchparam.variantname  = variantname;
+      this.searchparam.groupname    = groupname;
+      this.searchparam.changelist   = changelist;
+      this.searchparam.isBAPU       = isBAPU;
+      this.searchparam.shelve       = shelve;
+      this.searchparam.kickoffdate  = kickoffdate;
       console.log('gettestdetails');
       console.log(kind);
       this.visible  = true;
       this.$http.post('/regression/testdetails',{
-        projectname : projectname,
-        variantname : variantname,
-        groupname   : groupname,
-        changelist  : changelist,
-        isBAPU      : isBAPU,
-        shelve      : shelve,
-        kickoffdate : kickoffdate,
+        projectname : this.searchparam.projectname,
+        variantname : this.searchparam.variantname,
+        groupname   : this.searchparam.groupname,
+        changelist  : this.searchparam.changelist,
+        isBAPU      : this.searchparam.isBAPU,
+        shelve      : this.searchparam.shelve,
+        kickoffdate : this.searchparam.kickoffdate,
         kind        : 'testdetails',
-        result      : kind
+        result      : this.searchparam.kind,
+        testnamesrch: this.searchparam.testnamesrch,
+        sigsrch     : this.searchparam.sigsrch
       }).then(
         function(response){
           console.log(kind);
