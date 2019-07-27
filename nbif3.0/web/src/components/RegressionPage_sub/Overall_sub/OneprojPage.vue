@@ -102,7 +102,7 @@
           <el-input v-model="searchparam.signature" placeholder="signature contains"></el-input>
         </el-form-item>
         <el-form-item>
-          <el-button type="primary" @click="searchbystring()">查询</el-button>
+          <el-button type="primary" @click="gettestdetails(searchparam.kind,searchparam.projectname,searchparam.variantname,searchparam.groupname,searchparam.changelist,searchparam.isBAPU,searchparam.shelve,searchparam.kickoffdate)">Filter</el-button>
         </el-form-item>
       </el-form>
       <el-table :data="testdetails_disp" style="width: 100%">
@@ -144,55 +144,6 @@ export default {
     }
   },
   methods : {
-    searchbystring  (){
-      if((this.searchparam.testname == '')&&(this.searchparam.signature == '')){
-        this.gettestdetails(
-          this.searchparam.kind,
-          this.searchparam.projectname,
-          this.searchparam.variantname,
-          this.searchparam.groupname,
-          this.searchparam.changelist,
-          this.searchparam.isBAPU,
-          this.searchparam.shelve,
-          this.searchparam.kickoffdate
-        );
-      }
-      else{
-        this.$http.post('/regression/testdetails',{
-          projectname : this.searchparam.projectname,
-          variantname : this.searchparam.variantname,
-          groupname   : this.searchparam.groupname,
-          changelist  : this.searchparam.changelist,
-          isBAPU      : this.searchparam.isBAPU,
-          shelve      : this.searchparam.shelve,
-          kickoffdate : this.searchparam.kickoffdate,
-          kind        : 'filter',
-          result      : this.searchparam.kind,
-          testnamesrch: this.searchparam.testname,
-          sigsrch     : this.searchparam.signature
-        }).then(
-          function(response){
-            console.log(kind);
-            console.log(response.body.testdetails);
-            this.testdetails = response.body.testdetails;
-            this.handleCurrentChange(1);
-            //if(kind       == 'FAIL'){
-            //  this.title  = 'FAIL tests list'
-            //}
-            //else if(kind  == 'UNKNOWN'){
-            //  this.title  = 'UNKNOWN tests list'
-            //}
-            //else if(kind  ==  'PASS'){
-            //  this.title  = 'PASS tests list'
-            //}
-            //else if(kind  ==  'ALL'){
-            //  this.title  = 'ALL tests list'
-            //}
-          },
-          function(){}
-        );
-      }
-    },
     getinfo (){
       this.$http.post('/config/variants/get',{
         kind  : 'all',
@@ -269,15 +220,17 @@ export default {
       console.log(kind);
       this.visible  = true;
       this.$http.post('/regression/testdetails',{
-        projectname : projectname,
-        variantname : variantname,
-        groupname   : groupname,
-        changelist  : changelist,
-        isBAPU      : isBAPU,
-        shelve      : shelve,
-        kickoffdate : kickoffdate,
+        projectname : this.searchparam.projectname,
+        variantname : this.searchparam.variantname,
+        groupname   : this.searchparam.groupname,
+        changelist  : this.searchparam.changelist,
+        isBAPU      : this.searchparam.isBAPU,
+        shelve      : this.searchparam.shelve,
+        kickoffdate : this.searchparam.kickoffdate,
         kind        : 'testdetails',
-        result      : kind
+        result      : this.searchparam.kind,
+        testnamesrch: this.searchparam.testnamesrch,
+        sigsrch     : this.searchparam.sigsrch
       }).then(
         function(response){
           console.log(kind);
