@@ -96,10 +96,10 @@
       </el-pagination>
       <el-form :inline="true" :model="searchparam" class="demo-form-inline">
         <el-form-item label="testname contains">
-          <el-input v-model="searchparam.testname" placeholder="testname contains"></el-input>
+          <el-input v-model="searchparam.testnamesrch" placeholder="testname contains"></el-input>
         </el-form-item>
         <el-form-item label="signature contains">
-          <el-input v-model="searchparam.signature" placeholder="signature contains"></el-input>
+          <el-input v-model="searchparam.sigsrch" placeholder="signature contains"></el-input>
         </el-form-item>
         <el-form-item>
           <el-button type="primary" @click="gettestdetails(searchparam.kind,searchparam.projectname,searchparam.variantname,searchparam.groupname,searchparam.changelist,searchparam.isBAPU,searchparam.shelve,searchparam.kickoffdate)">Filter</el-button>
@@ -130,8 +130,8 @@ export default {
       title : '',
       pagesize : 500,
       searchparam : {
-        testname  : '',
-        signature : '',
+        testnamesrch  : '',
+        sigsrch: '',
         kind      : '',
         projectname:'',
         variantname:'',
