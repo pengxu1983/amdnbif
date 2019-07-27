@@ -208,6 +208,8 @@ export default {
       );
     },
     gettestdetails  (kind,projectname,variantname,groupname,changelist,isBAPU,shelve,kickoffdate){
+      this.searchparam.testnamesrch = '';
+      this.searchparam.sigsrch      = '';
       this.searchparam.kind         = kind;
       this.searchparam.projectname  = projectname;
       this.searchparam.variantname  = variantname;
