@@ -69,18 +69,6 @@ export default {
         function(){}
       );
     },
-    getDVgroupPRstatus(){
-      this.$http.post('/metrics/getdvgroupprstatus',{
-        kind  : 'Bygrp',
-        DVgroup : this.currentDVgroup,
-        projectname : this.currentPrj
-      }).then(
-        function(response){
-          console.log(response.body.DVgroupPRstatus);
-        },
-        function(){}
-      );
-    },
     tableCellClassName({row, column, rowIndex, columnIndex}) {
       //console.log(row.groupname);
     },
@@ -103,7 +91,7 @@ export default {
       }).then(
         function(response){
           if(response.body.ok ==  'ok'){
-            console.log(response.body.projects);
+            //console.log(response.body.projects);
             console.log('all projects successfully get from DB');
             this.projects = JSON.parse(response.body.projects);
           }
