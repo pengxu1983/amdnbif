@@ -33,7 +33,7 @@ export default {
   data() {
     return {
       variants    : [],
-      validvariants : ['nbif_nv10_gpu','abc'],
+      validvariants : [],
       DVgroups    : [
       {
         groupname : 'HOST',
@@ -42,11 +42,7 @@ export default {
       },{
         groupname : 'MISC',
       }],
-      projects  : [{
-        projectname : 'mi200'
-      },{
-        projectname : 'mero'
-      }],
+      projects  : [],
       currentPrj  : 'mi200',
       currentDVgroup  : 'HOST',
       DVgroupPRstatus : [],
