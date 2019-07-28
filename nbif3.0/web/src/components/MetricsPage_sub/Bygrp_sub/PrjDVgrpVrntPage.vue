@@ -14,11 +14,6 @@
         >
         </el-table-column>
         <el-table-column
-          prop="isBACO"
-          label="isBACO"
-        >
-        </el-table-column>
-        <el-table-column
           prop="isBAPU"
           label="isBAPU"
         >
