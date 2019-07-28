@@ -116,6 +116,9 @@ export default {
     },
     getstatus (){
       console.log('getstatus');
+      console.log(this.projectname);
+      console.log(this.variantname);
+      console.log(this.DVgroup);
       this.$http.post('/metrics/getdvgroupprstatus',{
         kind  : 'Bygrp',
         projectname : this.projectname,
