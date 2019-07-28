@@ -56,7 +56,6 @@ module.exports = {
         isBAPU  = BAPUoptions[i];
         let groups = await Groups.find({
           isBAPU  : isBAPU,
-          isBACO  : isBACO,
           projectname : inputs.projectname,
           variantname : inputs.variantname,
           DVgroup     : inputs.DVgroup
@@ -68,7 +67,6 @@ module.exports = {
             groupname   : groupname,
             projectname : inputs.projectname,
             variantname : inputs.variantname,
-            isBACO      : isBACO,
             isBAPU      : isBAPU
           });
           if(R){
@@ -80,7 +78,6 @@ module.exports = {
             groupname   : groupname,
             projectname : inputs.projectname,
             variantname : inputs.variantname,
-            isBACO      : isBACO,
             isBAPU      : isBAPU
           });
           if(R){
@@ -92,7 +89,6 @@ module.exports = {
             groupname   : groupname,
             projectname : inputs.projectname,
             variantname : inputs.variantname,
-            isBACO      : isBACO,
             isBAPU      : isBAPU
           });
           if(R){
@@ -104,7 +100,6 @@ module.exports = {
             groupname   : groupname,
             projectname : inputs.projectname,
             variantname : inputs.variantname,
-            isBACO      : isBACO,
             isBAPU      : isBAPU
           });
           if(R){
@@ -115,7 +110,6 @@ module.exports = {
           featuregroups.push({
             groupname : groupname,
             isBAPU    : isBAPU,
-            isBACO    : isBACO,
             ActPRm2   : ActPRm2,
             TargetPRm2  : TargetPRm2,
             ActPRm1   : ActPRm1,
