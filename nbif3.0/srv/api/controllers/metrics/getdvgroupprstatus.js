@@ -44,96 +44,88 @@ module.exports = {
       let ActPR1    = 'NA';
       let TargetPR1 = 'NA';
       let comment   = 'NA';
-      let isBACO;
       let isBAPU;
       R = await Projects.findOne({
         projectname : inputs.projectname
       });
       let BAPUoptions = ['no'];
-      let BACOoptions = ['no'];
       if(R.hasBAPU  ==  'yes'){
         BAPUoptions.push('yes');
       }
-      if(R.hasBACO  ==  'yes'){
-        BACOoptions.push('yes');
-      }
       for(let i=0;i<BAPUoptions.length;i++){
-        for(let j=0;j<BACOoptions.length;j++){
-          isBACO  = BACOoptions[j];
-          isBAPU  = BAPUoptions[i];
-          let groups = await Groups.find({
-            isBAPU  : isBAPU,
-            isBACO  : isBACO,
+        isBAPU  = BAPUoptions[i];
+        let groups = await Groups.find({
+          isBAPU  : isBAPU,
+          isBACO  : isBACO,
+          projectname : inputs.projectname,
+          variantname : inputs.variantname,
+          DVgroup     : inputs.DVgroup
+        });
+        for(let g=0;g<groups.length;g++){
+          groupname = groups[g].groupname;
+          let R = await Regressiontarget.findOne({
+            targetdate  : moment().day(1-2*7),
+            groupname   : groupname,
             projectname : inputs.projectname,
             variantname : inputs.variantname,
-            DVgroup     : inputs.DVgroup
+            isBACO      : isBACO,
+            isBAPU      : isBAPU
           });
-          for(let g=0;g<groups.length;g++){
-            groupname = groups[g].groupname;
-            let R = await Regressiontarget.findOne({
-              targetdate  : moment().day(1-2*7),
-              groupname   : groupname,
-              projectname : inputs.projectname,
-              variantname : inputs.variantname,
-              isBACO      : isBACO,
-              isBAPU      : isBAPU
-            });
-            if(R){
-              ActPRm2 = R.actpassrate;
-              TargetPRm2  = R.TargetPRm2;
-            }
-            R = await Regressiontarget.findOne({
-              targetdate  : moment().day(1-1*7),
-              groupname   : groupname,
-              projectname : inputs.projectname,
-              variantname : inputs.variantname,
-              isBACO      : isBACO,
-              isBAPU      : isBAPU
-            });
-            if(R){
-              ActPRm1 = R.actpassrate;
-              TargetPRm1  = R.TargetPRm1;
-            }
-            R = await Regressiontarget.findOne({
-              targetdate  : moment().day(1),
-              groupname   : groupname,
-              projectname : inputs.projectname,
-              variantname : inputs.variantname,
-              isBACO      : isBACO,
-              isBAPU      : isBAPU
-            });
-            if(R){
-              ActPR0  = R.actpassrate;
-              TargetPR0 = R.TargetPR0;
-            }
-            R = await Regressiontarget.findOne({
-              targetdate  : moment().day(1+7),
-              groupname   : groupname,
-              projectname : inputs.projectname,
-              variantname : inputs.variantname,
-              isBACO      : isBACO,
-              isBAPU      : isBAPU
-            });
-            if(R){
-              ActPR1  = R.actpassrate;
-              TargetPR1 = R.TargetPR1;
-              comment = R.comment;
-            }
-            featuregroups.push({
-              groupname : groupname,
-              isBAPU    : isBAPU,
-              isBACO    : isBACO,
-              ActPRm2   : ActPRm2,
-              TargetPRm2  : TargetPRm2,
-              ActPRm1   : ActPRm1,
-              TargetPRm1  : TargetPRm1,
-              ActPR0    : ActPR0,
-              TargetPR0 : TargetPR0,
-              ActPR1    : ActPR1,
-              TargetPR1 : TargetPR1,
-              comment   : comment
-            });
+          if(R){
+            ActPRm2 = R.actpassrate;
+            TargetPRm2  = R.TargetPRm2;
           }
+          R = await Regressiontarget.findOne({
+            targetdate  : moment().day(1-1*7),
+            groupname   : groupname,
+            projectname : inputs.projectname,
+            variantname : inputs.variantname,
+            isBACO      : isBACO,
+            isBAPU      : isBAPU
+          });
+          if(R){
+            ActPRm1 = R.actpassrate;
+            TargetPRm1  = R.TargetPRm1;
+          }
+          R = await Regressiontarget.findOne({
+            targetdate  : moment().day(1),
+            groupname   : groupname,
+            projectname : inputs.projectname,
+            variantname : inputs.variantname,
+            isBACO      : isBACO,
+            isBAPU      : isBAPU
+          });
+          if(R){
+            ActPR0  = R.actpassrate;
+            TargetPR0 = R.TargetPR0;
+          }
+          R = await Regressiontarget.findOne({
+            targetdate  : moment().day(1+7),
+            groupname   : groupname,
+            projectname : inputs.projectname,
+            variantname : inputs.variantname,
+            isBACO      : isBACO,
+            isBAPU      : isBAPU
+          });
+          if(R){
+            ActPR1  = R.actpassrate;
+            TargetPR1 = R.TargetPR1;
+            comment = R.comment;
+          }
+          featuregroups.push({
+            groupname : groupname,
+            isBAPU    : isBAPU,
+            isBACO    : isBACO,
+            ActPRm2   : ActPRm2,
+            TargetPRm2  : TargetPRm2,
+            ActPRm1   : ActPRm1,
+            TargetPRm1  : TargetPRm1,
+            ActPR0    : ActPR0,
+            TargetPR0 : TargetPR0,
+            ActPR1    : ActPR1,
+            TargetPR1 : TargetPR1,
+            comment   : comment
+          });
         }
       }
       return exits.success(JSON.stringify({

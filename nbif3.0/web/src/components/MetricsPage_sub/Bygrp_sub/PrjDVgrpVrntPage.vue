@@ -115,6 +115,7 @@ export default {
       return R;
     },
     getstatus (){
+      console.log('getstatus');
       this.$http.post('/metrics/getdvgroupprstatus',{
         kind  : 'Bygrp',
         projectname : this.projectname,
@@ -122,7 +123,6 @@ export default {
         DVgroup     : this.DVgroup
       }).then(
         function(response){
-          console.log(response.body.ok);
           console.log(response.body.featuregroups);
           console.log(typeof(response.body.featuregroups));
           this.DVgroupPRstatus  = JSON.parse(response.body.featuregroups);
