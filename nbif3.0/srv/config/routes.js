@@ -68,6 +68,10 @@ module.exports.routes = {
   'POST /metrics/getvalidvariants' : {
     action  : 'metrics/getvalidvariants'
   },
+  //For sanity
+  'POST /sanity/tasksupload' : {
+    action  : 'sanity/tasksupload'
+  },
   /***************************************************************************
   *                                                                          *
   * More custom routes here...                                               *
