@@ -25,6 +25,7 @@
       <el-row>
         <el-table
           :data="tasks"
+          border
           style="width: 100%"
         >
           <el-table-column
@@ -58,7 +59,7 @@
             label="command"
           >
             <template slot-scope="scope">
-              <el-input v-model="scope.row.taskname"></el-input>
+              <el-input v-model="scope.row.command"></el-input>
             </template>
           </el-table-column>
           <el-table-column
@@ -67,7 +68,7 @@
             width="200"
           >
             <template slot-scope="scope">
-              <el-input v-model="scope.row.taskname"></el-input>
+              <el-input v-model="scope.row.passkeyword"></el-input>
             </template>
           </el-table-column>
           <el-table-column
@@ -76,7 +77,7 @@
             width="200"
           >
             <template slot-scope="scope">
-              <el-input v-model="scope.row.taskname"></el-input>
+              <el-input v-model="scope.row.failkeyword"></el-input>
             </template>
           </el-table-column>
           <el-table-column
@@ -85,7 +86,7 @@
             width="120">
             <template slot-scope="scope">
               <el-button
-                @click.native.prevent="deleteRow(scope.$index, tableData)"
+                @click.native.prevent="deleteRow(scope.$index, tasks)"
                 type="text"
                 size="small">
                 delete
