@@ -19,7 +19,7 @@ module.exports = {
       type  : 'string'
     },
     treeRoot  : {
-      type  : 'string
+      type  : 'string'
     },
     site      : {
       type  : 'string'
