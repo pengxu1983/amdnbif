@@ -36,7 +36,7 @@ module.exports = {
       return exits.success(JSON.stringify({
         ok  : 'ok',
         msg : 'tasks upload done'
-      });
+      }));
     }
     // All done.
     return exits.success(JSON.stringify({
