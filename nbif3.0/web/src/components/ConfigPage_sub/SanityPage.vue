@@ -122,8 +122,9 @@ export default {
         taskname  : '',
         tasktype  : 'testcase',
         command   : '',
-        passkeyword : '',
-        failkeyword : ''
+        passkeyword : 'dj exited successfully',
+        failkeyword : 'dj exited with errors',
+        runtime     : '4'
       });
     },
     upload(){

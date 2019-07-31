@@ -18,9 +18,6 @@ module.exports = {
     tasktype  : {
       type  : 'string'
     },
-    isValid   : {
-      type  : 'string'
-    },
     command   : {
       type  : 'string',
       columnType  : 'longtext'
