@@ -302,7 +302,7 @@ let cron_check_result = new cronJob('0 56 */4 * * *',function(){
       testResult[testName]['result']      = 'PASS';
     }
     else if(fs.existsSync(testResult[testName]['run_out_path']+'/vcs_run.log')){
-      let R =child_process.execSync(workspace+'/amdnbif/nbif3.0/clt/clt_regression/tools/processSimLog.pl '+testResult[testName]['run_out_path']+'/vcs_run.log',{
+      let R =child_process.execSync(workspace+'/amdnbif/nbif3.0/clt/clt_regression/tools/processSimLog.pl '+testResult[testName]['run_out_path']+'/vcs_run.log',{//MODIFY
         encoding  : 'utf8',
         maxBuffer : 1024*1024*100
       });
