@@ -13,7 +13,7 @@ var child_process   = require('child_process');
 var cronJob         = require("cron").CronJob;
 var workspace       = '/proj/cip_floyd_genz/benpeng';////MODIFY
 let postQ           = [];
-let postQlimit      = 20;////MODIFY
+let postQlimit      = 10;////MODIFY
 let treeInfoList    = [];
 let cron_send_request = new cronJob('* * * * * *',function(){
   console.log('cron_send_request starts at '+moment().format('YYYY-MM-DD HH:mm:ss'));
@@ -110,7 +110,7 @@ let cron_send_request = new cronJob('* * * * * *',function(){
     postQ.splice(0,indexmax);
   }
 },null,false,'Asia/Chongqing');
-let cron_check_result = new cronJob('0 15 */3 * * *',function(){
+let cron_check_result = new cronJob('0 45 */3 * * *',function(){
   console.log('cron_check_result starts at '+moment().format('YYYY-MM-DD HH:mm:ss'));
   console.log('basic info :');
   console.log('refTreeRoot is '+refTreeRoot);
@@ -312,6 +312,9 @@ let cron_check_result = new cronJob('0 15 */3 * * *',function(){
       testResult[testName]['seed']       = RR[0];
       testResult[testName]['result']     = RR[1];
       testResult[testName]['signature']  = RR[2];
+      if((testResult[testName]['seed'] != 'NA') && (testResult[testName]['result'] == 'NA')){
+        testResult[testName]['result']  = 'RUNNING';
+      }
     }
     let R = mergedgrouplist;
     if(R.length == 0){
