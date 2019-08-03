@@ -7,7 +7,6 @@
       <el-table-column
         prop="kickoffdate"
         label="kickoffdate"
-        width="150"
         sortable
       >
       </el-table-column>
@@ -19,25 +18,21 @@
       <el-table-column
         prop="changelist"
         label="changelist"
-        width="150"
       >
       </el-table-column>
       <el-table-column
         prop="isBAPU"
         label="isBAPU"
-        width="150"
       >
       </el-table-column>
       <el-table-column
         prop="shelve"
         label="shelve"
-        width="150"
       >
       </el-table-column>
       <el-table-column
         prop="passrate"
         label="passrate"
-        width="150"
       >
         <template slot-scope="scope">
           <el-button type="text" @click="getgroupstatus(scope.row.projectname,scope.row.variantname,scope.row.changelist,scope.row.isBAPU,scope.row.shelve,scope.row.kickoffdate)">{{scope.row.passrate}}</el-button>
@@ -46,19 +41,16 @@
       <el-table-column
         prop="alltestnum"
         label="alltestnum"
-        width="150"
       >
       </el-table-column>
       <el-table-column
         prop="passnum"
         label="passnum"
-        width="150"
       >
       </el-table-column>
       <el-table-column
         prop="failnum"
         label="failnum"
-        width="150"
       >
         <template slot-scope="scope">
           <el-button type="text" @click="gettestdetails('FAIL',scope.row.projectname,scope.row.variantname,'all',scope.row.changelist,scope.row.isBAPU,scope.row.shelve,scope.row.kickoffdate)">{{scope.row.failnum}}</el-button>
@@ -67,10 +59,17 @@
       <el-table-column
         prop="unknownnum"
         label="unknownnum"
-        width="150"
       >
         <template slot-scope="scope">
           <el-button type="text" @click="gettestdetails('UNKNOWN',scope.row.projectname,scope.row.variantname,'all',scope.row.changelist,scope.row.isBAPU,scope.row.shelve,scope.row.kickoffdate)">{{scope.row.unknownnum}}</el-button>
+        </template>
+      </el-table-column>
+      <el-table-column
+        prop="runningnum"
+        label="runningnum"
+      >
+        <template slot-scope="scope">
+          <el-button type="text" @click="gettestdetails('RUNNING',scope.row.projectname,scope.row.variantname,'all',scope.row.changelist,scope.row.isBAPU,scope.row.shelve,scope.row.kickoffdate)">{{scope.row.unknownnum}}</el-button>
         </template>
       </el-table-column>
     </el-table>
@@ -268,6 +267,9 @@ export default {
           }
           else if(kind  ==  'ALL'){
             this.title  = 'ALL tests list'
+          }
+          else if(kind == 'RUNNING'){
+            this.title  = 'RUNNING tests list'
           }
         },
         function(){}

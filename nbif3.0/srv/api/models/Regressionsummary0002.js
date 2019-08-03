@@ -43,6 +43,10 @@ module.exports = {
       type      : 'string',
       columnType: 'longtext'
     },
+    runninglist : {
+      type      : 'string',
+      columnType: 'longtext'
+    },
     groupname   : {
       type      : 'string'
     },
