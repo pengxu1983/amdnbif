@@ -30,7 +30,10 @@ module.exports = {
     },
     runtime     : {
       type  : 'string'
-    }
+    },
+    projectname : {
+      type  : 'string'
+    },
 
     //  ╔═╗╔╦╗╔╗ ╔═╗╔╦╗╔═╗
     //  ║╣ ║║║╠╩╗║╣  ║║╚═╗

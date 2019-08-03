@@ -22,10 +22,17 @@ module.exports = {
   fn: async function (inputs,exits) {
     sails.log('/sanity/getinfo');
     sails.log(inputs);
-    // get trees
-    // get variants
-    // get projects
-    // start sync
+    if(inputs.kind  ==  'all'){
+    }
+    else if(inputs.kind ==  'sanity'){
+      let tasks = await Sanitytasks.find({
+        projectname : inputs.projectname
+      });
+      return  exits.success(JSON.stringify({
+        ok  : 'ok',
+        tasks : JSON.stringify(tasks)
+      }));
+    }
     // All done.
     return exits.success(JSON.stringify({
       ok  : 'notok',

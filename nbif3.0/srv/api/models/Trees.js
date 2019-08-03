@@ -32,6 +32,10 @@ module.exports = {
     },
     codeline    : {
       type  : 'string'
+    },
+    checkmask   : {
+      type  : 'string',
+      columnType  : 'longtext'
     }
 
     //  ╔═╗╔╦╗╔╗ ╔═╗╔╦╗╔═╗

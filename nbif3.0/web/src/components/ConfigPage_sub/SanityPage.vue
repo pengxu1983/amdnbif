@@ -8,6 +8,19 @@
     <el-main>
       <el-row>
         <el-form :inline="true" class="demo-form-inline">
+          <el-form-item label="Project">
+            <el-select 
+              v-model="projectinfo.projectname" 
+              placeholder="projectname"
+              @change="getinfo()"
+            >
+              <el-option 
+                v-for="oneproject in projects"
+                :label="oneproject.projectname" 
+                :value="oneproject.projectname"
+              ></el-option>
+            </el-select>
+          </el-form-item>
           <el-form-item>
             <el-button 
               type="primary"
@@ -81,6 +94,15 @@
             </template>
           </el-table-column>
           <el-table-column
+            prop="runtime"
+            label="runtime"
+            width="150"
+          >
+            <template slot-scope="scope">
+              <el-input v-model="scope.row.runtime"></el-input>
+            </template>
+          </el-table-column>
+          <el-table-column
             fixed="right"
             label="opt"
             width="120">
@@ -110,7 +132,11 @@ export default {
         'testcase',
         'script'
       ],
-      tasks : []
+      tasks : [],
+      projectinfo : {
+        projectname : 'mi200'
+      },
+      projects  : []
     }
   },
   methods : {
@@ -124,18 +150,20 @@ export default {
         command   : '',
         passkeyword : 'dj exited successfully',
         failkeyword : 'dj exited with errors',
-        runtime     : '4'
+        runtime     : '4',
+        projectname : this.projectinfo.projectname
       });
     },
     upload(){
       let T = [];
       for(let t=0;t<this.tasks.length;t++){
         if(
-            (this.tasks[t].taskname  ==  '') || 
-            (this.tasks[t].tasktype  ==  '') ||
-            (this.tasks[t].command   ==  '') ||
-            (this.tasks[t].passkeyword ==  '') ||
-            (this.tasks[t].failkeyword ==  '')
+          (this.tasks[t].taskname  ==  '') || 
+          (this.tasks[t].tasktype  ==  '') ||
+          (this.tasks[t].command   ==  '') ||
+          (this.tasks[t].passkeyword ==  '') ||
+          (this.tasks[t].failkeyword ==  '') ||
+          (this.tasks[t].projectname ==  '')
         ){
           continue;
         }
@@ -155,6 +183,37 @@ export default {
         function(){}
       );
     },
+    getinfo(){
+      this.$http.post('/config/projects/get',{
+        kind  : 'all',
+      }).then(
+        function(response){
+          if(response.body.ok ==  'ok'){
+            //console.log(response.body.projects);
+            console.log('all projects successfully get from DB');
+            this.projects = JSON.parse(response.body.projects);
+          }
+        },
+        function(){}
+      );
+      this.$http.post('/sanity/getinfo',{
+        kind  : 'sanity',
+        projectname : this.projectinfo.projectname
+      }).then(
+        function(response){
+          if(response.body.ok ==  'ok'){
+            this.tasks  = JSON.parse(response.body.tasks);
+          }
+          else{
+            console.log(response.body.msg);
+          }
+        },
+        function(){}
+      );
+    }
+  },
+  mounted (){
+    this.getinfo();
   }
 }
 </script>
