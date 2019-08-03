@@ -72,6 +72,9 @@ module.exports.routes = {
   'POST /sanity/tasksupload' : {
     action  : 'sanity/tasksupload'
   },
+  'POST /sanity/getinfo' : {
+    action  : 'sanity/getinfo'
+  },
   /***************************************************************************
   *                                                                          *
   * More custom routes here...                                               *
