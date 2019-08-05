@@ -20,7 +20,13 @@ module.exports.routes = {
   ***************************************************************************/
 
   //'/': { view: 'pages/homepage' },
-  //For config 
+  //For config
+  'POST /config/trees/get' : {
+    action  : 'config/trees/get'
+  },
+  'POST /config/trees/upload' : {
+    action  : 'config/trees/upload'
+  },
   'POST /config/variants/upload' : {
     action  : 'config/variants/upload'
   },

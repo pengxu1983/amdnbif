@@ -41,6 +41,7 @@ import SanityPage from '@/components/ConfigPage_sub/SanityPage.vue'
 import VariantsPage from '@/components/ConfigPage_sub/VariantsPage.vue'
 import GroupsPage from '@/components/ConfigPage_sub/GroupsPage.vue'
 import ProjectsPage from '@/components/ConfigPage_sub/ProjectsPage.vue'
+import TreePage from '@/components/ConfigPage_sub/TreePage.vue'
 
 export default {
   name: 'ConfigPage',
@@ -62,6 +63,7 @@ export default {
         'Projects',
         'Variants',
         'Groups',
+        'Tree'
       ],
       currentTab  : 'Groups',
     }
@@ -70,7 +72,8 @@ export default {
     SanityPage,
     VariantsPage,
     GroupsPage,
-    ProjectsPage
+    ProjectsPage,
+    TreePage
   },
   computed: {
     currentTabComponent: function () {
