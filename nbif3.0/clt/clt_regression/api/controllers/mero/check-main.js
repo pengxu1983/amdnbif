@@ -312,7 +312,7 @@ let cron_check_result = new cronJob('0 0 */6 * * *',function(){
       testResult[testName]['seed']       = RR[0];
       testResult[testName]['result']     = RR[1];
       testResult[testName]['signature']  = RR[2];
-      if((testResult[testName]['seed'] != 'NA') && (testResult[testName]['result'] == 'NA')){
+      if((testResult[testName]['seed'] != 'NA') && (testResult[testName]['signature'] == 'NA')){
         testResult[testName]['result']  = 'RUNNING';
       }
     }
