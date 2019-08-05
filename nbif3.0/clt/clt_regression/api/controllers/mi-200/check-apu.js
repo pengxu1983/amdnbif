@@ -108,7 +108,7 @@ let cron_send_request = new cronJob('* * * * * *',function(){
     postQ.splice(0,indexmax);
   }
 },null,false,'Asia/Chongqing');
-let cron_check_result = new cronJob('0 15 */3 * * *',function(){
+let cron_check_result = new cronJob('0 25 11 * * *',function(){
   console.log('cron_check_result starts at '+moment().format('YYYY-MM-DD HH:mm:ss'));
   console.log('basic info :');
   console.log('refTreeRoot is '+refTreeRoot);
