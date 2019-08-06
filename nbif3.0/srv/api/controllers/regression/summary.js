@@ -304,6 +304,21 @@ module.exports = {
               unknownlist.push(R[i].testname);
               unknownlist.sort();
             }
+            R  = await Regressiondetails0001.find({
+              projectname : inputs.projectname,
+              variantname : inputs.variantname,
+              isBAPU      : inputs.isBAPU,
+              kickoffdate : inputs.kickoffdate,
+              changelist  : inputs.changelist,
+              shelve      : inputs.shelve,
+              result      : 'RUNNING',
+              groupname   : oneregressiongroups[g].groupname
+            });
+            let runninglist= [];
+            for(let i=0;i<R.length;i++){
+              runninglist.push(R[i].testname);
+              runninglist.sort();
+            }
             let passrate = 0.00;
             let checkedtime = moment().format('YYYY-MM-DD HH:mm:ss');
             if(testlist.length == 0){
@@ -323,8 +338,77 @@ module.exports = {
               groupname   : oneregressiongroups[g].groupname
             },{
               testlist  : JSON.stringify(testlist),
+              //passlist  : JSON.stringify(passlist),
+              //faillist  : JSON.stringify(faillist),
+              //runninglist : JSON.stringify(runninglist),
+              //unknownlist : JSON.stringify(unknownlist),
+              //passrate  : passrate,
+              //checkedtime : checkedtime
+            });
+            await Regressionsummary0001.update({
+              projectname : inputs.projectname,
+              variantname : inputs.variantname,
+              isBAPU      : inputs.isBAPU,
+              kickoffdate : inputs.kickoffdate,
+              changelist  : inputs.changelist,
+              shelve      : inputs.shelve,
+              groupname   : oneregressiongroups[g].groupname
+            },{
+              //testlist  : JSON.stringify(testlist),
               passlist  : JSON.stringify(passlist),
+              //faillist  : JSON.stringify(faillist),
+              //runninglist : JSON.stringify(runninglist),
+              //unknownlist : JSON.stringify(unknownlist),
+              //passrate  : passrate,
+              //checkedtime : checkedtime
+            });
+            await Regressionsummary0001.update({
+              projectname : inputs.projectname,
+              variantname : inputs.variantname,
+              isBAPU      : inputs.isBAPU,
+              kickoffdate : inputs.kickoffdate,
+              changelist  : inputs.changelist,
+              shelve      : inputs.shelve,
+              groupname   : oneregressiongroups[g].groupname
+            },{
+              //testlist  : JSON.stringify(testlist),
+              //passlist  : JSON.stringify(passlist),
               faillist  : JSON.stringify(faillist),
+              //runninglist : JSON.stringify(runninglist),
+              //unknownlist : JSON.stringify(unknownlist),
+              //passrate  : passrate,
+              //checkedtime : checkedtime
+            });
+            await Regressionsummary0001.update({
+              projectname : inputs.projectname,
+              variantname : inputs.variantname,
+              isBAPU      : inputs.isBAPU,
+              kickoffdate : inputs.kickoffdate,
+              changelist  : inputs.changelist,
+              shelve      : inputs.shelve,
+              groupname   : oneregressiongroups[g].groupname
+            },{
+              //testlist  : JSON.stringify(testlist),
+              //passlist  : JSON.stringify(passlist),
+              //faillist  : JSON.stringify(faillist),
+              runninglist : JSON.stringify(runninglist),
+              //unknownlist : JSON.stringify(unknownlist),
+              //passrate  : passrate,
+              //checkedtime : checkedtime
+            });
+            await Regressionsummary0001.update({
+              projectname : inputs.projectname,
+              variantname : inputs.variantname,
+              isBAPU      : inputs.isBAPU,
+              kickoffdate : inputs.kickoffdate,
+              changelist  : inputs.changelist,
+              shelve      : inputs.shelve,
+              groupname   : oneregressiongroups[g].groupname
+            },{
+              //testlist  : JSON.stringify(testlist),
+              //passlist  : JSON.stringify(passlist),
+              //faillist  : JSON.stringify(faillist),
+              //runninglist : JSON.stringify(runninglist),
               unknownlist : JSON.stringify(unknownlist),
               passrate  : passrate,
               checkedtime : checkedtime
@@ -402,7 +486,7 @@ module.exports = {
     ///////////////////////////////////////
     //For 0002 mero
     ///////////////////////////////////////
-    else if(inputs.projectname  ==  'mero'){
+    if(inputs.projectname  ==  'mero'){
       let oneregressiongroups = await Regressionsummary0002.find({
         projectname : inputs.projectname,
         variantname : inputs.variantname,
@@ -649,6 +733,21 @@ module.exports = {
               unknownlist.push(R[i].testname);
               unknownlist.sort();
             }
+            R  = await Regressiondetails0002.find({
+              projectname : inputs.projectname,
+              variantname : inputs.variantname,
+              isBAPU      : inputs.isBAPU,
+              kickoffdate : inputs.kickoffdate,
+              changelist  : inputs.changelist,
+              shelve      : inputs.shelve,
+              result      : 'RUNNING',
+              groupname   : oneregressiongroups[g].groupname
+            });
+            let runninglist= [];
+            for(let i=0;i<R.length;i++){
+              runninglist.push(R[i].testname);
+              runninglist.sort();
+            }
             let passrate = 0.00;
             let checkedtime = moment().format('YYYY-MM-DD HH:mm:ss');
             if(testlist.length == 0){
@@ -668,8 +767,77 @@ module.exports = {
               groupname   : oneregressiongroups[g].groupname
             },{
               testlist  : JSON.stringify(testlist),
+              //passlist  : JSON.stringify(passlist),
+              //faillist  : JSON.stringify(faillist),
+              //runninglist : JSON.stringify(runninglist),
+              //unknownlist : JSON.stringify(unknownlist),
+              //passrate  : passrate,
+              //checkedtime : checkedtime
+            });
+            await Regressionsummary0002.update({
+              projectname : inputs.projectname,
+              variantname : inputs.variantname,
+              isBAPU      : inputs.isBAPU,
+              kickoffdate : inputs.kickoffdate,
+              changelist  : inputs.changelist,
+              shelve      : inputs.shelve,
+              groupname   : oneregressiongroups[g].groupname
+            },{
+              //testlist  : JSON.stringify(testlist),
               passlist  : JSON.stringify(passlist),
+              //faillist  : JSON.stringify(faillist),
+              //runninglist : JSON.stringify(runninglist),
+              //unknownlist : JSON.stringify(unknownlist),
+              //passrate  : passrate,
+              //checkedtime : checkedtime
+            });
+            await Regressionsummary0002.update({
+              projectname : inputs.projectname,
+              variantname : inputs.variantname,
+              isBAPU      : inputs.isBAPU,
+              kickoffdate : inputs.kickoffdate,
+              changelist  : inputs.changelist,
+              shelve      : inputs.shelve,
+              groupname   : oneregressiongroups[g].groupname
+            },{
+              //testlist  : JSON.stringify(testlist),
+              //passlist  : JSON.stringify(passlist),
               faillist  : JSON.stringify(faillist),
+              //runninglist : JSON.stringify(runninglist),
+              //unknownlist : JSON.stringify(unknownlist),
+              //passrate  : passrate,
+              //checkedtime : checkedtime
+            });
+            await Regressionsummary0002.update({
+              projectname : inputs.projectname,
+              variantname : inputs.variantname,
+              isBAPU      : inputs.isBAPU,
+              kickoffdate : inputs.kickoffdate,
+              changelist  : inputs.changelist,
+              shelve      : inputs.shelve,
+              groupname   : oneregressiongroups[g].groupname
+            },{
+              //testlist  : JSON.stringify(testlist),
+              //passlist  : JSON.stringify(passlist),
+              //faillist  : JSON.stringify(faillist),
+              runninglist : JSON.stringify(runninglist),
+              //unknownlist : JSON.stringify(unknownlist),
+              //passrate  : passrate,
+              //checkedtime : checkedtime
+            });
+            await Regressionsummary0002.update({
+              projectname : inputs.projectname,
+              variantname : inputs.variantname,
+              isBAPU      : inputs.isBAPU,
+              kickoffdate : inputs.kickoffdate,
+              changelist  : inputs.changelist,
+              shelve      : inputs.shelve,
+              groupname   : oneregressiongroups[g].groupname
+            },{
+              //testlist  : JSON.stringify(testlist),
+              //passlist  : JSON.stringify(passlist),
+              //faillist  : JSON.stringify(faillist),
+              //runninglist : JSON.stringify(runninglist),
               unknownlist : JSON.stringify(unknownlist),
               passrate  : passrate,
               checkedtime : checkedtime
