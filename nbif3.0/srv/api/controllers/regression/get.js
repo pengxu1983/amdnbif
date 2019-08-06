@@ -141,6 +141,7 @@ module.exports = {
             let passlist = JSON.parse(R[r].passlist);
             let faillist = JSON.parse(R[r].faillist);
             let testlist = JSON.parse(R[r].testlist);
+            let runninglist = JSON.parse(R[r].runninglist);
             let unknownlist = JSON.parse(R[r].unknownlist);
             regressions.push({
               projectname : R[r].projectname,
@@ -183,6 +184,7 @@ module.exports = {
             let passlist = JSON.parse(R[r].passlist);
             let faillist = JSON.parse(R[r].faillist);
             let testlist = JSON.parse(R[r].testlist);
+            let runninglist = JSON.parse(R[r].runninglist);
             let unknownlist = JSON.parse(R[r].unknownlist);
             regressions.push({
               projectname : R[r].projectname,
