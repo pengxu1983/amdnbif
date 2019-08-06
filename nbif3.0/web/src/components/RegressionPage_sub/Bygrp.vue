@@ -98,6 +98,13 @@
             <el-button type="text" @click="gettestdetails('UNKNOWN',scope.row.projectname,scope.row.variantname,groupinfo.groupname,scope.row.changelist,scope.row.isBAPU,scope.row.shelve,scope.row.kickoffdate)">{{scope.row.unknownnum}}</el-button>
           </template>
         </el-table-column>
+        <el-table-column
+          prop="runningnum"
+          label="runningnum">
+          <template slot-scope="scope">
+            <el-button type="text" @click="gettestdetails('RUNNING',scope.row.projectname,scope.row.variantname,groupinfo.groupname,scope.row.changelist,scope.row.isBAPU,scope.row.shelve,scope.row.kickoffdate)">{{scope.row.runningnum}}</el-button>
+          </template>
+        </el-table-column>
       </el-table>
       <el-dialog :title="title" :visible.sync="visible" width="80%">
         <el-pagination
@@ -232,6 +239,9 @@ export default {
           else if(kind  ==  'ALL'){
             this.title  = 'ALL tests list'
           }
+          else if(kind  ==  'RUNNING'){
+            this.title  = 'RUNNING tests list'
+          }
         },
         function(){}
       );
@@ -240,13 +250,13 @@ export default {
       console.log(val);
       this.testdetails_disp=[];
       let maxindex;
-      if((val*100)<this.testdetails.length){
-        maxindex = (val*100);
+      if((val*pagesize)<this.testdetails.length){
+        maxindex = (val*pagesize);
       }
       else{
         maxindex = this.testdetails.length;
       }
-      for(let i=((val-1)*100);i<maxindex;i++){
+      for(let i=((val-1)*pagesize);i<maxindex;i++){
         this.testdetails_disp.push(this.testdetails[i]);
       }
     },
