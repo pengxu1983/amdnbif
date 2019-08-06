@@ -235,6 +235,7 @@ module.exports = {
               shelve      : mergedgrouplist[i].shelve,
               testlist    : JSON.stringify([]),
               passlist    : JSON.stringify([]),
+              runninglist : JSON.stringify([]),
               unknownlist : JSON.stringify([]),
               passrate    : 0
             });
@@ -261,6 +262,7 @@ module.exports = {
               shelve      : mergedgrouplist[i].shelve,
               testlist    : JSON.stringify([]),
               passlist    : JSON.stringify([]),
+              runninglist : JSON.stringify([]),
               unknownlist : JSON.stringify([]),
               passrate    : 0
             });
@@ -289,6 +291,7 @@ module.exports = {
               shelve      : mergedgrouplist[i].shelve,
               testlist    : JSON.stringify([]),
               passlist    : JSON.stringify([]),
+              runninglist : JSON.stringify([]),
               unknownlist : JSON.stringify([]),
               passrate    : 0
             });
@@ -315,6 +318,7 @@ module.exports = {
               shelve      : mergedgrouplist[i].shelve,
               testlist    : JSON.stringify([]),
               passlist    : JSON.stringify([]),
+              runninglist : JSON.stringify([]),
               unknownlist : JSON.stringify([]),
               passrate    : 0
             });
