@@ -250,13 +250,13 @@ export default {
       console.log(val);
       this.testdetails_disp=[];
       let maxindex;
-      if((val*pagesize)<this.testdetails.length){
-        maxindex = (val*pagesize);
+      if((val*this.pagesize)<this.testdetails.length){
+        maxindex = (val*this.pagesize);
       }
       else{
         maxindex = this.testdetails.length;
       }
-      for(let i=((val-1)*pagesize);i<maxindex;i++){
+      for(let i=((val-1)*this.pagesize);i<maxindex;i++){
         this.testdetails_disp.push(this.testdetails[i]);
       }
     },
