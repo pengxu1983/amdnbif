@@ -167,7 +167,7 @@ export default {
   },
   methods : {
     selectedRegression({row,rowIndex}){
-      if(rowIndex ==  selectedRegressionIndex){
+      if(rowIndex ==  this.selectedRegressionIndex){
         return 'success-row';
       }
       return '';
