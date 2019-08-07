@@ -3,7 +3,9 @@
     <el-table
       :data="regressionstatus_disp"
       border
-      style="width: 100%">
+      style="width: 100%"
+      :row-class-name="selectedRegression"
+    >
       <el-table-column
         prop="kickoffdate"
         label="kickoffdate"
@@ -53,7 +55,7 @@
         label="failnum"
       >
         <template slot-scope="scope">
-          <el-button type="text" @click="gettestdetails('FAIL',scope.row.projectname,scope.row.variantname,'all',scope.row.changelist,scope.row.isBAPU,scope.row.shelve,scope.row.kickoffdate)">{{scope.row.failnum}}</el-button>
+          <el-button type="text" @click="gettestdetails('FAIL',scope.row.projectname,scope.row.variantname,'all',scope.row.changelist,scope.row.isBAPU,scope.row.shelve,scope.row.kickoffdate);selectedRegressionIndex = scope.$index">{{scope.row.failnum}}</el-button>
         </template>
       </el-table-column>
       <el-table-column
@@ -61,7 +63,7 @@
         label="unknownnum"
       >
         <template slot-scope="scope">
-          <el-button type="text" @click="gettestdetails('UNKNOWN',scope.row.projectname,scope.row.variantname,'all',scope.row.changelist,scope.row.isBAPU,scope.row.shelve,scope.row.kickoffdate)">{{scope.row.unknownnum}}</el-button>
+          <el-button type="text" @click="gettestdetails('UNKNOWN',scope.row.projectname,scope.row.variantname,'all',scope.row.changelist,scope.row.isBAPU,scope.row.shelve,scope.row.kickoffdate);selectedRegressionIndex = scope.$index">{{scope.row.unknownnum}}</el-button>
         </template>
       </el-table-column>
       <el-table-column
@@ -69,11 +71,11 @@
         label="runningnum"
       >
         <template slot-scope="scope">
-          <el-button type="text" @click="gettestdetails('RUNNING',scope.row.projectname,scope.row.variantname,'all',scope.row.changelist,scope.row.isBAPU,scope.row.shelve,scope.row.kickoffdate)">{{scope.row.runningnum}}</el-button>
+          <el-button type="text" @click="gettestdetails('RUNNING',scope.row.projectname,scope.row.variantname,'all',scope.row.changelist,scope.row.isBAPU,scope.row.shelve,scope.row.kickoffdate);selectedRegressionIndex = scope.$index">{{scope.row.runningnum}}</el-button>
         </template>
       </el-table-column>
     </el-table>
-    <br />
+    <h3>Feature Group Status</h3>
     <el-table
       :data="groupstatus"
       stripe
@@ -140,6 +142,7 @@ export default {
       groupstatus: [],
       title : '',
       pagesize : 500,
+      selectedRegressionIndex : '',
       searchparam : {
         testnamesrch  : '',
         sigsrch: '',
@@ -163,6 +166,12 @@ export default {
     }
   },
   methods : {
+    selectedRegression({row,rowIndex}){
+      if(rowIndex ==  selectedRegressionIndex){
+        return 'success-row';
+      }
+      return '';
+    },
     getinfo (){
       this.$http.post('/config/variants/get',{
         kind  : 'all',
@@ -307,4 +316,14 @@ export default {
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped>
+</style>
+
+<style>
+  .el-table .warning-row {
+    background: oldlace;
+  }
+
+  .el-table .success-row {
+    background: #f0f9eb;
+  }
 </style>

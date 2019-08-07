@@ -36,7 +36,9 @@ module.exports = {
 
   fn: async function (inputs,exits) {
     sails.log('/regression/upload');
-    sails.log(inputs.kind);
+    if(inputs.kind == 'onecase'){
+      sails.log('onecase upload ' + inputs.oneTestResult.testname);
+    }
     //=============================================//
     //========For onecase info=====================//
     //========For onecase info=====================//
