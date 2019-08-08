@@ -22,7 +22,7 @@ module.exports.routes = {
   //'/': { view: 'pages/homepage' },
   //For changelist 
   'POST /changelist/upload' : {
-    action  : '/changelist/upload'
+    action  : 'changelist/upload'
   },
 
   //For config
