@@ -133,7 +133,16 @@ export default {
       options : [
         'yes',
         'no'
-      ]
+      ],
+      variants  : [],
+    }
+  },
+  computed  : {
+    checkmask : function(){
+      let R = [];
+      for(let i=0;i<this.variants.length;i++){
+        R.push(this.variants[i].variantname);
+      }
     }
   },
   methods : {
@@ -144,12 +153,11 @@ export default {
       this.trees.unshift({
         treename    : '',
         projectname : 'mi200',
-        isValid     : 'yes',
         treeRoot    : '',
         site        : 'atl',
         branchname  : '',
         codeline    : 'nbif2_0',
-        checkmask   : {}
+        checkmask   : this.checkmask
       });
     },
     upload(){
@@ -179,6 +187,20 @@ export default {
       );
     },
     getinfo(){
+      //get variants
+      this.$http.post('/config/variants/get',{
+        kind  : 'all'
+      }).then(
+        function(response){
+          if(response.body.ok == 'ok'){
+            this.variants = JSON.parse(response.body.variants);
+            console.log('all variants successfully get from DB');
+          }
+          else{
+          }
+        },
+        function(){}
+      );
       this.$http.post('/config/projects/get',{
         kind  : 'all',
       }).then(
