@@ -1,10 +1,10 @@
 module.exports = {
 
 
-  friendlyName: 'Process',
+  friendlyName: 'Gettrees',
 
 
-  description: 'Process general.',
+  description: 'Gettrees general.',
 
 
   inputs: {
