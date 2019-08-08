@@ -33,6 +33,10 @@ module.exports = {
       for(let t=0;t<trees.length;t++){
         await Trees.create(trees[t]);
       }
+      return exits.success(JSON.stringify({
+        ok  : 'ok',
+        msg : 'uploaded'
+      }));
     }
     // All done.
     return exits.success(JSON.stringify({

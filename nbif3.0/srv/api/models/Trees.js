@@ -15,9 +15,6 @@ module.exports = {
     projectname : {
       type  : 'string'
     },
-    isValid   : {
-      type  : 'string'
-    },
     treeRoot  : {
       type  : 'string'
     },

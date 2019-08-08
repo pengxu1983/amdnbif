@@ -30,9 +30,17 @@
         >
           <el-table-column
             fixed
+            prop="treename"
+            label="treename"
+          >
+            <template slot-scope="scope">
+              <el-input v-model="scope.row.treename"></el-input>
+            </template>
+          </el-table-column>
+          <el-table-column
+            fixed
             prop="projectname"
             label="projectname"
-            width="150"
           >
             <template slot-scope="scope">
               <el-select v-model="scope.row.projectname" placeholder="projectname">
@@ -48,7 +56,6 @@
           <el-table-column
             prop="treeRoot"
             label="treeRoot"
-            width="200"
           >
             <template slot-scope="scope">
               <el-input v-model="scope.row.treeRoot"></el-input>
@@ -72,7 +79,6 @@
           <el-table-column
             prop="branchname"
             label="branchname"
-            width="200"
           >
             <template slot-scope="scope">
               <el-input v-model="scope.row.branchname"></el-input>
@@ -81,32 +87,14 @@
           <el-table-column
             prop="codeline"
             label="codeline"
-            width="200"
           >
             <template slot-scope="scope">
               <el-input v-model="scope.row.codeline"></el-input>
             </template>
           </el-table-column>
           <el-table-column
-            prop="isValid"
-            label="isValid"
-            width="150"
-          >
-            <template slot-scope="scope">
-              <el-select v-model="scope.row.isValid" placeholder="isValid">
-                <el-option 
-                  v-for="oneopt in options"
-                  :label="oneopt" 
-                  :value="oneopt"
-                >
-                </el-option>
-              </el-select>
-            </template>
-          </el-table-column>
-          <el-table-column
             prop="checkmask"
             label="checkmask"
-            width="150"
           >
           </el-table-column>
           <el-table-column
@@ -154,7 +142,8 @@ export default {
     },
     add(){
       this.trees.unshift({
-        projectname : '',
+        treename    : '',
+        projectname : 'mi200',
         isValid     : 'yes',
         treeRoot    : '',
         site        : 'atl',
@@ -168,7 +157,8 @@ export default {
       for(let t =0;t<this.trees.length;t++){
         if(
           (this.trees[t].projectname == '') ||
-          (this.trees[t].treeRoot    == '') 
+          (this.trees[t].treeRoot    == '') ||
+          (this.trees[t].treename    == '')
         ){
           continue;
         }
