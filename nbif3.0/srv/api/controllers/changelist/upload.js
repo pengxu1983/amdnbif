@@ -39,7 +39,7 @@ module.exports = {
           changelist  : changelists[i].changelist,
           owner       : changelists[i].username,
           details     : 'NA',
-          result      : 'NA'，
+          result      : 'NA',
           ischecked   : 'no'
         });
       }
