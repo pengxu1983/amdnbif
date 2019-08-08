@@ -15,7 +15,9 @@ var workspace       = '/proj/cip_floyd_genz/benpeng';////MODIFY
 let postQ           = [];
 let postQlimit      = 20;////MODIFY
 let treeInfoList    = [];
-let cron_send_request = new cronJob('* * * * * *',function(){
+let cron_check_changelist= new cronJob('0 */5 * * * *',function(){
+  child_process.execSync();
+},null,false,'Asia/Chongqing');
 module.exports = {
 
 
