@@ -27,6 +27,9 @@ module.exports = {
     },
     owner       : {
       type  : 'string'
+    },
+    treename    : {
+      type  : 'string'
     }
 
 
