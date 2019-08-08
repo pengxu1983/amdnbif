@@ -36,6 +36,9 @@ module.exports = {
     checkmask   : {
       type  : 'string',
       columnType  : 'longtext'
+    },
+    treename  : {
+      type  : 'string'
     }
 
     //  ╔═╗╔╦╗╔╗ ╔═╗╔╦╗╔═╗
