@@ -79,7 +79,7 @@ module.exports = {
           //result        : result        ,
           //seed          : seed          ,
           //signature     : signature     ,
-          suite         : suite         ,
+          //suite         : suite         ,
           shelve        : shelve        ,
           isBAPU        : isBAPU        ,
           //groupname     : groupname
@@ -94,7 +94,7 @@ module.exports = {
             //result        : result        ,
             //seed          : seed          ,
             //signature     : signature     ,
-            suite         : suite         ,
+            //suite         : suite         ,
             shelve        : shelve        ,
             isBAPU        : isBAPU        ,
             //groupname     : groupname   
@@ -107,12 +107,12 @@ module.exports = {
             result        : result        ,
             seed          : seed          ,
             signature     : signature     ,
-            //suite         : suite         ,
+            suite         : suite         ,
             //shelve        : shelve        ,
             //isBAPU        : isBAPU        ,
             groupname     : groupname
           });
-          sails.log('update');
+          sails.log('update '+ testname);
         }
         else{
           await Regressiondetails0001.create({
@@ -129,7 +129,7 @@ module.exports = {
             isBAPU        : isBAPU        ,
             groupname     : groupname     ,
           });
-          sails.log('create');
+          sails.log('create '+ testname);
         }
       }
       ///////////////////////////////////////
@@ -145,7 +145,7 @@ module.exports = {
           //result        : result        ,
           //seed          : seed          ,
           //signature     : signature     ,
-          suite         : suite         ,
+          //suite         : suite         ,
           shelve        : shelve        ,
           isBAPU        : isBAPU        ,
           //groupname     : groupname
@@ -160,7 +160,7 @@ module.exports = {
             //result        : result        ,
             //seed          : seed          ,
             //signature     : signature     ,
-            suite         : suite         ,
+            //suite         : suite         ,
             shelve        : shelve        ,
             isBAPU        : isBAPU        ,
             //groupname     : groupname   
@@ -173,7 +173,7 @@ module.exports = {
             result        : result        ,
             seed          : seed          ,
             signature     : signature     ,
-            //suite         : suite         ,
+            suite         : suite         ,
             //shelve        : shelve        ,
             //isBAPU        : isBAPU        ,
             groupname     : groupname
