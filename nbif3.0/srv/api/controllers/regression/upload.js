@@ -37,7 +37,9 @@ module.exports = {
   fn: async function (inputs,exits) {
     sails.log('/regression/upload');
     if(inputs.kind == 'onecase'){
-      sails.log('onecase upload ' + inputs.oneTestResult.testname);
+      let oneTestResult = JSON.parse(inputs.oneTestResult);
+      sails.log('PXPXPX');
+      sails.log('onecase upload ' + oneTestResult.testname);
     }
     //=============================================//
     //========For onecase info=====================//
@@ -110,6 +112,7 @@ module.exports = {
             //isBAPU        : isBAPU        ,
             groupname     : groupname
           });
+          sails.log('update');
         }
         else{
           await Regressiondetails0001.create({
@@ -126,6 +129,7 @@ module.exports = {
             isBAPU        : isBAPU        ,
             groupname     : groupname     ,
           });
+          sails.log('create');
         }
       }
       ///////////////////////////////////////

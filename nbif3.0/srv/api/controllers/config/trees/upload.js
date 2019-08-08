@@ -31,6 +31,7 @@ module.exports = {
       });
       let trees = JSON.parse(inputs.trees);
       for(let t=0;t<trees.length;t++){
+        trees[t].checkmask  = JSON.stringify(trees[t].checkmask);
         await Trees.create(trees[t]);
       }
       return exits.success(JSON.stringify({
