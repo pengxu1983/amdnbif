@@ -43,15 +43,10 @@ module.exports = {
           ischecked   : 'no'
         });
       }
-      return exits.success(JSON.stringify({
-        ok  : 'ok',
-        msg : 'done'
-      }));
     }
-    // All done.
     return exits.success(JSON.stringify({
-      ok  : 'notok',
-      msg : 'no valid kind'
+      ok  : 'ok',
+      msg : 'done'
     }));
 
   }
