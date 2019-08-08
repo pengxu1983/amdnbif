@@ -20,6 +20,11 @@ module.exports.routes = {
   ***************************************************************************/
 
   //'/': { view: 'pages/homepage' },
+  //For changelist 
+  'POST /changelist/upload' : {
+    action  : '/changelist/upload'
+  },
+
   //For config
   'POST /config/trees/get' : {
     action  : 'config/trees/get'
