@@ -28,14 +28,14 @@ module.exports = {
     let changelists = JSON.parse(inputs.changelists);
     for(let i=0;i<changelists.length;i++){
       let R = await Buffchangelists.findOne({
-        treename  : kind,
+        treename  : inputs.kind,
         changelist  : changelists[i].changelist
       });
       if(R){
       }
       else{
         await Buffchangelists.create({
-          treename  : kind,
+          treename  : inputs.kind,
           changelist  : changelists[i].changelist,
           owner       : changelists[i].username,
           details     : 'NA',
@@ -43,15 +43,10 @@ module.exports = {
           ischecked   : 'no'
         });
       }
-      return exits.success(JSON.stringify({
-        ok  : 'ok',
-        msg : 'done'
-      }));
     }
-    // All done.
     return exits.success(JSON.stringify({
-      ok  : 'notok',
-      msg : 'no valid kind'
+      ok  : 'ok',
+      msg : 'done'
     }));
 
   }
