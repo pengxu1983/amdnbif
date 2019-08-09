@@ -111,6 +111,15 @@
             prop="checkmask"
             label="checkmask"
           >
+            <template slot-scope="scope">
+              <el-checkbox-group v-model="scope.row.checkmask" >
+                <div 
+                  v-for="onevariant in variants"
+                >
+                  <el-checkbox :label="onevariant.variantname"></el-checkbox>           
+                </div>
+              </el-checkbox-group>
+            </template>
           </el-table-column>
           <el-table-column
             fixed="right"
@@ -154,18 +163,21 @@ export default {
         'regression',
         'code_coverage',
         'pa',
-        'hd_tools'
-      ]
+        'hd_tools',
+        'others'
+      ],
+      checkmask : []
     }
   },
-  computed  : {
-    checkmask : function(){
-      let R = [];
-      for(let i=0;i<this.variants.length;i++){
-        R.push(this.variants[i].variantname);
-      }
-    }
-  },
+  //computed  : {
+  //  checkmask : function(){
+  //    let R = [];
+  //    for(let i=0;i<this.variants.length;i++){
+  //      R.push(this.variants[i].variantname);
+  //    }
+  //    return R;
+  //  }
+  //},
   methods : {
     deleteRow(index, rows) {
       rows.splice(index, 1);
@@ -178,6 +190,7 @@ export default {
         site        : 'atl',
         branchname  : '',
         codeline    : 'nbif2_0',
+        type        : 'others',
         checkmask   : this.checkmask
       });
     },
