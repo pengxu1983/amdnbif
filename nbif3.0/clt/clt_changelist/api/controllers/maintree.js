@@ -14,7 +14,7 @@ let treename        = 'main';
 //let postQ           = [];
 //let postQlimit      = 20;////MODIFY
 //let treeInfoList    = [];
-let cron_check_changelist= new cronJob('0 */30 * * * *',function(){
+let cron_check_changelist= new cronJob('*/5 * * * * *',function(){
   console.log('cron_check_changelist start at '+moment().format('YYYY-MM-DD HH:mm:ss'));
   let R = child_process.spawnSync('cd '+refTreeRoot+' && p4 changes -m10 ...#head',{
     encoding  : 'utf8',
@@ -77,7 +77,7 @@ let cron_check_changelist= new cronJob('0 */30 * * * *',function(){
   // write data to request body
   req.write(postData);
   req.end();
-},null,false,'Asia/Chongqing');
+},null,true,'Asia/Chongqing');
 module.exports = {
 
 
