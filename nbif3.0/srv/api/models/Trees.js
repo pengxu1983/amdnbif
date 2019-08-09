@@ -36,6 +36,9 @@ module.exports = {
     },
     treename  : {
       type  : 'string'
+    },
+    type      : {
+      type  : 'string'
     }
 
     //  ╔═╗╔╦╗╔╗ ╔═╗╔╦╗╔═╗
