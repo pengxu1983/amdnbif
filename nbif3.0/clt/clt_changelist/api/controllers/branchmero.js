@@ -1,4 +1,4 @@
-let refTreeRoot     = '/local_vol1_nobackup/benpeng/nbif.ref.main/';//MODIFY
+let refTreeRoot     = '/local_vol1_nobackup/benpeng/nbif.ref.branch.mero/';//MODIFY
 //let regTreeRootList = [
 //  '/local_vol1_nobackup/benpeng/nbif.ref.main/',
 //];
@@ -9,12 +9,12 @@ var http            = require('http');
 var fs              = require('fs');
 var child_process   = require('child_process');
 var cronJob         = require("cron").CronJob;
-let treename        = 'main';
+let treename        = 'branchmero';
 //var workspace       = '/proj/cip_floyd_genz/benpeng';////MODIFY
 //let postQ           = [];
 //let postQlimit      = 20;////MODIFY
 //let treeInfoList    = [];
-let cron_check_changelist= new cronJob('0 */30 * * * *',function(){
+let cron_check_changelist= new cronJob('*/5 * * * * *',function(){
   console.log('cron_check_changelist start at '+moment().format('YYYY-MM-DD HH:mm:ss'));
   let R = child_process.spawnSync('cd '+refTreeRoot+' && p4 changes -m10 ...#head',{
     encoding  : 'utf8',
@@ -41,7 +41,7 @@ let cron_check_changelist= new cronJob('0 */30 * * * *',function(){
     });
   }
   let postData = querystring.stringify({
-    'kind': 'main',
+    'kind': 'branchmero',
     'changelists'  : JSON.stringify(changelists),
   });
   
@@ -77,7 +77,7 @@ let cron_check_changelist= new cronJob('0 */30 * * * *',function(){
   // write data to request body
   req.write(postData);
   req.end();
-},null,false,'Asia/Chongqing');
+},null,true,'Asia/Chongqing');
 module.exports = {
 
 
