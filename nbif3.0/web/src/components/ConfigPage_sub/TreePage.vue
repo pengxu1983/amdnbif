@@ -93,6 +93,21 @@
             </template>
           </el-table-column>
           <el-table-column
+            prop="type"
+            label="type"
+          >
+            <template slot-scope="scope">
+              <el-select v-model="scope.row.type" placeholder="type">
+                <el-option 
+                  v-for="onetype in types"
+                  :label="onetype" 
+                  :value="onetype"
+                >
+                </el-option>
+              </el-select>
+            </template>
+          </el-table-column>
+          <el-table-column
             prop="checkmask"
             label="checkmask"
           >
@@ -135,6 +150,12 @@ export default {
         'no'
       ],
       variants  : [],
+      types     : [
+        'regression',
+        'code_coverage',
+        'pa',
+        'hd_tools'
+      ]
     }
   },
   computed  : {
