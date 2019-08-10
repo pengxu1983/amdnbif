@@ -27,19 +27,23 @@ module.exports = {
     sails.log(inputs);
     if(inputs.kind  = 'all'){
       let agents = JSON.parse(inputs.agents);
-    }
-    for(let i=0;i<agents.length;i++){
-      let R = await Agents.findOne({
-        agentID : agents[i].agentID
-      });
-      if(R){
-      }
-      else{
-        await Agents.create({
-          agentID : agents[i].agentID,
-          isbusy  : 'no'
+      for(let i=0;i<agents.length;i++){
+        let R = await Agents.findOne({
+          agentID : agents[i].agentID
         });
+        if(R){
+        }
+        else{
+          await Agents.create({
+            agentID : agents[i].agentID,
+            isbusy  : 'no'
+          });
+        }
       }
+      return exits.success(JSON.stringify({
+        ok  : 'ok',
+        msg : 'agents upload done'
+      }));
     }
     // All done.
     return exits.success(JSON.stringify({
