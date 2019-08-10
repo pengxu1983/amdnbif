@@ -12,7 +12,7 @@ module.exports = {
       type  : 'string'
     },
     changelists : {
-      type  : 'string'
+      type  : 'number'
     }
   },
 

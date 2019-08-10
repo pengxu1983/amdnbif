@@ -1,4 +1,4 @@
-let refTreeRoot     = '/local_vol1_nobackup/benpeng/nbif.ref.branch.mero/';//MODIFY
+let refTreeRoot     = '/proj/cip_nbif_de_1/benpeng/nbif.ref.branch.mero/';//MODIFY
 //let regTreeRootList = [
 //  '/local_vol1_nobackup/benpeng/nbif.ref.main/',
 //];
@@ -35,7 +35,7 @@ let cron_check_changelist= new cronJob('*/5 * * * * *',function(){
       //console.log($1);
       //console.log($2);
       changelists.unshift({
-        changelist  : changelist,
+        changelist  : Number(changelist),
         username    : username
       });
     });

@@ -13,7 +13,8 @@ module.exports = {
     //  ╠═╝╠╦╝║║║║║ ║ ║╚╗╔╝║╣ ╚═╗
     //  ╩  ╩╚═╩╩ ╩╩ ╩ ╩ ╚╝ ╚═╝╚═╝
     changelist  : {
-      type  : 'string'
+      type  : 'number',
+      columnType  : 'bigint'
     },
     ischecked   : {
       type  : 'string'

@@ -58,6 +58,7 @@ let cron_send_request = new cronJob('* * * * * *',function(){
       
       req.on('error', (e) => {
         console.error(`problem with request: ${e.message}`);
+        console.log(postData);
       });
       
       // write data to request body
@@ -99,6 +100,7 @@ let cron_send_request = new cronJob('* * * * * *',function(){
       
       req.on('error', (e) => {
         console.error(`problem with request: ${e.message}`);
+        console.log(postData);
       });
       
       // write data to request body
@@ -108,7 +110,7 @@ let cron_send_request = new cronJob('* * * * * *',function(){
     postQ.splice(0,indexmax);
   }
 },null,false,'Asia/Chongqing');
-let cron_check_result = new cronJob('0 45 */6 * * *',function(){
+let cron_check_result = new cronJob('0 40 */3 * * *',function(){
   console.log('cron_check_result starts at '+moment().format('YYYY-MM-DD HH:mm:ss'));
   console.log('basic info :');
   console.log('refTreeRoot is '+refTreeRoot);
@@ -407,6 +409,7 @@ let cron_check_result = new cronJob('0 45 */6 * * *',function(){
   
   req.on('error', (e) => {
     console.error(`problem with request: ${e.message}`);
+    console.log(postData);
   });
   
   // write data to request body
