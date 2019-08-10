@@ -35,7 +35,7 @@ let cron_check_changelist= new cronJob('*/5 * * * * *',function(){
       //console.log($1);
       //console.log($2);
       changelists.unshift({
-        changelist  : Number(changelist),
+        changelist  : changelist,
         username    : username
       });
     });

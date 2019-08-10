@@ -12,7 +12,7 @@ module.exports = {
       type  : 'string'
     },
     changelists : {
-      type  : 'number'
+      type  : 'string'
     }
   },
 
@@ -27,16 +27,17 @@ module.exports = {
     sails.log(inputs);
     let changelists = JSON.parse(inputs.changelists);
     for(let i=0;i<changelists.length;i++){
+      let changelist = parseInt(changelists[i].changelist);
       let R = await Buffchangelists.findOne({
         treename  : inputs.kind,
-        changelist  : changelists[i].changelist
+        changelist  : changelist
       });
       if(R){
       }
       else{
         await Buffchangelists.create({
           treename  : inputs.kind,
-          changelist  : changelists[i].changelist,
+          changelist  : changelist,
           owner       : changelists[i].username,
           details     : 'NA',
           result      : 'NA',
