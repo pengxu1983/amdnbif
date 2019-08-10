@@ -1,6 +1,3 @@
-let agentslist  = await Agents.find({
-  id  : {'>=':0}
-});
 let index = 0;
 module.exports = {
 
@@ -30,6 +27,12 @@ module.exports = {
     sails.log('/changelist/upload');
     sails.log(inputs);
     let changelists = JSON.parse(inputs.changelists);
+    let agentslist  = await Agents.find(
+      where :{
+        id  : {'>=':0}
+      },
+      sort : 'agentID ASC'
+    );
     for(let i=0;i<changelists.length;i++){
       let changelist = parseInt(changelists[i].changelist);
       let R = await Buffchangelists.findOne({
@@ -48,6 +51,7 @@ module.exports = {
           ischecked   : 'no',
           agentID     : agentslist[index].agentID
         });
+        index++;
       }
     }
     return exits.success(JSON.stringify({
