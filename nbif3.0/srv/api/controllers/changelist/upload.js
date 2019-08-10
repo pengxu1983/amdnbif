@@ -1,3 +1,7 @@
+let agentslist  = await Agents.find({
+  id  : {'>=':0}
+});
+let index = 0;
 module.exports = {
 
 
@@ -42,7 +46,7 @@ module.exports = {
           details     : 'NA',
           result      : 'NA',
           ischecked   : 'no',
-          agentID     : 'NA'
+          agentID     : agentslist[index].agentID
         });
       }
     }
