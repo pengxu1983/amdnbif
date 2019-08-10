@@ -41,7 +41,8 @@ module.exports = {
           owner       : changelists[i].username,
           details     : 'NA',
           result      : 'NA',
-          ischecked   : 'no'
+          ischecked   : 'no',
+          agentID     : 'NA'
         });
       }
     }
