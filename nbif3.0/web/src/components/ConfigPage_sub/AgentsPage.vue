@@ -51,6 +51,7 @@
 </template>
 
 <script>
+let cronJob         = require("cron").CronJob;
 export default {
   name: 'AgentsPage',
   props: {
