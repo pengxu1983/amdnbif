@@ -52,6 +52,9 @@ module.exports = {
           agentID     : agentslist[index].agentID
         });
         index++;
+        if(index == agentslist.length){
+          index = 0;
+        }
       }
     }
     return exits.success(JSON.stringify({
