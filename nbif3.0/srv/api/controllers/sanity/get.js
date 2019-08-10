@@ -17,10 +17,14 @@ module.exports = {
   },
 
 
-  fn: async function (inputs) {
+  fn: async function (inputs,exits) {
+    sails.log('/sanity/get');
 
     // All done.
-    return;
+    return exits.success(JSON.stringify({
+      ok  : 'notok',
+      msg : 'no valid kind'
+    }));
 
   }
 

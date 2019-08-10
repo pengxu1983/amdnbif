@@ -1,3 +1,5 @@
+let agentnumber = 1;
+let agentID =0;
 module.exports = {
 
 
@@ -8,7 +10,12 @@ module.exports = {
 
 
   inputs: {
-
+    kind  : {
+      type  : 'string'
+    },
+    treename  : {
+      type  : 'string'
+    }
   },
 
 
@@ -17,10 +24,49 @@ module.exports = {
   },
 
 
-  fn: async function (inputs) {
-
+  fn: async function (inputs,exits) {
+    sails.log('/changelist/get');
+    sails.log(inputs);
+    if(inputs.kind  ==  'earliestunchecked'){
+      let earliestuncheckedCL;
+      let agentID;
+      let R = await Buffchangelists.find({
+        treename  : inputs.treename,
+        ischecked : 'no'
+      });
+      if(R.length == 0){
+        return exits.success(JSON.stringify({
+          ok  : 'notok',
+          msg : 'no valid changelist'
+        }));
+      }
+      else{
+        for(let i=0;i<R.length;i++){
+          if(i==0){
+            earliestuncheckedCL = R[i].changelist;
+          }
+          else{
+            if(earliestuncheckedCL > R[i].changelist){
+              earliestuncheckedCL = R[i].changelist;
+            }
+          }
+        }
+        await Buffchangelists.update({
+          changelist  : earliestuncheckedCL,
+          ischecked   : 'no'
+        },{
+          ischecked   : 'yes',
+          agent       : agentID,
+          result      : 'NA',
+          details     : 'NA'
+        });
+      }
+    }
     // All done.
-    return;
+    return exits.success(JSON.stringify({
+      ok  : 'notok',
+      msg : 'no valid kind'
+    }));
 
   }
 

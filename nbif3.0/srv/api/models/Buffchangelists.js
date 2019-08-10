@@ -31,6 +31,9 @@ module.exports = {
     },
     treename    : {
       type  : 'string'
+    },
+    agent       : {
+      type  :  'string'
     }
 
 
