@@ -13,7 +13,7 @@ module.exports = {
     //  ╠═╝╠╦╝║║║║║ ║ ║╚╗╔╝║╣ ╚═╗
     //  ╩  ╩╚═╩╩ ╩╩ ╩ ╩ ╚╝ ╚═╝╚═╝
     agentID : {
-      type  : 'number'
+      type  : 'string'
     },
     isbusy  : {
       type  : 'string'
