@@ -14,49 +14,22 @@
       <el-row>
       <el-table
         border
-        :data="variants"
+        :data="agents"
         style="width: 100%"
       >
         <el-table-column
           fixed
-          prop="variantname"
-          label="variant"
+          prop="agentID"
+          label="agentID"
         >
         <template slot-scope="scope">
-          <el-input v-model="scope.row.variantname"></el-input>
+          <el-input v-model="scope.row.agentID"></el-input>
         </template>
         </el-table-column>
         <el-table-column
-          prop="isSanity"
-          label="isSanity"
-          width="200"
+          prop="isbusy"
+          label="isbusy"
         >
-          <template slot-scope="scope">
-            <el-select v-model="scope.row.isSanity" clearable placeholder="yes or no">
-              <el-option
-                v-for="item in options"
-                :key="item"
-                :label="item"
-                :value="item">
-              </el-option>
-            </el-select>
-          </template>
-        </el-table-column>
-        <el-table-column
-          prop="isValid"
-          label="isValid"
-          width="200"
-        >
-          <template slot-scope="scope">
-            <el-select v-model="scope.row.isValid" clearable placeholder="yes or no">
-              <el-option
-                v-for="item in options"
-                :key="item"
-                :label="item"
-                :value="item">
-              </el-option>
-            </el-select>
-          </template>
         </el-table-column>
         <el-table-column
           fixed="right"
@@ -64,7 +37,7 @@
           width="200">
           <template slot-scope="scope">
             <el-button
-              @click.native.prevent="deleteRow(scope.$index, variants)"
+              @click.native.prevent="deleteRow(scope.$index, agents)"
               type="text"
               size="small">
               delete
@@ -79,16 +52,12 @@
 
 <script>
 export default {
-  name: 'VariantsPage',
+  name: 'AgentsPage',
   props: {
   },
   data() {
     return {
-      variants  : [],
-      options : [
-        'yes',
-        'no'
-      ]
+      agents : [],
     }
   },
   methods : {
@@ -96,16 +65,15 @@ export default {
       rows.splice(index, 1);
     },
     add (){
-      this.variants.unshift({
-        variantname : '',
-        isSanity    : 'no',
-        isValid     : 'yes'
+      this.agents.unshift({
+        agentID : '',
+        isbusy  : 'no'
       });
     },
     upload  (){
-      this.$http.post('/config/variants/upload',{
+      this.$http.post('/config/agents/upload',{
         kind  : 'all',
-        variants  : JSON.stringify(this.variants)
+        agents  : JSON.stringify(this.agents)
       }).then(
         function(response){
           if(response.body.ok ==  'ok'){
@@ -119,14 +87,14 @@ export default {
       );
     },
     get (){
-      //get variants
-      this.$http.post('/config/variants/get',{
+      //get agents
+      this.$http.post('/config/agents/get',{
         kind  : 'all'
       }).then(
         function(response){
           if(response.body.ok == 'ok'){
-            this.variants = JSON.parse(response.body.variants);
-            console.log('all variants successfully get from DB');
+            this.agents = JSON.parse(response.body.agents);
+            console.log('all agents successfully get from DB');
           }
           else{
           }
