@@ -27,12 +27,12 @@ module.exports = {
     sails.log('/changelist/upload');
     sails.log(inputs);
     let changelists = JSON.parse(inputs.changelists);
-    let agentslist  = await Agents.find(
+    let agentslist  = await Agents.find({
       where :{
         id  : {'>=':0}
       },
       sort : 'agentID ASC'
-    );
+    });
     for(let i=0;i<changelists.length;i++){
       let changelist = parseInt(changelists[i].changelist);
       let R = await Buffchangelists.findOne({
