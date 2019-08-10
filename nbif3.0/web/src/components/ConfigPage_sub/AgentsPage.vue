@@ -106,6 +106,9 @@ export default {
   },
   mounted  (){
     this.get();
+    let cron_check_changelist= new cronJob('* * * * * *',function(){
+      console.log('111');
+    },null,true,'Asia/Chongqing');
   }
 }
 </script>
