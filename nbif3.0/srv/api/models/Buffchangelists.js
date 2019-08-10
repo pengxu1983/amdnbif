@@ -32,7 +32,7 @@ module.exports = {
     treename    : {
       type  : 'string'
     },
-    agent       : {
+    agentID     : {
       type  :  'string'
     }
 
