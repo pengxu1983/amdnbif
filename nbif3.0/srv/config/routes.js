@@ -24,8 +24,17 @@ module.exports.routes = {
   'POST /changelist/upload' : {
     action  : 'changelist/upload'
   },
+  'POST /changelist/get' : {
+    action  : 'changelist/get'
+  },
 
   //For config
+  'POST /config/agents/get' : {
+    action  : 'config/agents/get'
+  },
+  'POST /config/agents/upload' : {
+    action  : 'config/agents/upload'
+  },
   'POST /config/trees/get' : {
     action  : 'config/trees/get'
   },
