@@ -33,6 +33,8 @@ module.exports = {
       },
       sort : 'agentID ASC'
     });
+    sails.log(agentslist);
+    sails.log(agentslist.length);
     for(let i=0;i<changelists.length;i++){
       let changelist = parseInt(changelists[i].changelist);
       let R = await Buffchangelists.findOne({
@@ -52,7 +54,9 @@ module.exports = {
           agentID     : agentslist[index].agentID
         });
         index++;
-        if(index == agentslist.length){
+        sails.log('index');
+        sails.log(index);
+        if(index >= agentslist.length){
           index = 0;
         }
       }
