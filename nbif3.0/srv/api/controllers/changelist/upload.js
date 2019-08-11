@@ -44,9 +44,9 @@ module.exports = {
       if(R){
       }
       else{
-        sails.log('index');
-        sails.log(index);
-        sails.log(agentslist[index].agentID);
+        //sails.log('index');
+        //sails.log(index);
+        //sails.log(agentslist[index].agentID);
         await Buffchangelists.create({
           branchname  : inputs.kind,
           changelist  : changelist,
