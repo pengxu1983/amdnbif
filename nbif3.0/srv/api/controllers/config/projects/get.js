@@ -42,6 +42,7 @@ module.exports = {
             milestones    : JSON.parse(R[r].milestones),
             hasBACO       : R[r].hasBACO,
             hasBAPU       : R[r].hasBAPU,
+            branchname    : R[r].branchname,
             ownerships    : [
               {
                 title : 'DVlead',
