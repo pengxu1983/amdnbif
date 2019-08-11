@@ -1,7 +1,7 @@
-const index = 0;
 module.exports = {
 
-
+  indexxxx  : 0,
+  
   friendlyName: 'Upload',
 
 
@@ -23,7 +23,7 @@ module.exports = {
   },
 
 
-  fn: async function (inputs,exits) {
+  fn: async function (inputs,exits,indexxxx) {
     sails.log('/changelist/upload');
     sails.log(inputs);
     let changelists = JSON.parse(inputs.changelists);
@@ -51,13 +51,13 @@ module.exports = {
           details     : 'NA',
           result      : 'NA',
           ischecked   : 'no',
-          agentID     : agentslist[index].agentID
+          agentID     : agentslist[indexxxx].agentID
         });
         sails.log('index');
-        sails.log(index);
-        index++;
-        if(index >= agentslist.length){
-          index = 0;
+        sails.log(indexxxx);
+        indexxxx++;
+        if(indexxxx >= agentslist.length){
+          indexxxx = 0;
         }
       }
     }
