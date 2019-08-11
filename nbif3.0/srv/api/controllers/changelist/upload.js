@@ -1,4 +1,4 @@
-let index = 0;
+const index = 0;
 module.exports = {
 
 
@@ -53,9 +53,9 @@ module.exports = {
           ischecked   : 'no',
           agentID     : agentslist[index].agentID
         });
-        index++;
         sails.log('index');
         sails.log(index);
+        index++;
         if(index >= agentslist.length){
           index = 0;
         }
