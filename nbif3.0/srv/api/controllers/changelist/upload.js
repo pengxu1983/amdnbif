@@ -1,6 +1,6 @@
+let index = 0;
 module.exports = {
 
-  indexxxx  : 0,
   
   friendlyName: 'Upload',
 
@@ -44,6 +44,9 @@ module.exports = {
       if(R){
       }
       else{
+        sails.log('index');
+        sails.log(index);
+        sails.log(agentslist[index].agentID);
         await Buffchangelists.create({
           branchname  : inputs.kind,
           changelist  : changelist,
@@ -51,13 +54,11 @@ module.exports = {
           details     : 'NA',
           result      : 'NA',
           ischecked   : 'no',
-          agentID     : agentslist[indexxxx].agentID
+          agentID     : agentslist[index].agentID
         });
-        sails.log('index');
-        sails.log(indexxxx);
-        indexxxx++;
-        if(indexxxx >= agentslist.length){
-          indexxxx = 0;
+        index++;
+        if(index>= agentslist.length){
+          index= 0;
         }
       }
     }
