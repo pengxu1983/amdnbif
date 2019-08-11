@@ -23,7 +23,7 @@ module.exports = {
   },
 
 
-  fn: async function (inputs,exits,indexxxx) {
+  fn: async function (inputs,exits) {
     sails.log('/changelist/upload');
     sails.log(inputs);
     let changelists = JSON.parse(inputs.changelists);
