@@ -15,6 +15,9 @@ module.exports = {
     },
     treename  : {
       type  : 'string'
+    },
+    agentID : {
+      type  : 'string'
     }
   },
 
@@ -32,7 +35,8 @@ module.exports = {
       let agentID;
       let R = await Buffchangelists.find({
         treename  : inputs.treename,
-        ischecked : 'no'
+        ischecked : 'no',
+        agentID   : inputs.agentID
       });
       if(R.length == 0){
         return exits.success(JSON.stringify({
@@ -53,10 +57,10 @@ module.exports = {
         }
         await Buffchangelists.update({
           changelist  : earliestuncheckedCL,
-          ischecked   : 'no'
+          treename    : inputs.treename
         },{
           ischecked   : 'yes',
-          agent       : agentID,
+          agentID     : agentID,
           result      : 'NA',
           details     : 'NA'
         });
