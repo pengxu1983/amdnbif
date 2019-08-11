@@ -9,7 +9,7 @@ var http            = require('http');
 var fs              = require('fs');
 var child_process   = require('child_process');
 var cronJob         = require("cron").CronJob;
-let treename        = 'main';
+let branchname      = 'main';
 //var workspace       = '/proj/cip_floyd_genz/benpeng';////MODIFY
 //let postQ           = [];
 //let postQlimit      = 20;////MODIFY
@@ -41,7 +41,7 @@ let cron_check_changelist= new cronJob('*/5 * * * * *',function(){
     });
   }
   let postData = querystring.stringify({
-    'kind': 'main',
+    'kind': branchname,
     'changelists'  : JSON.stringify(changelists),
   });
   
