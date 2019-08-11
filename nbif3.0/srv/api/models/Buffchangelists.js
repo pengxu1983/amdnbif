@@ -29,7 +29,7 @@ module.exports = {
     owner       : {
       type  : 'string'
     },
-    treename    : {
+    branchname  : {
       type  : 'string'
     },
     agentID     : {

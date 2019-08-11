@@ -1,5 +1,3 @@
-let agentnumber = 1;
-let agentID =0;
 module.exports = {
 
 
@@ -11,9 +9,6 @@ module.exports = {
 
   inputs: {
     kind  : {
-      type  : 'string'
-    },
-    treename  : {
       type  : 'string'
     },
     agentID : {
@@ -32,9 +27,8 @@ module.exports = {
     sails.log(inputs);
     if(inputs.kind  ==  'earliestunchecked'){
       let earliestuncheckedCL;
-      let agentID;
+      let treename;
       let R = await Buffchangelists.find({
-        treename  : inputs.treename,
         ischecked : 'no',
         agentID   : inputs.agentID
       });
@@ -48,23 +42,29 @@ module.exports = {
         for(let i=0;i<R.length;i++){
           if(i==0){
             earliestuncheckedCL = R[i].changelist;
+            treename      = R[i].treename;
           }
           else{
             if(earliestuncheckedCL > R[i].changelist){
               earliestuncheckedCL = R[i].changelist;
+              treename      = R[i].treename;
             }
           }
         }
         await Buffchangelists.update({
           changelist  : earliestuncheckedCL,
-          treename    : inputs.treename
+          agentID     : inputs.agentID
         },{
           ischecked   : 'yes',
-          agentID     : agentID,
           result      : 'NA',
           details     : 'NA'
         });
       }
+      return exits.success(JSON.stringify({
+        ok  : 'ok',
+        treename  : treename,
+        changelist  : earliestuncheckedCL
+      }));
     }
     // All done.
     return exits.success(JSON.stringify({
