@@ -153,6 +153,15 @@
             </template>
           </el-table-column>
           <el-table-column
+            prop="branchname"
+            label="branchname"
+            width="200"
+          >
+            <template slot-scope="scope">
+              <el-input v-model="scope.row.branchname"></el-input>
+            </template>
+          </el-table-column>
+          <el-table-column
             prop="ownerships"
             label="ownerships"
             width="600"
@@ -332,6 +341,7 @@ export default {
             integratetime : ''
           }
         ],
+        branchname  : 'main',
         ownerships  : [
           {
             title : 'PM',

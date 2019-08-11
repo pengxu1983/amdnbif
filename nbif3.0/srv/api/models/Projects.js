@@ -41,6 +41,9 @@ module.exports = {
     },
     hasBAPU       : {
       type        : 'string'
+    },
+    branchname    : {
+      type        : 'string'
     }
 
 

@@ -40,6 +40,7 @@ module.exports = {
           let DVlead;
           let DElead;
           let PM;
+          let branchname;
           for(let i =0;i<ownerships.length;i++){
             if(ownerships[i].title == 'DVlead'){
               DVlead  = ownerships[i].name
@@ -65,7 +66,8 @@ module.exports = {
                 milestones    : JSON.stringify(projects[p].milestones),
                 DVlead        : DVlead,
                 DElead        : DElead,
-                PM            : PM
+                PM            : PM,
+                branchname    : branchname
               });
             }
             else{
@@ -75,7 +77,8 @@ module.exports = {
                 milestones    : JSON.stringify(projects[p].milestones),
                 DVlead        : DVlead,
                 DElead        : DElead,
-                PM            : PM
+                PM            : PM,
+                branchname    : branchname
               });
             }
           }
