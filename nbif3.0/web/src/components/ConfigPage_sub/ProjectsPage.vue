@@ -86,7 +86,7 @@
             width="100"
           >
             <template slot-scope="scope">
-              <el-select v-model="scope.row.hasBAPU" placeholder="Yes or No">
+              <el-select v-model="scope.row.isValid" placeholder="Yes or No">
                 <el-option
                   v-for="item in options"
                   :key="item"
