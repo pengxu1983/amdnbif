@@ -43,6 +43,7 @@ module.exports = {
             hasBACO       : R[r].hasBACO,
             hasBAPU       : R[r].hasBAPU,
             branchname    : R[r].branchname,
+            isValid       : R[r].isValid,
             ownerships    : [
               {
                 title : 'DVlead',
