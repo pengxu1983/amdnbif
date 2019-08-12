@@ -41,7 +41,7 @@ module.exports = {
         ok  : 'ok',
         variants  : JSON.stringify(variants),
         projects  : JSON.stringify(projects),
-      });
+      }));
     }
     // All done.
     return exits.success(JSON.stringify({
