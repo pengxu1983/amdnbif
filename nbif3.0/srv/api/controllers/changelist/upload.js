@@ -33,8 +33,8 @@ module.exports = {
       },
       sort : 'agentID ASC'
     });
-    sails.log(agentslist);
-    sails.log(agentslist.length);
+    //sails.log(agentslist);
+    //sails.log(agentslist.length);
     for(let i=0;i<changelists.length;i++){
       let changelist = parseInt(changelists[i].changelist);
       let R = await Buffchangelists.findOne({
