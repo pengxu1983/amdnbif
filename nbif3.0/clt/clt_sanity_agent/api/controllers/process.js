@@ -20,8 +20,13 @@ let params        = function(CONF){
   }
   return configs;
 };
-
-////Get Info
+///////////////////////////////
+//
+//
+//          Get Info
+//
+//           start
+///////////////////////////////
 let cron_getinfo  = new cronJob('*/5 * * * * *',function(){
   cron_getinfo.stop();
   //send request to get infos
@@ -46,10 +51,12 @@ let cron_getinfo  = new cronJob('*/5 * * * * *',function(){
     //console.log(`HEADERS: ${JSON.stringify(res.headers)}`);
     res.setEncoding('utf8');
     res.on('data', (chunk) => {
-      console.log(`BODY: ${chunk}`);
+      //console.log(`BODY: ${chunk}`);
       let body = JSON.parse(chunk);
       if(body.ok  ==  'ok'){
         //next
+        console.log(body.variants);
+        console.log(body.projects);
       }
       else if(body.ok ==  'notok'){
         cron_getinfo.start();
@@ -68,6 +75,13 @@ let cron_getinfo  = new cronJob('*/5 * * * * *',function(){
   req.write(postData);
   req.end();
 },null,true,'Asia/Chongqing');
+///////////////////////////////
+//
+//
+//          Get Info
+//
+//            end
+///////////////////////////////
 module.exports = {
 
 
