@@ -29,7 +29,7 @@
             fixed
             prop="projectname"
             label="projectname"
-            width="200"
+            width="150"
           >
             <template slot-scope="scope">
               <el-input v-model="scope.row.projectname"></el-input>
@@ -38,7 +38,7 @@
           <el-table-column
             prop="validvariants"
             label="validvariants"
-            width="200"
+            width="150"
           >
             <template slot-scope="scope">
               <el-checkbox-group v-model="scope.row.validvariants" >
@@ -51,7 +51,7 @@
           <el-table-column
             prop="hasBACO"
             label="hasBACO"
-            width="200"
+            width="150"
           >
             <template slot-scope="scope">
               <el-select v-model="scope.row.hasBACO" placeholder="Yes or No">
@@ -67,7 +67,23 @@
           <el-table-column
             prop="hasBAPU"
             label="hasBAPU"
-            width="200"
+            width="150"
+          >
+            <template slot-scope="scope">
+              <el-select v-model="scope.row.hasBAPU" placeholder="Yes or No">
+                <el-option
+                  v-for="item in options"
+                  :key="item"
+                  :label="item"
+                  :value="item">
+                </el-option>
+              </el-select>
+            </template>
+          </el-table-column>
+          <el-table-column
+            prop="isValid"
+            label="isValid"
+            width="150"
           >
             <template slot-scope="scope">
               <el-select v-model="scope.row.hasBAPU" placeholder="Yes or No">
@@ -155,7 +171,7 @@
           <el-table-column
             prop="branchname"
             label="branchname"
-            width="200"
+            width="150"
           >
             <template slot-scope="scope">
               <el-input v-model="scope.row.branchname"></el-input>
@@ -204,7 +220,7 @@
           <el-table-column
             fixed="right"
             label="operation"
-            width="200">
+            width="100">
             <template slot-scope="scope">
               <el-button
                 @click.native.prevent="deleteRow(scope.$index, projects)"
