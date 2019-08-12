@@ -35,12 +35,15 @@ module.exports = {
       }
       else{
         for(let p = 0;p<projects.length;p++){
-          sails.log(typeof(projects[p].ownerships));
+          //sails.log(typeof(projects[p].ownerships));
+          sails.log('dbg');
+          sails.log(projects[p].isValid);
           let ownerships = projects[p].ownerships;
           let DVlead;
           let DElead;
           let PM;
-          let branchname;
+          let branchname = projects[p].branchname;
+          let isValid    = projects[p].isValid;
           for(let i =0;i<ownerships.length;i++){
             if(ownerships[i].title == 'DVlead'){
               DVlead  = ownerships[i].name
@@ -67,7 +70,8 @@ module.exports = {
                 DVlead        : DVlead,
                 DElead        : DElead,
                 PM            : PM,
-                branchname    : branchname
+                branchname    : branchname,
+                isValid       : isValid
               });
             }
             else{
@@ -78,7 +82,8 @@ module.exports = {
                 DVlead        : DVlead,
                 DElead        : DElead,
                 PM            : PM,
-                branchname    : branchname
+                branchname    : branchname,
+                isValid       : isValid
               });
             }
           }
