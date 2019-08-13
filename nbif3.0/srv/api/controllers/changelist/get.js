@@ -59,6 +59,11 @@ module.exports = {
           result      : 'NA',
           details     : 'NA'
         });
+        await Agents.update({
+          agentID : inputs.agentID
+        },{
+          isbusy  : 'yes'
+        });
       }
       return exits.success(JSON.stringify({
         ok  : 'ok',

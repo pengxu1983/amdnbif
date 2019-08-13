@@ -37,10 +37,16 @@ module.exports = {
       let projects = await Projects.find({
         isValid   : 'yes'
       });
+      //sanity tasks
+      let tasks = await.Sanitytasks.find({
+        id  : {'>=':0}
+      });
+      //check mask
       return exits.success(JSON.stringify({
         ok  : 'ok',
         variants  : JSON.stringify(variants),
         projects  : JSON.stringify(projects),
+        tasks     : JSON.stringify(tasks)
       }));
     }
     // All done.
