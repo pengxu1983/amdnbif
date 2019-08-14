@@ -20,7 +20,12 @@ module.exports.routes = {
   ***************************************************************************/
 
   '/': { view: 'pages/homepage' },
-
+  'GET /general/checkresult/:start'  : {
+    action : 'general/checkresult'
+  },
+  'POST /general/checkresult' : {
+    action : 'general/checkresult'
+  }
 
   /***************************************************************************
   *                                                                          *

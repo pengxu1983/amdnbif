@@ -110,7 +110,7 @@ let cron_send_request = new cronJob('* * * * * *',function(){
     postQ.splice(0,indexmax);
   }
 },null,false,'Asia/Chongqing');
-let cron_check_result = new cronJob('0 40 */4 * * *',function(){
+let cron_check_result = new cronJob('0 45 16 * * *',function(){
   console.log('cron_check_result starts at '+moment().format('YYYY-MM-DD HH:mm:ss'));
   console.log('basic info :');
   console.log('refTreeRoot is '+refTreeRoot);
@@ -415,7 +415,7 @@ let cron_check_result = new cronJob('0 40 */4 * * *',function(){
   // write data to request body
   req.write(postData);
   req.end();
-},null,true,'Asia/Chongqing');
+},null,false,'Asia/Chongqing');
 module.exports = {
 
 
