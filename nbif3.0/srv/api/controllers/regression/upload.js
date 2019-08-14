@@ -25,7 +25,30 @@ module.exports = {
     },
     oneRegression : {
       type  : 'string'
-    }
+    },
+    isBAPU     :  {
+      type  : 'string'
+    },
+    projectname:  {
+      type  : 'string'
+    },
+    variantname:  {
+      type  : 'string'
+    },
+    changelist :  {
+      type  : 'string'
+    },
+    kickoffdate:  {
+      type  : 'string'
+    },
+    shelve     :  {
+      type  : 'string'
+    },
+
+
+
+
+
   },
 
 
@@ -124,80 +147,6 @@ module.exports = {
           });
           sails.log('create '+ testname);
         }
-        //groups DB update
-        let R = await Groups.findOne({
-          groupname   : groupname,
-          isBAPU      : isBAPU,
-          projectname : projectname,
-          variantname : variantname
-        });
-        if(R){
-        }
-        else{
-          await Groups.create({
-            groupname   : groupname,
-            isBAPU      : isBAPU,
-            projectname : projectname,
-            variantname : variantname
-          });
-        }
-        //summary DB update
-        R = await Regressionsummary0001.findOne({
-          groupname   : groupname,
-          isBAPU      : isBAPU,
-          projectname : projectname,
-          variantname : variantname,
-          changelist  : changelist,
-          kickoffdate : kickoffdate,
-          shelve      : shelve
-        });
-        if(R){
-        }
-        else{
-          await Regressionsummary0001.create({
-            groupname   : groupname,
-            isBAPU      : isBAPU,
-            projectname : projectname,
-            variantname : variantname,
-            changelist  : changelist,
-            kickoffdate : kickoffdate,
-            shelve      : shelve,
-            testlist    : JSON.stringify([]),
-            passlist    : JSON.stringify([]),
-            faillist    : JSON.stringify([]),
-            runninglist : JSON.stringify([]),
-            unknownlist : JSON.stringify([]),
-            passrate    : 0
-          });
-        }
-        R = await Regressionsummary0001.findOne({
-          groupname   : 'all',
-          isBAPU      : isBAPU,
-          projectname : projectname,
-          variantname : variantname,
-          changelist  : changelist,
-          kickoffdate : kickoffdate,
-          shelve      : shelve
-        });
-        if(R){
-        }
-        else{
-          await Regressionsummary0001.create({
-            groupname   : 'all',
-            isBAPU      : isBAPU,
-            projectname : projectname,
-            variantname : variantname,
-            changelist  : changelist,
-            kickoffdate : kickoffdate,
-            shelve      : shelve,
-            testlist    : JSON.stringify([]),
-            passlist    : JSON.stringify([]),
-            faillist    : JSON.stringify([]),
-            runninglist : JSON.stringify([]),
-            unknownlist : JSON.stringify([]),
-            passrate    : 0
-          });
-        }
       }
       ///////////////////////////////////////
       //For 0002 Now is mero
@@ -264,81 +213,106 @@ module.exports = {
           });
           sails.log('create '+ testname);
         }
-        //groups DB update
-        let R = await Groups.findOne({
-          groupname   : groupname,
-          isBAPU      : isBAPU,
-          projectname : projectname,
-          variantname : variantname
-        });
-        if(R){
-        }
-        else{
-          await Groups.create({
-            groupname   : groupname,
-            isBAPU      : isBAPU,
-            projectname : projectname,
-            variantname : variantname
-          });
-        }
-        //summary DB update
-        R = await Regressionsummary0002.findOne({
-          groupname   : groupname,
-          isBAPU      : isBAPU,
-          projectname : projectname,
-          variantname : variantname,
-          changelist  : changelist,
-          kickoffdate : kickoffdate,
-          shelve      : shelve
-        });
-        if(R){
-        }
-        else{
-          await Regressionsummary0002.create({
-            groupname   : groupname,
-            isBAPU      : isBAPU,
-            projectname : projectname,
-            variantname : variantname,
-            changelist  : changelist,
-            kickoffdate : kickoffdate,
-            shelve      : shelve,
-            testlist    : JSON.stringify([]),
-            passlist    : JSON.stringify([]),
-            faillist    : JSON.stringify([]),
-            runninglist : JSON.stringify([]),
-            unknownlist : JSON.stringify([]),
-            passrate    : 0
-          });
-        }
-        R = await Regressionsummary0002.findOne({
-          groupname   : 'all',
-          isBAPU      : isBAPU,
-          projectname : projectname,
-          variantname : variantname,
-          changelist  : changelist,
-          kickoffdate : kickoffdate,
-          shelve      : shelve
-        });
-        if(R){
-        }
-        else{
-          await Regressionsummary0002.create({
-            groupname   : 'all',
-            isBAPU      : isBAPU,
-            projectname : projectname,
-            variantname : variantname,
-            changelist  : changelist,
-            kickoffdate : kickoffdate,
-            shelve      : shelve,
-            testlist    : JSON.stringify([]),
-            passlist    : JSON.stringify([]),
-            faillist    : JSON.stringify([]),
-            runninglist : JSON.stringify([]),
-            unknownlist : JSON.stringify([]),
-            passrate    : 0
-          });
+      }
+    }
+    if(inputs.kind  ==  'oneregression'){
+      let grouplist = JSON.parse(inputs.grouplist);
+      if(grouplist.length ==  0){
+        return exits.success(JSON.stringify({
+          ok  : 'notok',
+          msg : 'no groups found'
+        }));
+      }
+      else{
+        for(let i=0;i<grouplist.length;i++){
+          //groups update to DB
+          if(grouplist[i] ==  'all'){
+            //ignore
+          }
+          else{
+            let R = await Groups.findOne({
+              groupname   : groupname,
+              isBAPU      : isBAPU,
+              projectname : projectname,
+              variantname : variantname
+            });
+            if(R){
+            }
+            else{
+              await Groups.create({
+                groupname   : groupname,
+                isBAPU      : isBAPU,
+                projectname : projectname,
+                variantname : variantname
+              });
+            }
+          }
+          //summary update to DB
+          if(inputs.projectname ==  'mi200'){
+            R = await Regressionsummary0001.findOne({
+              groupname   : grouplist[i],
+              isBAPU      : inputs.isBAPU,
+              projectname : inputs.projectname,
+              variantname : inputs.variantname,
+              changelist  : inputs.changelist,
+              kickoffdate : inputs.kickoffdate,
+              shelve      : inputs.shelve
+            });
+            if(R){
+            }
+            else{
+              await Regressionsummary0001.create({
+                groupname   : grouplist[i],
+                isBAPU      : inputs.isBAPU,
+                projectname : inputs.projectname,
+                variantname : inputs.variantname,
+                changelist  : inputs.changelist,
+                kickoffdate : inputs.kickoffdate,
+                shelve      : inputs.shelve,
+                testlist    : JSON.stringify([]),
+                passlist    : JSON.stringify([]),
+                faillist    : JSON.stringify([]),
+                runninglist : JSON.stringify([]),
+                unknownlist : JSON.stringify([]),
+                passrate    : 0
+              });
+            }
+          }
+          else if(inputs.projectname  ==  'mero'){
+            R = await Regressionsummary0002.findOne({
+              groupname   : grouplist[i],
+              isBAPU      : inputs.isBAPU,
+              projectname : inputs.projectname,
+              variantname : inputs.variantname,
+              changelist  : inputs.changelist,
+              kickoffdate : inputs.kickoffdate,
+              shelve      : inputs.shelve
+            });
+            if(R){
+            }
+            else{
+              await Regressionsummary0002.create({
+                groupname   : grouplist[i],
+                isBAPU      : inputs.isBAPU,
+                projectname : inputs.projectname,
+                variantname : inputs.variantname,
+                changelist  : inputs.changelist,
+                kickoffdate : inputs.kickoffdate,
+                shelve      : inputs.shelve,
+                testlist    : JSON.stringify([]),
+                passlist    : JSON.stringify([]),
+                faillist    : JSON.stringify([]),
+                runninglist : JSON.stringify([]),
+                unknownlist : JSON.stringify([]),
+                passrate    : 0
+              });
+            }
+          }
         }
       }
+      return  exits.success(JSON.stringify({
+        ok  : 'ok'
+      }));
     }
     return exits.success(JSON.stringify({
       ok  : 'notok',

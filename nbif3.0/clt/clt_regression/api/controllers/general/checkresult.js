@@ -90,7 +90,7 @@ module.exports = {
         ///////////
         let oneregTreeRoot  = regTreeRootList[onetree];
         console.log('tree : '+oneregTreeRoot);
-        //let grouplist = [];
+        let grouplist = [];
         let testResult= {};
         let treeInfo  = {};
         //treeinfo get
@@ -175,9 +175,9 @@ module.exports = {
               else if(regx06.test(lines[l])){
                 lines[l].replace(regx06,function(rs,$1){
                   testResult[testname]['groupname'] = $1;
-                  //if(grouplist.indexOf($1) == -1){
-                  //  grouplist.push($1);
-                  //}
+                  if(grouplist.indexOf($1) == -1){
+                    grouplist.push($1);
+                  }
                   console.log('groupname');
                   console.log($1);
                 });
@@ -214,152 +214,24 @@ module.exports = {
           console.log('invalid tree!!!');
           continue;
         }
-        //----end----
-        for(let testName in testResult){
-          console.log(' checking ...'+testName);
-          testResult[testName]['result']      = 'UNKNOWN';
-          testResult[testName]['signature']   = 'NA';
-          testResult[testName]['seed']        = 'NA';
-          testResult[testName]['runtime']     = 'NA';
-          if(fs.existsSync(testResult[testName]['run_out_path']+'/REGRESS_PASS')){
-            testResult[testName]['result']      = 'PASS';
-          }
-          else if(fs.existsSync(testResult[testName]['run_out_path']+'/vcs_run.log')){
-            let R =child_process.execSync(workspace+'/amdnbif/nbif3.0/clt/clt_regression/tools/processSimLog.pl '+testResult[testName]['run_out_path']+'/vcs_run.log',{//MODIFY
-              encoding  : 'utf8',
-              maxBuffer : 1024*1024*100
-            });
-            let RR = R.split('\n');
-            testResult[testName]['seed']       = RR[0];
-            testResult[testName]['result']     = RR[1];
-            testResult[testName]['signature']  = RR[2];
-            if((testResult[testName]['seed'] != 'NA') && (testResult[testName]['signature'] == 'NA')){
-              testResult[testName]['result']  = 'RUNNING';
-            }
-          }
-          await dly(500);
-          let postData = querystring.stringify({
-            'kind'          : 'onecase',
-            'oneTestResult' : JSON.stringify({
-              testname      : testName,
-              kickoffdate   : testResult[testName]['kickoffdate'],
-              variantname   : testResult[testName]['variantname'],
-              changelist    : testResult[testName]['changelist'],
-              projectname   : testResult[testName]['projectname'],
-              result        : testResult[testName]['result'],
-              seed          : testResult[testName]['seed'],
-              signature     : testResult[testName]['signature'],
-              suite         : testResult[testName]['suite'],
-              shelve        : testResult[testName]['shelve'],
-              isBAPU        : testResult[testName]['isBAPU'],
-              groupname     : testResult[testName]['groupname']
-            })
-          });
-          
-          let options = {
-            hostname: 'amdnbif3.thehunters.club',
-            port: 80,
-            path: '/regression/upload',
-            method: 'POST',
-            headers: {
-              'Content-Type': 'application/x-www-form-urlencoded',
-              'Content-Length': Buffer.byteLength(postData)
-            }
-          };
-          
-          let req = http.request(options, (res) => {
-            //console.log(`STATUS: ${res.statusCode}`);
-            //console.log(`HEADERS: ${JSON.stringify(res.headers)}`);
-            res.setEncoding('utf8');
-            res.on('data', (chunk) => {
-              //console.log(`BODY: ${chunk}`);
-            });
-            res.on('end', () => {
-              //console.log('No more data in response.');
-            });
-          });
-          
-          req.on('error', (e) => {
-            console.error(`problem with request: ${e.message}`);
-            console.log(postData);
-          });
-          
-          // write data to request body
-          req.write(postData);
-          req.end();
-          //let R = mergedgrouplist;
-          //if(R.length == 0){
-          //  mergedgrouplist.push({
-          //    groupname   : testResult[testName]['groupname'],
-          //    isBAPU      : testResult[testName]['isBAPU'],
-          //    projectname : testResult[testName]['projectname'],
-          //    variantname : testResult[testName]['variantname'],
-          //    kickoffdate : testResult[testName]['kickoffdate'],
-          //    changelist  : testResult[testName]['changelist'],
-          //    shelve      : testResult[testName]['shelve']
-          //  });
-          //}
-          //else{
-          //  let flag = 1;
-          //  for(let g=0;g<R.length;g++){
-          //    if(
-          //      (R[g].groupname   == testResult[testName]['groupname']  ) &&
-          //      (R[g].isBAPU      == testResult[testName]['isBAPU']     ) &&
-          //      (R[g].variantname == testResult[testName]['variantname']) &&
-          //      (R[g].projectname == testResult[testName]['projectname']) &&
-          //      (R[g].kickoffdate == testResult[testName]['kickoffdate']) &&
-          //      (R[g].changelist  == testResult[testName]['changelist'])  &&
-          //      (R[g].shelve      == testResult[testName]['shelve'])
-          //    ){
-          //      flag = 0;
-          //    }
-          //  }
-          //  if(flag ==  1){
-          //    mergedgrouplist.push({
-          //      groupname   : testResult[testName]['groupname'],
-          //      isBAPU      : testResult[testName]['isBAPU'],
-          //      projectname : testResult[testName]['projectname'],
-          //      variantname : testResult[testName]['variantname'],
-          //      kickoffdate : testResult[testName]['kickoffdate'],
-          //      changelist  : testResult[testName]['changelist'],
-          //      shelve      : testResult[testName]['shelve']
-          //    });
-          //  }
-          //}
-          //postQ.push({
-          //  'kind'          : 'onecase',
-          //  'oneTestResult' : JSON.stringify({
-          //    testname      : testName,
-          //    kickoffdate   : testResult[testName]['kickoffdate'],
-          //    variantname   : testResult[testName]['variantname'],
-          //    changelist    : testResult[testName]['changelist'],
-          //    projectname   : testResult[testName]['projectname'],
-          //    result        : testResult[testName]['result'],
-          //    seed          : testResult[testName]['seed'],
-          //    signature     : testResult[testName]['signature'],
-          //    suite         : testResult[testName]['suite'],
-          //    shelve        : testResult[testName]['shelve'],
-          //    isBAPU        : testResult[testName]['isBAPU'],
-          //    groupname     : testResult[testName]['groupname']
-          //  })
-          //});
-        }
-        await dly(500);
-        console.log('current treeInfo is');
-        console.log(treeInfo);
+        console.log(grouplist);
+        console.log(grouplist.length);
+        grouplist.push('all');
         let postData = querystring.stringify({
-          projectname : treeInfo['projectname'],
-          variantname : treeInfo['variantname'],
-          isBAPU      : treeInfo['isBAPU'],     
-          kickoffdate : treeInfo['kickoffdate'],
-          changelist  : treeInfo['changelist'], 
-          shelve      : treeInfo['shelve'],     
+          'kind'        : 'oneregression',
+          'kickoffdate' : treeInfo['kickoffdate'];
+          'variantname' : treeInfo['variantname'];
+          //'changelist'  : treeInfo['changelist'];
+          'projectname' : treeInfo['projectname'];
+          'shelve'      : treeInfo['shelve'];
+          'isBAPU'      : treeInfo['isBAPU'];
+          'grouplist'   : JSON.stringify(grouplist)
         });
         
         let options = {
           hostname: 'amdnbif3.thehunters.club',
           port: 80,
-          path: '/regression/summary',
+          path: '/regression/upload',
           method: 'POST',
           headers: {
             'Content-Type': 'application/x-www-form-urlencoded',
@@ -372,22 +244,144 @@ module.exports = {
           //console.log(`HEADERS: ${JSON.stringify(res.headers)}`);
           res.setEncoding('utf8');
           res.on('data', (chunk) => {
-            //console.log(`BODY: ${chunk}`);
+            console.log(`BODY: ${chunk}`);
+            let body  = JSON.parse(chunk);
+            if(body.ok  ==  'ok'){
+              // start checking
+              for(let testName in testResult){
+                console.log(' checking ...'+testName);
+                testResult[testName]['result']      = 'UNKNOWN';
+                testResult[testName]['signature']   = 'NA';
+                testResult[testName]['seed']        = 'NA';
+                testResult[testName]['runtime']     = 'NA';
+                if(fs.existsSync(testResult[testName]['run_out_path']+'/REGRESS_PASS')){
+                  testResult[testName]['result']      = 'PASS';
+                }
+                else if(fs.existsSync(testResult[testName]['run_out_path']+'/vcs_run.log')){
+                  let R =child_process.execSync(workspace+'/amdnbif/nbif3.0/clt/clt_regression/tools/processSimLog.pl '+testResult[testName]['run_out_path']+'/vcs_run.log',{//MODIFY
+                    encoding  : 'utf8',
+                    maxBuffer : 1024*1024*100
+                  });
+                  let RR = R.split('\n');
+                  testResult[testName]['seed']       = RR[0];
+                  testResult[testName]['result']     = RR[1];
+                  testResult[testName]['signature']  = RR[2];
+                  if((testResult[testName]['seed'] != 'NA') && (testResult[testName]['signature'] == 'NA')){
+                    testResult[testName]['result']  = 'RUNNING';
+                  }
+                }
+                await dly(500);
+                let postData = querystring.stringify({
+                  'kind'          : 'onecase',
+                  'oneTestResult' : JSON.stringify({
+                    testname      : testName,
+                    kickoffdate   : testResult[testName]['kickoffdate'],
+                    variantname   : testResult[testName]['variantname'],
+                    changelist    : testResult[testName]['changelist'],
+                    projectname   : testResult[testName]['projectname'],
+                    result        : testResult[testName]['result'],
+                    seed          : testResult[testName]['seed'],
+                    signature     : testResult[testName]['signature'],
+                    suite         : testResult[testName]['suite'],
+                    shelve        : testResult[testName]['shelve'],
+                    isBAPU        : testResult[testName]['isBAPU'],
+                    groupname     : testResult[testName]['groupname']
+                  })
+                });
+                
+                let options = {
+                  hostname: 'amdnbif3.thehunters.club',
+                  port: 80,
+                  path: '/regression/upload',
+                  method: 'POST',
+                  headers: {
+                    'Content-Type': 'application/x-www-form-urlencoded',
+                    'Content-Length': Buffer.byteLength(postData)
+                  }
+                };
+                
+                let req = http.request(options, (res) => {
+                  //console.log(`STATUS: ${res.statusCode}`);
+                  //console.log(`HEADERS: ${JSON.stringify(res.headers)}`);
+                  res.setEncoding('utf8');
+                  res.on('data', (chunk) => {
+                    //console.log(`BODY: ${chunk}`);
+                  });
+                  res.on('end', () => {
+                    //console.log('No more data in response.');
+                  });
+                });
+                
+                req.on('error', (e) => {
+                  console.error(`problem with request: ${e.message}`);
+                  console.log(postData);
+                });
+                
+                // write data to request body
+                req.write(postData);
+                req.end();
+              }
+              await dly(500);
+              console.log('current treeInfo is');
+              console.log(treeInfo);
+              let postData = querystring.stringify({
+                projectname : treeInfo['projectname'],
+                variantname : treeInfo['variantname'],
+                isBAPU      : treeInfo['isBAPU'],     
+                kickoffdate : treeInfo['kickoffdate'],
+                changelist  : treeInfo['changelist'], 
+                shelve      : treeInfo['shelve'],     
+              });
+              
+              let options = {
+                hostname: 'amdnbif3.thehunters.club',
+                port: 80,
+                path: '/regression/summary',
+                method: 'POST',
+                headers: {
+                  'Content-Type': 'application/x-www-form-urlencoded',
+                  'Content-Length': Buffer.byteLength(postData)
+                }
+              };
+              
+              let req = http.request(options, (res) => {
+                //console.log(`STATUS: ${res.statusCode}`);
+                //console.log(`HEADERS: ${JSON.stringify(res.headers)}`);
+                res.setEncoding('utf8');
+                res.on('data', (chunk) => {
+                  //console.log(`BODY: ${chunk}`);
+                });
+                res.on('end', () => {
+                  //console.log('No more data in response.');
+                  console.log('summary DONE');
+                });
+              });
+              
+              req.on('error', (e) => {
+                console.error(`problem with request: ${e.message}`);
+                console.log(postData);
+              });
+              
+              // write data to request body
+              req.write(postData);
+              req.end();
+            }
           });
           res.on('end', () => {
-            //console.log('No more data in response.');
-            console.log('summary DONE');
+            console.log('No more data in response.');
           });
         });
         
         req.on('error', (e) => {
           console.error(`problem with request: ${e.message}`);
-          console.log(postData);
         });
         
         // write data to request body
         req.write(postData);
         req.end();
+        
+
+        //----end----
       } //for one tree done
 
 
