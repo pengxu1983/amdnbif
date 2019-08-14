@@ -42,12 +42,6 @@ module.exports = {
     }
     //=============================================//
     //========For onecase info=====================//
-    //========For onecase info=====================//
-    //========For onecase info=====================//
-    //========For onecase info=====================//
-    //========For onecase info=====================//
-    //========For onecase info=====================//
-    //========For onecase info=====================//
     //=============================================//
     if(inputs.kind  == 'onecase'){
       let oneTestResult = JSON.parse(inputs.oneTestResult);
@@ -170,6 +164,7 @@ module.exports = {
             shelve      : shelve,
             testlist    : JSON.stringify([]),
             passlist    : JSON.stringify([]),
+            faillist    : JSON.stringify([]),
             runninglist : JSON.stringify([]),
             unknownlist : JSON.stringify([]),
             passrate    : 0
@@ -197,6 +192,7 @@ module.exports = {
             shelve      : shelve,
             testlist    : JSON.stringify([]),
             passlist    : JSON.stringify([]),
+            faillist    : JSON.stringify([]),
             runninglist : JSON.stringify([]),
             unknownlist : JSON.stringify([]),
             passrate    : 0
@@ -308,6 +304,7 @@ module.exports = {
             shelve      : shelve,
             testlist    : JSON.stringify([]),
             passlist    : JSON.stringify([]),
+            faillist    : JSON.stringify([]),
             runninglist : JSON.stringify([]),
             unknownlist : JSON.stringify([]),
             passrate    : 0
@@ -335,151 +332,13 @@ module.exports = {
             shelve      : shelve,
             testlist    : JSON.stringify([]),
             passlist    : JSON.stringify([]),
+            faillist    : JSON.stringify([]),
             runninglist : JSON.stringify([]),
             unknownlist : JSON.stringify([]),
             passrate    : 0
           });
         }
       }
-    }
-    else if(inputs.kind ==  'oneregression'){
-      let oneRegression = JSON.parse(inputs.oneRegression);
-      let mergedgrouplist = oneRegression.mergedgrouplist;
-      sails.log(typeof(mergedgrouplist));
-      for(let i = 0;i<mergedgrouplist.length;i++){
-        let R = await Groups.findOne({
-          groupname   : mergedgrouplist[i].groupname,
-          isBAPU      : mergedgrouplist[i].isBAPU,
-          projectname : mergedgrouplist[i].projectname,
-          variantname : mergedgrouplist[i].variantname
-        });
-        if(R){
-        }
-        else{
-          await Groups.create({
-            groupname   : mergedgrouplist[i].groupname,
-            isBAPU      : mergedgrouplist[i].isBAPU,
-            projectname : mergedgrouplist[i].projectname,
-            variantname : mergedgrouplist[i].variantname
-          });
-        }
-        if(mergedgrouplist[i].projectname ==  'mi200'){
-          let R = await Regressionsummary0001.findOne({
-            groupname   : mergedgrouplist[i].groupname,
-            isBAPU      : mergedgrouplist[i].isBAPU,
-            projectname : mergedgrouplist[i].projectname,
-            variantname : mergedgrouplist[i].variantname,
-            changelist  : mergedgrouplist[i].changelist,
-            kickoffdate : mergedgrouplist[i].kickoffdate,
-            shelve      : mergedgrouplist[i].shelve
-          });
-          if(R){
-          }
-          else{
-            await Regressionsummary0001.create({
-              groupname   : mergedgrouplist[i].groupname,
-              isBAPU      : mergedgrouplist[i].isBAPU,
-              projectname : mergedgrouplist[i].projectname,
-              variantname : mergedgrouplist[i].variantname,
-              changelist  : mergedgrouplist[i].changelist,
-              kickoffdate : mergedgrouplist[i].kickoffdate,
-              shelve      : mergedgrouplist[i].shelve,
-              testlist    : JSON.stringify([]),
-              passlist    : JSON.stringify([]),
-              runninglist : JSON.stringify([]),
-              unknownlist : JSON.stringify([]),
-              passrate    : 0
-            });
-          }
-          R = await Regressionsummary0001.findOne({
-            groupname   : 'all',
-            isBAPU      : mergedgrouplist[i].isBAPU,
-            projectname : mergedgrouplist[i].projectname,
-            variantname : mergedgrouplist[i].variantname,
-            changelist  : mergedgrouplist[i].changelist,
-            kickoffdate : mergedgrouplist[i].kickoffdate,
-            shelve      : mergedgrouplist[i].shelve
-          });
-          if(R){
-          }
-          else{
-            await Regressionsummary0001.create({
-              groupname   : 'all',
-              isBAPU      : mergedgrouplist[i].isBAPU,
-              projectname : mergedgrouplist[i].projectname,
-              variantname : mergedgrouplist[i].variantname,
-              changelist  : mergedgrouplist[i].changelist,
-              kickoffdate : mergedgrouplist[i].kickoffdate,
-              shelve      : mergedgrouplist[i].shelve,
-              testlist    : JSON.stringify([]),
-              passlist    : JSON.stringify([]),
-              runninglist : JSON.stringify([]),
-              unknownlist : JSON.stringify([]),
-              passrate    : 0
-            });
-          }
-        }
-        if(mergedgrouplist[i].projectname ==  'mero'){
-          let R = await Regressionsummary0002.findOne({
-            groupname   : mergedgrouplist[i].groupname,
-            isBAPU      : mergedgrouplist[i].isBAPU,
-            projectname : mergedgrouplist[i].projectname,
-            variantname : mergedgrouplist[i].variantname,
-            changelist  : mergedgrouplist[i].changelist,
-            kickoffdate : mergedgrouplist[i].kickoffdate,
-            shelve      : mergedgrouplist[i].shelve
-          });
-          if(R){
-          }
-          else{
-            await Regressionsummary0002.create({
-              groupname   : mergedgrouplist[i].groupname,
-              isBAPU      : mergedgrouplist[i].isBAPU,
-              projectname : mergedgrouplist[i].projectname,
-              variantname : mergedgrouplist[i].variantname,
-              changelist  : mergedgrouplist[i].changelist,
-              kickoffdate : mergedgrouplist[i].kickoffdate,
-              shelve      : mergedgrouplist[i].shelve,
-              testlist    : JSON.stringify([]),
-              passlist    : JSON.stringify([]),
-              runninglist : JSON.stringify([]),
-              unknownlist : JSON.stringify([]),
-              passrate    : 0
-            });
-          }
-          R = await Regressionsummary0002.findOne({
-            groupname   : 'all',
-            isBAPU      : mergedgrouplist[i].isBAPU,
-            projectname : mergedgrouplist[i].projectname,
-            variantname : mergedgrouplist[i].variantname,
-            changelist  : mergedgrouplist[i].changelist,
-            kickoffdate : mergedgrouplist[i].kickoffdate,
-            shelve      : mergedgrouplist[i].shelve
-          });
-          if(R){
-          }
-          else{
-            await Regressionsummary0002.create({
-              groupname   : 'all',
-              isBAPU      : mergedgrouplist[i].isBAPU,
-              projectname : mergedgrouplist[i].projectname,
-              variantname : mergedgrouplist[i].variantname,
-              changelist  : mergedgrouplist[i].changelist,
-              kickoffdate : mergedgrouplist[i].kickoffdate,
-              shelve      : mergedgrouplist[i].shelve,
-              testlist    : JSON.stringify([]),
-              passlist    : JSON.stringify([]),
-              runninglist : JSON.stringify([]),
-              unknownlist : JSON.stringify([]),
-              passrate    : 0
-            });
-          }
-        }
-      }
-      return exits.success(JSON.stringify({
-        ok  : 'ok',
-        msg : 'group info done'
-      }));
     }
     return exits.success(JSON.stringify({
       ok  : 'notok',
