@@ -221,7 +221,7 @@ module.exports = {
           'kind'        : 'oneregression',
           'kickoffdate' : treeInfo['kickoffdate'],
           'variantname' : treeInfo['variantname'],
-          //'changelist'  : treeInfo['changelist'],
+          'changelist'  : treeInfo['changelist'],
           'projectname' : treeInfo['projectname'],
           'shelve'      : treeInfo['shelve'],
           'isBAPU'      : treeInfo['isBAPU'],
