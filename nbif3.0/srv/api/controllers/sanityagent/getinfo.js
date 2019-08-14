@@ -38,7 +38,7 @@ module.exports = {
         isValid   : 'yes'
       });
       //sanity tasks
-      let tasks = await.Sanitytasks.find({
+      let tasks = await Sanitytasks.find({
         id  : {'>=':0}
       });
       //check mask
