@@ -234,10 +234,10 @@ module.exports = {
           }
           else{
             let R = await Groups.findOne({
-              groupname   : groupname,
-              isBAPU      : isBAPU,
-              projectname : projectname,
-              variantname : variantname
+              groupname   : grouplist[i],
+              isBAPU      : inputs.isBAPU,
+              projectname : inputs.projectname,
+              variantname : inputs.variantname
             });
             if(R){
             }
