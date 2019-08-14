@@ -16,7 +16,7 @@ let dly             = async function(ms){
     setTimeout(resolve,ms);
   });
 }
-let cron_check_result = new cronJob('0 * * * * *',function(){
+let cron_check_result = new cronJob('* * * * * *',function(){
   cron_check_result.stop();
   let postData = querystring.stringify({
     'start': 'oneregressioncheck'
@@ -217,7 +217,7 @@ module.exports = {
         console.log(grouplist);
         console.log(grouplist.length);
         grouplist.push('all');
-        let postData = querystring.stringify({
+        let postDataG = querystring.stringify({
           'kind'        : 'oneregression',
           'kickoffdate' : treeInfo['kickoffdate'],
           'variantname' : treeInfo['variantname'],
@@ -228,36 +228,36 @@ module.exports = {
           'grouplist'   : JSON.stringify(grouplist)
         });
         
-        let options = {
+        let optionsG = {
           hostname: 'amdnbif3.thehunters.club',
           port: 80,
           path: '/regression/upload',
           method: 'POST',
           headers: {
             'Content-Type': 'application/x-www-form-urlencoded',
-            'Content-Length': Buffer.byteLength(postData)
+            'Content-Length': Buffer.byteLength(postDataG)
           }
         };
         
-        let req = http.request(options, (res) => {
-          //console.log(`STATUS: ${res.statusCode}`);
-          //console.log(`HEADERS: ${JSON.stringify(res.headers)}`);
-          res.setEncoding('utf8');
-          res.on('data', (chunk) => {
+        let reqG = http.request(optionsG, (resG) => {
+          //console.log(`STATUS: ${resG.statusCode}`);
+          //console.log(`HEADERS: ${JSON.stringify(resG.headers)}`);
+          resG.setEncoding('utf8');
+          resG.on('data', (chunk) => {
             console.log(`BODY: ${chunk}`);
           });
-          res.on('end', () => {
+          resG.on('end', () => {
             console.log('No more data in response.');
           });
         });
         
-        req.on('error', (e) => {
+        reqG.on('error', (e) => {
           console.error(`problem with request: ${e.message}`);
         });
         
         // write data to request body
-        req.write(postData);
-        req.end();
+        reqG.write(postDataG);
+        reqG.end();
 
         // start checking
         for(let testName in testResult){
