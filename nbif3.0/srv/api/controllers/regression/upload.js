@@ -44,6 +44,9 @@ module.exports = {
     shelve     :  {
       type  : 'string'
     },
+    grouplist   : {
+      type  : 'string'
+    }
 
 
 
@@ -309,10 +312,10 @@ module.exports = {
             }
           }
         }
+        return  exits.success(JSON.stringify({
+          ok  : 'ok'
+        }));
       }
-      return  exits.success(JSON.stringify({
-        ok  : 'ok'
-      }));
     }
     return exits.success(JSON.stringify({
       ok  : 'notok',
