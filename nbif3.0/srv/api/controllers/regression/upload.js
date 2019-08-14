@@ -38,7 +38,6 @@ module.exports = {
     sails.log('/regression/upload');
     if(inputs.kind == 'onecase'){
       let oneTestResult = JSON.parse(inputs.oneTestResult);
-      sails.log('PXPXPX');
       sails.log('onecase upload ' + oneTestResult.testname);
     }
     //=============================================//
@@ -131,6 +130,78 @@ module.exports = {
           });
           sails.log('create '+ testname);
         }
+        //groups DB update
+        let R = await Groups.findOne({
+          groupname   : groupname,
+          isBAPU      : isBAPU,
+          projectname : projectname,
+          variantname : variantname
+        });
+        if(R){
+        }
+        else{
+          await Groups.create({
+            groupname   : groupname,
+            isBAPU      : isBAPU,
+            projectname : projectname,
+            variantname : variantname
+          });
+        }
+        //summary DB update
+        R = await Regressionsummary0001.findOne({
+          groupname   : groupname,
+          isBAPU      : isBAPU,
+          projectname : projectname,
+          variantname : variantname,
+          changelist  : changelist,
+          kickoffdate : kickoffdate,
+          shelve      : shelve
+        });
+        if(R){
+        }
+        else{
+          await Regressionsummary0001.create({
+            groupname   : groupname,
+            isBAPU      : isBAPU,
+            projectname : projectname,
+            variantname : variantname,
+            changelist  : changelist,
+            kickoffdate : kickoffdate,
+            shelve      : shelve,
+            testlist    : JSON.stringify([]),
+            passlist    : JSON.stringify([]),
+            runninglist : JSON.stringify([]),
+            unknownlist : JSON.stringify([]),
+            passrate    : 0
+          });
+        }
+        R = await Regressionsummary0001.findOne({
+          groupname   : 'all',
+          isBAPU      : isBAPU,
+          projectname : projectname,
+          variantname : variantname,
+          changelist  : changelist,
+          kickoffdate : kickoffdate,
+          shelve      : shelve
+        });
+        if(R){
+        }
+        else{
+          await Regressionsummary0001.create({
+            groupname   : 'all',
+            isBAPU      : isBAPU,
+            projectname : projectname,
+            variantname : variantname,
+            changelist  : changelist,
+            kickoffdate : kickoffdate,
+            shelve      : shelve,
+            testlist    : JSON.stringify([]),
+            passlist    : JSON.stringify([]),
+            runninglist : JSON.stringify([]),
+            unknownlist : JSON.stringify([]),
+            passrate    : 0
+          });
+        }
       }
       ///////////////////////////////////////
       //For 0002 Now is mero
@@ -178,6 +249,7 @@ module.exports = {
             //isBAPU        : isBAPU        ,
             groupname     : groupname
           });
+          sails.log('update '+ testname);
         }
         else{
           await Regressiondetails0002.create({
@@ -193,6 +265,79 @@ module.exports = {
             shelve        : shelve        ,
             isBAPU        : isBAPU        ,
             groupname     : groupname     ,
+          });
+          sails.log('create '+ testname);
+        }
+        //groups DB update
+        let R = await Groups.findOne({
+          groupname   : groupname,
+          isBAPU      : isBAPU,
+          projectname : projectname,
+          variantname : variantname
+        });
+        if(R){
+        }
+        else{
+          await Groups.create({
+            groupname   : groupname,
+            isBAPU      : isBAPU,
+            projectname : projectname,
+            variantname : variantname
+          });
+        }
+        //summary DB update
+        R = await Regressionsummary0002.findOne({
+          groupname   : groupname,
+          isBAPU      : isBAPU,
+          projectname : projectname,
+          variantname : variantname,
+          changelist  : changelist,
+          kickoffdate : kickoffdate,
+          shelve      : shelve
+        });
+        if(R){
+        }
+        else{
+          await Regressionsummary0002.create({
+            groupname   : groupname,
+            isBAPU      : isBAPU,
+            projectname : projectname,
+            variantname : variantname,
+            changelist  : changelist,
+            kickoffdate : kickoffdate,
+            shelve      : shelve,
+            testlist    : JSON.stringify([]),
+            passlist    : JSON.stringify([]),
+            runninglist : JSON.stringify([]),
+            unknownlist : JSON.stringify([]),
+            passrate    : 0
+          });
+        }
+        R = await Regressionsummary0002.findOne({
+          groupname   : 'all',
+          isBAPU      : isBAPU,
+          projectname : projectname,
+          variantname : variantname,
+          changelist  : changelist,
+          kickoffdate : kickoffdate,
+          shelve      : shelve
+        });
+        if(R){
+        }
+        else{
+          await Regressionsummary0002.create({
+            groupname   : 'all',
+            isBAPU      : isBAPU,
+            projectname : projectname,
+            variantname : variantname,
+            changelist  : changelist,
+            kickoffdate : kickoffdate,
+            shelve      : shelve,
+            testlist    : JSON.stringify([]),
+            passlist    : JSON.stringify([]),
+            runninglist : JSON.stringify([]),
+            unknownlist : JSON.stringify([]),
+            passrate    : 0
           });
         }
       }
