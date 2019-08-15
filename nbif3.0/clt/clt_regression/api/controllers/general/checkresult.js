@@ -284,7 +284,7 @@ module.exports = {
               testResult[testName]['result']  = 'RUNNING';
             }
           }
-          console.log('checking ... 'testName+' result :'+testResult[testName]['result']);
+          console.log('checking ... '+testName+' result :'+testResult[testName]['result']);
           await dly(500);
           let postData = querystring.stringify({
             'kind'          : 'onecase',
