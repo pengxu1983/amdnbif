@@ -1,7 +1,10 @@
 //let refTreeRoot     = '';
 let regTreeRootList = [
+  '/proj/cip_floyd_genz/ip_regress/antti/nbif2_0_al/',
+  '/proj/cip_floyd_genz/ip_regress/antti/nbif2_0_al_pg/',
+  '/proj/cip_floyd_genz/ip_regress/antti/nbif2_0_al_long/',
   '/proj/cip_floyd_genz/ip_regress/antti/nbif2_0_mi200_apu/',
-  '/proj/cip_floyd_genz/ip_regress/antti/nbif2_0_mi200/',
+  '/proj/cip_floyd_genz/ip_regress/antti/nbif2_0_mi200/'
 ];//MODIFY ///TODO
 let out_home        = '/out/linux_3.10.0_64.VCS/';
 var moment          = require('moment');
@@ -261,7 +264,6 @@ module.exports = {
 
         // start checking
         for(let testName in testResult){
-          console.log('checking ...'+testName);
           testResult[testName]['result']      = 'UNKNOWN';
           testResult[testName]['signature']   = 'NA';
           testResult[testName]['seed']        = 'NA';
@@ -282,6 +284,7 @@ module.exports = {
               testResult[testName]['result']  = 'RUNNING';
             }
           }
+          console.log('checking ... 'testName+' result :'+testResult[testName]['result']);
           await dly(500);
           let postData = querystring.stringify({
             'kind'          : 'onecase',
@@ -383,7 +386,7 @@ module.exports = {
         //----end----
       } //for one tree done
 
-
+      cron_check_result.start();
     }
     // All done.
     return exits.success(JSON.stringify({
