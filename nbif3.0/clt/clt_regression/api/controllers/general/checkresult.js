@@ -1,8 +1,5 @@
 //let refTreeRoot     = '';
 let regTreeRootList = [
-  '/proj/cip_floyd_genz/ip_regress/antti/nbif2_0_al/',
-  '/proj/cip_floyd_genz/ip_regress/antti/nbif2_0_al_pg/',
-  '/proj/cip_floyd_genz/ip_regress/antti/nbif2_0_al_long/',
   '/proj/cip_floyd_genz/ip_regress/antti/nbif2_0_mi200_apu/',
   '/proj/cip_floyd_genz/ip_regress/antti/nbif2_0_mi200/'
 ];//MODIFY ///TODO
@@ -264,6 +261,18 @@ module.exports = {
 
         // start checking
         for(let testName in testResult){
+          if(fs.existsSync(oneregTreeRoot+'/NBIF_TREE_INFO')){
+          }
+          else{
+            console.log('NBIF_TREE_INFO deleted and ignore this round');
+            break;
+          }
+          if(fs.existsSync(oneregTreeRoot+'/testlist.log')){
+          }
+          else{
+            console.log('testlist.log deleted and ignore this round');
+            break;
+          }
           testResult[testName]['result']      = 'UNKNOWN';
           testResult[testName]['signature']   = 'NA';
           testResult[testName]['seed']        = 'NA';
