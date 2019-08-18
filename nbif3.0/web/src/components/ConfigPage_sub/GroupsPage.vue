@@ -133,7 +133,9 @@ export default {
       DVgroups: [
         'MISC',
         'DMA',
-        'HOST'
+        'HOST',
+        'OTHERS',
+        'PERF'
       ],
       users   : [],
       loading : false,

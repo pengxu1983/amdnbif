@@ -37,7 +37,7 @@
         label="passrate"
       >
         <template slot-scope="scope">
-          <el-button type="text" @click="getgroupstatus(scope.row.projectname,scope.row.variantname,scope.row.changelist,scope.row.isBAPU,scope.row.shelve,scope.row.kickoffdate)">{{scope.row.passrate}}</el-button>
+          <el-button type="text" @click="getgroupstatus(scope.row.projectname,scope.row.variantname,scope.row.changelist,scope.row.isBAPU,scope.row.shelve,scope.row.kickoffdate);selectedRegressionIndex = scope.$index">{{scope.row.passrate}}</el-button>
         </template>
       </el-table-column>
       <el-table-column
