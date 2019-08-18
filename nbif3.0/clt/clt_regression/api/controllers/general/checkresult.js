@@ -147,10 +147,10 @@ module.exports = {
                 testResult[testname]['isBAPU']      = treeInfo['isBAPU'];
                 //if(testlist.indexOf(testname)==-1){
                 //  testlist.push(testname);
-                  console.log('testname :');
-                  console.log(testname);
-                  console.log('suite');
-                  console.log(testResult[testname]['suite']);
+                  //console.log('testname :');
+                  //console.log(testname);
+                  //console.log('suite');
+                  //console.log(testResult[testname]['suite']);
                 //}
               });
             }
@@ -161,15 +161,15 @@ module.exports = {
               if(regx04.test(lines[l])){
                 lines[l].replace(regx04,function(rs,$1){
                   testResult[testname]['config'] = $1;
-                  console.log('config');
-                  console.log($1);
+                  //console.log('config');
+                  //console.log($1);
                 });
               }
               else if(regx05.test(lines[l])){
                 lines[l].replace(regx05,function(rs,$1){
                   testResult[testname]['run_seed'] = $1;
-                  console.log('run_seed');
-                  console.log($1);
+                  //console.log('run_seed');
+                  //console.log($1);
                 });
               }
               else if(regx06.test(lines[l])){
@@ -178,23 +178,23 @@ module.exports = {
                   if(grouplist.indexOf($1) == -1){
                     grouplist.push($1);
                   }
-                  console.log('groupname');
-                  console.log($1);
+                  //console.log('groupname');
+                  //console.log($1);
                 });
               }
               else if(regx07.test(lines[l])){
                 lines[l].replace(regx07,function(rs,$1){
                   testResult[testname]['run_start_time'] = $1;
-                  console.log('run_start_time');
-                  console.log($1);
+                  //console.log('run_start_time');
+                  //console.log($1);
                 });
               }
               else if(regx08.test(lines[l])){
                 lines[l].replace(regx08,function(rs,$1){
                   let tmp = $1.split('OUT_HOME');
                   testResult[testname]['run_out_path'] = oneregTreeRoot+out_home+tmp[1];
-                  console.log('run_out_path');
-                  console.log(testResult[testname]['run_out_path']);
+                  //console.log('run_out_path');
+                  //console.log(testResult[testname]['run_out_path']);
                 });
               }
               //else if(regx09.test(lines[l])){
