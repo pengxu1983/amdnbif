@@ -1,6 +1,6 @@
 <template>
   <div>
-    <el-tabs type="border-card">
+    <el-tabs type="border-card" v-model="activeName" @tab-click="handleClick">
       <el-tab-pane 
         v-for="oneDVgroup in DVgroups"
         :label="oneDVgroup"
@@ -50,9 +50,16 @@ export default {
         'OTHERS',
         'PERF'
       ],//TODO need to fetch from DB
+      activeName  : 'HOST'
     }
   },
   methods : {
+    methods: {
+      handleClick(tab, event) {
+        console.log(tab, event);
+        //this.groupstatus_split(this.activeName);
+      }
+    },
     groupstatus_split(DVgroupname){
       let R = [];
       for(let g=0;g<this.groupstatus.length;g++){
@@ -62,6 +69,7 @@ export default {
         else{
         }
       }
+      return R;
     }
   },
   mounted (){
