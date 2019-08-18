@@ -137,7 +137,7 @@ module.exports = {
           // search param
           let R = await Regressiondetails0001.find({
             where : W,
-            sort  : 'testname ASC'
+            sort  : 'signature  ASC'
           });
           let testdetails = [];
           for(let r=0;r<R.length;r++){
@@ -191,7 +191,7 @@ module.exports = {
           // search param
           let R = await Regressiondetails0002.find({
             where : W,
-            sort  : 'testname ASC'
+            sort  : 'signature ASC'
           });
           let testdetails = [];
           for(let r=0;r<R.length;r++){
@@ -240,7 +240,7 @@ module.exports = {
           // search param
           let R = await Regressiondetails0002.find({
             where : W,
-            sort  : 'testname ASC'
+            sort  : 'signature  ASC'
           });
           let testdetails = [];
           for(let r=0;r<R.length;r++){
