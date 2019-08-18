@@ -1,25 +1,25 @@
 <template>
   <div>
-    <el-tabs v-model="activeName" @tab-click="handleClick">
+    <el-tabs v-model="activeDVgroup" @tab-click="handleClick">
       <el-tab-pane 
         v-for="oneDVgroup in DVgroups"
         :label="oneDVgroup"
       >
         <el-table
-          :data="groupstatus_disp"
+          :data="getgroupstatus_disp(activeDVgroup)"
           stripe
           border
           style="width: 100%">
-          <el-table-column
-            prop="DVgroup"
-            label="DVgroup"
-            sortable
-          >
           </el-table-column>
           <el-table-column
             prop="groupname"
             label="groupname"
             sortable
+          >
+          </el-table-column>
+          <el-table-column
+            prop="alltestnum"
+            label="alltestnum"
           >
           </el-table-column>
           <el-table-column
@@ -55,7 +55,7 @@ export default {
         'OTHERS',
         'PERF'
       ],//TODO need to fetch from DB
-      activeName  : 'HOST',
+      activeDVgroup : 'HOST',
       groupstatus_disp  : []
     }
   },
@@ -63,6 +63,8 @@ export default {
     handleClick(tab, event) {
       console.log(tab, event);
       console.log(this.projectname);
+    },
+    getgroupstatus_disp(DVgroup){
     }
   },
   mounted (){
