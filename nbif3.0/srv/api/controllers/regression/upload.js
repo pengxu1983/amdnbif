@@ -243,9 +243,9 @@ module.exports = {
             else{
               await Groups.create({
                 groupname   : grouplist[i],
-                isBAPU      : isBAPU,
-                projectname : projectname,
-                variantname : variantname
+                isBAPU      : inputs.isBAPU,
+                projectname : inputs.projectname,
+                variantname : inputs.variantname
               });
             }
           }
