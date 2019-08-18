@@ -102,7 +102,12 @@
     </el-table>
     <h3>Developing</h3>
     <Oneprojoneregress
-      v-bind:groupstatus="groupstatus"
+      v-bind:projectname="oneregressioninfo.projectname"
+      v-bind:variantname="oneregressioninfo.variantname"
+      v-bind:changelist ="oneregressioninfo.changelist"
+      v-bind:isBAPU="oneregressioninfo.isBAPU"
+      v-bind:shelve="oneregressioninfo.shelve"
+      v-bind:kickoffdate="oneregressioninfo.kickoffdate"
     >
     </Oneprojoneregress>
     <el-dialog :title="title" :visible.sync="visible" width="80%">
@@ -161,6 +166,14 @@ export default {
         isBAPU    : '',
         shelve    : '',
         kickoffdate:''
+      },
+      oneregressioninfo : {
+        projectname : '',
+        variantname : '',
+        changelist  : '',
+        shelve      : '',
+        isBAPU      : '',
+        kickoffdate : ''
       }
     }
   },
@@ -223,6 +236,12 @@ export default {
     },
     getgroupstatus(projectname,variantname,changelist,isBAPU,shelve,kickoffdate){
       console.log('method : groupstatus');
+      this.oneregressioninfo.projectname = projectname;
+      this.oneregressioninfo.variantname = variantname;
+      this.oneregressioninfo.changelist  = changelist;
+      this.oneregressioninfo.isBAPU      = isBAPU;
+      this.oneregressioninfo.shelve      = shelve;
+      this.oneregressioninfo.kickoffdate = kickoffdate;
       this.$http.post('/regression/groupstatus',{
         kind  : 'all',
         projectname : projectname,

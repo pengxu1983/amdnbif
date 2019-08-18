@@ -1,36 +1,37 @@
 <template>
   <div>
-    <el-tabs type="border-card" v-model="activeName" @tab-click="handleClick">
+    <el-tabs v-model="activeName" @tab-click="handleClick">
       <el-tab-pane 
         v-for="oneDVgroup in DVgroups"
         :label="oneDVgroup"
       >
+        <el-table
+          :data="groupstatus_disp"
+          stripe
+          border
+          style="width: 100%">
+          <el-table-column
+            prop="DVgroup"
+            label="DVgroup"
+            sortable
+          >
+          </el-table-column>
+          <el-table-column
+            prop="groupname"
+            label="groupname"
+            sortable
+          >
+          </el-table-column>
+          <el-table-column
+            prop="passrate"
+            label="passrate"
+            sortable
+          >
+          </el-table-column>
+        </el-table>
       </el-tab-pane>
-      <el-table
-        :data="groupstatus_disp"
-        stripe
-        border
-        style="width: 100%">
-        <el-table-column
-          prop="DVgroup"
-          label="DVgroup"
-          sortable
-        >
-        </el-table-column>
-        <el-table-column
-          prop="groupname"
-          label="groupname"
-          sortable
-        >
-        </el-table-column>
-        <el-table-column
-          prop="passrate"
-          label="passrate"
-          sortable
-        >
-        </el-table-column>
-      </el-table>
     </el-tabs>
+    
   </div>
 </template>
 
@@ -38,7 +39,12 @@
 export default {
   name: 'Oneprojoneregress',
   props: {
-    groupstatus : []
+    projectname : '',
+    variantname : '',
+    changelist  : '',
+    isBAPU      : '',
+    shelve      : '',
+    kickoffdate : '',
   },
   data() {
     return {
