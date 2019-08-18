@@ -102,6 +102,7 @@
     </el-table>
     <h3>Developing</h3>
     <Oneprojoneregress
+      v-bind:groupstatus="groupstatus"
     >
     </Oneprojoneregress>
     <el-dialog :title="title" :visible.sync="visible" width="80%">
