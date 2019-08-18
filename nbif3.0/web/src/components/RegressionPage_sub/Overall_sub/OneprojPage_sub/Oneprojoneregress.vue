@@ -63,23 +63,11 @@ export default {
     methods: {
       handleClick(tab, event) {
         console.log(tab, event);
-        this.groupstatus_split(this.activeName);
       }
     },
-    groupstatus_split(DVgroupname){
-      let R = [];
-      for(let g=0;g<this.groupstatus.length;g++){
-        if(this.groupstatus[g].DVgroup  ==  DVgroupname){
-          R.push(this.groupstatus[g]);
-        }
-        else{
-        }
-      }
-      return R;
-    }
   },
   mounted (){
-    this.groupstatus_split(this.activeName);
+    console.log(this.projectname);
   }
 }
 </script>
