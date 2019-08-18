@@ -304,7 +304,6 @@ export default {
     }
   },
   mounted  (){
-    this.getgroups();
     this.getprojects();
   }
 }

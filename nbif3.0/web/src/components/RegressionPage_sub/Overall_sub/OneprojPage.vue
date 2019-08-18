@@ -100,6 +100,10 @@
       >
       </el-table-column>
     </el-table>
+    <h3>Developing</h3>
+    <Oneprojoneregress
+    >
+    </Oneprojoneregress>
     <el-dialog :title="title" :visible.sync="visible" width="80%">
       <el-pagination
         @current-change="handleCurrentChange"
@@ -128,6 +132,8 @@
 </template>
 
 <script>
+import Oneprojoneregress  from '@/components/RegressionPage_sub/Overall_sub/OneprojPage_sub/Oneprojoneregress.vue'
+
 export default {
   name: 'OneprojPage',
   props: {
@@ -164,6 +170,9 @@ export default {
         this.searchparam.sigsrch      = '';
       }
     }
+  },
+  components  : {
+    Oneprojoneregress
   },
   methods : {
     selectedRegression({row,rowIndex}){
