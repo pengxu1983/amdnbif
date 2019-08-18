@@ -243,7 +243,7 @@ module.exports = {
             }
             else{
               await Groups.create({
-                groupname   : groupname,
+                groupname   : grouplist[i],
                 isBAPU      : isBAPU,
                 projectname : projectname,
                 variantname : variantname
