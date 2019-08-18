@@ -62,13 +62,12 @@ module.exports = {
 
   fn: async function (inputs,exits) {
     sails.log('/regression/upload');
-    let oneTestResult = JSON.parse(inputs.oneTestResult);
     //=============================================//
     //========For onecase info=====================//
     //=============================================//
     if(inputs.kind  == 'onecase'){
-      sails.log('onecase upload ' + oneTestResult.testname);
       let oneTestResult = JSON.parse(inputs.oneTestResult);
+      sails.log('onecase upload ' + oneTestResult.testname);
 
       let kickoffdate   = oneTestResult.kickoffdate  ;
       let variantname   = oneTestResult.variantname  ;
