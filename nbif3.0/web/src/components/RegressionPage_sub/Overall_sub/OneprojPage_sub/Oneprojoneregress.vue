@@ -60,14 +60,12 @@ export default {
     }
   },
   methods : {
-    methods: {
-      handleClick(tab, event) {
-        console.log(tab, event);
-      }
-    },
+    handleClick(tab, event) {
+      console.log(tab, event);
+      console.log(this.projectname);
+    }
   },
   mounted (){
-    console.log(this.projectname);
   }
 }
 </script>
