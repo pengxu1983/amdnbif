@@ -6,7 +6,7 @@
         :label="oneDVgroup"
       >
         <el-table
-          :data="getgroupstatus_disp(activeDVgroup)"
+          :data="getgroupstatus_disp"
           stripe
           border
           style="width: 100%">
@@ -57,8 +57,6 @@ export default {
         'PERF'
       ],//TODO need to fetch from DB
       activeDVgroup : 'HOST',
-      groupstatus_disp  : [],
-      DVgroupstatus : [],
     }
   },
   computed  : {
