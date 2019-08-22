@@ -67,8 +67,8 @@ module.exports = {
             DVgroup : onegroup.DVgroup,
             groupname : R[r].groupname,
             passrate  : R[r].passrate,
-            allnum    : R[r].testlist.length,
-            passnum   : R[r].passlist.length
+            allnum    : JSON.parse(R[r].testlist).length,
+            passnum   : JSON.parse(R[r].passlist).length
           });
         }
         return exits.success(JSON.stringify({
@@ -105,8 +105,8 @@ module.exports = {
             DVgroup : onegroup.DVgroup,
             groupname : R[r].groupname,
             passrate  : R[r].passrate,
-            allnum    : R[r].testlist.length,
-            passnum   : R[r].passlist.length
+            allnum    : JSON.parse(R[r].testlist).length,
+            passnum   : JSON.parse(R[r].passlist).length
           });
         }
         return exits.success(JSON.stringify({

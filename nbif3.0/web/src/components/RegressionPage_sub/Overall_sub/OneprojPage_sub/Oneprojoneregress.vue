@@ -1,12 +1,14 @@
 <template>
   <div>
-    <el-tabs v-model="activeDVgroup" @tab-click="handleClick">
-      <el-tab-pane 
+    <el-button-group>
+      <el-button 
         v-for="oneDVgroup in DVgroups"
-        :label="oneDVgroup"
+        type="primary"
+        @click="cal(oneDVgroup)"
       >
-      </el-tab-pane>
-    </el-tabs>
+      {{ oneDVgroup }}
+      </el-button>
+    </el-button-group>
     <el-table
       :data="grpstatus"
       stripe
@@ -49,32 +51,23 @@ export default {
         'OTHERS',
         'PERF'
       ],//TODO need to fetch from DB
-      activeDVgroup : 'HOST',
       grpstatus : []
     }
   },
   methods : {
-    handleClick(tab, event) {
-      //console.log(tab, event);
-      console.log('DBG');
-      console.log(this.groupstatus);
-      console.log(this.activeDVgroup);
-      this.cal();
-    },
-    cal (){
-      this.groupstatus  = [];
-      let R = [];
+    cal (name){
+      this.grpstatus= [];
       for(let i=0;i<this.groupstatus.length;i++){
-        if(this.groupstatus[i].DVgroup  ==  this.activeDVgroup){
-          R.push(this.groupstatus[i]);
+        if(this.groupstatus[i].DVgroup  ==name){
+          this.grpstatus.push(this.groupstatus[i]);
         }
         else{
         }
       }
-      this.grpstatus  = R;
     }
   },
   mounted (){
+    this.cal('HOST');
   },
 }
 </script>
