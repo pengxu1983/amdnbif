@@ -38,12 +38,6 @@
 export default {
   name: 'Oneprojoneregress',
   props: {
-    projectname : '',
-    variantname : '',
-    changelist  : '',
-    isBAPU      : '',
-    shelve      : '',
-    kickoffdate : '',
     groupstatus : []
   },
   data() {
@@ -58,9 +52,15 @@ export default {
       activeDVgroup : 'HOST',
     }
   },
-  computed  : {
-    getgroupstatus_disp : function(){
-      let R = [];
+  methods : {
+    handleClick(tab, event) {
+      //console.log(tab, event);
+      console.log('DBG');
+      console.log(this.groupstatus);
+      console.log(this.activeDVgroup);
+      this.cal();
+    },
+    cal (){
       for(let i=0;i<this.groupstatus.length;i++){
         if(this.groupstatus[i].DVgroup  ==  this.activeDVgroup){
           R.push(this.groupstatus[i]);
@@ -68,19 +68,10 @@ export default {
         else{
         }
       }
-      return R;
     }
   },
-  methods : {
-    handleClick(tab, event) {
-      //console.log(tab, event);
-      console.log('DBG');
-      console.log(this.projectname);
-      console.log(this.groupstatus);
-    },
-  },
   mounted (){
-  }
+  },
 }
 </script>
 
