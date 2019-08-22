@@ -18,7 +18,7 @@
           >
           </el-table-column>
           <el-table-column
-            prop="alltestnum"
+            prop="allnum"
             label="alltestnum"
           >
           </el-table-column>
@@ -31,7 +31,6 @@
         </el-table>
       </el-tab-pane>
     </el-tabs>
-    
   </div>
 </template>
 
@@ -74,8 +73,10 @@ export default {
   },
   methods : {
     handleClick(tab, event) {
-      console.log(tab, event);
-      //console.log(this.projectname);
+      //console.log(tab, event);
+      console.log('DBG');
+      console.log(this.projectname);
+      console.log(this.groupstatus);
     },
   },
   mounted (){
