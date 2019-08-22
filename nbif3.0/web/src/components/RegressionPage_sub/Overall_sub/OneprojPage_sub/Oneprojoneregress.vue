@@ -45,6 +45,7 @@ export default {
     isBAPU      : '',
     shelve      : '',
     kickoffdate : '',
+    groupstatus : []
   },
   data() {
     return {
@@ -56,16 +57,28 @@ export default {
         'PERF'
       ],//TODO need to fetch from DB
       activeDVgroup : 'HOST',
-      groupstatus_disp  : []
+      groupstatus_disp  : [],
+      DVgroupstatus : [],
+    }
+  },
+  computed  : {
+    getgroupstatus_disp : function(){
+      let R = [];
+      for(let i=0;i<this.groupstatus.length;i++){
+        if(this.groupstatus[i].DVgroup  ==  this.activeDVgroup){
+          R.push(this.groupstatus[i]);
+        }
+        else{
+        }
+      }
+      return R;
     }
   },
   methods : {
     handleClick(tab, event) {
       console.log(tab, event);
-      console.log(this.projectname);
+      //console.log(this.projectname);
     },
-    getgroupstatus_disp(DVgroup){
-    }
   },
   mounted (){
   }

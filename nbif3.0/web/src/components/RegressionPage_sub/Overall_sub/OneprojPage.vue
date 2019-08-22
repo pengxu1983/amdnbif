@@ -102,12 +102,7 @@
     </el-table>
     <h3>Developing</h3>
     <Oneprojoneregress
-      v-bind:projectname="oneregressioninfo.projectname"
-      v-bind:variantname="oneregressioninfo.variantname"
-      v-bind:changelist ="oneregressioninfo.changelist"
-      v-bind:isBAPU="oneregressioninfo.isBAPU"
-      v-bind:shelve="oneregressioninfo.shelve"
-      v-bind:kickoffdate="oneregressioninfo.kickoffdate"
+      v-bind:groupstatus="groupstatus"
     >
     </Oneprojoneregress>
     <el-dialog :title="title" :visible.sync="visible" width="80%">
