@@ -5,32 +5,32 @@
         v-for="oneDVgroup in DVgroups"
         :label="oneDVgroup"
       >
-        <el-table
-          :data="getgroupstatus_disp"
-          stripe
-          border
-          style="width: 100%">
-          </el-table-column>
-          <el-table-column
-            prop="groupname"
-            label="groupname"
-            sortable
-          >
-          </el-table-column>
-          <el-table-column
-            prop="allnum"
-            label="alltestnum"
-          >
-          </el-table-column>
-          <el-table-column
-            prop="passrate"
-            label="passrate"
-            sortable
-          >
-          </el-table-column>
-        </el-table>
       </el-tab-pane>
     </el-tabs>
+    <el-table
+      :data="grpstatus"
+      stripe
+      border
+      style="width: 100%">
+      </el-table-column>
+      <el-table-column
+        prop="groupname"
+        label="groupname"
+        sortable
+      >
+      </el-table-column>
+      <el-table-column
+        prop="allnum"
+        label="alltestnum"
+      >
+      </el-table-column>
+      <el-table-column
+        prop="passrate"
+        label="passrate"
+        sortable
+      >
+      </el-table-column>
+    </el-table>
   </div>
 </template>
 
@@ -50,6 +50,7 @@ export default {
         'PERF'
       ],//TODO need to fetch from DB
       activeDVgroup : 'HOST',
+      grpstatus : []
     }
   },
   methods : {
@@ -61,6 +62,8 @@ export default {
       this.cal();
     },
     cal (){
+      this.groupstatus  = [];
+      let R = [];
       for(let i=0;i<this.groupstatus.length;i++){
         if(this.groupstatus[i].DVgroup  ==  this.activeDVgroup){
           R.push(this.groupstatus[i]);
@@ -68,6 +71,7 @@ export default {
         else{
         }
       }
+      this.grpstatus  = R;
     }
   },
   mounted (){
