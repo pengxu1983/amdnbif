@@ -9,7 +9,7 @@
       {{ oneDVgroup }}
       </el-button>
     </el-button-group>
-    <h2>Group Summary</h2>
+    <h2>DV Group Summary</h2>
     <hr />
     <el-table
       :data="DVsum"
@@ -39,7 +39,7 @@
       >
       </el-table-column>
     </el-table>
-    <h2>Group Summary</h2>
+    <h2>Feature Group Summary</h2>
     <hr />
     <el-table
       :data="grpstatus"
@@ -100,7 +100,7 @@ export default {
   },
   methods : {
     isClicked (name){
-      if(buttonclicked  ==  name){
+      if(this.buttonclicked  ==  name){
         return 'success';
       }
       else{
