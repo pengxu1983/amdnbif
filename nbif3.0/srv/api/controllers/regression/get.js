@@ -54,7 +54,7 @@ module.exports = {
             let testlist = JSON.parse(R[r].testlist);
             let runninglist = JSON.parse(R[r].runninglist);
             let unknownlist = JSON.parse(R[r].unknownlist);
-            regressions.push({
+            regressions.unshift({
               projectname : R[r].projectname,
               variantname : R[r].variantname,
               alltestnum  : testlist.length,
@@ -97,7 +97,7 @@ module.exports = {
             let testlist = JSON.parse(R[r].testlist);
             let runninglist = JSON.parse(R[r].runninglist);
             let unknownlist = JSON.parse(R[r].unknownlist);
-            regressions.push({
+            regressions.unshift({
               projectname : R[r].projectname,
               variantname : R[r].variantname,
               alltestnum  : testlist.length,
@@ -143,7 +143,7 @@ module.exports = {
             let testlist = JSON.parse(R[r].testlist);
             let runninglist = JSON.parse(R[r].runninglist);
             let unknownlist = JSON.parse(R[r].unknownlist);
-            regressions.push({
+            regressions.unshift({
               projectname : R[r].projectname,
               variantname : R[r].variantname,
               alltestnum  : testlist.length,
@@ -186,7 +186,7 @@ module.exports = {
             let testlist = JSON.parse(R[r].testlist);
             let runninglist = JSON.parse(R[r].runninglist);
             let unknownlist = JSON.parse(R[r].unknownlist);
-            regressions.push({
+            regressions.unshift({
               projectname : R[r].projectname,
               variantname : R[r].variantname,
               alltestnum  : testlist.length,

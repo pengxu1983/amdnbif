@@ -4,6 +4,7 @@
       :data="regressionstatus_disp"
       border
       style="width: 100%"
+      height="500"
       :row-class-name="selectedRegression"
     >
       <el-table-column

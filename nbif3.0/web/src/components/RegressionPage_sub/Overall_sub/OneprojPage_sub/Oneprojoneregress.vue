@@ -3,7 +3,7 @@
     <el-button-group>
       <el-button 
         v-for="oneDVgroup in DVgroups"
-        type="primary"
+        :type="isClicked(oneDVgroup)"
         @click="cal(oneDVgroup)"
       >
       {{ oneDVgroup }}
@@ -94,11 +94,21 @@ export default {
         'PERF'
       ],//TODO need to fetch from DB
       grpstatus : [],
-      DVsum     : []
+      DVsum     : [],
+      buttonclicked : ''
     }
   },
   methods : {
+    isClicked (name){
+      if(buttonclicked  ==  name){
+        return 'success';
+      }
+      else{
+        return 'primary';
+      }
+    },
     cal (name){
+      this.buttenclicked  = name;
       this.grpstatus= [];
       let DVsumall  = 0;
       let DVsumpass = 0;
@@ -117,7 +127,7 @@ export default {
       if(DVsumall ==  0){
       }
       else{
-        DVsumpassrate = DVsumpass/DVsumall;
+        DVsumpassrate = DVsumpass/DVsumall*100;
         DVsumpassrate = DVsumpassrate.toFixed(2);
       }
       this.DVsum  = [];
