@@ -56,22 +56,24 @@
       <el-table-column
         prop="allnum"
         label="alltestnum"
+        sortable
       >
       </el-table-column>
       <el-table-column
         prop="passnum"
         label="passtestnum"
+        sortable
       >
       </el-table-column>
       <el-table-column
         prop="failnum"
         label="failtestnum"
+        sortable
       >
       </el-table-column>
       <el-table-column
         prop="passrate"
         label="passrate"
-        sortable
       >
       </el-table-column>
     </el-table>
