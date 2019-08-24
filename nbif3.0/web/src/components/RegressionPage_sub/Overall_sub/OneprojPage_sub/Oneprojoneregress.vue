@@ -27,6 +27,11 @@
       >
       </el-table-column>
       <el-table-column
+        prop="failnum"
+        label="failtestnum"
+      >
+      </el-table-column>
+      <el-table-column
         prop="passrate"
         label="passrate"
         sortable

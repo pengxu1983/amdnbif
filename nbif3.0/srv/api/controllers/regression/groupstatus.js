@@ -68,7 +68,8 @@ module.exports = {
             groupname : R[r].groupname,
             passrate  : R[r].passrate,
             allnum    : JSON.parse(R[r].testlist).length,
-            passnum   : JSON.parse(R[r].passlist).length
+            passnum   : JSON.parse(R[r].passlist).length,
+            failnum   : JSON.parse(R[r].faillist).length
           });
         }
         return exits.success(JSON.stringify({
@@ -106,7 +107,8 @@ module.exports = {
             groupname : R[r].groupname,
             passrate  : R[r].passrate,
             allnum    : JSON.parse(R[r].testlist).length,
-            passnum   : JSON.parse(R[r].passlist).length
+            passnum   : JSON.parse(R[r].passlist).length,
+            failnum   : JSON.parse(R[r].faillist).length
           });
         }
         return exits.success(JSON.stringify({
