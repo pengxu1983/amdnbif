@@ -113,7 +113,7 @@ export default {
       }
     },
     cal (name){
-      this.buttenclicked  = name;
+      this.buttonclicked  = name;
       this.grpstatus= [];
       let DVsumall  = 0;
       let DVsumpass = 0;
