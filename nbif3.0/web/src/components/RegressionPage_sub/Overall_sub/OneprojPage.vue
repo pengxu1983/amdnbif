@@ -100,7 +100,7 @@
       >
       </el-table-column>
     </el-table>
-    <h3>Developing</h3>
+    <h3>Per DVgroup status</h3>
     <Oneprojoneregress
       v-bind:groupstatus="groupstatus"
     >
