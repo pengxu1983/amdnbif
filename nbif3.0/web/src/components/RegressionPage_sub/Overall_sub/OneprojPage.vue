@@ -76,6 +76,11 @@
         </template>
       </el-table-column>
     </el-table>
+    <h3>Per DVgroup status</h3>
+    <Oneprojoneregress
+      v-bind:groupstatus="groupstatus"
+    >
+    </Oneprojoneregress>
     <h3>Feature Group Status</h3>
     <el-table
       :data="groupstatus"
@@ -101,11 +106,6 @@
       >
       </el-table-column>
     </el-table>
-    <h3>Per DVgroup status</h3>
-    <Oneprojoneregress
-      v-bind:groupstatus="groupstatus"
-    >
-    </Oneprojoneregress>
     <el-dialog :title="title" :visible.sync="visible" width="80%">
       <el-pagination
         @current-change="handleCurrentChange"
