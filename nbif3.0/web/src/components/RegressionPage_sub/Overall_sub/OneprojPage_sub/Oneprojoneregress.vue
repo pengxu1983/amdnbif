@@ -102,6 +102,9 @@ export default {
   },
   methods : {
     isClicked (name){
+      console.log('dbg11');
+      console.log(name);
+      console.log(this.buttonclicked);
       if(this.buttonclicked  ==  name){
         return 'success';
       }
