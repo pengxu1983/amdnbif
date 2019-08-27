@@ -1,7 +1,12 @@
 //let refTreeRoot     = '';
 let regTreeRootList = [
+  '/proj/cip_floyd_genz/ip_regress/antti/nbif2_0_mi200_apu_1/',
+  '/proj/cip_floyd_genz/ip_regress/antti/nbif2_0_mi200_1/',
   '/proj/cip_floyd_genz/ip_regress/antti/nbif2_0_mi200_apu/',
-  '/proj/cip_floyd_genz/ip_regress/antti/nbif2_0_mi200/'
+  '/proj/cip_floyd_genz/ip_regress/antti/nbif2_0_mi200/',
+  '/proj/cip_floyd_genz/ip_regress/branch_mero_pg/',
+  '/proj/cip_floyd_genz/ip_regress/branch_mero_normal/',
+  '/proj/cip_floyd_genz/ip_regress/branch_mero_long/'
 ];//MODIFY ///TODO
 let out_home        = '/out/linux_3.10.0_64.VCS/';
 var moment          = require('moment');
@@ -88,6 +93,8 @@ module.exports = {
         ///////////
         //one tree
         ///////////
+        let text = '';
+        let nextCheck = {};
         let oneregTreeRoot  = regTreeRootList[onetree];
         console.log('tree : '+oneregTreeRoot);
         let grouplist = [];
@@ -264,12 +271,18 @@ module.exports = {
           if(fs.existsSync(oneregTreeRoot+'/NBIF_TREE_INFO')){
           }
           else{
+            if(fs.existsSync(oneregTreeRoot+'/NBIF_TEST_TO_CHECK')){
+              fs.unlinkSync(oneregTreeRoot+'/NBIF_TEST_TO_CHECK');
+            }
             console.log('NBIF_TREE_INFO deleted and ignore this round');
             break;
           }
           if(fs.existsSync(oneregTreeRoot+'/testlist.log')){
           }
           else{
+            if(fs.existsSync(oneregTreeRoot+'/NBIF_TEST_TO_CHECK')){
+              fs.unlinkSync(oneregTreeRoot+'/NBIF_TEST_TO_CHECK');
+            }
             console.log('testlist.log deleted and ignore this round');
             break;
           }
@@ -294,7 +307,14 @@ module.exports = {
             }
           }
           console.log('checking ... '+testName+' result :'+testResult[testName]['result']);
-          await dly(500);
+          if(testResult[testName]['result'] == 'PASS'){
+          }
+          else if(testResult[testName]['result'] == 'FAIL'){
+          }
+          else{
+            nextCheck[testName]=testResult[testName];
+          }
+          await dly(600);
           let postData = querystring.stringify({
             'kind'          : 'onecase',
             'oneTestResult' : JSON.stringify({
@@ -339,6 +359,14 @@ module.exports = {
           req.on('error', (e) => {
             console.error(`problem with request: ${e.message}`);
             console.log(postData);
+            if(testResult[testName]['result'] == 'PASS'){
+              nextCheck[testName]=testResult[testName];
+            }
+            else if(testResult[testName]['result'] == 'FAIL'){
+              nextCheck[testName]=testResult[testName];
+            }
+            else{
+            }
           });
           
           // write data to request body
@@ -390,7 +418,12 @@ module.exports = {
         req.write(postData);
         req.end();
         
-
+        text = JSON.stringify(nextCheck);
+        fs.writeFileSync(oneregTreeRoot +'/NBIF_TEST_TO_CHECK',text,{
+          encoding  : 'utf8',
+          mode      : '0600',
+          flag      : 'w'
+        });
         console.log('end tree : '+moment().format('YYYY-MM-DD HH:mm:ss')+' '+regTreeRootList[onetree]);
         //----end----
       } //for one tree done
