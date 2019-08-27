@@ -125,7 +125,12 @@
           </el-form-item>
         </el-form>
         <el-table :data="testdetails_disp" style="width: 100%">
-          <el-table-column property="testname" label="testname" width="200"></el-table-column>
+          <el-table-column 
+            property="testname" 
+            label="testname" 
+            width="200"
+            sortable
+          ></el-table-column>
           <el-table-column property="seed" label="seed" width="200"></el-table-column>
           <el-table-column property="signature" label="signature"></el-table-column>
         </el-table>
