@@ -236,7 +236,7 @@ module.exports = {
         });
         
         let optionsG = {
-          hostname: 'amdnbif3.thehunters.club',
+          hostname: 'amdnbif2.thehunters.club',
           port: 80,
           path: '/regression/upload',
           method: 'POST',
@@ -334,7 +334,7 @@ module.exports = {
           });
           
           let options = {
-            hostname: 'amdnbif3.thehunters.club',
+            hostname: 'amdnbif2.thehunters.club',
             port: 80,
             path: '/regression/upload',
             method: 'POST',
@@ -386,7 +386,7 @@ module.exports = {
         });
         
         let options = {
-          hostname: 'amdnbif3.thehunters.club',
+          hostname: 'amdnbif2.thehunters.club',
           port: 80,
           path: '/regression/summary',
           method: 'POST',
