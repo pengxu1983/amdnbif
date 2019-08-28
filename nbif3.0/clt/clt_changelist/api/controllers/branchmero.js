@@ -31,7 +31,7 @@ let cron_check_changelist= new cronJob('*/5 * * * * *',function(){
     let username;
     RR[c].replace(regx,function(rs,$1,$2,$3){
       changelist  = $1;
-      cltime      = moment($2).format('YYYY-MM-DD');
+      cltime      = moment($2,'YYYY/MM/DD').format('YYYY-MM-DD');
       username    = $3;
       //console.log($1);
       //console.log($2);
