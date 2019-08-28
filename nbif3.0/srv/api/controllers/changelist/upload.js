@@ -56,10 +56,10 @@ module.exports = {
           ischecked   : 'no',
           agentID     : 'NA'
         });
-        index++;
-        if(index>= agentslist.length){
-          index= 0;
-        }
+        //index++;
+        //if(index>= agentslist.length){
+        //  index= 0;
+        //}
       }
     }
     return exits.success(JSON.stringify({
