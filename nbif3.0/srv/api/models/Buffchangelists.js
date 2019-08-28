@@ -34,6 +34,9 @@ module.exports = {
     },
     agentID     : {
       type  :  'string'
+    },
+    cltime      : {
+      type  :  'string'
     }
 
 

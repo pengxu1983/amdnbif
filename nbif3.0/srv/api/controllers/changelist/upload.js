@@ -51,6 +51,7 @@ module.exports = {
           branchname  : inputs.kind,
           changelist  : changelist,
           owner       : changelists[i].username,
+          cltime      : changelists[i].cltime,
           details     : 'NA',
           result      : 'NA',
           ischecked   : 'no',

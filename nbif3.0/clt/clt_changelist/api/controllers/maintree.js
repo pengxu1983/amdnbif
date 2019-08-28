@@ -1,4 +1,4 @@
-let refTreeRoot     = '/proj/cip_nbif_de_1/benpeng/nbif.ref.main/';//MODIFY
+let refTreeRoot     = '/proj/cip_nbif_de_1/nbif.ref.main/';//MODIFY
 //let regTreeRootList = [
 //  '/local_vol1_nobackup/benpeng/nbif.ref.main/',
 //];
@@ -24,19 +24,21 @@ let cron_check_changelist= new cronJob('*/5 * * * * *',function(){
   RR.pop();
   //console.log(RR);
   //console.log(typeof(RR));
-  let regx = /^Change (\d+) on \d+\/\d+\/\d+ by (\w+)/;
+  let regx = /^Change (\d+) on (\d+\/\d+\/\d+) by (\w+)/;
   let changelists = [];
   for(let c=0;c<RR.length;c++){
     let changelist;
     let username;
-    RR[c].replace(regx,function(rs,$1,$2){
+    RR[c].replace(regx,function(rs,$1,$2,$3){
       changelist  = $1;
-      username    = $2;
+      cltime      = moment($2).format('YYYY-MM-DD');
+      username    = $3;
       //console.log($1);
       //console.log($2);
       changelists.unshift({
         changelist  : changelist,
-        username    : username
+        username    : username,
+        cltime      : cltime
       });
     });
   }
@@ -46,7 +48,7 @@ let cron_check_changelist= new cronJob('*/5 * * * * *',function(){
   });
   
   let options = {
-    hostname: 'amdnbif3.thehunters.club',
+    hostname: 'amdnbif2.thehunters.club',
     port: 80,
     path: '/changelist/upload',
     method: 'POST',
