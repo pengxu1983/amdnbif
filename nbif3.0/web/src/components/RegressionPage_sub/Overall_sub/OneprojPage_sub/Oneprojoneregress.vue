@@ -1,6 +1,6 @@
 <template>
   <div>
-    <el-tabs v-model="selectgroup" @tab-click="handleClick">
+    <el-tabs v-model="selectedgroup" @tab-click="handleClick">
       <el-tab-pane 
         v-for="oneDVgroup in DVgroups"
         :label="oneDVgroup" 
@@ -101,7 +101,8 @@ export default {
         'DMA',
         'MISC',
         'OTHERS',
-        'PERF'
+        'PERF',
+        'ALL'
       ],//TODO need to fetch from DB
       grpstatus : [],
       DVsum     : [],
