@@ -110,21 +110,7 @@ export default {
       console.log(tab, event);
       this.cal(this.selectedgroup);
     },
-    isClicked (name){
-      console.log('dbg11');
-      console.log(name);
-      console.log(this.buttonclicked);
-      if(this.buttonclicked  ==  name){
-        return 'success';
-      }
-      else{
-        return 'primary';
-      }
-    },
     cal (name){
-      if(name == 'ALL'){
-        this.grpstatus = this.groupstatus;
-      }
       this.buttonclicked  = name;
       this.grpstatus= [];
       let DVsumall  = 0;
@@ -132,13 +118,22 @@ export default {
       let DVsumfail = 0;
       let DVsumpassrate = 0.00;
       for(let i=0;i<this.groupstatus.length;i++){
-        if(this.groupstatus[i].DVgroup  ==name){
+        if(name == 'ALL'){
           this.grpstatus.push(this.groupstatus[i]);
           DVsumall  +=  this.groupstatus[i].allnum;
           DVsumpass +=  this.groupstatus[i].passnum;
           DVsumfail +=  this.groupstatus[i].failnum;
         }
-        else{
+        else 
+        {
+          if(this.groupstatus[i].DVgroup  ==name){
+            this.grpstatus.push(this.groupstatus[i]);
+            DVsumall  +=  this.groupstatus[i].allnum;
+            DVsumpass +=  this.groupstatus[i].passnum;
+            DVsumfail +=  this.groupstatus[i].failnum;
+          }
+          else{
+          }
         }
       }
       if(DVsumall ==  0){
