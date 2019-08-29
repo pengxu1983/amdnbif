@@ -1,5 +1,13 @@
 <template>
   <div>
+    <el-tabs v-model="selectgroup" @tab-click="handleClick">
+      <el-tab-pane 
+        v-for="oneDVgroup in DVgroups"
+        :label="oneDVgroup" 
+        :name="oneDVgroup"
+      >
+      </el-tab-pane>
+    </el-tabs>
     <el-button-group>
       <el-button 
         v-for="oneDVgroup in DVgroups"
@@ -97,7 +105,8 @@ export default {
       ],//TODO need to fetch from DB
       grpstatus : [],
       DVsum     : [],
-      buttonclicked : ''
+      buttonclicked : '',
+      selectedgroup : 'ALL'
     }
   },
   methods : {
