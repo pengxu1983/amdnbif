@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <el-container>
     <el-tabs v-model="selectedgroup" @tab-click="handleClick">
       <el-tab-pane 
         v-for="oneDVgroup in DVgroups"
@@ -8,7 +8,6 @@
       >
       </el-tab-pane>
     </el-tabs>
-    
     <h2>DV Group Summary</h2>
     <hr />
     <el-table
@@ -77,7 +76,7 @@
       >
       </el-table-column>
     </el-table>
-  </div>
+  </el-container>
 </template>
 
 <script>
