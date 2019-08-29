@@ -1,82 +1,86 @@
 <template>
-  <el-container>
-    <el-tabs v-model="selectedgroup" @tab-click="handleClick">
-      <el-tab-pane 
-        v-for="oneDVgroup in DVgroups"
-        :label="oneDVgroup" 
-        :name="oneDVgroup"
-      >
-      </el-tab-pane>
-    </el-tabs>
-    <h2>DV Group Summary</h2>
-    <hr />
-    <el-table
-      :data="DVsum"
-      stripe
-      border
-      style="width: 100%">
-      </el-table-column>
-      <el-table-column
-        prop="allnum"
-        label="alltestnum"
-      >
-      </el-table-column>
-      <el-table-column
-        prop="passnum"
-        label="passtestnum"
-      >
-      </el-table-column>
-      <el-table-column
-        prop="failnum"
-        label="failtestnum"
-      >
-      </el-table-column>
-      <el-table-column
-        prop="passrate"
-        label="passrate"
-        sortable
-      >
-      </el-table-column>
-    </el-table>
-    <h2>Feature Group Summary</h2>
-    <hr />
-    <el-table
-      :data="grpstatus"
-      stripe
-      border
-      style="width: 100%">
-      </el-table-column>
-      <el-table-column
-        prop="groupname"
-        label="groupname"
-        sortable
-      >
-      </el-table-column>
-      <el-table-column
-        prop="allnum"
-        label="alltestnum"
-        sortable
-      >
-      </el-table-column>
-      <el-table-column
-        prop="passnum"
-        label="passtestnum"
-        sortable
-      >
-      </el-table-column>
-      <el-table-column
-        prop="failnum"
-        label="failtestnum"
-        sortable
-      >
-      </el-table-column>
-      <el-table-column
-        prop="passrate"
-        label="passrate"
-      >
-      </el-table-column>
-    </el-table>
-  </el-container>
+  <div>
+    <el-container>
+      <el-main>
+        <el-tabs v-model="selectedgroup" @tab-click="handleClick">
+          <el-tab-pane 
+            v-for="oneDVgroup in DVgroups"
+            :label="oneDVgroup" 
+            :name="oneDVgroup"
+          >
+          </el-tab-pane>
+        </el-tabs>
+        <h2>DV Group Summary</h2>
+        <hr />
+        <el-table
+          :data="DVsum"
+          stripe
+          border
+          style="width: 100%">
+          </el-table-column>
+          <el-table-column
+            prop="allnum"
+            label="alltestnum"
+          >
+          </el-table-column>
+          <el-table-column
+            prop="passnum"
+            label="passtestnum"
+          >
+          </el-table-column>
+          <el-table-column
+            prop="failnum"
+            label="failtestnum"
+          >
+          </el-table-column>
+          <el-table-column
+            prop="passrate"
+            label="passrate"
+            sortable
+          >
+          </el-table-column>
+        </el-table>
+      </el-main>
+      <h2>Feature Group Summary</h2>
+      <hr />
+      <el-table
+        :data="grpstatus"
+        stripe
+        border
+        style="width: 100%">
+        </el-table-column>
+        <el-table-column
+          prop="groupname"
+          label="groupname"
+          sortable
+        >
+        </el-table-column>
+        <el-table-column
+          prop="allnum"
+          label="alltestnum"
+          sortable
+        >
+        </el-table-column>
+        <el-table-column
+          prop="passnum"
+          label="passtestnum"
+          sortable
+        >
+        </el-table-column>
+        <el-table-column
+          prop="failnum"
+          label="failtestnum"
+          sortable
+        >
+        </el-table-column>
+        <el-table-column
+          prop="passrate"
+          label="passrate"
+        >
+        </el-table-column>
+      </el-table>
+    </el-container>
+  </div>
 </template>
 
 <script>
