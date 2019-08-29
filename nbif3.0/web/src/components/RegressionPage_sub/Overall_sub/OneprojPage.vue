@@ -298,9 +298,6 @@ export default {
             console.log('regressionstatus');
             console.log(projectname);
             console.log(this.regressionstatus_disp);
-            //find latest
-            let latestregression = this.regressionstatus_disp.shift();
-            this.getgroupstatus(latestregression.projectname,latestregression.variantname,latestregression.changelist,latestregression.isBAPU,latestregression.shelve,latestregression.kickoffdate);
           }
           else{
             console.log(response.body);
