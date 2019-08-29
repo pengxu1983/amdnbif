@@ -81,31 +81,7 @@
       v-bind:groupstatus="groupstatus"
     >
     </Oneprojoneregress>
-    <h3>Feature Group Status</h3>
-    <el-table
-      :data="groupstatus"
-      stripe
-      border
-      style="width: 100%">
-      <el-table-column
-        prop="DVgroup"
-        label="DVgroup"
-        sortable
-      >
-      </el-table-column>
-      <el-table-column
-        prop="groupname"
-        label="groupname"
-        sortable
-      >
-      </el-table-column>
-      <el-table-column
-        prop="passrate"
-        label="passrate"
-        sortable
-      >
-      </el-table-column>
-    </el-table>
+    
     <el-dialog :title="title" :visible.sync="visible" width="80%">
       <el-pagination
         @current-change="handleCurrentChange"

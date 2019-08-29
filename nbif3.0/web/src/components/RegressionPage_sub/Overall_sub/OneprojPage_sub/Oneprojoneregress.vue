@@ -36,7 +36,6 @@
           <el-table-column
             prop="passrate"
             label="passrate"
-            sortable
           >
           </el-table-column>
         </el-table>
