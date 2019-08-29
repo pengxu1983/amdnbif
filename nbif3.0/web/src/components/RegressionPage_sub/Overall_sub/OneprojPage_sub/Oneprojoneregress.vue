@@ -151,8 +151,10 @@ export default {
     }
   },
   mounted (){
-    this.handleClick();
   },
+  updated (){
+    this.handleClick();
+  }
 }
 </script>
 
