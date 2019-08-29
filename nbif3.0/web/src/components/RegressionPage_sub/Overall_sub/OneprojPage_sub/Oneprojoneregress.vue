@@ -8,15 +8,7 @@
       >
       </el-tab-pane>
     </el-tabs>
-    <el-button-group>
-      <el-button 
-        v-for="oneDVgroup in DVgroups"
-        :type="isClicked(oneDVgroup)"
-        @click="cal(oneDVgroup)"
-      >
-      {{ oneDVgroup }}
-      </el-button>
-    </el-button-group>
+    
     <h2>DV Group Summary</h2>
     <hr />
     <el-table
@@ -111,6 +103,10 @@ export default {
     }
   },
   methods : {
+    handleClick(tab, event) {
+      console.log(tab, event);
+      this.cal(this.selectedgroup);
+    },
     isClicked (name){
       console.log('dbg11');
       console.log(name);
