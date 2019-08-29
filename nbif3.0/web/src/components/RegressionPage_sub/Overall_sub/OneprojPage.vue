@@ -295,9 +295,12 @@ export default {
         function(response){
           if(response.body.ok =='ok'){
             this.regressionstatus_disp=  response.body.regressions;
-            console.log('dbg1');
+            console.log('regressionstatus');
             console.log(projectname);
             console.log(this.regressionstatus_disp);
+            //find latest
+            let latestregression = this.regressionstatus_disp.shift();
+            this.getgroupstatus(latestregression.projectname,latestregression.variantname,latestregression.changelist,latestregression.isBAPU,latestregression.shelve,latestregression.kickoffdate);
           }
           else{
             console.log(response.body);
@@ -308,8 +311,8 @@ export default {
     },
   },
   mounted (){
-    this.regressionstatus(this.projectname);
     this.getinfo();
+    this.regressionstatus(this.projectname);
     console.log('mounted : ' +this.projectname);
   }
 }
