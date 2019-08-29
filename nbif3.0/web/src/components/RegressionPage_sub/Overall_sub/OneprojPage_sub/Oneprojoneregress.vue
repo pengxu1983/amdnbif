@@ -16,7 +16,9 @@
           :data="DVsum"
           stripe
           border
-          style="width: 100%">
+          style="width: 100%"
+          height="500"
+        >
           </el-table-column>
           <el-table-column
             prop="allnum"
