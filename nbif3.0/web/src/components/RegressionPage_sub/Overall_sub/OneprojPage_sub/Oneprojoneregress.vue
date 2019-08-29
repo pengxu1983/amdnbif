@@ -122,6 +122,9 @@ export default {
       }
     },
     cal (name){
+      if(name == 'ALL'){
+        this.grpstatus = this.groupstatus;
+      }
       this.buttonclicked  = name;
       this.grpstatus= [];
       let DVsumall  = 0;
