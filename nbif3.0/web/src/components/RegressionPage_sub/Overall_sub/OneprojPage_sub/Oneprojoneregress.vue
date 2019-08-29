@@ -152,9 +152,6 @@ export default {
   },
   mounted (){
   },
-  updated (){
-    this.handleClick();
-  }
 }
 </script>
 
