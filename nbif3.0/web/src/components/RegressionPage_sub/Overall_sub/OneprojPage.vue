@@ -242,10 +242,12 @@ export default {
           }
           else{
             console.log(response.body);
-            this.loading.close();
           }
+            this.loading.close();
         },
-        function(){},
+        function(){
+          this.loading.close();
+        },
       );
     },
     gettestdetails  (kind,projectname,variantname,groupname,changelist,isBAPU,shelve,kickoffdate){
