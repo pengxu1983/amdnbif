@@ -119,6 +119,7 @@ export default {
   },
   data() {
     return {
+      loading : false,
       regressionstatus_disp: [],
       testdetails          : [],
       testdetails_disp     : [],
@@ -207,6 +208,16 @@ export default {
       }
     },
     getgroupstatus(projectname,variantname,changelist,isBAPU,shelve,kickoffdate){
+      this.loading = this.$loading({
+        lock: true,
+        text: 'Loading',
+        spinner: 'el-icon-loading',
+        background: 'rgba(0, 0, 0, 0.7)'
+      });
+      //setTimeout(() => {
+      //  loading.close();
+      //}, 2000);
+
       console.log('method : groupstatus');
       this.oneregressioninfo.projectname = projectname;
       this.oneregressioninfo.variantname = variantname;
@@ -231,6 +242,7 @@ export default {
           }
           else{
             console.log(response.body);
+            this.loading.close();
           }
         },
         function(){},
