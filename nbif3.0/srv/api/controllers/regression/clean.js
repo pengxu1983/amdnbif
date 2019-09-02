@@ -1,11 +1,16 @@
-var cronJob         = require("cron").CronJob;
-let cron_clean_daily = new cronJob('0 10 20 * * *',function(){
+var moment        = require('moment');
+var querystring   = require('querystring');
+var http          = require('http');
+var fs            = require('fs');
+var child_process = require('child_process');
+var cronJob       = require("cron").CronJob;
+let cron_clean_daily = new cronJob('0 0 22 * * *',function(){
   let postData = querystring.stringify({
-    'kind': 'testdetails'
+    'kind': 'all'
   });
   
   let options = {
-    hostname: 'amdnbif1.thehunters.club',
+    hostname: 'amdnbif2.thehunters.club',
     port: 80,
     path: '/regression/clean',
     method: 'POST',
@@ -29,7 +34,6 @@ let cron_clean_daily = new cronJob('0 10 20 * * *',function(){
   
   req.on('error', (e) => {
     console.error(`problem with request: ${e.message}`);
-    console.log(postData);
   });
   
   // write data to request body
@@ -61,8 +65,8 @@ module.exports = {
   fn: async function (inputs,exits) {
     sails.log('/regression/clean');
     sails.log(inputs);
-    if(inputs.kind == 'testdetails'){
-      for(let day = 1 ; day <= 5 ; day++){
+    if(inputs.kind  ==  'all'){
+      for(let day = 0 ; day < 5 ; day ++){
         await Regressiondetails0001.destroy({
           kickoffdate : moment().subtract(day+15,'days').format('YYYY-MM-DD')
         });
@@ -76,9 +80,6 @@ module.exports = {
           kickoffdate : moment().subtract(day+15,'days').format('YYYY-MM-DD')
         });
       }
-      return exit.success(JSON.stringify({
-        ok  : 'ok'
-      }));
     }
     // All done.
     return exit.success(JSON.stringify({
