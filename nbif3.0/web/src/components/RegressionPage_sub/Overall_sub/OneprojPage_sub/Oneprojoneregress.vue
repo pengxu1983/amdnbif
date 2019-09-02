@@ -10,8 +10,6 @@
           >
           </el-tab-pane>
         </el-tabs>
-        <h2>DV Group Summary</h2>
-        <hr />
         <el-table
           :data="DVsum"
           stripe
@@ -40,6 +38,7 @@
           >
           </el-table-column>
         </el-table>
+        <hr />
         <h2>Feature Group Summary</h2>
         <hr />
         <el-table

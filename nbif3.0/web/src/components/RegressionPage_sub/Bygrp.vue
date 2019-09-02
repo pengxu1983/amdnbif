@@ -40,6 +40,7 @@
         <el-table-column
           prop="kickoffdate"
           label="kickoffdate"
+          height="500"
           sortable
         >
         </el-table-column>
