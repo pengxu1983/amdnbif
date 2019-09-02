@@ -58,6 +58,16 @@ module.exports = {
     //For 0001 mi200
     ///////////////////////////////////////
     if(inputs.projectname  ==  'mi200'){
+      for(let day = 0 ; day < 5 ; day ++){
+        sails.log('clean DB');
+        sails.log(moment().subtract(day+15,'days').format('YYYY-MM-DD'));
+        await Regressiondetails0001.destroy({
+          kickoffdate : moment().subtract(day+15,'days').format('YYYY-MM-DD')
+        });
+        await Regressionsummary0001.destroy({
+          kickoffdate : moment().subtract(day+15,'days').format('YYYY-MM-DD')
+        });
+      }
       let oneregressiongroups = await Regressionsummary0001.find({
         projectname : inputs.projectname,
         variantname : inputs.variantname,
@@ -487,6 +497,16 @@ module.exports = {
     //For 0002 mero
     ///////////////////////////////////////
     if(inputs.projectname  ==  'mero'){
+      for(let day = 0 ; day < 5 ; day ++){
+        sails.log('clean DB');
+        sails.log(moment().subtract(day+15,'days').format('YYYY-MM-DD'));
+        await Regressiondetails0002.destroy({
+          kickoffdate : moment().subtract(day+15,'days').format('YYYY-MM-DD')
+        });
+        await Regressionsummary0002.destroy({
+          kickoffdate : moment().subtract(day+15,'days').format('YYYY-MM-DD')
+        });
+      }
       let oneregressiongroups = await Regressionsummary0002.find({
         projectname : inputs.projectname,
         variantname : inputs.variantname,
