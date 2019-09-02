@@ -66,6 +66,9 @@ module.exports.routes = {
     action  : 'config/users/get'
   },
   //For regression
+  'POST /regression/clean' : {
+    action  : 'regression/clean'
+  },
   'POST /regression/upload' : {
     action  : 'regression/upload'
   },
