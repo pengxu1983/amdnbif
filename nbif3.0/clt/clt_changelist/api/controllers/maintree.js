@@ -14,7 +14,7 @@ let branchname      = 'main';
 //let postQ           = [];
 //let postQlimit      = 20;////MODIFY
 //let treeInfoList    = [];
-let cron_check_changelist= new cronJob('*/5 * * * * *',function(){
+let cron_check_changelist= new cronJob('0 * * * * *',function(){
   console.log('cron_check_changelist start at '+moment().format('YYYY-MM-DD HH:mm:ss'));
   let R = child_process.spawnSync('cd '+refTreeRoot+' && p4 changes -m10 ...#head',{
     encoding  : 'utf8',
@@ -48,7 +48,7 @@ let cron_check_changelist= new cronJob('*/5 * * * * *',function(){
   });
   
   let options = {
-    hostname: 'amdnbif2.thehunters.club',
+    hostname: 'amdnbif1.thehunters.club',
     port: 80,
     path: '/changelist/upload',
     method: 'POST',
