@@ -81,6 +81,7 @@
             label="failtestnum"
             sortable
           >
+          </el-table-column>
           <el-table-column
             prop="unknownnum"
             label="unknownnum"
@@ -92,7 +93,6 @@
             label="notfinished"
             sortable
           >
-          </el-table-column>
           </el-table-column>
           <el-table-column
             prop="passrate"
