@@ -33,6 +33,16 @@
           >
           </el-table-column>
           <el-table-column
+            prop="unknownnum"
+            label="unknownnum"
+          >
+          </el-table-column>
+          <el-table-column
+            prop="runningnum"
+            label="notfinished"
+          >
+          </el-table-column>
+          <el-table-column
             prop="passrate"
             label="passrate"
           >
@@ -71,6 +81,18 @@
             label="failtestnum"
             sortable
           >
+          <el-table-column
+            prop="unknownnum"
+            label="unknownnum"
+            sortable
+          >
+          </el-table-column>
+          <el-table-column
+            prop="runningnum"
+            label="notfinished"
+            sortable
+          >
+          </el-table-column>
           </el-table-column>
           <el-table-column
             prop="passrate"
@@ -116,13 +138,17 @@ export default {
       let DVsumall  = 0;
       let DVsumpass = 0;
       let DVsumfail = 0;
+      let DVsumunknown = 0;
+      let DVsumrunning = 0;
       let DVsumpassrate = 0.00;
       for(let i=0;i<this.groupstatus.length;i++){
         if(name == 'ALL'){
           this.grpstatus.push(this.groupstatus[i]);
-          DVsumall  +=  this.groupstatus[i].allnum;
-          DVsumpass +=  this.groupstatus[i].passnum;
-          DVsumfail +=  this.groupstatus[i].failnum;
+          DVsumall      +=  this.groupstatus[i].allnum;
+          DVsumpass     +=  this.groupstatus[i].passnum;
+          DVsumfail     +=  this.groupstatus[i].failnum;
+          DVsumunknown  +=  this.groupstatus[i].unknownnum;
+          DVsumrunning  +=  this.groupstatus[i].runningnum;
         }
         else 
         {
@@ -131,6 +157,8 @@ export default {
             DVsumall  +=  this.groupstatus[i].allnum;
             DVsumpass +=  this.groupstatus[i].passnum;
             DVsumfail +=  this.groupstatus[i].failnum;
+            DVsumunknown  +=  this.groupstatus[i].unknownnum;
+            DVsumrunning  +=  this.groupstatus[i].runningnum;
           }
           else{
           }
@@ -147,6 +175,8 @@ export default {
         allnum  : DVsumall,
         passnum : DVsumpass,
         failnum : DVsumfail,
+        unknownnum  : DVsumunknown,
+        runningnum  : DVsumrunning,
         passrate  : DVsumpassrate
       });
     }
