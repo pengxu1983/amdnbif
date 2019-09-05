@@ -82,7 +82,6 @@
           label="passnum">
           <template slot-scope="scope">
             <el-button type="text" @click="gettestdetails('PASS',scope.row.projectname,scope.row.variantname,groupinfo.groupname,scope.row.changelist,scope.row.isBAPU,scope.row.shelve,scope.row.kickoffdate)">{{scope.row.passnum}}</el-button>
-            </el-dialog>
           </template>
         </el-table-column>
         <el-table-column
@@ -94,14 +93,16 @@
         </el-table-column>
         <el-table-column
           prop="unknownnum"
-          label="unknownnum">
+          label="unknownnum"
+        >
           <template slot-scope="scope">
             <el-button type="text" @click="gettestdetails('UNKNOWN',scope.row.projectname,scope.row.variantname,groupinfo.groupname,scope.row.changelist,scope.row.isBAPU,scope.row.shelve,scope.row.kickoffdate)">{{scope.row.unknownnum}}</el-button>
           </template>
         </el-table-column>
         <el-table-column
           prop="runningnum"
-          label="runningnum">
+          label="runningnum"
+        >
           <template slot-scope="scope">
             <el-button type="text" @click="gettestdetails('RUNNING',scope.row.projectname,scope.row.variantname,groupinfo.groupname,scope.row.changelist,scope.row.isBAPU,scope.row.shelve,scope.row.kickoffdate)">{{scope.row.runningnum}}</el-button>
           </template>

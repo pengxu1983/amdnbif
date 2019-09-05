@@ -64,6 +64,12 @@ module.exports = {
           });
           sails.log(onegroup.DVgroup);
           groupstatus.push({
+            projectname : inputs.projectname,
+            variantname : inputs.variantname,
+            changelist  : inputs.changelist,
+            isBAPU      : inputs.isBAPU,
+            shelve      : inputs.shelve,
+            kickoffdate : inputs.kickoffdate,
             DVgroup : onegroup.DVgroup,
             groupname : R[r].groupname,
             passrate  : R[r].passrate,
@@ -105,6 +111,12 @@ module.exports = {
           });
           sails.log(onegroup.DVgroup);
           groupstatus.push({
+            projectname : inputs.projectname,
+            variantname : inputs.variantname,
+            changelist  : inputs.changelist,
+            isBAPU      : inputs.isBAPU,
+            shelve      : inputs.shelve,
+            kickoffdate : inputs.kickoffdate,
             DVgroup : onegroup.DVgroup,
             groupname : R[r].groupname,
             passrate  : R[r].passrate,
