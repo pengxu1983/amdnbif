@@ -69,6 +69,9 @@
             label="alltestnum"
             sortable
           >
+            <template slot-scope="scope">
+              <el-button type="text" @click="gettestdetails('ALL',scope.row.projectname,scope.row.variantname,scope.row.groupname,scope.row.changelist,scope.row.isBAPU,scope.row.shelve,scope.row.kickoffdate)">{{scope.row.allnum}}</el-button>
+            </template>
           </el-table-column>
           <el-table-column
             prop="passnum"
@@ -76,7 +79,7 @@
             sortable
           >
             <template slot-scope="scope">
-              <el-button type="text" @click="gettestdetails('PASS',scope.row.projectname,scope.row.variantname,groupinfo.groupname,scope.row.changelist,scope.row.isBAPU,scope.row.shelve,scope.row.kickoffdate)">{{scope.row.passnum}}</el-button>
+              <el-button type="text" @click="gettestdetails('PASS',scope.row.projectname,scope.row.variantname,scope.row.groupname,scope.row.changelist,scope.row.isBAPU,scope.row.shelve,scope.row.kickoffdate)">{{scope.row.passnum}}</el-button>
             </template>
           </el-table-column>
           <el-table-column
@@ -85,7 +88,7 @@
             sortable
           >
             <template slot-scope="scope">
-              <el-button type="text" @click="gettestdetails('FAIL',scope.row.projectname,scope.row.variantname,groupinfo.groupname,scope.row.changelist,scope.row.isBAPU,scope.row.shelve,scope.row.kickoffdate)">{{scope.row.failnum}}</el-button>
+              <el-button type="text" @click="gettestdetails('FAIL',scope.row.projectname,scope.row.variantname,scope.row.groupname,scope.row.changelist,scope.row.isBAPU,scope.row.shelve,scope.row.kickoffdate)">{{scope.row.failnum}}</el-button>
             </template>
           </el-table-column>
           <el-table-column
@@ -94,7 +97,7 @@
             sortable
           >
             <template slot-scope="scope">
-              <el-button type="text" @click="gettestdetails('UNKNOWN',scope.row.projectname,scope.row.variantname,groupinfo.groupname,scope.row.changelist,scope.row.isBAPU,scope.row.shelve,scope.row.kickoffdate)">{{scope.row.unknownnum}}</el-button>
+              <el-button type="text" @click="gettestdetails('UNKNOWN',scope.row.projectname,scope.row.variantname,scope.row.groupname,scope.row.changelist,scope.row.isBAPU,scope.row.shelve,scope.row.kickoffdate)">{{scope.row.unknownnum}}</el-button>
             </template>
           </el-table-column>
           <el-table-column
@@ -103,7 +106,7 @@
             sortable
           >
             <template slot-scope="scope">
-              <el-button type="text" @click="gettestdetails('RUNNING',scope.row.projectname,scope.row.variantname,groupinfo.groupname,scope.row.changelist,scope.row.isBAPU,scope.row.shelve,scope.row.kickoffdate)">{{scope.row.runningnum}}</el-button>
+              <el-button type="text" @click="gettestdetails('RUNNING',scope.row.projectname,scope.row.variantname,scope.row.groupname,scope.row.changelist,scope.row.isBAPU,scope.row.shelve,scope.row.kickoffdate)">{{scope.row.runningnum}}</el-button>
             </template>
           </el-table-column>
           <el-table-column
