@@ -116,34 +116,34 @@
           </el-table-column>
         </el-table>
         <el-dialog :title="title" :visible.sync="visible" width="80%">
-        <el-pagination
-          @current-change="handleCurrentChange"
-          :page-size="pagesize"
-          layout="prev, pager, next"
-          :total="testdetails.length">
-        </el-pagination>
-        <el-form :inline="true" :model="searchparam" class="demo-form-inline">
-          <el-form-item label="testname contains">
-            <el-input v-model="searchparam.testnamesrch" placeholder="testname contains"></el-input>
-          </el-form-item>
-          <el-form-item label="signature contains">
-            <el-input v-model="searchparam.sigsrch" placeholder="signature contains"></el-input>
-          </el-form-item>
-          <el-form-item>
-            <el-button type="primary" @click="gettestdetails(searchparam.kind,searchparam.projectname,searchparam.variantname,searchparam.groupname,searchparam.changelist,searchparam.isBAPU,searchparam.shelve,searchparam.kickoffdate)">Filter</el-button>
-          </el-form-item>
-        </el-form>
-        <el-table :data="testdetails_disp" style="width: 100%">
-          <el-table-column 
-            property="testname" 
-            label="testname" 
-            width="200"
-            sortable
-          ></el-table-column>
-          <el-table-column property="seed" label="seed" width="200"></el-table-column>
-          <el-table-column property="signature" label="signature"></el-table-column>
-        </el-table>
-      </el-dialog>
+          <el-pagination
+            @current-change="handleCurrentChange"
+            :page-size="pagesize"
+            layout="prev, pager, next"
+            :total="testdetails.length">
+          </el-pagination>
+          <el-form :inline="true" :model="searchparam" class="demo-form-inline">
+            <el-form-item label="testname contains">
+              <el-input v-model="searchparam.testnamesrch" placeholder="testname contains"></el-input>
+            </el-form-item>
+            <el-form-item label="signature contains">
+              <el-input v-model="searchparam.sigsrch" placeholder="signature contains"></el-input>
+            </el-form-item>
+            <el-form-item>
+              <el-button type="primary" @click="gettestdetails(searchparam.kind,searchparam.projectname,searchparam.variantname,searchparam.groupname,searchparam.changelist,searchparam.isBAPU,searchparam.shelve,searchparam.kickoffdate)">Filter</el-button>
+            </el-form-item>
+          </el-form>
+          <el-table :data="testdetails_disp" style="width: 100%">
+            <el-table-column 
+              property="testname" 
+              label="testname" 
+              width="200"
+              sortable
+            ></el-table-column>
+            <el-table-column property="seed" label="seed" width="200"></el-table-column>
+            <el-table-column property="signature" label="signature"></el-table-column>
+          </el-table>
+        </el-dialog>
       </el-main>
     </el-container>
   </div>
@@ -173,6 +173,19 @@ export default {
       title : '',
       testdetails_disp  : [],
       testdetails : [],
+      searchparam : {
+        testnamesrch  : '',
+        sigsrch: '',
+        kind      : '',
+        projectname:'',
+        variantname:'',
+        groupname : '',
+        changelist: '',
+        isBAPU    : '',
+        shelve    : '',
+        kickoffdate:''
+      },
+      pagesize : 500,
     }
   },
   watch : {
