@@ -69,9 +69,6 @@
             label="alltestnum"
             sortable
           >
-            <template slot-scope="scope">
-              <el-button type="text" @click="gettestdetails('ALL',scope.row.projectname,scope.row.variantname,groupinfo.groupname,scope.row.changelist,scope.row.isBAPU,scope.row.shelve,scope.row.kickoffdate)">{{scope.row.alltestnum}}</el-button>
-            </template>
           </el-table-column>
           <el-table-column
             prop="passnum"
