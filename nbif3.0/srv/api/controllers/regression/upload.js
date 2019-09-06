@@ -83,7 +83,7 @@ module.exports = {
       let groupname     = oneTestResult.groupname    ;
       let oneTestResultDB;
       ///////////////////////////////////////
-      //For 0001 Now is mi200
+      //For 0001
       ///////////////////////////////////////
       if(oneTestResult['projectname']=='mi200'){
         oneTestResultDB = await Regressiondetails0001.findOne({////MODIFY
@@ -149,7 +149,7 @@ module.exports = {
         }
       }
       ///////////////////////////////////////
-      //For 0002 Now is mero
+      //For 0002 
       ///////////////////////////////////////
       if(oneTestResult['projectname']=='mero'){
         oneTestResultDB = await Regressiondetails0002.findOne({////MODIFY
@@ -214,6 +214,141 @@ module.exports = {
           sails.log('create '+ testname);
         }
       }
+      ///////////////////////////////////////
+      //For 0003
+      ///////////////////////////////////////
+      if(oneTestResult['projectname']=='rembrandt'){
+        oneTestResultDB = await Regressiondetails0003.findOne({////MODIFY
+          kickoffdate   : kickoffdate   ,
+          variantname   : variantname   ,
+          changelist    : changelist    ,
+          projectname   : projectname   ,
+          testname      : testname      ,
+          //result        : result        ,
+          //seed          : seed          ,
+          //signature     : signature     ,
+          //suite         : suite         ,
+          shelve        : shelve        ,
+          isBAPU        : isBAPU        ,
+          //groupname     : groupname
+        });
+        if(oneTestResultDB){
+          await Regressiondetails0003.update({
+            kickoffdate   : kickoffdate   ,
+            variantname   : variantname   ,
+            changelist    : changelist    ,
+            projectname   : projectname   ,
+            testname      : testname      ,
+            //result        : result        ,
+            //seed          : seed          ,
+            //signature     : signature     ,
+            //suite         : suite         ,
+            shelve        : shelve        ,
+            isBAPU        : isBAPU        ,
+            //groupname     : groupname   
+          },{
+            //kickoffdate   : kickoffdate   ,
+            //variantname   : variantname   ,
+            //changelist    : changelist    ,
+            //projectname   : projectname   ,
+            //testname      : testname      ,
+            result        : result        ,
+            seed          : seed          ,
+            signature     : signature     ,
+            suite         : suite         ,
+            //shelve        : shelve        ,
+            //isBAPU        : isBAPU        ,
+            groupname     : groupname
+          });
+          sails.log('update '+ testname);
+        }
+        else{
+          await Regressiondetails0003.create({
+            kickoffdate   : kickoffdate   ,
+            variantname   : variantname   ,
+            changelist    : changelist    ,
+            projectname   : projectname   ,
+            testname      : testname      ,
+            result        : result        ,
+            seed          : seed          ,
+            signature     : signature     ,
+            suite         : suite         ,
+            shelve        : shelve        ,
+            isBAPU        : isBAPU        ,
+            groupname     : groupname     ,
+          });
+          sails.log('create '+ testname);
+        }
+      }
+      ///////////////////////////////////////
+      //For 0004
+      ///////////////////////////////////////
+      if(oneTestResult['projectname']=='floyd'){
+        oneTestResultDB = await Regressiondetails0004.findOne({////MODIFY
+          kickoffdate   : kickoffdate   ,
+          variantname   : variantname   ,
+          changelist    : changelist    ,
+          projectname   : projectname   ,
+          testname      : testname      ,
+          //result        : result        ,
+          //seed          : seed          ,
+          //signature     : signature     ,
+          //suite         : suite         ,
+          shelve        : shelve        ,
+          isBAPU        : isBAPU        ,
+          //groupname     : groupname
+        });
+        if(oneTestResultDB){
+          await Regressiondetails0004.update({
+            kickoffdate   : kickoffdate   ,
+            variantname   : variantname   ,
+            changelist    : changelist    ,
+            projectname   : projectname   ,
+            testname      : testname      ,
+            //result        : result        ,
+            //seed          : seed          ,
+            //signature     : signature     ,
+            //suite         : suite         ,
+            shelve        : shelve        ,
+            isBAPU        : isBAPU        ,
+            //groupname     : groupname   
+          },{
+            //kickoffdate   : kickoffdate   ,
+            //variantname   : variantname   ,
+            //changelist    : changelist    ,
+            //projectname   : projectname   ,
+            //testname      : testname      ,
+            result        : result        ,
+            seed          : seed          ,
+            signature     : signature     ,
+            suite         : suite         ,
+            //shelve        : shelve        ,
+            //isBAPU        : isBAPU        ,
+            groupname     : groupname
+          });
+          sails.log('update '+ testname);
+        }
+        else{
+          await Regressiondetails0004.create({
+            kickoffdate   : kickoffdate   ,
+            variantname   : variantname   ,
+            changelist    : changelist    ,
+            projectname   : projectname   ,
+            testname      : testname      ,
+            result        : result        ,
+            seed          : seed          ,
+            signature     : signature     ,
+            suite         : suite         ,
+            shelve        : shelve        ,
+            isBAPU        : isBAPU        ,
+            groupname     : groupname     ,
+          });
+          sails.log('create '+ testname);
+        }
+      }
+      return exits.success(JSON.stringify({
+        ok  : 'ok'
+      }));
     }
     if(inputs.kind  ==  'oneregression'){
       sails.log('oneregression');
