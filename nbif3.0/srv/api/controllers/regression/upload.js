@@ -385,6 +385,9 @@ module.exports = {
             }
           }
           //summary update to DB
+          ///////////////////////////////////////
+          //For 0001
+          ///////////////////////////////////////
           if(inputs.projectname ==  'mi200'){
             R = await Regressionsummary0001.findOne({
               groupname   : grouplist[i],
@@ -415,6 +418,9 @@ module.exports = {
               });
             }
           }
+          ///////////////////////////////////////
+          //For 0002
+          ///////////////////////////////////////
           else if(inputs.projectname  ==  'mero'){
             R = await Regressionsummary0002.findOne({
               groupname   : grouplist[i],
@@ -429,6 +435,72 @@ module.exports = {
             }
             else{
               await Regressionsummary0002.create({
+                groupname   : grouplist[i],
+                isBAPU      : inputs.isBAPU,
+                projectname : inputs.projectname,
+                variantname : inputs.variantname,
+                changelist  : inputs.changelist,
+                kickoffdate : inputs.kickoffdate,
+                shelve      : inputs.shelve,
+                testlist    : JSON.stringify([]),
+                passlist    : JSON.stringify([]),
+                faillist    : JSON.stringify([]),
+                runninglist : JSON.stringify([]),
+                unknownlist : JSON.stringify([]),
+                passrate    : 0
+              });
+            }
+          }
+          ///////////////////////////////////////
+          //For 0003
+          ///////////////////////////////////////
+          else if(inputs.projectname ==  'rembrandt'){
+            R = await Regressionsummary0003.findOne({
+              groupname   : grouplist[i],
+              isBAPU      : inputs.isBAPU,
+              projectname : inputs.projectname,
+              variantname : inputs.variantname,
+              changelist  : inputs.changelist,
+              kickoffdate : inputs.kickoffdate,
+              shelve      : inputs.shelve
+            });
+            if(R){
+            }
+            else{
+              await Regressionsummary0003.create({
+                groupname   : grouplist[i],
+                isBAPU      : inputs.isBAPU,
+                projectname : inputs.projectname,
+                variantname : inputs.variantname,
+                changelist  : inputs.changelist,
+                kickoffdate : inputs.kickoffdate,
+                shelve      : inputs.shelve,
+                testlist    : JSON.stringify([]),
+                passlist    : JSON.stringify([]),
+                faillist    : JSON.stringify([]),
+                runninglist : JSON.stringify([]),
+                unknownlist : JSON.stringify([]),
+                passrate    : 0
+              });
+            }
+          }
+          ///////////////////////////////////////
+          //For 0004
+          ///////////////////////////////////////
+          else if(inputs.projectname ==  'floyd'){
+            R = await Regressionsummary0004.findOne({
+              groupname   : grouplist[i],
+              isBAPU      : inputs.isBAPU,
+              projectname : inputs.projectname,
+              variantname : inputs.variantname,
+              changelist  : inputs.changelist,
+              kickoffdate : inputs.kickoffdate,
+              shelve      : inputs.shelve
+            });
+            if(R){
+            }
+            else{
+              await Regressionsummary0004.create({
                 groupname   : grouplist[i],
                 isBAPU      : inputs.isBAPU,
                 projectname : inputs.projectname,
