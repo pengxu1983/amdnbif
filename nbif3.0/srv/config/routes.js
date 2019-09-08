@@ -84,6 +84,9 @@ module.exports.routes = {
   'POST /regression/groupstatus' : {
     action  : 'regression/groupstatus'
   },
+  'POST /regression/neverpass' : {
+    action  : 'regression/neverpass'
+  },
   //For metrics
   'POST /metrics/getdvgroupprstatus' : {
     action  : 'metrics/getdvgroupprstatus'
