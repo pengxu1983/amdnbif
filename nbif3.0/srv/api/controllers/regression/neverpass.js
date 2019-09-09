@@ -90,7 +90,7 @@ module.exports = {
                 variantname : notpasscases[t].variantname,
                 isBAPU      : notpasscases[t].isBAPU,
                 suite       : notpasscases[t].suite,
-                lastfail    : notpasscases[t].changelist
+                lastfail    : notpasscases[t].changelist,
                 fixETA      : lastneverpass.fixETA,
                 owner       : lastneverpass.owner,
               });
@@ -110,7 +110,7 @@ module.exports = {
                   variantname : notpasscases[t].variantname,
                   isBAPU      : notpasscases[t].isBAPU,
                   suite       : notpasscases[t].suite,
-                  lastfail    : notpasscases[t].changelist
+                  lastfail    : notpasscases[t].changelist,
                   fixETA      : '',
                   owner       : '',
                 });
@@ -130,7 +130,7 @@ module.exports = {
                     variantname : notpasscases[t].variantname,
                     isBAPU      : notpasscases[t].isBAPU,
                     suite       : notpasscases[t].suite,
-                    lastfail    : notpasscases[t].changelist
+                    lastfail    : notpasscases[t].changelist,
                     fixETA      : '',
                     owner       : '',
                   });
@@ -142,6 +142,7 @@ module.exports = {
             id  : {'>=':0}
           });
           await Regressionneverpass0001.createEach(newneverpass);
+          newneverpass=[];
         }
       }
       //////////////////////////
