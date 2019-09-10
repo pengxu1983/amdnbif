@@ -495,6 +495,46 @@ module.exports = {
           res.on('end', () => {
             //console.log('No more data in response.');
             console.log('summary DONE');
+            let postData = querystring.stringify({
+              kind        : 'cal',
+              projectname : treeInfo['projectname'],
+              variantname : treeInfo['variantname'],
+              isBAPU      : treeInfo['isBAPU'],     
+              kickoffdate : treeInfo['kickoffdate'],
+              changelist  : treeInfo['changelist'], 
+              shelve      : treeInfo['shelve'],     
+            });
+            
+            let options = {
+              hostname: 'amdnbif2.thehunters.club',
+              port: 80,
+              path: '/regression/neverpass',
+              method: 'POST',
+              headers: {
+                'Content-Type': 'application/x-www-form-urlencoded',
+                'Content-Length': Buffer.byteLength(postData)
+              }
+            };
+            
+            let req = http.request(options, (res) => {
+              //console.log(`STATUS: ${res.statusCode}`);
+              //console.log(`HEADERS: ${JSON.stringify(res.headers)}`);
+              res.setEncoding('utf8');
+              res.on('data', (chunk) => {
+                console.log(`BODY: ${chunk}`);
+              });
+              res.on('end', () => {
+                console.log('No more data in response.');
+              });
+            });
+            
+            req.on('error', (e) => {
+              console.error(`problem with request: ${e.message}`);
+            });
+            
+            // write data to request body
+            req.write(postData);
+            req.end();
           });
         });
         
