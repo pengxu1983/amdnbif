@@ -61,6 +61,7 @@ module.exports = {
       //For 0001
       //////////////////////////
       if(inputs.projectname ==  'mi200'){
+        sails.log('mi200');
         notpasscases = await Regressiondetails0001.find({
           kickoffdate : inputs.kickoffdate,
           projectname : inputs.projectname,
@@ -68,6 +69,7 @@ module.exports = {
           isBAPU      : inputs.isBAPU,
           result      : {'!=':'PASS'}
         });
+        sails.log('length : '+notpasscases.length);
         if(notpasscases.length == 0){
           return exits.success(JSON.stringify({
             ok  : 'notok',
@@ -83,6 +85,8 @@ module.exports = {
               isBAPU      : notpasscases[t].isBAPU,
               suite       : notpasscases[t].suite,
             });
+            sails.log('dbg1');
+            sails.log(lastneverpass);
             if(lastneverpass){
               newneverpass.push({
                 testname    : notpasscases[t].testname,
@@ -103,6 +107,8 @@ module.exports = {
                 isBAPU      : notpasscases[t].isBAPU,
                 suite       : notpasscases[t].suite,
               });
+              sails.log('dbg2');
+              sails.log(R);
               if(R.length == 0){
                 newneverpass.push({
                   testname    : notpasscases[t].testname,
@@ -141,6 +147,8 @@ module.exports = {
           await Regressionneverpass0001.destroy({
             id  : {'>=':0}
           });
+          sails.log('dbg3');
+          sails.log(newneverpass.length);
           await Regressionneverpass0001.createEach(newneverpass);
           newneverpass=[];
         }

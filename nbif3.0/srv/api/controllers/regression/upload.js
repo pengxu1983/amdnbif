@@ -67,7 +67,7 @@ module.exports = {
     //=============================================//
     if(inputs.kind  == 'onecase'){
       let oneTestResult = JSON.parse(inputs.oneTestResult);
-      sails.log('onecase upload ' + oneTestResult.testname);
+      //sails.log('onecase upload ' + oneTestResult.testname);
 
       let kickoffdate   = oneTestResult.kickoffdate  ;
       let variantname   = oneTestResult.variantname  ;
@@ -128,7 +128,7 @@ module.exports = {
             //isBAPU        : isBAPU        ,
             groupname     : groupname
           });
-          sails.log('update '+ testname);
+          //sails.log('update '+ testname);
         }
         else{
           await Regressiondetails0001.create({
@@ -145,7 +145,7 @@ module.exports = {
             isBAPU        : isBAPU        ,
             groupname     : groupname     ,
           });
-          sails.log('create '+ testname);
+          //sails.log('create '+ testname);
         }
       }
       ///////////////////////////////////////
@@ -194,7 +194,7 @@ module.exports = {
             //isBAPU        : isBAPU        ,
             groupname     : groupname
           });
-          sails.log('update '+ testname);
+          //sails.log('update '+ testname);
         }
         else{
           await Regressiondetails0002.create({
@@ -211,7 +211,7 @@ module.exports = {
             isBAPU        : isBAPU        ,
             groupname     : groupname     ,
           });
-          sails.log('create '+ testname);
+          //sails.log('create '+ testname);
         }
       }
       ///////////////////////////////////////
@@ -260,7 +260,7 @@ module.exports = {
             //isBAPU        : isBAPU        ,
             groupname     : groupname
           });
-          sails.log('update '+ testname);
+          //sails.log('update '+ testname);
         }
         else{
           await Regressiondetails0003.create({
@@ -277,7 +277,7 @@ module.exports = {
             isBAPU        : isBAPU        ,
             groupname     : groupname     ,
           });
-          sails.log('create '+ testname);
+          //sails.log('create '+ testname);
         }
       }
       ///////////////////////////////////////
@@ -326,7 +326,7 @@ module.exports = {
             //isBAPU        : isBAPU        ,
             groupname     : groupname
           });
-          sails.log('update '+ testname);
+          //sails.log('update '+ testname);
         }
         else{
           await Regressiondetails0004.create({
@@ -343,7 +343,7 @@ module.exports = {
             isBAPU        : isBAPU        ,
             groupname     : groupname     ,
           });
-          sails.log('create '+ testname);
+          //sails.log('create '+ testname);
         }
       }
       return exits.success(JSON.stringify({
