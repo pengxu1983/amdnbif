@@ -22,6 +22,7 @@ let dly             = async function(ms){
   });
 }
 let cron_check_result = new cronJob('* * * * * *',function(){
+  console.log('starting...');
   cron_check_result.stop();
   let postData = querystring.stringify({
     'start': 'oneregressioncheck'
@@ -113,6 +114,9 @@ module.exports = {
           }
         }
         else{
+          if(fs.existsSync(oneregTreeRoot+'/NBIF_TEST_TO_CHECK')){
+            fs.unlinkSync(oneregTreeRoot+'/NBIF_TEST_TO_CHECK');
+          }
           console.log('invalid tree!!!');
           continue;
         }
@@ -218,6 +222,9 @@ module.exports = {
           //parse testlist from testlist.log ////end
         }
         else{
+          if(fs.existsSync(oneregTreeRoot+'/NBIF_TEST_TO_CHECK')){
+            fs.unlinkSync(oneregTreeRoot+'/NBIF_TEST_TO_CHECK');
+          }
           console.log('invalid tree!!!');
           continue;
         }
@@ -275,6 +282,47 @@ module.exports = {
               fs.unlinkSync(oneregTreeRoot+'/NBIF_TEST_TO_CHECK');
             }
             console.log('NBIF_TREE_INFO deleted and ignore this round');
+            let postData = querystring.stringify({
+              projectname : treeInfo['projectname'],
+              variantname : treeInfo['variantname'],
+              isBAPU      : treeInfo['isBAPU'],     
+              kickoffdate : treeInfo['kickoffdate'],
+              changelist  : treeInfo['changelist'], 
+              shelve      : treeInfo['shelve'],     
+            });
+            
+            let options = {
+              hostname: 'amdnbif2.thehunters.club',
+              port: 80,
+              path: '/regression/summary',
+              method: 'POST',
+              headers: {
+                'Content-Type': 'application/x-www-form-urlencoded',
+                'Content-Length': Buffer.byteLength(postData)
+              }
+            };
+            
+            let req = http.request(options, (res) => {
+              //console.log(`STATUS: ${res.statusCode}`);
+              //console.log(`HEADERS: ${JSON.stringify(res.headers)}`);
+              res.setEncoding('utf8');
+              res.on('data', (chunk) => {
+                //console.log(`BODY: ${chunk}`);
+              });
+              res.on('end', () => {
+                //console.log('No more data in response.');
+                console.log('summary DONE');
+              });
+            });
+            
+            req.on('error', (e) => {
+              console.error(`problem with request: ${e.message}`);
+              console.log(postData);
+            });
+            
+            // write data to request body
+            req.write(postData);
+            req.end();
             break;
           }
           if(fs.existsSync(oneregTreeRoot+'/testlist.log')){
@@ -284,6 +332,47 @@ module.exports = {
               fs.unlinkSync(oneregTreeRoot+'/NBIF_TEST_TO_CHECK');
             }
             console.log('testlist.log deleted and ignore this round');
+            let postData = querystring.stringify({
+              projectname : treeInfo['projectname'],
+              variantname : treeInfo['variantname'],
+              isBAPU      : treeInfo['isBAPU'],     
+              kickoffdate : treeInfo['kickoffdate'],
+              changelist  : treeInfo['changelist'], 
+              shelve      : treeInfo['shelve'],     
+            });
+            
+            let options = {
+              hostname: 'amdnbif2.thehunters.club',
+              port: 80,
+              path: '/regression/summary',
+              method: 'POST',
+              headers: {
+                'Content-Type': 'application/x-www-form-urlencoded',
+                'Content-Length': Buffer.byteLength(postData)
+              }
+            };
+            
+            let req = http.request(options, (res) => {
+              //console.log(`STATUS: ${res.statusCode}`);
+              //console.log(`HEADERS: ${JSON.stringify(res.headers)}`);
+              res.setEncoding('utf8');
+              res.on('data', (chunk) => {
+                //console.log(`BODY: ${chunk}`);
+              });
+              res.on('end', () => {
+                //console.log('No more data in response.');
+                console.log('summary DONE');
+              });
+            });
+            
+            req.on('error', (e) => {
+              console.error(`problem with request: ${e.message}`);
+              console.log(postData);
+            });
+            
+            // write data to request body
+            req.write(postData);
+            req.end();
             break;
           }
           testResult[testName]['result']      = 'UNKNOWN';
