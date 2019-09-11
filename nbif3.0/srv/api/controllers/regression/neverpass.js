@@ -95,6 +95,7 @@ module.exports = {
                 isBAPU      : notpasscases[t].isBAPU,
                 suite       : notpasscases[t].suite,
                 lastfail    : notpasscases[t].changelist,
+                groupname   : notpasscases[t].groupname,
                 fixETA      : lastneverpass.fixETA,
                 owner       : lastneverpass.owner,
               });
@@ -117,6 +118,7 @@ module.exports = {
                   isBAPU      : notpasscases[t].isBAPU,
                   suite       : notpasscases[t].suite,
                   lastfail    : notpasscases[t].changelist,
+                  groupname   : notpasscases[t].groupname,
                   fixETA      : '',
                   owner       : '',
                 });
@@ -137,6 +139,7 @@ module.exports = {
                     isBAPU      : notpasscases[t].isBAPU,
                     suite       : notpasscases[t].suite,
                     lastfail    : notpasscases[t].changelist,
+                    groupname   : notpasscases[t].groupname,
                     fixETA      : '',
                     owner       : '',
                   });

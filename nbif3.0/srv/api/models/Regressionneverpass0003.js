@@ -38,6 +38,12 @@ module.exports = {
     },
     lastfail    : {
       type      : 'string'
+    },
+    commitfix   : {
+      type      : 'string'
+    },
+    groupname   : {
+      type      : 'string'
     }
     //  ╔═╗╔╦╗╔╗ ╔═╗╔╦╗╔═╗
     //  ║╣ ║║║╠╩╗║╣  ║║╚═╗
