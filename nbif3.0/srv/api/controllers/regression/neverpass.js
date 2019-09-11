@@ -44,10 +44,16 @@ module.exports = {
     //////////////////////////
     //GET 
     //////////////////////////
-    if(inputs.kind  ==  'get'){
-      return exits.success(JSON.stringify({
-        ok  : 'ok'
-      }));
+    if(inputs.kind  ==  'getall'){
+      if(inputs.projectname ==  'mi200'){
+        let R = await Regressionneverpass0001.find({
+          id  : {'>=':0}
+        });
+        return exits.success(JSON.stringify({
+          ok  : 'ok',
+          neverpasscases  : JSON.stringify(R);
+        }));
+      }
     }
     //////////////////////////
     //calculate

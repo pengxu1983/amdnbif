@@ -76,6 +76,47 @@
         </template>
       </el-table-column>
     </el-table>
+    <el-table
+      :data="neverpasscases"
+      style="width: 100%"
+      :row-class-name="tableRowClassName">
+      <el-table-column
+        prop="variantname"
+        label="variantname"
+        width="180"
+      >
+      </el-table-column>
+      <el-table-column
+        prop="testname"
+        label="testname"
+        width="180"
+      >
+      </el-table-column>
+      <el-table-column
+        prop="groupname"
+        label="groupname"
+        width="180"
+      >
+      </el-table-column>
+      <el-table-column
+        prop="fixETA"
+        label="fixETA"
+        width="180"
+      >
+      </el-table-column>
+      <el-table-column
+        prop="commitfix"
+        label="commitfix"
+        width="180"
+      >
+      </el-table-column>
+      <el-table-column
+        prop="lastfail"
+        label="lastfail"
+        width="180"
+      >
+      </el-table-column>
+    </el-table>
     <h3>Per DVgroup status</h3>
     <Oneprojoneregress
       v-bind:groupstatus="groupstatus"
@@ -321,10 +362,26 @@ export default {
         function(){}
       );
     },
+    neverpasscasesget(projectname){
+      this.neverpasscases = [];
+      console.log('neverpasscasesget');
+      console.log(projectname);
+      this.$http.post('/regression/neverpass',{
+        kind  : 'getall',
+        projectname : projectname
+      }).then(
+        function(response){
+          if(response.body.ok ==  'ok'){
+            this.neverpasscases = JSON.parse(response.body.neverpasscases);
+          }
+        }
+      );
+    }
   },
   mounted (){
     this.getinfo();
     this.regressionstatus(this.projectname);
+    this.neverpasscasesget(this.projectname);
     console.log('mounted : ' +this.projectname);
   }
 }
