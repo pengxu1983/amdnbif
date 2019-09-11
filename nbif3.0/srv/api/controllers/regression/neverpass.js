@@ -51,7 +51,7 @@ module.exports = {
         });
         return exits.success(JSON.stringify({
           ok  : 'ok',
-          neverpasscases  : JSON.stringify(R);
+          neverpasscases  : JSON.stringify(R)
         }));
       }
     }
