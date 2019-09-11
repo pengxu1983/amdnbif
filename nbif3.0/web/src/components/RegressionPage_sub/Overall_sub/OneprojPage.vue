@@ -80,36 +80,43 @@
     <el-table
       :data="neverpasscases"
       style="width: 100%"
+      height="500"
       :row-class-name="tableRowClassName"
     >
       <el-table-column
         prop="testname"
         label="testname"
+        sortable
       >
       </el-table-column>
       <el-table-column
         prop="variantname"
         label="variantname"
+        sortable
       >
       </el-table-column>
       <el-table-column
         prop="groupname"
         label="groupname"
+        sortable
       >
       </el-table-column>
       <el-table-column
         prop="lastfail"
         label="lastfail"
+        sortable
       >
       </el-table-column>
       <el-table-column
         prop="fixETA"
         label="fixETA"
+        sortable
       >
       </el-table-column>
       <el-table-column
         prop="commitfix"
         label="commitfix"
+        sortable
       >
       </el-table-column>
     </el-table>
