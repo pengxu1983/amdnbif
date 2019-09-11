@@ -76,44 +76,40 @@
         </template>
       </el-table-column>
     </el-table>
+    <h3>Never Pass (Developing)</h3>
     <el-table
       :data="neverpasscases"
       style="width: 100%"
-      :row-class-name="tableRowClassName">
-      <el-table-column
-        prop="variantname"
-        label="variantname"
-        width="180"
-      >
-      </el-table-column>
+      :row-class-name="tableRowClassName"
+    >
       <el-table-column
         prop="testname"
         label="testname"
-        width="180"
+      >
+      </el-table-column>
+      <el-table-column
+        prop="variantname"
+        label="variantname"
       >
       </el-table-column>
       <el-table-column
         prop="groupname"
         label="groupname"
-        width="180"
-      >
-      </el-table-column>
-      <el-table-column
-        prop="fixETA"
-        label="fixETA"
-        width="180"
-      >
-      </el-table-column>
-      <el-table-column
-        prop="commitfix"
-        label="commitfix"
-        width="180"
       >
       </el-table-column>
       <el-table-column
         prop="lastfail"
         label="lastfail"
-        width="180"
+      >
+      </el-table-column>
+      <el-table-column
+        prop="fixETA"
+        label="fixETA"
+      >
+      </el-table-column>
+      <el-table-column
+        prop="commitfix"
+        label="commitfix"
       >
       </el-table-column>
     </el-table>
