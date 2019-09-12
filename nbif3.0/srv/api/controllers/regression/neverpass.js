@@ -84,6 +84,12 @@ module.exports = {
         }
         else{
           for(let t=0;t<notpasscases.length;t++){
+            let groupinfo = await Groups.findOne({
+              groupname   : notpasscases[t].groupname,
+              projectname : notpasscases[t].projectname,
+              variantname : notpasscases[t].variantname,
+              isBAPU      : notpasscases[t].isBAPU
+            });
             lastneverpass = await Regressionneverpass0001.findOne({
               testname    : notpasscases[t].testname,
               projectname : notpasscases[t].projectname,
@@ -103,7 +109,8 @@ module.exports = {
                 lastfail    : notpasscases[t].changelist,
                 groupname   : notpasscases[t].groupname,
                 fixETA      : lastneverpass.fixETA,
-                owner       : lastneverpass.owner,
+                commitfix   : lastneverpass.commitfix,
+                owner       : groupinfo.owner,
               });
             }
             else{
@@ -116,6 +123,7 @@ module.exports = {
               });
               sails.log('dbg2');
               sails.log(R);
+              
               if(R.length == 0){
                 newneverpass.push({
                   testname    : notpasscases[t].testname,
@@ -126,7 +134,8 @@ module.exports = {
                   lastfail    : notpasscases[t].changelist,
                   groupname   : notpasscases[t].groupname,
                   fixETA      : '',
-                  owner       : '',
+                  commitfix   : '',
+                  owner       : groupinfo.owner,
                 });
               }
               else{
