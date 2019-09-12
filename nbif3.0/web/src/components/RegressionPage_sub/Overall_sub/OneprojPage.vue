@@ -108,6 +108,12 @@
       >
       </el-table-column>
       <el-table-column
+        prop="owner"
+        label="owner"
+        sortable
+      >
+      </el-table-column>
+      <el-table-column
         prop="fixETA"
         label="fixETA"
         sortable
