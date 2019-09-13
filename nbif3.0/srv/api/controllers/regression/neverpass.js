@@ -63,20 +63,48 @@ module.exports = {
       let notpasscases;
       let lastneverpass;
       let newneverpass=[];
+      let W = {
+        kickoffdate : inputs.kickoffdate,
+        projectname : inputs.projectname,
+        variantname : inputs.variantname,
+        isBAPU      : inputs.isBAPU,
+        result      : {'!=':'PASS'}
+      }
       //////////////////////////
       //For 0001 start
       //////////////////////////
       if(inputs.projectname ==  'mi200'){
-        notpasscases = await Regressiondetails0001.find({
-          kickoffdate : inputs.kickoffdate,
-          projectname : inputs.projectname,
-          variantname : inputs.variantname,
-          isBAPU      : inputs.isBAPU,
-          result      : {'!=':'PASS'}
-        });
+        notpasscases = await Regressiondetails0001.find(W);
       }
       //////////////////////////
       //For 0001 end
+      //////////////////////////
+      //////////////////////////
+      //For 0002 start
+      //////////////////////////
+      if(inputs.projectname ==  'mero'){
+        notpasscases = await Regressiondetails0002.find(W);
+      }
+      //////////////////////////
+      //For 0002 end
+      //////////////////////////
+      //////////////////////////
+      //For 0003 start
+      //////////////////////////
+      if(inputs.projectname ==  'rembrandt'){
+        notpasscases = await Regressiondetails0003.find(W);
+      }
+      //////////////////////////
+      //For 0003 end
+      //////////////////////////
+      //////////////////////////
+      //For 0004 start
+      //////////////////////////
+      if(inputs.projectname ==  'floyd'){
+        notpasscases = await Regressiondetails0004.find(W);
+      }
+      //////////////////////////
+      //For 0004 end
       //////////////////////////
       sails.log('length : '+notpasscases.length);
       if(notpasscases.length == 0){
@@ -94,7 +122,7 @@ module.exports = {
             isBAPU      : notpasscases[t].isBAPU
           });
           sails.log('groupinfo');
-          sails.log(groupinfo);
+          sails.log(groupinfo.owner);
           lastneverpass = await Regressionneverpass0001.findOne({
             testname    : notpasscases[t].testname,
             projectname : notpasscases[t].projectname,
@@ -169,7 +197,7 @@ module.exports = {
           }
         }
         //////////////////////////
-        //For 0001
+        //For 0001 start
         //////////////////////////
         if(inputs.projectname == 'mi200'){
           await Regressionneverpass0001.destroy({
@@ -181,6 +209,48 @@ module.exports = {
         }
         //////////////////////////
         //For 0001 end
+        //////////////////////////
+        //////////////////////////
+        //For 0002 start
+        //////////////////////////
+        if(inputs.projectname == 'mero'){
+          await Regressionneverpass0002.destroy({
+            isBAPU  : inputs.isBAPU
+          });
+          sails.log('dbg3');
+          sails.log(newneverpass.length);
+          await Regressionneverpass0002.createEach(newneverpass);
+        }
+        //////////////////////////
+        //For 0002 end
+        //////////////////////////
+        //////////////////////////
+        //For 0003 start
+        //////////////////////////
+        if(inputs.projectname == 'rembrandt'){
+          await Regressionneverpass0003.destroy({
+            isBAPU  : inputs.isBAPU
+          });
+          sails.log('dbg3');
+          sails.log(newneverpass.length);
+          await Regressionneverpass0003.createEach(newneverpass);
+        }
+        //////////////////////////
+        //For 0003 end
+        //////////////////////////
+        //////////////////////////
+        //For 0004 start
+        //////////////////////////
+        if(inputs.projectname == 'floyd'){
+          await Regressionneverpass0004.destroy({
+            isBAPU  : inputs.isBAPU
+          });
+          sails.log('dbg3');
+          sails.log(newneverpass.length);
+          await Regressionneverpass0004.createEach(newneverpass);
+        }
+        //////////////////////////
+        //For 0004 end
         //////////////////////////
         newneverpass=[];
       }
