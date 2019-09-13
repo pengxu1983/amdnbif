@@ -106,27 +106,28 @@
       <el-table-column
         prop="groupname"
         label="groupname"
-        width="200"
+        width="150"
         sortable
       >
       </el-table-column>
       <el-table-column
         prop="lastfail"
         label="lastfail"
-        width="200"
+        width="150"
         sortable
       >
       </el-table-column>
       <el-table-column
         prop="owner"
         label="owner"
-        width="200"
+        width="150"
         sortable
       >
       </el-table-column>
       <el-table-column
         prop="fixETA"
         label="fixETA"
+        width="210"
         sortable
       >
         <template slot-scope="scope">
