@@ -64,7 +64,7 @@ module.exports = {
       let lastneverpass;
       let newneverpass=[];
       //////////////////////////
-      //For 0001
+      //For 0001 start
       //////////////////////////
       if(inputs.projectname ==  'mi200'){
         notpasscases = await Regressiondetails0001.find({
@@ -75,6 +75,9 @@ module.exports = {
           result      : {'!=':'PASS'}
         });
       }
+      //////////////////////////
+      //For 0001 end
+      //////////////////////////
       sails.log('length : '+notpasscases.length);
       if(notpasscases.length == 0){
         return exits.success(JSON.stringify({
@@ -169,12 +172,15 @@ module.exports = {
         //////////////////////////
         if(inputs.projectname == 'mi200'){
           await Regressionneverpass0001.destroy({
-            id  : {'>=':0}
+            isBAPU  : inputs.isBAPU
           });
           sails.log('dbg3');
           sails.log(newneverpass.length);
           await Regressionneverpass0001.createEach(newneverpass);
         }
+        //////////////////////////
+        //For 0001 end
+        //////////////////////////
         newneverpass=[];
       }
       return exits.success(JSON.stringify({
