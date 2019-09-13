@@ -57,7 +57,7 @@ module.exports = {
               let testlist    = JSON.parse(R[r].testlist);
               let runninglist = JSON.parse(R[r].runninglist);
               let unknownlist = JSON.parse(R[r].unknownlist);
-              regressions.unshift({
+              regressions.push({
                 projectname : R[r].projectname,
                 variantname : R[r].variantname,
                 alltestnum  : testlist.length,
