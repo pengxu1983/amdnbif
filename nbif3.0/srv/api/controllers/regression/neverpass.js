@@ -161,7 +161,8 @@ module.exports = {
                   lastfail    : notpasscases[t].changelist,
                   groupname   : notpasscases[t].groupname,
                   fixETA      : '',
-                  owner       : '',
+                  commitfix   : '',
+                  owner       : groupinfo.owner,
                 });
               }
             }
