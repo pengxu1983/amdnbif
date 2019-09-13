@@ -81,7 +81,7 @@
       :data="neverpasscases"
       style="width: 100%"
       height="500"
-      :row-class-name="tableRowClassName"
+      :row-class-name="neverpassClassname"
     >
       <el-table-column
         prop="testname"
@@ -124,6 +124,20 @@
         label="fixETA"
         sortable
       >
+        <template slot-scope="scope">
+          <el-form :inline="true" class="demo-form-inline">
+            <el-form-item>
+              <el-date-picker
+                v-model="scope.row.fixETA"
+                type="date"
+                placeholder="choose">
+              </el-date-picker>
+            </el-form-item>
+            <el-form-item>
+              <el-button type="primary" @click="commitfixETA(scope.row.testname,scope.row.projectname,scope.row.variant,scope.row.isBAPU)">commit</el-button>
+            </el-form-item>
+          </el-form>
+        </template>
       </el-table-column>
       <el-table-column
         prop="commitfix"
@@ -167,7 +181,7 @@
 
 <script>
 import Oneprojoneregress  from '@/components/RegressionPage_sub/Overall_sub/OneprojPage_sub/Oneprojoneregress.vue'
-
+let moment =require('moment');
 export default {
   name: 'OneprojPage',
   props: {
@@ -218,6 +232,8 @@ export default {
     Oneprojoneregress
   },
   methods : {
+    neverpassClassname({row,rowIndex}){
+    },
     selectedRegression({row,rowIndex}){
       if(rowIndex ==  this.selectedRegressionIndex){
         return 'success-row';
