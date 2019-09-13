@@ -90,6 +90,8 @@ module.exports = {
               variantname : notpasscases[t].variantname,
               isBAPU      : notpasscases[t].isBAPU
             });
+            sails.log('groupinfo');
+            sails.log(groupinfo);
             lastneverpass = await Regressionneverpass0001.findOne({
               testname    : notpasscases[t].testname,
               projectname : notpasscases[t].projectname,
