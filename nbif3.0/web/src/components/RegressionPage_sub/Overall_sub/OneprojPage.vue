@@ -98,24 +98,28 @@
       <el-table-column
         prop="isBAPU"
         label="isBAPU"
+        width="150"
         sortable
       >
       </el-table-column>
       <el-table-column
         prop="groupname"
         label="groupname"
+        width="200"
         sortable
       >
       </el-table-column>
       <el-table-column
         prop="lastfail"
         label="lastfail"
+        width="200"
         sortable
       >
       </el-table-column>
       <el-table-column
         prop="owner"
         label="owner"
+        width="200"
         sortable
       >
       </el-table-column>
@@ -125,24 +129,24 @@
         sortable
       >
         <template slot-scope="scope">
-          <el-form :inline="true" class="demo-form-inline">
-            <el-form-item>
-              <el-date-picker
-                v-model="scope.row.fixETA"
-                type="date"
-                placeholder="choose">
-              </el-date-picker>
-            </el-form-item>
-            <el-form-item>
-              <el-button type="primary" @click="commitfixETA(scope.row.testname,scope.row.projectname,scope.row.variant,scope.row.isBAPU)">commit</el-button>
-            </el-form-item>
-          </el-form>
+          <el-date-picker
+            v-model="scope.row.fixETA"
+            type="date"
+            placeholder="choose">
+          </el-date-picker>
         </template>
       </el-table-column>
       <el-table-column
         prop="commitfix"
         label="commitfix"
         sortable
+      >
+        <template slot-scope="scope">
+          <el-input v-model="scope.row.commitfix"></el-input>
+        </template>
+      </el-table-column>
+      <el-table-column
+        label="opt"
       >
       </el-table-column>
     </el-table>
