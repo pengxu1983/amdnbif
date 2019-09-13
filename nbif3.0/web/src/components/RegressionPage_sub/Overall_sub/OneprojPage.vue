@@ -81,6 +81,7 @@
       :data="neverpasscases"
       style="width: 100%"
       height="500"
+      border
       :row-class-name="neverpassClassname"
     >
       <el-table-column
