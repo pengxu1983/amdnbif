@@ -96,6 +96,12 @@
       >
       </el-table-column>
       <el-table-column
+        prop="isBAPU"
+        label="isBAPU"
+        sortable
+      >
+      </el-table-column>
+      <el-table-column
         prop="groupname"
         label="groupname"
         sortable
