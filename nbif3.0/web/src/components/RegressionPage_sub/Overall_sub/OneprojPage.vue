@@ -76,7 +76,7 @@
         </template>
       </el-table-column>
     </el-table>
-    <h3>Never Pass (Developing)</h3>
+    <h3>Never Pass Cases</h3>
     <el-table
       :data="neverpasscases"
       style="width: 100%"
@@ -150,6 +150,9 @@
       <el-table-column
         label="opt"
       >
+        <template slot-scope="scope">
+          <el-button type="success" icon="el-icon-check" circle @click="neverpassupload(scope.row)"></el-button>
+        </template>
       </el-table-column>
     </el-table>
     <h3>Per DVgroup status</h3>
@@ -238,6 +241,9 @@ export default {
     Oneprojoneregress
   },
   methods : {
+    neverpassupload(info){
+      console.log(info);
+    },
     neverpassClassname({row,rowIndex}){
     },
     selectedRegression({row,rowIndex}){
