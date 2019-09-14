@@ -98,7 +98,8 @@ module.exports = {
       //////////////////////////
       //For 0004 end
       //////////////////////////
-
+      sails.log('px');
+      sails.log(R);
       if(R.commitfix){
       }
       else{
