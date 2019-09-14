@@ -14,7 +14,7 @@ module.exports = {
     },
     testname  : {
       type  : 'string'
-    }
+    },
     groupname : {
       type  : 'string'
     },
