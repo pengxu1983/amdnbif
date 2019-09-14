@@ -12,6 +12,9 @@ module.exports = {
     kind  : {
       type  : 'string'
     },
+    testname  : {
+      type  : 'string'
+    }
     groupname : {
       type  : 'string'
     },
