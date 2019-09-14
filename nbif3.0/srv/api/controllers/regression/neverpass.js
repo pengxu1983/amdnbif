@@ -58,6 +58,8 @@ module.exports = {
       if(inputs.projectname ==  'mi200'){
         R = await Regressionneverpass0001.find(W);
       }
+      console.log('dbgdbg');
+      console.log(R);
       //////////////////////////
       //For 0001 end
       //////////////////////////
