@@ -266,6 +266,23 @@ export default {
   methods : {
     neverpassupload(info){
       console.log(info.testname);
+      this.$http.post('/regression/neverpass',{
+        kind  : 'commitone',
+        testname  : info.testname,
+        projectname : info.projectname,
+        variantname : info.variantname,
+        isBAPU      : info.isBAPU,
+        commitfix   : info.commitfix,
+        fixETA      : info.fixETA,
+      }).then(
+        function(response){
+          if(response.body.ok ==  'ok'){
+            alert('commited');
+          }
+        },
+        function(response){
+        }
+      );
     },
     neverpasscasesget(projectname,groupname,isBAPU){
       this.neverpasscases = [];

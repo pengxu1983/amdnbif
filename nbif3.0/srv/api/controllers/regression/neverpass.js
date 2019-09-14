@@ -41,6 +41,145 @@ module.exports = {
   fn: async function (inputs,exits) {
     sails.log('/regression/neverpass');
     sails.log(inputs);
+    
+    //////////////////////////
+    //commitone start
+    //////////////////////////
+    if(inputs.kind == 'commitone'){
+      let R;
+      let W = {
+        testname    : inputs.testname,
+        projectname : inputs.projectname,
+        variantname : inputs.variantname,
+        isBAPU      : inputs.isBAPU
+      };
+      D1  = {
+        commitfix : inputs.commitfix
+      };
+      D2  = {
+        fixETA    : inputs.fixETA
+      };
+      //////////////////////////
+      //For 0001 start
+      //////////////////////////
+      if(inputs.projectname ==  'mi200'){
+        R = await Regressionneverpass0001.findOne(W);
+      }
+      //////////////////////////
+      //For 0001 end
+      //////////////////////////
+      //////////////////////////
+      //For 0002 start
+      //////////////////////////
+      if(inputs.projectname ==  'mero'){
+        R = await Regressionneverpass0002.findOne(W);
+      }
+      //////////////////////////
+      //For 0002 end
+      //////////////////////////
+      //////////////////////////
+      //For 0003 start
+      //////////////////////////
+      if(inputs.projectname ==  'rembrandt'){
+        R = await Regressionneverpass0003.findOne(W);
+      }
+      //////////////////////////
+      //For 0003 end
+      //////////////////////////
+      //////////////////////////
+      //For 0004 start
+      //////////////////////////
+      if(inputs.projectname ==  'floyd'){
+        R = await Regressionneverpass0004.findOne(W);
+      }
+      //////////////////////////
+      //For 0004 end
+      //////////////////////////
+
+      if(R.commitfix){
+      }
+      else{
+        //////////////////////////
+        //For 0001 start
+        //////////////////////////
+        if(inputs.projectname ==  'mi200'){
+          await Regressionneverpass0001.update(W,D1);
+        }
+        //////////////////////////
+        //For 0001 end
+        //////////////////////////
+        //////////////////////////
+        //For 0002 start
+        //////////////////////////
+        if(inputs.projectname ==  'mero'){
+          await Regressionneverpass0002.update(W,D1);
+        }
+        //////////////////////////
+        //For 0002 end
+        //////////////////////////
+        //////////////////////////
+        //For 0003 start
+        //////////////////////////
+        if(inputs.projectname ==  'rembrandt'){
+          await Regressionneverpass0003.update(W,D1);
+        }
+        //////////////////////////
+        //For 0003 end
+        //////////////////////////
+        //////////////////////////
+        //For 0004 start
+        //////////////////////////
+        if(inputs.projectname ==  'floyd'){
+          await Regressionneverpass0004.update(W,D1);
+        }
+        //////////////////////////
+        //For 0004 end
+        //////////////////////////
+      }
+      if(R.fixETA){
+      }
+      else{
+        //////////////////////////
+        //For 0001 start
+        //////////////////////////
+        if(inputs.projectname ==  'mi200'){
+          await Regressionneverpass0001.update(W,D2);
+        }
+        //////////////////////////
+        //For 0001 end
+        //////////////////////////
+        //////////////////////////
+        //For 0002 start
+        //////////////////////////
+        if(inputs.projectname ==  'mero'){
+          await Regressionneverpass0002.update(W,D2);
+        }
+        //////////////////////////
+        //For 0002 end
+        //////////////////////////
+        //////////////////////////
+        //For 0003 start
+        //////////////////////////
+        if(inputs.projectname ==  'rembrandt'){
+          await Regressionneverpass0003.update(W,D2);
+        }
+        //////////////////////////
+        //For 0003 end
+        //////////////////////////
+        //////////////////////////
+        //For 0004 start
+        //////////////////////////
+        if(inputs.projectname ==  'floyd'){
+          await Regressionneverpass0004.update(W,D2);
+        }
+        //////////////////////////
+        //For 0004 end
+        //////////////////////////
+      }
+    }
+    //////////////////////////
+    //commitone end
+    //////////////////////////
 
     //////////////////////////
     //getonegroup start
@@ -58,8 +197,6 @@ module.exports = {
       if(inputs.projectname ==  'mi200'){
         R = await Regressionneverpass0001.find(W);
       }
-      console.log('dbgdbg');
-      console.log(R);
       //////////////////////////
       //For 0001 end
       //////////////////////////
