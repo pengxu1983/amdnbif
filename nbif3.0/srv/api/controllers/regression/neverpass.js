@@ -41,22 +41,116 @@ module.exports = {
   fn: async function (inputs,exits) {
     sails.log('/regression/neverpass');
     sails.log(inputs);
+
     //////////////////////////
-    //GET 
+    //getonegroup start
     //////////////////////////
-    if(inputs.kind  ==  'getall'){
+    if(inputs.kind  ==  'getonegroup'){
+      let R;
+      let W={
+        groupname   : inputs.groupname,
+        projectname : inputs.projectname,
+        isBAPU      : inputs.isBAPU
+      };
+      //////////////////////////
+      //For 0001 start
+      //////////////////////////
       if(inputs.projectname ==  'mi200'){
-        let R = await Regressionneverpass0001.find({
-          id  : {'>=':0}
-        });
-        return exits.success(JSON.stringify({
-          ok  : 'ok',
-          neverpasscases  : JSON.stringify(R)
-        }));
+        R = await Regressionneverpass0001.find(W);
       }
+      //////////////////////////
+      //For 0001 end
+      //////////////////////////
+      //////////////////////////
+      //For 0002 start
+      //////////////////////////
+      if(inputs.projectname ==  'mero'){
+        R = await Regressionneverpass0002.find(W);
+      }
+      //////////////////////////
+      //For 0002 end
+      //////////////////////////
+      //////////////////////////
+      //For 0003 start
+      //////////////////////////
+      if(inputs.projectname ==  'rembrandt'){
+        R = await Regressionneverpass0003.find(W);
+      }
+      //////////////////////////
+      //For 0003 end
+      //////////////////////////
+      //////////////////////////
+      //For 0004 start
+      //////////////////////////
+      if(inputs.projectname ==  'floyd'){
+        R = await Regressionneverpass0004.find(W);
+      }
+      //////////////////////////
+      //For 0004 end
+      //////////////////////////
+      return exits.success(JSON.stringify({
+        ok  : 'ok',
+        neverpasscases  : JSON.stringify(R)
+      }));
     }
     //////////////////////////
-    //calculate
+    //getonegroup end
+    //////////////////////////
+    //////////////////////////
+    //getall start
+    //////////////////////////
+    if(inputs.kind  ==  'getall'){
+      let R;
+      let W={
+        id  : {'>=':0}
+      };
+      
+      //////////////////////////
+      //For 0001 start
+      //////////////////////////
+      if(inputs.projectname ==  'mi200'){
+        R = await Regressionneverpass0001.find(W);
+      }
+      //////////////////////////
+      //For 0001 end
+      //////////////////////////
+      //////////////////////////
+      //For 0002 start
+      //////////////////////////
+      if(inputs.projectname ==  'mero'){
+        R = await Regressionneverpass0002.find(W);
+      }
+      //////////////////////////
+      //For 0002 end
+      //////////////////////////
+      //////////////////////////
+      //For 0003 start
+      //////////////////////////
+      if(inputs.projectname ==  'rembrandt'){
+        R = await Regressionneverpass0003.find(W);
+      }
+      //////////////////////////
+      //For 0003 end
+      //////////////////////////
+      //////////////////////////
+      //For 0004 start
+      //////////////////////////
+      if(inputs.projectname ==  'floyd'){
+        R = await Regressionneverpass0004.find(W);
+      }
+      //////////////////////////
+      //For 0004 end
+      //////////////////////////
+      return exits.success(JSON.stringify({
+        ok  : 'ok',
+        neverpasscases  : JSON.stringify(R)
+      }));
+    }
+    //////////////////////////
+    //getall end
+    //////////////////////////
+    //////////////////////////
+    //calculate start
     //////////////////////////
     if(inputs.kind  ==  'cal'){
       let R;
@@ -258,6 +352,9 @@ module.exports = {
         ok  : 'ok'
       }));
     }
+    //////////////////////////
+    //calculate end
+    //////////////////////////
 
     // All done.
     return exits.success(JSON.stringify({

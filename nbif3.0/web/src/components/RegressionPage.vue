@@ -40,9 +40,10 @@
 </template>
 
 <script>
-import Overall from '@/components/RegressionPage_sub/Overall.vue'
-import Byusr   from '@/components/RegressionPage_sub/Byusr.vue'
-import Bygrp   from '@/components/RegressionPage_sub/Bygrp.vue'
+import Overall    from '@/components/RegressionPage_sub/Overall.vue'
+import Byusr      from '@/components/RegressionPage_sub/Byusr.vue'
+import Bygrp      from '@/components/RegressionPage_sub/Bygrp.vue'
+import ByDVgroup  from '@/components/RegressionPage_sub/ByDVgroup.vue'
 
 export default {
   name: 'RegressionPage',
@@ -60,6 +61,7 @@ export default {
       testplans   : [],
       kinds       : [
         'Overall',
+        'ByDVgroup',
         'Bygrp',
         'Byusr',
       ],
@@ -70,6 +72,7 @@ export default {
     Overall,
     Byusr,
     Bygrp,
+    ByDVgroup,
   },
   computed: {
     currentTabComponent: function () {

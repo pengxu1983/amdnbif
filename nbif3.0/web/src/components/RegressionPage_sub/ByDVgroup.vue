@@ -1,36 +1,30 @@
 <template>
   <el-container>
     <el-header>
-    <el-form :inline="true" :model="groupinfo" class="demo-form-inline">
-      <el-form-item label="Project">
-        <el-select v-model="groupinfo.projectname" placeholder="projectname" @change="projectchange()">
-          <el-option 
-            v-for="oneproject in projects"
-            :label="oneproject.projectname" 
-            :value="oneproject.projectname"
-          >
-          </el-option>
-        </el-select>
-      </el-form-item>
-      <el-form-item label="Group">
-        <el-select v-model="groupinfo.groupname" placeholder="groupname">
-          <el-option 
-            v-for="onegroup in groups"
-            :label="onegroup.groupname" 
-            :value="onegroup.groupname"
-          ></el-option>
-        </el-select>
-      </el-form-item>
-      <el-form-item label="isBAPU">
-        <el-select v-model="groupinfo.isBAPU" placeholder="isBAPU">
-          <el-option label="yes" value="yes" ></el-option>
-          <el-option label="no" value="no" ></el-option>
-        </el-select>
-      </el-form-item>
-      <el-form-item>
-        <el-button type="primary" @click="getregressionstatus(groupinfo.projectname,groupinfo.groupname,groupinfo.isBAPU)">check</el-button>
-      </el-form-item>
-    </el-form>
+      <el-form :inline="true" :model="groupinfo" class="demo-form-inline">
+        <el-form-item label="Project">
+          <el-select v-model="groupinfo.projectname" placeholder="projectname" @change="projectchange()">
+            <el-option 
+              v-for="oneproject in projects"
+              :label="oneproject.projectname" 
+              :value="oneproject.projectname"
+            >
+            </el-option>
+          </el-select>
+        </el-form-item>
+        <el-form-item label="Group">
+          <el-select v-model="groupinfo.DVgroup" placeholder="DVgroup">
+            <el-option 
+              v-for="oneDVgroup in DVgroups"
+              :label="onegroup.oneDVgroup" 
+              :value="onegroup.oneDVgroup"
+            ></el-option>
+          </el-select>
+        </el-form-item>
+        <el-form-item>
+          <el-button type="primary" @click="getregressionstatus(groupinfo.projectname,groupinfo.DVgroup)">check</el-button>
+        </el-form-item>
+      </el-form>
     </el-header>
     <el-main>
       <el-table
@@ -108,84 +102,6 @@
           </template>
         </el-table-column>
       </el-table>
-      <el-table
-        :data="neverpasscases"
-        style="width: 100%"
-        height="500"
-        border
-        :row-class-name="neverpassClassname"
-      >
-        <el-table-column
-          prop="testname"
-          label="testname"
-          sortable
-        >
-        </el-table-column>
-        <el-table-column
-          prop="variantname"
-          label="variantname"
-          sortable
-        >
-        </el-table-column>
-        <el-table-column
-          prop="isBAPU"
-          label="isBAPU"
-          width="150"
-          sortable
-        >
-        </el-table-column>
-        <el-table-column
-          prop="groupname"
-          label="groupname"
-          width="150"
-          sortable
-        >
-        </el-table-column>
-        <el-table-column
-          prop="lastfail"
-          label="lastfail"
-          width="150"
-          sortable
-        >
-        </el-table-column>
-        <el-table-column
-          prop="owner"
-          label="owner"
-          width="150"
-          sortable
-        >
-        </el-table-column>
-        <el-table-column
-          prop="fixETA"
-          label="fixETA"
-          width="210"
-          sortable
-        >
-          <template slot-scope="scope">
-            <el-date-picker
-              v-model="scope.row.fixETA"
-              type="date"
-              placeholder="choose">
-            </el-date-picker>
-          </template>
-        </el-table-column>
-        <el-table-column
-          prop="commitfix"
-          label="commitfix"
-          sortable
-        >
-          <template slot-scope="scope">
-            <el-input v-model="scope.row.commitfix"></el-input>
-          </template>
-        </el-table-column>
-        <el-table-column
-          label="opt"
-        >
-          <template slot-scope="scope">
-            <el-button type="success" icon="el-icon-check" circle @click="neverpassupload(scope.row)"></el-button>
-          </template>
-        </el-table-column>
-      </el-table>
       <el-dialog :title="title" :visible.sync="visible" width="80%">
         <el-pagination
           @current-change="handleCurrentChange"
@@ -221,19 +137,25 @@
 
 <script>
 export default {
-  name: 'Bygrp',
+  name: 'ByDVgroup',
   props: {
   },
   data() {
     return {
       groupinfo : {
         projectname : 'mi200',
-        groupname   : 'sanity',
         variantname : 'nbif_nv10_gpu',
-        isBAPU      : 'no'
+        DVgroup     : 'HOST',
       },
-      neverpasscases  : [],
       groups  : [],
+      DVgroups : [
+        'HOST',
+        'DMA',
+        'MISC',
+        'PERF',
+        'OTHERS',
+        'ALL'
+      ],
       regressionstatus    : [],
       testdetails         : [],
       testdetails_disp    : [],
@@ -264,32 +186,12 @@ export default {
     }
   },
   methods : {
-    neverpassupload(info){
-      console.log(info.testname);
-    },
-    neverpasscasesget(projectname,groupname,isBAPU){
-      this.neverpasscases = [];
-      console.log('neverpasscasesget');
-      console.log(projectname);
-      this.$http.post('/regression/neverpass',{
-        kind  : 'getonegroup',
-        projectname : projectname,
-        groupname   : groupname
-      }).then(
-        function(response){
-          if(response.body.ok ==  'ok'){
-            this.neverpasscases = JSON.parse(response.body.neverpasscases);
-          }
-        }
-      );
-    },
-    getregressionstatus(projectname,groupname,isBAPU){
+    getregressionstatus(projectname,DVgroup){
       this.regressionstatus = [];
       this.$http.post('/regression/get',{
-        kind  : 'Bygrp',
+        kind  : 'ByDVgroup',
         projectname : projectname,
-        groupname : groupname,
-        isBAPU    : isBAPU
+        DVgroup   : DVgroup,
       }).then(
         function(response){
           if(response.body.ok =='ok'){
@@ -377,7 +279,6 @@ export default {
           if(response.body.ok == 'ok'){
             this.groups= JSON.parse(response.body.groups);
             console.log('Project : '+this.groupinfo.projectname+ ' groups successfully get from DB');
-            this.neverpasscasesget(this.groupinfo.projectname,this.groupinfo.groupname,this.groupinfo.isBAPU);
           }
           else{
           }
@@ -420,7 +321,6 @@ export default {
   },
   mounted (){
     this.getregressionstatus(this.groupinfo.projectname,this.groupinfo.groupname,this.groupinfo.isBAPU);
-    this.neverpasscasesget(this.groupinfo.projectname,this.groupinfo.groupname,this.groupinfo.isBAPU);
     this.getinfo();
   }
 }
