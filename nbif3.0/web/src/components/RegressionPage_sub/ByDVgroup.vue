@@ -16,8 +16,8 @@
           <el-select v-model="groupinfo.DVgroup" placeholder="DVgroup">
             <el-option 
               v-for="oneDVgroup in DVgroups"
-              :label="onegroup.oneDVgroup" 
-              :value="onegroup.oneDVgroup"
+              :label="oneDVgroup.oneDVgroup" 
+              :value="oneDVgroup.oneDVgroup"
             ></el-option>
           </el-select>
         </el-form-item>
