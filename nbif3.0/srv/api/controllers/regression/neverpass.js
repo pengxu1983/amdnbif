@@ -186,6 +186,9 @@ module.exports = {
         //For 0004 end
         //////////////////////////
       }
+      return exits.success(JSON.stringify({
+        ok  : 'ok'
+      }));
     }
     //////////////////////////
     //commitone end
