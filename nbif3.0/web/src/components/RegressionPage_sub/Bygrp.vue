@@ -301,6 +301,7 @@ export default {
         },
         function(){}
       );
+      this.neverpasscasesget(projectname,groupname,isBAPU);
     },
     gettestdetails  (kind,projectname,variantname,groupname,changelist,isBAPU,shelve,kickoffdate){
       this.searchparam.kind         = kind;
@@ -377,7 +378,6 @@ export default {
           if(response.body.ok == 'ok'){
             this.groups= JSON.parse(response.body.groups);
             console.log('Project : '+this.groupinfo.projectname+ ' groups successfully get from DB');
-            this.neverpasscasesget(this.groupinfo.projectname,this.groupinfo.groupname,this.groupinfo.isBAPU);
           }
           else{
           }
