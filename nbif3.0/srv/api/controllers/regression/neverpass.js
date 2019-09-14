@@ -15,6 +15,12 @@ module.exports = {
     testname  : {
       type  : 'string'
     },
+    fixETA    : {
+      type  : 'string'
+    },
+    commitfix : {
+      type  : 'string'
+    },
     groupname : {
       type  : 'string'
     },
