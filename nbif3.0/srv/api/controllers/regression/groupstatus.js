@@ -41,194 +41,90 @@ module.exports = {
     sails.log('/regression/groupstatus');
     sails.log(inputs);
     if(inputs.kind  ==  'all'){
+      let W = {
+        projectname : inputs.projectname,
+        variantname : inputs.variantname,
+        changelist  : inputs.changelist,
+        isBAPU      : inputs.isBAPU,
+        shelve      : inputs.shelve,
+        kickoffdate : inputs.kickoffdate,
+        groupname   : {'!=':'all'}
+      };
+      let R;
       ///////////////////////////////////////
-      //For 0001
+      //For 0001 start
       ///////////////////////////////////////
       if(inputs.projectname ==  'mi200'){
-        let W = {
+        R = await Regressionsummary0001.find({
+          where : W,
+        });
+      }
+      ///////////////////////////////////////
+      //For 0001 end
+      ///////////////////////////////////////
+      ///////////////////////////////////////
+      //For 0002 start
+      ///////////////////////////////////////
+      if(inputs.projectname ==  'mero'){
+        R = await Regressionsummary0002.find({
+          where : W,
+        });
+      }
+      ///////////////////////////////////////
+      //For 0002 end
+      ///////////////////////////////////////
+      ///////////////////////////////////////
+      //For 0003 start
+      ///////////////////////////////////////
+      if(inputs.projectname ==  'rembrandt'){
+        R = await Regressionsummary0003.find({
+          where : W,
+        });
+      }
+      ///////////////////////////////////////
+      //For 0003 end
+      ///////////////////////////////////////
+      ///////////////////////////////////////
+      //For 0004 start
+      ///////////////////////////////////////
+      if(inputs.projectname ==  'floyd'){
+        R = await Regressionsummary0004.find({
+          where : W,
+        });
+      }
+      ///////////////////////////////////////
+      //For 0004 end
+      ///////////////////////////////////////
+      let groupstatus = [];
+      for(let r=0;r<R.length;r++){
+        let onegroup = await Groups.findOne({
+          groupname : R[r].groupname,
+          projectname : inputs.projectname,
+          variantname : inputs.variantname,
+          isBAPU      : inputs.isBAPU
+        });
+        sails.log(onegroup.DVgroup);
+        groupstatus.push({
           projectname : inputs.projectname,
           variantname : inputs.variantname,
           changelist  : inputs.changelist,
           isBAPU      : inputs.isBAPU,
           shelve      : inputs.shelve,
           kickoffdate : inputs.kickoffdate,
-          groupname   : {'!=':'all'}
-        };
-        let R = await Regressionsummary0001.find({
-          where : W,
+          DVgroup : onegroup.DVgroup,
+          groupname : R[r].groupname,
+          passrate  : R[r].passrate,
+          allnum      : JSON.parse(R[r].testlist).length,
+          passnum     : JSON.parse(R[r].passlist).length,
+          failnum     : JSON.parse(R[r].faillist).length,
+          unknownnum  : JSON.parse(R[r].unknownlist).length,
+          runningnum  : JSON.parse(R[r].runninglist).length
         });
-        let groupstatus = [];
-        for(let r=0;r<R.length;r++){
-          let onegroup = await Groups.findOne({
-            groupname : R[r].groupname,
-            projectname : inputs.projectname,
-            variantname : inputs.variantname,
-            isBAPU      : inputs.isBAPU
-          });
-          sails.log(onegroup.DVgroup);
-          groupstatus.push({
-            projectname : inputs.projectname,
-            variantname : inputs.variantname,
-            changelist  : inputs.changelist,
-            isBAPU      : inputs.isBAPU,
-            shelve      : inputs.shelve,
-            kickoffdate : inputs.kickoffdate,
-            DVgroup : onegroup.DVgroup,
-            groupname : R[r].groupname,
-            passrate  : R[r].passrate,
-            allnum      : JSON.parse(R[r].testlist).length,
-            passnum     : JSON.parse(R[r].passlist).length,
-            failnum     : JSON.parse(R[r].faillist).length,
-            unknownnum  : JSON.parse(R[r].unknownlist).length,
-            runningnum  : JSON.parse(R[r].runninglist).length
-          });
-        }
-        return exits.success(JSON.stringify({
-          ok  : 'ok',
-          groupstatus : groupstatus
-        }));
       }
-      ///////////////////////////////////////
-      //For 0002 mero
-      ///////////////////////////////////////
-      else if(inputs.projectname  =='mero'){
-        let W = {
-          projectname : inputs.projectname,
-          variantname : inputs.variantname,
-          changelist  : inputs.changelist,
-          isBAPU      : inputs.isBAPU,
-          shelve      : inputs.shelve,
-          kickoffdate : inputs.kickoffdate,
-          groupname   : {'!=':'all'}
-        };
-        let R = await Regressionsummary0002.find({
-          where : W,
-        });
-        let groupstatus = [];
-        for(let r=0;r<R.length;r++){
-          let onegroup = await Groups.findOne({
-            groupname : R[r].groupname,
-            projectname : inputs.projectname,
-            variantname : inputs.variantname,
-            isBAPU      : inputs.isBAPU
-          });
-          sails.log(onegroup.DVgroup);
-          groupstatus.push({
-            projectname : inputs.projectname,
-            variantname : inputs.variantname,
-            changelist  : inputs.changelist,
-            isBAPU      : inputs.isBAPU,
-            shelve      : inputs.shelve,
-            kickoffdate : inputs.kickoffdate,
-            DVgroup : onegroup.DVgroup,
-            groupname : R[r].groupname,
-            passrate  : R[r].passrate,
-            allnum    : JSON.parse(R[r].testlist).length,
-            passnum   : JSON.parse(R[r].passlist).length,
-            failnum   : JSON.parse(R[r].faillist).length,
-            unknownnum  : JSON.parse(R[r].unknownlist).length,
-            runningnum  : JSON.parse(R[r].runninglist).length
-          });
-        }
-        return exits.success(JSON.stringify({
-          ok  : 'ok',
-          groupstatus : groupstatus
-        }));
-      }
-      ///////////////////////////////////////
-      //For 0003
-      ///////////////////////////////////////
-      else if(inputs.projectname ==  'rembrandt'){
-        let W = {
-          projectname : inputs.projectname,
-          variantname : inputs.variantname,
-          changelist  : inputs.changelist,
-          isBAPU      : inputs.isBAPU,
-          shelve      : inputs.shelve,
-          kickoffdate : inputs.kickoffdate,
-          groupname   : {'!=':'all'}
-        };
-        let R = await Regressionsummary0003.find({
-          where : W,
-        });
-        let groupstatus = [];
-        for(let r=0;r<R.length;r++){
-          let onegroup = await Groups.findOne({
-            groupname : R[r].groupname,
-            projectname : inputs.projectname,
-            variantname : inputs.variantname,
-            isBAPU      : inputs.isBAPU
-          });
-          sails.log(onegroup.DVgroup);
-          groupstatus.push({
-            projectname : inputs.projectname,
-            variantname : inputs.variantname,
-            changelist  : inputs.changelist,
-            isBAPU      : inputs.isBAPU,
-            shelve      : inputs.shelve,
-            kickoffdate : inputs.kickoffdate,
-            DVgroup : onegroup.DVgroup,
-            groupname : R[r].groupname,
-            passrate  : R[r].passrate,
-            allnum      : JSON.parse(R[r].testlist).length,
-            passnum     : JSON.parse(R[r].passlist).length,
-            failnum     : JSON.parse(R[r].faillist).length,
-            unknownnum  : JSON.parse(R[r].unknownlist).length,
-            runningnum  : JSON.parse(R[r].runninglist).length
-          });
-        }
-        return exits.success(JSON.stringify({
-          ok  : 'ok',
-          groupstatus : groupstatus
-        }));
-      }
-      ///////////////////////////////////////
-      //For 0004
-      ///////////////////////////////////////
-      else if(inputs.projectname ==  'floyd'){
-        let W = {
-          projectname : inputs.projectname,
-          variantname : inputs.variantname,
-          changelist  : inputs.changelist,
-          isBAPU      : inputs.isBAPU,
-          shelve      : inputs.shelve,
-          kickoffdate : inputs.kickoffdate,
-          groupname   : {'!=':'all'}
-        };
-        let R = await Regressionsummary0004.find({
-          where : W,
-        });
-        let groupstatus = [];
-        for(let r=0;r<R.length;r++){
-          let onegroup = await Groups.findOne({
-            groupname : R[r].groupname,
-            projectname : inputs.projectname,
-            variantname : inputs.variantname,
-            isBAPU      : inputs.isBAPU
-          });
-          sails.log(onegroup.DVgroup);
-          groupstatus.push({
-            projectname : inputs.projectname,
-            variantname : inputs.variantname,
-            changelist  : inputs.changelist,
-            isBAPU      : inputs.isBAPU,
-            shelve      : inputs.shelve,
-            kickoffdate : inputs.kickoffdate,
-            DVgroup : onegroup.DVgroup,
-            groupname : R[r].groupname,
-            passrate  : R[r].passrate,
-            allnum      : JSON.parse(R[r].testlist).length,
-            passnum     : JSON.parse(R[r].passlist).length,
-            failnum     : JSON.parse(R[r].faillist).length,
-            unknownnum  : JSON.parse(R[r].unknownlist).length,
-            runningnum  : JSON.parse(R[r].runninglist).length
-          });
-        }
-        return exits.success(JSON.stringify({
-          ok  : 'ok',
-          groupstatus : groupstatus
-        }));
-      }
+      return exits.success(JSON.stringify({
+        ok  : 'ok',
+        groupstatus : groupstatus
+      }));
     }
     // All done.
     return exits.success(JSON.stringify({
