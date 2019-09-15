@@ -192,7 +192,8 @@ module.exports = {
         msg += 'fixETA uploaded';
       }
       return exits.success(JSON.stringify({
-        ok  : 'ok'
+        ok  : 'ok',
+        msg : msg
       }));
     }
     //////////////////////////
