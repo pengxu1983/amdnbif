@@ -56,6 +56,7 @@ module.exports = {
     //////////////////////////
     if(inputs.kind == 'commitone'){
       let R;
+      let msg = '';
       let W = {
         testname    : inputs.testname,
         projectname : inputs.projectname,
@@ -107,6 +108,7 @@ module.exports = {
       sails.log('px');
       sails.log(R);
       if(R.commitfix){
+        msg += 'commitfix ignored;';
       }
       else{
         //////////////////////////
@@ -145,8 +147,10 @@ module.exports = {
         //////////////////////////
         //For 0004 end
         //////////////////////////
+        msg += 'commitfix uploaded;';
       }
       if(R.fixETA){
+        msg += 'fixETA ignored';
       }
       else{
         //////////////////////////
@@ -185,6 +189,7 @@ module.exports = {
         //////////////////////////
         //For 0004 end
         //////////////////////////
+        msg += 'fixETA uploaded';
       }
       return exits.success(JSON.stringify({
         ok  : 'ok'

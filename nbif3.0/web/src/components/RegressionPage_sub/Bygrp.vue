@@ -277,7 +277,7 @@ export default {
       }).then(
         function(response){
           if(response.body.ok ==  'ok'){
-            alert('commited');
+            alert(response.body.msg);
           }
         },
         function(response){
