@@ -42,7 +42,7 @@
 <script>
 import Overall    from '@/components/RegressionPage_sub/Overall.vue'
 import Byusr      from '@/components/RegressionPage_sub/Byusr.vue'
-import Bygrp      from '@/components/RegressionPage_sub/Bygrp.vue'
+import Byfeature  from '@/components/RegressionPage_sub/Byfeature.vue'
 //import ByDVgroup  from '@/components/RegressionPage_sub/ByDVgroup.vue'
 
 export default {
@@ -62,7 +62,7 @@ export default {
       kinds       : [
         'Overall',
         //'ByDVgroup',
-        'Bygrp',
+        'Byfeature',
         'Byusr',
       ],
       currentTab  : 'Overall',
@@ -71,7 +71,7 @@ export default {
   components  : {
     Overall,
     Byusr,
-    Bygrp,
+    Byfeature,
     //ByDVgroup,
   },
   computed: {

@@ -132,35 +132,30 @@
         <el-table-column
           prop="isBAPU"
           label="isBAPU"
-          width="150"
           sortable
         >
         </el-table-column>
         <el-table-column
           prop="groupname"
           label="groupname"
-          width="150"
           sortable
         >
         </el-table-column>
         <el-table-column
           prop="lastfail"
           label="lastfail"
-          width="150"
           sortable
         >
         </el-table-column>
         <el-table-column
           prop="owner"
           label="owner"
-          width="150"
           sortable
         >
         </el-table-column>
         <el-table-column
           prop="fixETA"
           label="fixETA"
-          width="210"
           sortable
         >
           <template slot-scope="scope">
@@ -223,7 +218,7 @@
 
 <script>
 export default {
-  name: 'Bygrp',
+  name: 'Byfeature',
   props: {
   },
   data() {
@@ -305,7 +300,7 @@ export default {
     getregressionstatus(projectname,groupname,isBAPU){
       this.regressionstatus = [];
       this.$http.post('/regression/get',{
-        kind  : 'Bygrp',
+        kind  : 'Byfeature',
         projectname : projectname,
         groupname : groupname,
         isBAPU    : isBAPU
@@ -388,7 +383,7 @@ export default {
     projectchange(){
       //get groups
       this.$http.post('/config/groups/get',{
-        kind  : 'Bygrp',
+        kind  : 'Byfeature',
         projectname : this.groupinfo.projectname,
         variantname : this.groupinfo.variantname,
         isBAPU      : this.groupinfo.isBAPU
@@ -407,7 +402,7 @@ export default {
     getinfo (){
       //get groups
       this.$http.post('/config/groups/get',{
-        kind  : 'Bygrp',
+        kind  : 'Byfeature',
         projectname : this.groupinfo.projectname,
         variantname : this.groupinfo.variantname,
         isBAPU      : this.groupinfo.isBAPU
