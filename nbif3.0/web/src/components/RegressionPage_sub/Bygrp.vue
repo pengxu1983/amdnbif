@@ -108,6 +108,8 @@
           </template>
         </el-table-column>
       </el-table>
+      <hr />
+      <h3>Never Pass cases</h3>
       <el-table
         :data="neverpasscases"
         style="width: 100%"
