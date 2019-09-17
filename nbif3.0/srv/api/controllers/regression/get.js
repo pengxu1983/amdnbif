@@ -40,7 +40,7 @@ module.exports = {
       if(inputs.kind == 'Overall'){
         groupnm = 'all';
       }
-      if(inputs.kind == 'Bygrp'){
+      if(inputs.kind == 'Byfeature'){
         groupnm = inputs.groupname;
       }
       let R;
