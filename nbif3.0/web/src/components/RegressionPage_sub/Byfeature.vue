@@ -394,6 +394,7 @@ export default {
       this.getinfo();
     },
     getvariants (){
+      console.log('getvariants');
       for(let p=0;p<this.projects.length;p++){
         if(this.projects[p].projectname ==  this.groupinfo.projectname){
           console.log('pxpxpx');
@@ -404,6 +405,7 @@ export default {
       }
     },
     getgroups (){
+      console.log('getgroups');
       for(let p=0;p<this.projects.length;p++){
         if(this.projects[p].projectname == this.groupinfo.projectname){
           this.$http.post('/config/groups/get',{

@@ -130,29 +130,12 @@
         width="210"
         sortable
       >
-        <template slot-scope="scope">
-          <el-date-picker
-            v-model="scope.row.fixETA"
-            type="date"
-            placeholder="choose">
-          </el-date-picker>
-        </template>
       </el-table-column>
       <el-table-column
         prop="commitfix"
         label="commitfix"
         sortable
       >
-        <template slot-scope="scope">
-          <el-input v-model="scope.row.commitfix"></el-input>
-        </template>
-      </el-table-column>
-      <el-table-column
-        label="opt"
-      >
-        <template slot-scope="scope">
-          <el-button type="success" icon="el-icon-check" circle @click="neverpassupload(scope.row)"></el-button>
-        </template>
       </el-table-column>
     </el-table>
     <h3>Per DVgroup status</h3>
