@@ -12,6 +12,15 @@
           </el-option>
         </el-select>
       </el-form-item>
+      <el-form-item label="Variant">
+        <el-select v-model="groupinfo.variantname" placeholder="variantname">
+          <el-option 
+            v-for="onevariant in variants"
+            :label="onevariant" 
+            :value="onevariant"
+          ></el-option>
+        </el-select>
+      </el-form-item>
       <el-form-item label="Group">
         <el-select v-model="groupinfo.groupname" placeholder="groupname">
           <el-option 
@@ -231,6 +240,7 @@ export default {
       },
       neverpasscases  : [],
       groups  : [],
+      variants  : [],
       regressionstatus    : [],
       testdetails         : [],
       testdetails_disp    : [],
@@ -381,42 +391,40 @@ export default {
       }
     },
     projectchange(){
-      //get groups
-      this.$http.post('/config/groups/get',{
-        kind  : 'Byfeature',
-        projectname : this.groupinfo.projectname,
-        variantname : this.groupinfo.variantname,
-        isBAPU      : this.groupinfo.isBAPU
-      }).then(
-        function(response){
-          if(response.body.ok == 'ok'){
-            this.groups= JSON.parse(response.body.groups);
-            console.log('Project : '+this.groupinfo.projectname+ ' groups successfully get from DB');
-          }
-          else{
-          }
-        },
-        function(){}
-      );
+      this.getinfo();
+    },
+    getvariants (){
+      for(let p=0;p<this.projects.length;p++){
+        if(this.projects[p].projectname ==  this.groupinfo.projectname){
+          this.variants = JSON.parse(this.projects[p].validvariants);
+          this.groupinfo.variantname  = this.variants.shift();
+        }
+      }
+    },
+    getgroups (){
+      for(let p=0;p<this.projects.length;p++){
+        if(this.projects[p].projectname == this.groupinfo.projectname){
+          this.$http.post('/config/groups/get',{
+            kind  : 'Byfeature',
+            projectname : this.groupinfo.projectname,
+            variantname : this.groupinfo.variantname,
+            isBAPU      : this.groupinfo.isBAPU
+          }).then(
+            function(response){
+              if(response.body.ok == 'ok'){
+                this.groups= JSON.parse(response.body.groups);
+                console.log('Project : '+this.groupinfo.projectname+ ' groups successfully get from DB');
+              }
+              else{
+              }
+            },
+            function(){}
+          );
+          break;
+        }
+      }
     },
     getinfo (){
-      //get groups
-      this.$http.post('/config/groups/get',{
-        kind  : 'Byfeature',
-        projectname : this.groupinfo.projectname,
-        variantname : this.groupinfo.variantname,
-        isBAPU      : this.groupinfo.isBAPU
-      }).then(
-        function(response){
-          if(response.body.ok == 'ok'){
-            this.groups= JSON.parse(response.body.groups);
-            console.log('Project : '+this.groupinfo.projectname+ ' groups successfully get from DB');
-          }
-          else{
-          }
-        },
-        function(){}
-      );
       //get projects
       this.$http.post('/config/projects/get',{
         kind  : 'all',
@@ -426,6 +434,8 @@ export default {
             //console.log(response.body.projects);
             console.log('all projects successfully get from DB');
             this.projects = JSON.parse(response.body.projects);
+            this.getvariants();
+            this.getgroups();
           }
         },
         function(){}
