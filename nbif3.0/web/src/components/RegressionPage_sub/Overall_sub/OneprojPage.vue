@@ -379,6 +379,7 @@ export default {
             console.log('regressionstatus');
             console.log(projectname);
             console.log(this.regressionstatus_disp);
+            this.neverpasscasesget(this.projectname);
             //find latest
           }
           else{
@@ -407,7 +408,6 @@ export default {
   mounted (){
     this.getinfo();
     this.regressionstatus(this.projectname);
-    this.neverpasscasesget(this.projectname);
     console.log('mounted : ' +this.projectname);
   }
 }
