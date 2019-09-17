@@ -379,7 +379,7 @@ export default {
             console.log('regressionstatus');
             console.log(projectname);
             console.log(this.regressionstatus_disp);
-            this.neverpasscasesget(this.projectname);
+            this.neverpasscasesget(projectname);
             //find latest
           }
           else{
