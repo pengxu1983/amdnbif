@@ -396,8 +396,10 @@ export default {
     getvariants (){
       for(let p=0;p<this.projects.length;p++){
         if(this.projects[p].projectname ==  this.groupinfo.projectname){
-          this.variants = JSON.parse(this.projects[p].validvariants);
-          this.groupinfo.variantname  = this.variants.shift();
+          console.log('pxpxpx');
+          console.log(this.projects[p].validvariants);
+          //this.variants = JSON.parse(this.projects[p].validvariants);
+          //this.groupinfo.variantname  = this.variants.shift();
         }
       }
     },
