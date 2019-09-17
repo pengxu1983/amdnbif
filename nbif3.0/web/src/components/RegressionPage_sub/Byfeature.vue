@@ -398,8 +398,8 @@ export default {
         if(this.projects[p].projectname ==  this.groupinfo.projectname){
           console.log('pxpxpx');
           console.log(this.projects[p].validvariants);
-          //this.variants = JSON.parse(this.projects[p].validvariants);
-          //this.groupinfo.variantname  = this.variants.shift();
+          this.variants = this.projects[p].validvariants;
+          this.groupinfo.variantname  = this.variants[0];
         }
       }
     },
