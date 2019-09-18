@@ -268,42 +268,9 @@ export default {
       }
     },
     projectchange(){
-      //get groups
-      this.$http.post('/config/groups/get',{
-        kind  : 'Bygrp',
-        projectname : this.groupinfo.projectname,
-        variantname : this.groupinfo.variantname,
-        isBAPU      : this.groupinfo.isBAPU
-      }).then(
-        function(response){
-          if(response.body.ok == 'ok'){
-            this.groups= JSON.parse(response.body.groups);
-            console.log('Project : '+this.groupinfo.projectname+ ' groups successfully get from DB');
-          }
-          else{
-          }
-        },
-        function(){}
-      );
+      this.getinfo();
     },
     getinfo (){
-      //get groups
-      this.$http.post('/config/groups/get',{
-        kind  : 'Bygrp',
-        projectname : this.groupinfo.projectname,
-        variantname : this.groupinfo.variantname,
-        isBAPU      : this.groupinfo.isBAPU
-      }).then(
-        function(response){
-          if(response.body.ok == 'ok'){
-            this.groups= JSON.parse(response.body.groups);
-            console.log('Project : '+this.groupinfo.projectname+ ' groups successfully get from DB');
-          }
-          else{
-          }
-        },
-        function(){}
-      );
       //get projects
       this.$http.post('/config/projects/get',{
         kind  : 'all',
@@ -320,7 +287,7 @@ export default {
     }
   },
   mounted (){
-    this.getregressionstatus(this.groupinfo.projectname,this.groupinfo.groupname,this.groupinfo.isBAPU);
+    this.getregressionstatus('ByDVgroup');
     this.getinfo();
   }
 }
