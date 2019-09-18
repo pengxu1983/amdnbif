@@ -50,21 +50,6 @@ module.exports = {
       if(inputs.kind == 'Byfeature'){
         groupnm = inputs.groupname;
       }
-      if(inputs.kind == 'ByDVgroup'){
-        let R = await Groups.find({
-          projectname : inputs.projectname,
-          DVgroup     : inputs.DVgroup
-        });
-        let groups = [];
-        for(let r=0;r<R.length;r++){
-          if(groups.indexOf(R[r].groupname) == -1){
-            groups.push(R[r].groupname);
-          }
-          else{
-          }
-        }
-        groupnm = {'in':groups};
-      }
       let R;
       let W = {
         projectname : inputs.projectname,
