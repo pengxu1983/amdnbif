@@ -39,7 +39,6 @@ module.exports = {
       },
       sort  : 'groupname  ASC'
     });
-    sails.log('abc');
     return exits.success(JSON.stringify({
       ok  : 'ok',
       groups  : JSON.stringify(R)

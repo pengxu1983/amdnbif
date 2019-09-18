@@ -240,7 +240,6 @@ export default {
       this.groups = [];
       //get groups
       this.$http.post('/config/groups/get',{
-        kind  : 'Bygrp',
         projectname : this.projectinfo.projectname,
         variantname : this.projectinfo.variantname,
         isBAPU      : this.projectinfo.isBAPU
