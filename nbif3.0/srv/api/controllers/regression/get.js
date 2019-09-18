@@ -15,6 +15,12 @@ module.exports = {
     projectname : {
       type  : 'string'
     },
+    variantname : {
+      type  : 'string'
+    },
+    DVgroup     : {
+      type  : 'string'
+    },
     groupname : {
       type  : 'string'
     },
@@ -37,11 +43,27 @@ module.exports = {
     for(let d=0;d<15;d++){
       let date = moment().subtract(d,'days').format('YYYY-MM-DD');
       let groupnm;
+      let variantnm;
       if(inputs.kind == 'Overall'){
         groupnm = 'all';
       }
       if(inputs.kind == 'Byfeature'){
         groupnm = inputs.groupname;
+      }
+      if(inputs.kind == 'ByDVgroup'){
+        let R = await Groups.find({
+          projectname : inputs.projectname,
+          DVgroup     : inputs.DVgroup
+        });
+        let groups = [];
+        for(let r=0;r<R.length;r++){
+          if(groups.indexOf(R[r].groupname) == -1){
+            groups.push(R[r].groupname);
+          }
+          else{
+          }
+        }
+        groupnm = {'in':groups};
       }
       let R;
       let W = {

@@ -2,6 +2,15 @@
   <el-container>
     <el-header>
       <el-form :inline="true" :model="groupinfo" class="demo-form-inline">
+        <el-form-item label="DVGroup">
+          <el-select v-model="groupinfo.DVgroup" placeholder="DVgroup">
+            <el-option 
+              v-for="oneDVgroup in DVgroups"
+              :label="oneDVgroup.oneDVgroup" 
+              :value="oneDVgroup.oneDVgroup"
+            ></el-option>
+          </el-select>
+        </el-form-item>
         <el-form-item label="Project">
           <el-select v-model="groupinfo.projectname" placeholder="projectname" @change="projectchange()">
             <el-option 
@@ -12,17 +21,8 @@
             </el-option>
           </el-select>
         </el-form-item>
-        <el-form-item label="Group">
-          <el-select v-model="groupinfo.DVgroup" placeholder="DVgroup">
-            <el-option 
-              v-for="oneDVgroup in DVgroups"
-              :label="oneDVgroup.oneDVgroup" 
-              :value="oneDVgroup.oneDVgroup"
-            ></el-option>
-          </el-select>
-        </el-form-item>
         <el-form-item>
-          <el-button type="primary" @click="getregressionstatus(groupinfo.projectname,groupinfo.DVgroup)">check</el-button>
+          <el-button type="primary" @click="getregressionstatus('ByDVgroup')">check</el-button>
         </el-form-item>
       </el-form>
     </el-header>
@@ -186,12 +186,12 @@ export default {
     }
   },
   methods : {
-    getregressionstatus(projectname,DVgroup){
+    getregressionstatus(kind){
       this.regressionstatus = [];
       this.$http.post('/regression/get',{
-        kind  : 'ByDVgroup',
-        projectname : projectname,
-        DVgroup   : DVgroup,
+        kind        : kind,
+        projectname : this.groupinfo.projectname,
+        DVgroup     : this.groupinfo.DVgroup,
       }).then(
         function(response){
           if(response.body.ok =='ok'){
