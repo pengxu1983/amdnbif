@@ -1,12 +1,13 @@
 //let refTreeRoot     = '';
 let regTreeRootList = [
-  '/proj/cip_floyd_genz/ip_regress/antti/nbif2_0_mi200_apu_1/',
-  '/proj/cip_floyd_genz/ip_regress/antti/nbif2_0_mi200_1/',
   '/proj/cip_floyd_genz/ip_regress/antti/nbif2_0_mi200_apu/',
   '/proj/cip_floyd_genz/ip_regress/antti/nbif2_0_mi200/',
+  '/proj/cip_floyd_genz/ip_regress/antti/nbif2_0_mi200_apu_1/',
+  '/proj/cip_floyd_genz/ip_regress/antti/nbif2_0_mi200_1/',
   '/proj/cip_floyd_genz/ip_regress/branch_mero_pg/',
   '/proj/cip_floyd_genz/ip_regress/branch_mero_normal/',
-  '/proj/cip_floyd_genz/ip_regress/branch_mero_long/'
+  '/proj/cip_floyd_genz/ip_regress/branch_mero_long/',
+  '/proj/cip_floyd_genz/ip_regress/nbif2_0_rembrandt/',
 ];//MODIFY ///TODO
 let out_home        = '/out/linux_3.10.0_64.VCS/';
 var moment          = require('moment');
@@ -506,7 +507,7 @@ module.exports = {
             });
             
             let options = {
-              hostname: 'amdnbif2.thehunters.club',
+              hostname: 'amdnbif3.thehunters.club',
               port: 80,
               path: '/regression/neverpass',
               method: 'POST',
