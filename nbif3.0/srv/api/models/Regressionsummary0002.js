@@ -26,26 +26,21 @@ module.exports = {
     },
     testlist    : {
       type      : 'string',
-      columnType: 'longtext'
     },
     isBAPU      : {
       type      : 'string',
     },
     passlist    : {
       type      : 'string',
-      columnType: 'longtext'
     },
     faillist    : {
       type      : 'string',
-      columnType: 'longtext'
     },
     unknownlist : {
       type      : 'string',
-      columnType: 'longtext'
     },
     runninglist : {
       type      : 'string',
-      columnType: 'longtext'
     },
     groupname   : {
       type      : 'string'

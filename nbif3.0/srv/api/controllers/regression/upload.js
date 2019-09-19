@@ -409,11 +409,11 @@ module.exports = {
                 changelist  : inputs.changelist,
                 kickoffdate : inputs.kickoffdate,
                 shelve      : inputs.shelve,
-                testlist    : JSON.stringify([]),
-                passlist    : JSON.stringify([]),
-                faillist    : JSON.stringify([]),
-                runninglist : JSON.stringify([]),
-                unknownlist : JSON.stringify([]),
+                testlist    : 0,
+                passlist    : 0,
+                faillist    : 0,
+                runninglist : 0,
+                unknownlist : 0,
                 passrate    : 0
               });
             }
@@ -442,11 +442,11 @@ module.exports = {
                 changelist  : inputs.changelist,
                 kickoffdate : inputs.kickoffdate,
                 shelve      : inputs.shelve,
-                testlist    : JSON.stringify([]),
-                passlist    : JSON.stringify([]),
-                faillist    : JSON.stringify([]),
-                runninglist : JSON.stringify([]),
-                unknownlist : JSON.stringify([]),
+                testlist    : 0,
+                passlist    : 0,
+                faillist    : 0,
+                runninglist : 0,
+                unknownlist : 0,
                 passrate    : 0
               });
             }
@@ -475,11 +475,11 @@ module.exports = {
                 changelist  : inputs.changelist,
                 kickoffdate : inputs.kickoffdate,
                 shelve      : inputs.shelve,
-                testlist    : JSON.stringify([]),
-                passlist    : JSON.stringify([]),
-                faillist    : JSON.stringify([]),
-                runninglist : JSON.stringify([]),
-                unknownlist : JSON.stringify([]),
+                testlist    : 0,
+                passlist    : 0,
+                faillist    : 0,
+                runninglist : 0,
+                unknownlist : 0,
                 passrate    : 0
               });
             }
@@ -508,11 +508,11 @@ module.exports = {
                 changelist  : inputs.changelist,
                 kickoffdate : inputs.kickoffdate,
                 shelve      : inputs.shelve,
-                testlist    : JSON.stringify([]),
-                passlist    : JSON.stringify([]),
-                faillist    : JSON.stringify([]),
-                runninglist : JSON.stringify([]),
-                unknownlist : JSON.stringify([]),
+                testlist    : 0,
+                passlist    : 0,
+                faillist    : 0,
+                runninglist : 0,
+                unknownlist : 0,
                 passrate    : 0
               });
             }

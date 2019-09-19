@@ -98,19 +98,14 @@ module.exports = {
       }
       else{
         for(let r=0;r<R.length;r++){
-          let passlist    = JSON.parse(R[r].passlist);
-          let faillist    = JSON.parse(R[r].faillist);
-          let testlist    = JSON.parse(R[r].testlist);
-          let runninglist = JSON.parse(R[r].runninglist);
-          let unknownlist = JSON.parse(R[r].unknownlist);
           regressions.push({
             projectname : R[r].projectname,
             variantname : R[r].variantname,
-            alltestnum  : testlist.length,
-            passnum     : passlist.length,
-            failnum     : faillist.length,
-            runningnum  : runninglist.length,
-            unknownnum  : unknownlist.length,
+            alltestnum  : R[r].testlist,
+            passnum     : R[r].passlist,
+            failnum     : R[r].faillist,
+            runningnum  : R[r].runninglist,
+            unknownnum  : R[r].unknownlist,
             isBAPU      : R[r].isBAPU,
             passrate    : R[r].passrate,
             changelist  : R[r].changelist,

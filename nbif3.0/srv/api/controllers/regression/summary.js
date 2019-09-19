@@ -284,26 +284,19 @@ module.exports = {
         //--------------------------------
         //store into DB : start
         //--------------------------------
+        let newdata = {
+          testlist    : testlist.length,
+          passlist    : passlist.length,
+          unknownlist : unknownlist.length,
+          runninglist : runninglist.length,
+          passrate    : passrate,
+          checkedtime : checkedtime
+        };
         ////////////////////////////////
         //For 0001 start
         ////////////////////////////////
         if(inputs.projectname ==  'mi200'){
-          await Regressionsummary0001.update(WW,{
-            testlist  : JSON.stringify(testlist)
-          });
-          await Regressionsummary0001.update(WW,{
-            passlist  : JSON.stringify(passlist)
-          });
-          await Regressionsummary0001.update(WW,{
-            unknownlist : JSON.stringify(unknownlist)
-          });
-          await Regressionsummary0001.update(WW,{
-            runninglist : JSON.stringify(runninglist)
-          });
-          await Regressionsummary0001.update(WW,{
-            passrate    : passrate,
-            checkedtime : checkedtime
-          });
+          await Regressionsummary0001.update(WW,newdata);
         }
         ////////////////////////////////
         //For 0001 end
@@ -312,22 +305,7 @@ module.exports = {
         //For 0002 start
         ////////////////////////////////
         if(inputs.projectname ==  'mero'){
-          await Regressionsummary0002.update(WW,{
-            testlist  : JSON.stringify(testlist)
-          });
-          await Regressionsummary0002.update(WW,{
-            passlist  : JSON.stringify(passlist)
-          });
-          await Regressionsummary0002.update(WW,{
-            unknownlist : JSON.stringify(unknownlist)
-          });
-          await Regressionsummary0002.update(WW,{
-            runninglist : JSON.stringify(runninglist)
-          });
-          await Regressionsummary0002.update(WW,{
-            passrate    : passrate,
-            checkedtime : checkedtime
-          });
+          await Regressionsummary0002.update(WW,newdata);
         }
         ////////////////////////////////
         //For 0002 end
@@ -336,22 +314,7 @@ module.exports = {
         //For 0003 start
         ////////////////////////////////
         if(inputs.projectname ==  'rembrandt'){
-          await Regressionsummary0003.update(WW,{
-            testlist  : JSON.stringify(testlist)
-          });
-          await Regressionsummary0003.update(WW,{
-            passlist  : JSON.stringify(passlist)
-          });
-          await Regressionsummary0003.update(WW,{
-            unknownlist : JSON.stringify(unknownlist)
-          });
-          await Regressionsummary0003.update(WW,{
-            runninglist : JSON.stringify(runninglist)
-          });
-          await Regressionsummary0003.update(WW,{
-            passrate    : passrate,
-            checkedtime : checkedtime
-          });
+          await Regressionsummary0003.update(WW,newdata);
         }
         ////////////////////////////////
         //For 0003 end
@@ -360,22 +323,7 @@ module.exports = {
         //For 0004 start
         ////////////////////////////////
         if(inputs.projectname ==  'floyd'){
-          await Regressionsummary0004.update(WW,{
-            testlist  : JSON.stringify(testlist)
-          });
-          await Regressionsummary0004.update(WW,{
-            passlist  : JSON.stringify(passlist)
-          });
-          await Regressionsummary0004.update(WW,{
-            unknownlist : JSON.stringify(unknownlist)
-          });
-          await Regressionsummary0004.update(WW,{
-            runninglist : JSON.stringify(runninglist)
-          });
-          await Regressionsummary0004.update(WW,{
-            passrate    : passrate,
-            checkedtime : checkedtime
-          });
+          await Regressionsummary0004.update(WW,newdata);
         }
         ////////////////////////////////
         //For 0004 end
