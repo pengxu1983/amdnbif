@@ -189,9 +189,9 @@ module.exports = {
         else{
           W.groupname = oneregressiongroups[g].groupname
         }
+        let WW = JSON.parse(JSON.stringify(W));
         for(let l=0;l<lists.length;l++){
           let A = [];
-          let WW = JSON.parse(JSON.stringify(W));
           if(lists[l] ==  'testlist'){
           }
           if(lists[l] ==  'passlist'){
