@@ -1,0 +1,68 @@
+module.exports = {
+
+
+  friendlyName: 'Vacation',
+
+
+  description: 'Vacation users.',
+
+
+  inputs: {
+    kind  : {
+      type  : 'string'
+    },
+    vacationname  : {
+      type  : 'string'
+    }
+  },
+
+
+  exits: {
+
+  },
+
+
+  fn: async function (inputs,exits) {
+    sails.log('/config/users/vacation');
+    sails.log(inputs);
+    let users = await Users.find({
+      team  : 'nbif'
+    });
+    let vacations = [];
+    for(let u=0;u<users.length;u++){
+      
+      let R = await Vacations.findOne({
+        username  : users[u].username,
+        vacationname  : inputs.vacationname
+      });
+      if(R){
+        vacations[u]={
+          username  : users[u].username,
+          realname  : users[u].realname,
+          email     : users[u].email,
+          begin     : R.begin,
+          end       : R.end,
+          cellphone : R.cellphone
+        };
+      }
+      else{
+        vacations[u]={
+          username  : users[u].username,
+          realname  : users[u].realname,
+          email     : users[u].email,
+          begin     : '',
+          end       : '',
+          cellphone : ''
+        };
+      }
+    }
+    // All done.
+    return exits.success(JSON.stringify({
+      ok  : 'ok',
+      vacations : JSON.stringify(vacations)
+    }));
+
+  }
+
+
+};

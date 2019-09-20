@@ -54,22 +54,39 @@
             <el-table-column
               prop="realname"
               label="Name"
-              width="180">
+            >
             </el-table-column>
             <el-table-column
               prop="begin"
               label="Vacation Start"
-              width="180">
+            >
+              <template slot-scope="scope">
+                <el-date-picker
+                  v-model="scope.row.begin"
+                  type="date"
+                  placeholder="date">
+                </el-date-picker>
+              </template>
             </el-table-column>
             <el-table-column
               prop="end"
               label="Vacation End"
             >
+              <template slot-scope="scope">
+                <el-date-picker
+                  v-model="scope.row.end"
+                  type="date"
+                  placeholder="date">
+                </el-date-picker>
+              </template>
             </el-table-column>
             <el-table-column
               prop="cellphone"
               label="Cell Phone"
             >
+              <template slot-scope="scope">
+                <el-input v-model="input" placeholder="cell phone"></el-input>
+              </template>
             </el-table-column>
           </el-table>
         </el-main>
@@ -119,7 +136,15 @@ export default {
       });
     },
     getvacations  () {
-      this.$http.post('/config/users/get',{}).then();
+      this.$http.post('/config/users/vacation',{
+        vacationname  : this.currentvacation  
+      }).then(
+        function(response){
+          if(response.body.ok ==  'ok'){
+            this.vacations  = JSON.parse(response.body.vacations);
+          }
+        }
+      );
     }
   }
 }
