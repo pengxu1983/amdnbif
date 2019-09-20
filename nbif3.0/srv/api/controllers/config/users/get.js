@@ -42,7 +42,24 @@ module.exports = {
         users : JSON.stringify(users)
       }));
     }
-    else if(inputs.kind  ==  'search'){
+    if(inputs.kind  ==  'nbif'){
+      let R = await Users.find({
+        team  : 'nbif'
+      });
+      let users=[];
+      for(let r=0;r<R.length;r++){
+        users.push({
+          username  : R[r].username,
+          realname  : R[r].realname,
+          email     : R[r].email
+        });
+      }
+      return exits.success(JSON.stringify({
+        ok  : 'ok',
+        users : JSON.stringify(users)
+      }));
+    }
+    if(inputs.kind  ==  'search'){
       let R = await Users.find({
         realname  : {
           'contains': inputs.query

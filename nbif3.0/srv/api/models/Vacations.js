@@ -1,5 +1,5 @@
 /**
- * Users.js
+ * Vacations.js
  *
  * @description :: A model definition represents a database table/collection.
  * @docs        :: https://sailsjs.com/docs/concepts/models-and-orm/models
@@ -12,18 +12,22 @@ module.exports = {
     //  ╔═╗╦═╗╦╔╦╗╦╔╦╗╦╦  ╦╔═╗╔═╗
     //  ╠═╝╠╦╝║║║║║ ║ ║╚╗╔╝║╣ ╚═╗
     //  ╩  ╩╚═╩╩ ╩╩ ╩ ╩ ╚╝ ╚═╝╚═╝
-    username    : {
-      type      : 'string'
+    username  : {
+      type    : 'string'
     },
-    realname    : {
-      type      : 'string'
+    begin     : {
+      type    : 'string'
     },
-    email       : {
-      type      : 'string'
+    end       : {
+      type    : 'string'
     },
-    team        : {
-      type      : 'string'
+    cellphone : {
+      type    : 'string'
+    },
+    vacationname  : {
+      type    : 'string'
     }
+    
 
     //  ╔═╗╔╦╗╔╗ ╔═╗╔╦╗╔═╗
     //  ║╣ ║║║╠╩╗║╣  ║║╚═╗

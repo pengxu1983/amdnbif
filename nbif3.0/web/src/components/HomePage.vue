@@ -42,6 +42,41 @@
           </div>
         </div>
       </div>
+      <div>
+        <el-header>
+          <h3>{{ currentvacation }}</h3>
+        </el-header>
+        <el-main>
+          <el-table
+            :data="vacations"
+            border
+            style="width: 100%">
+            <el-table-column
+              prop="realname"
+              label="Name"
+              width="180">
+            </el-table-column>
+            <el-table-column
+              prop="begin"
+              label="Vacation Start"
+              width="180">
+            </el-table-column>
+            <el-table-column
+              prop="end"
+              label="Vacation End"
+            >
+            </el-table-column>
+            <el-table-column
+              prop="cellphone"
+              label="Cell Phone"
+            >
+            </el-table-column>
+          </el-table>
+        </el-main>
+        <el-footer>
+          <el-button type="primary">Add</el-button>
+        </el-footer>
+      </div>
     </el-main>
   </el-container>
 </template>
@@ -53,6 +88,7 @@ export default {
   },
   data() {
     return {
+      currentvacation : 'National Day',
       vacations : [],
       items : [
         'regression',
@@ -81,6 +117,9 @@ export default {
       this.$router.push({
         name  : url
       });
+    },
+    getvacations  () {
+      this.$http.post('/config/users/get',{}).then();
     }
   }
 }
