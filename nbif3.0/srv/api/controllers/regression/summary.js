@@ -296,7 +296,7 @@ module.exports = {
         //For 0001 start
         ////////////////////////////////
         if(inputs.projectname ==  'mi200'){
-          await Regressionsummary0001.update(WW,newdata);
+          await Regressionsummary0001.update(W,newdata);
         }
         ////////////////////////////////
         //For 0001 end
@@ -305,7 +305,7 @@ module.exports = {
         //For 0002 start
         ////////////////////////////////
         if(inputs.projectname ==  'mero'){
-          await Regressionsummary0002.update(WW,newdata);
+          await Regressionsummary0002.update(W,newdata);
         }
         ////////////////////////////////
         //For 0002 end
@@ -314,7 +314,7 @@ module.exports = {
         //For 0003 start
         ////////////////////////////////
         if(inputs.projectname ==  'rembrandt'){
-          await Regressionsummary0003.update(WW,newdata);
+          await Regressionsummary0003.update(W,newdata);
         }
         ////////////////////////////////
         //For 0003 end
@@ -323,7 +323,7 @@ module.exports = {
         //For 0004 start
         ////////////////////////////////
         if(inputs.projectname ==  'floyd'){
-          await Regressionsummary0004.update(WW,newdata);
+          await Regressionsummary0004.update(W,newdata);
         }
         ////////////////////////////////
         //For 0004 end
