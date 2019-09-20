@@ -287,6 +287,7 @@ module.exports = {
         let newdata = {
           testlist    : testlist.length,
           passlist    : passlist.length,
+          faillist    : faillist.length,
           unknownlist : unknownlist.length,
           runninglist : runninglist.length,
           passrate    : passrate,
