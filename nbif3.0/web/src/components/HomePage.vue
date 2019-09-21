@@ -93,7 +93,7 @@
               label="Cell Phone"
             >
               <template slot-scope="scope">
-                <el-input v-model="input" placeholder="cell phone"></el-input>
+                <el-input v-model="scope.row.cellphone" placeholder="cell phone"></el-input>
               </template>
             </el-table-column>
             <el-table-column
