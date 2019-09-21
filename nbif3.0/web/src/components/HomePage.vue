@@ -115,7 +115,7 @@ export default {
       ],
       versionRecord : [
         {
-          versionID : '3.0.2',
+          versionID : '4.0.0',
           versionLog  : 'Metrics page Added'
         },
         {
