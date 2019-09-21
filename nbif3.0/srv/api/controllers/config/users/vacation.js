@@ -39,8 +39,7 @@ module.exports = {
   fn: async function (inputs,exits) {
     sails.log('/config/users/vacation');
     sails.log(inputs);
-    if(inputs.kind  = 'get'){
-      sails.log('dbg1');
+    if(inputs.kind  == 'get'){
       let users = await Users.find({
         team  : 'nbif'
       });
@@ -84,7 +83,6 @@ module.exports = {
         username  : inputs.username,
         vacationname  : inputs.vacationname,
       });
-      sails.log(R);
       if(R){
         await Vacations.update({
           username  : inputs.username,
@@ -96,7 +94,6 @@ module.exports = {
         });
       }
       else{
-        sails.log('dbg2')
         await Vacations.create({
           username  : inputs.username,
           vacationname  : inputs.vacationname,
