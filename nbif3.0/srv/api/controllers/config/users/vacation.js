@@ -79,11 +79,13 @@ module.exports = {
       }));
     }
     if(inputs.kind  =='update'){
+      sails.log('dbg1');
       let R = await Vacations.findOne({
         username  : inputs.username,
         vacationname  : inputs.vacationname,
         year          : moment().format('YYYY')
       });
+      sails.log(R);
       if(R){
         await Vacations.update({
           username  : inputs.username,
@@ -96,6 +98,7 @@ module.exports = {
         });
       }
       else{
+        sails.log('dbg2')
         await Vacations.create({
           username  : inputs.username,
           vacationname  : inputs.vacationname,
