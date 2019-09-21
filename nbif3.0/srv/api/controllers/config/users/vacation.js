@@ -49,7 +49,7 @@ module.exports = {
         let R = await Vacations.findOne({
           username  : users[u].username,
           vacationname  : inputs.vacationname,
-          year      : moment().format('YYYY');
+          year      : moment().format('YYYY')
         });
         if(R){
           vacations[u]={
