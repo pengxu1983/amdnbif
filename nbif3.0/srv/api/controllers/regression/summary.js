@@ -184,11 +184,7 @@ module.exports = {
           'runninglist'
         ];
         let W=JSON.parse(JSON.stringify(W0));
-        if(oneregressiongroups[g].groupname == 'all'){
-        }
-        else{
-          W.groupname = oneregressiongroups[g].groupname
-        }
+        W.groupname = oneregressiongroups[g].groupname;
         sails.log('group '+oneregressiongroups[g].groupname );
         sails.log(W);
         let WW = JSON.parse(JSON.stringify(W));
@@ -303,6 +299,7 @@ module.exports = {
         sails.log(passrate);
         sails.log('before store');
         sails.log(W);
+        sails.log(newdata);
         ////////////////////////////////
         //For 0001 start
         ////////////////////////////////
