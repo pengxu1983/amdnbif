@@ -58,7 +58,7 @@ module.exports = {
             email     : users[u].email,
             begin     : R.begin,
             end       : R.end,
-            cellphone : R.cellphone//TODO
+            cellphone : users[u].cellphone
           };
         }
         else{
@@ -68,7 +68,7 @@ module.exports = {
             email     : users[u].email,
             begin     : '',
             end       : '',
-            cellphone : users[t].cellphone
+            cellphone : users[u].cellphone
           };
         }
       }

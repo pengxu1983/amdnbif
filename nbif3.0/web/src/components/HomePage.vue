@@ -44,7 +44,7 @@
       </div>
       <div>
         <el-header>
-          <el-select v-model="currentvacation" placeholder="select">
+          <el-select v-model="currentvacation" placeholder="select" @change="getvacations()">
             <el-option
               v-for="item in availablevacations"
               :key="item"
