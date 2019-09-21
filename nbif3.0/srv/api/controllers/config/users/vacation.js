@@ -82,11 +82,13 @@ module.exports = {
       let R = await Vacations.findOne({
         username  : inputs.username,
         vacationname  : inputs.vacationname,
+          year          : moment().format('YYYY'),
       });
       if(R){
         await Vacations.update({
           username  : inputs.username,
           vacationname  : inputs.vacationname,
+          year          : moment().format('YYYY'),
         },{
           begin     : inputs.begin,
           end       : inputs.end,
