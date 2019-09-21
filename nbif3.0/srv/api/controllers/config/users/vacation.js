@@ -78,7 +78,7 @@ module.exports = {
         vacations : JSON.stringify(vacations)
       }));
     }
-    if(inputs.kind  =='update'){
+    else if(inputs.kind  =='update'){
       sails.log('dbg1');
       let R = await Vacations.findOne({
         username  : inputs.username,
