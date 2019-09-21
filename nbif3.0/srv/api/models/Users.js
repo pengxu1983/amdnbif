@@ -23,6 +23,9 @@ module.exports = {
     },
     team        : {
       type      : 'string'
+    },
+    cellphone   : {
+      type      : 'string'
     }
 
     //  ╔═╗╔╦╗╔╗ ╔═╗╔╦╗╔═╗

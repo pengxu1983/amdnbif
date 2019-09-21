@@ -58,7 +58,7 @@ module.exports = {
             email     : users[u].email,
             begin     : R.begin,
             end       : R.end,
-            cellphone : R.cellphone
+            cellphone : R.cellphone//TODO
           };
         }
         else{
@@ -68,7 +68,7 @@ module.exports = {
             email     : users[u].email,
             begin     : '',
             end       : '',
-            cellphone : ''
+            cellphone : users[t].cellphone
           };
         }
       }
@@ -105,6 +105,11 @@ module.exports = {
           cellphone : inputs.cellphone,
         });
       }
+      await Users.update({
+        username  : inputs.username
+      },{
+        cellphone : inputs.cellphone
+      });
       return exits.success(JSON.stringify({
         ok  : 'ok',
       }));

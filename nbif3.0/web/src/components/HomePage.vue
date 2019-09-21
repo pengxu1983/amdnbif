@@ -106,7 +106,6 @@
           </el-table>
         </el-main>
         <el-footer>
-          <el-button type="primary">Add</el-button>
         </el-footer>
       </div>
     </el-main>
@@ -178,6 +177,7 @@ export default {
       );
     },
     getvacations  () {
+      this.vacations  = [];
       this.$http.post('/config/users/vacation',{
         kind  : 'get',
         vacationname  : this.currentvacation  
