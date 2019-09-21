@@ -281,7 +281,7 @@ module.exports = {
         }
         let passrate = 0.00;
         let checkedtime = moment().format('YYYY-MM-DD HH:mm:ss');
-        if(testlist.length == 0){
+        if(testlist == 0){
         }
         else{
           passrate  = passlist/testlist*100;
@@ -299,6 +299,10 @@ module.exports = {
           passrate    : passrate,
           checkedtime : checkedtime
         };
+        sails.log('passrate');
+        sails.log(passrate);
+        sails.log('before store');
+        sails.log(W);
         ////////////////////////////////
         //For 0001 start
         ////////////////////////////////
