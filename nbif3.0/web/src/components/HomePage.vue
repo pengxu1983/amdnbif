@@ -146,6 +146,9 @@ export default {
         }
       );
     }
+  },
+  mounted () {
+    this.getvacations();
   }
 }
 </script>
