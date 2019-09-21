@@ -111,14 +111,14 @@ module.exports = {
           isBAPU      : inputs.isBAPU,
           shelve      : inputs.shelve,
           kickoffdate : inputs.kickoffdate,
-          DVgroup : onegroup.DVgroup,
-          groupname : R[r].groupname,
-          passrate  : R[r].passrate,
-          allnum      : JSON.parse(R[r].testlist).length,
-          passnum     : JSON.parse(R[r].passlist).length,
-          failnum     : JSON.parse(R[r].faillist).length,
-          unknownnum  : JSON.parse(R[r].unknownlist).length,
-          runningnum  : JSON.parse(R[r].runninglist).length
+          DVgroup     : onegroup.DVgroup,
+          groupname   : R[r].groupname,
+          passrate    : R[r].passrate,
+          allnum      : R[r].testlist,
+          passnum     : R[r].passlist,
+          failnum     : R[r].faillist,
+          unknownnum  : R[r].unknownlist,
+          runningnum  : R[r].runninglist
         });
       }
       return exits.success(JSON.stringify({
