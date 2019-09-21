@@ -185,8 +185,8 @@ module.exports = {
         ];
         let W=JSON.parse(JSON.stringify(W0));
         W.groupname = oneregressiongroups[g].groupname;
-        sails.log('group '+oneregressiongroups[g].groupname );
-        sails.log(W);
+        //sails.log('group '+oneregressiongroups[g].groupname );
+        //sails.log(W);
         let WW = JSON.parse(JSON.stringify(W));
         for(let l=0;l<lists.length;l++){
           let A = [];
@@ -204,8 +204,8 @@ module.exports = {
           if(lists[l] ==  'runninglist'){
             WW.result  = 'RUNNING';
           }
-          sails.log(lists[l]);
-          sails.log(WW);
+          //sails.log(lists[l]);
+          //sails.log(WW);
           ////////////////////////////////
           //For 0001 start
           ////////////////////////////////
@@ -251,7 +251,7 @@ module.exports = {
               sort  : 'testname ASC'
             });
           }
-          sails.log(R.length);
+          //sails.log(R.length);
           ////////////////////////////////
           //For 0004 end
           ////////////////////////////////
@@ -295,11 +295,11 @@ module.exports = {
           passrate    : passrate,
           checkedtime : checkedtime
         };
-        sails.log('passrate');
-        sails.log(passrate);
-        sails.log('before store');
-        sails.log(W);
-        sails.log(newdata);
+        //sails.log('passrate');
+        //sails.log(passrate);
+        //sails.log('before store');
+        //sails.log(W);
+        //sails.log(newdata);
         ////////////////////////////////
         //For 0001 start
         ////////////////////////////////
