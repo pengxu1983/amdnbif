@@ -44,7 +44,15 @@
       </div>
       <div>
         <el-header>
-          <h3>{{ currentvacation }}</h3>
+          <el-select v-model="currentvacation" placeholder="select">
+            <el-option
+              v-for="item in availablevacations"
+              :key="item"
+              :label="item"
+              :value="item"
+            >
+            </el-option>
+          </el-select>
         </el-header>
         <el-main>
           <el-table
@@ -88,6 +96,13 @@
                 <el-input v-model="input" placeholder="cell phone"></el-input>
               </template>
             </el-table-column>
+            <el-table-column
+              label="Opt"
+            >
+              <template slot-scope="scope">
+                <el-button type="primary" @click="updatevacations(scope.row.username,scope.row.begin,scope.row.end,scope.row.cellphone)">Confirm</el-button>
+              </template>
+            </el-table-column>
           </el-table>
         </el-main>
         <el-footer>
@@ -105,6 +120,14 @@ export default {
   },
   data() {
     return {
+      availablevacations  :[
+        'National Day',
+        'New Year',
+        'Spring Festival',
+        'Lantern Festival',
+        'Tomb Sweeping Day',
+        'Labor Day',
+      ],
       currentvacation : 'National Day',
       vacations : [],
       items : [
@@ -135,8 +158,28 @@ export default {
         name  : url
       });
     },
+    updatevacations(username,begin,end,cellphone){
+      this.$http.post('/config/users/vacation',{
+        kind          : 'update',
+        vacationname  : this.currentvacation,
+        username      : username,
+        begin         : begin,
+        end           : end,
+        cellphone     : cellphone
+      }).then(
+        function(response){
+          if(response.body.ok ==  'ok'){
+            alert(username  + ' uploaded');
+          }
+          else{
+            alert(response.body);
+          }
+        }
+      );
+    },
     getvacations  () {
       this.$http.post('/config/users/vacation',{
+        kind  : 'get',
         vacationname  : this.currentvacation  
       }).then(
         function(response){

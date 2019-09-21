@@ -26,8 +26,10 @@ module.exports = {
     },
     vacationname  : {
       type    : 'string'
+    },
+    year      : {
+      type    : 'string'
     }
-    
 
     //  ╔═╗╔╦╗╔╗ ╔═╗╔╦╗╔═╗
     //  ║╣ ║║║╠╩╗║╣  ║║╚═╗
