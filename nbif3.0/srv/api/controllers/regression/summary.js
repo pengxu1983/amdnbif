@@ -189,6 +189,8 @@ module.exports = {
         else{
           W.groupname = oneregressiongroups[g].groupname
         }
+        sails.log('group '+oneregressiongroups[g].groupname );
+        sails.log(W);
         let WW = JSON.parse(JSON.stringify(W));
         for(let l=0;l<lists.length;l++){
           let A = [];
@@ -206,6 +208,8 @@ module.exports = {
           if(lists[l] ==  'runninglist'){
             WW.result  = 'RUNNING';
           }
+          sails.log(lists[l]);
+          sails.log(WW);
           ////////////////////////////////
           //For 0001 start
           ////////////////////////////////
@@ -251,45 +255,47 @@ module.exports = {
               sort  : 'testname ASC'
             });
           }
+          sails.log(R.length);
           ////////////////////////////////
           //For 0004 end
           ////////////////////////////////
-          for(let t=0;t<R.length;t++){
-            A.push(R[t].testname); 
-          }
+          //for(let t=0;t<R.length;t++){
+          //  A.push(R[t].testname); 
+          //}
           if(lists[l] ==  'testlist'){
-            testlist    = A;
+            testlist    = R.length;
           }
           if(lists[l] ==  'passlist'){
-            passlist    = A;
+            passlist    = R.length;
           }
           if(lists[l] ==  'faillist'){
-            faillist    = A;
+            faillist    = R.length;
           }
           if(lists[l] ==  'unknownlist'){
-            unknownlist = A;
+            unknownlist = R.length;
           }
           if(lists[l] ==  'runninglist'){
-            runninglist = A;
+            runninglist = R.length;
           }
+
         }
         let passrate = 0.00;
         let checkedtime = moment().format('YYYY-MM-DD HH:mm:ss');
         if(testlist.length == 0){
         }
         else{
-          passrate  = passlist.length/testlist.length*100;
+          passrate  = passlist/testlist*100;
           passrate  = passrate.toFixed(2);
         }
         //--------------------------------
         //store into DB : start
         //--------------------------------
         let newdata = {
-          testlist    : testlist.length,
-          passlist    : passlist.length,
-          faillist    : faillist.length,
-          unknownlist : unknownlist.length,
-          runninglist : runninglist.length,
+          testlist    : testlist,
+          passlist    : passlist,
+          faillist    : faillist,
+          unknownlist : unknownlist,
+          runninglist : runninglist,
           passrate    : passrate,
           checkedtime : checkedtime
         };

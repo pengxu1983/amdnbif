@@ -75,6 +75,13 @@
           <el-button type="text" @click="gettestdetails('RUNNING',scope.row.projectname,scope.row.variantname,'all',scope.row.changelist,scope.row.isBAPU,scope.row.shelve,scope.row.kickoffdate);selectedRegressionIndex = scope.$index">{{scope.row.runningnum}}</el-button>
         </template>
       </el-table-column>
+      <el-table-column
+        label="summary"
+      >
+        <template slot-scope="scope">
+          <el-button type="text" @click="summary(scope.row.projectname,scope.row.variantname,scope.row.changelist,scope.row.isBAPU,scope.row.shelve,scope.row.kickoffdate)">summary</el-button>
+        </template>
+      </el-table-column>
     </el-table>
     <h3>Never Pass Cases</h3>
     <el-table
@@ -224,6 +231,21 @@ export default {
     Oneprojoneregress
   },
   methods : {
+    summary(projectname,variantname,changelist,isBAPU,shelve,kickoffdate){
+      this.$http.post('/regression/summary',{
+        projectname : projectname,
+        variantname : variantname,
+        isBAPU      : isBAPU,     
+        kickoffdate : kickoffdate,
+        changelist  : changelist, 
+        shelve      : shelve,
+      }).then(
+        function(response){
+          alert(response.body.ok);
+        },
+        function(){}
+      );
+    },
     neverpassupload(info){
       console.log(info);
     },

@@ -104,6 +104,7 @@ module.exports = {
           isBAPU      : inputs.isBAPU
         });
         sails.log(onegroup.DVgroup);
+        sails.log(onegroup.groupname);
         groupstatus.push({
           projectname : inputs.projectname,
           variantname : inputs.variantname,
