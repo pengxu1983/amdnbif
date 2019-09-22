@@ -588,7 +588,51 @@ module.exports = {
         // write data to request body
         req1.write(postData1);
         req1.end();
+        //dvgroup summary
+        let postData2 = querystring.stringify({
+          projectname : treeInfo['projectname'],
+          variantname : treeInfo['variantname'],
+          isBAPU      : treeInfo['isBAPU'],     
+          kickoffdate : treeInfo['kickoffdate'],
+          changelist  : treeInfo['changelist'], 
+          shelve      : treeInfo['shelve'],
+        });
         
+        let options2 = {
+          hostname: 'amdnbif3.thehunters.club',
+          port: 80,
+          path: '/regression/dvgroupsummary',
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/x-www-form-urlencoded',
+            'Content-Length': Buffer.byteLength(postData)
+          }
+        };
+        
+        let req2 = http.request(options2, (res2) => {
+          //console.log(`STATUS: ${res.statusCode}`);
+          //console.log(`HEADERS: ${JSON.stringify(res.headers)}`);
+          res2.setEncoding('utf8');
+          res2.on('data', (chunk) => {
+            console.log(`BODY: ${chunk}`);
+          });
+          res2.on('end', () => {
+            console.log('No more data in response.');
+            console.log('dvgroupsummary done');
+          });
+        });
+        
+        req2.on('error', (e) => {
+          console.error(`problem with request: ${e.message}`);
+        });
+        
+        // write data to request body
+        req2.write(postData2);
+        req2.end();
+
+
+
+
         text = JSON.stringify(nextCheck);
         fs.writeFileSync(oneregTreeRoot +'/NBIF_TEST_TO_CHECK',text,{
           encoding  : 'utf8',
@@ -599,7 +643,7 @@ module.exports = {
         //----end----
       } //for one tree done
 
-      //cron_check_result.start();
+      cron_check_result.start();
     }
     // All done.
     return exits.success(JSON.stringify({
