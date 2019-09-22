@@ -42,7 +42,7 @@ module.exports = {
     runninglist : {
       type      : 'string',
     },
-    groupname   : {
+    DVgroup     : {
       type      : 'string'
     },
     kickoffdate: {

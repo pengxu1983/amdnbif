@@ -363,10 +363,10 @@ module.exports = {
       else{
         for(let i=0;i<grouplist.length;i++){
           //groups update to DB
-          if(grouplist[i] ==  'all'){
-            //ignore
-          }
-          else{
+          //if(grouplist[i] ==  'all'){
+          //  //ignore
+          //}
+          //else{
             let R = await Groups.findOne({
               groupname   : grouplist[i],
               isBAPU      : inputs.isBAPU,
@@ -383,7 +383,7 @@ module.exports = {
                 variantname : inputs.variantname
               });
             }
-          }
+          //}
           //summary update to DB
           ///////////////////////////////////////
           //For 0001
