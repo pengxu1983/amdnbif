@@ -163,6 +163,8 @@ module.exports = {
           W2.groupname    = R[r].groupname;
           sails.log('W2');
           sails.log(W2);
+
+
           let R1;
           ////////////////////////////////
           //For 0001 start
