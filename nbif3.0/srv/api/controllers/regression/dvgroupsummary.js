@@ -151,9 +151,6 @@ module.exports = {
           'runninglist'
         ];
         W1.DVgroup      = alldvgroups[g];
-        W1.kickoffdate  = inputs.kickoffdate;
-        W1.changelist   = inputs.changelist;
-        W1.shelve       = inputs.shelve;
         //Get all groupname under this DVgroup
         let R = await Groups.find(W1);
         sails.log('all groups');
@@ -217,17 +214,22 @@ module.exports = {
         let checkedtime = moment().format('YYYY-MM-DD HH:mm:ss');
         sails.log('passrate');
         sails.log(passrate);
-        sails.log('W1b');
-        sails.log(W1);
-        await Regressiondvgroup0001.destroy(W1);
-        W1.testlist    = testlist   ;
-        W1.passlist    = passlist   ;
-        W1.faillist    = faillist   ;
-        W1.unknownlist = unknownlist;
-        W1.runninglist = runninglist;
-        W1.passrate    = passrate   ;
-        W1.checkedtime = checkedtime;
-        await Regressiondvgroup0001.create(W1);
+        let W3 = JSON.parse(JSON.stringify(W0));
+        W3.DVgroup  = alldvgroups[g];
+        W3.kickoffdate  = inputs.kickoffdate;
+        W3.changelist   = inputs.changelist;
+        W3.shelve       = inputs.shelve;
+        sails.log('W3');
+        sails.log(W3);
+        await Regressiondvgroup0001.destroy(W3);
+        W3.testlist    = testlist   ;
+        W3.passlist    = passlist   ;
+        W3.faillist    = faillist   ;
+        W3.unknownlist = unknownlist;
+        W3.runninglist = runninglist;
+        W3.passrate    = passrate   ;
+        W3.checkedtime = checkedtime;
+        await Regressiondvgroup0001.create(W3);
       }
       return exits.success(JSON.stringify({
         ok  : 'ok',
