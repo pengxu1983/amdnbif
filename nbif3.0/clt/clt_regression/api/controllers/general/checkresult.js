@@ -568,7 +568,7 @@ module.exports = {
           }
         };
         
-        let req1 = http.request(options, (res1) => {
+        let req1 = http.request(options1, (res1) => {
           //console.log(`STATUS: ${res.statusCode}`);
           //console.log(`HEADERS: ${JSON.stringify(res.headers)}`);
           res1.setEncoding('utf8');
