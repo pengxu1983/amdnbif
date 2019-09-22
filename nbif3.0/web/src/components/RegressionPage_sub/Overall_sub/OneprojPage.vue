@@ -391,8 +391,7 @@ export default {
     regressionstatus(projectname){
       console.log('regressionstatus');
       console.log(projectname);
-      this.$http.post('/regression/get',{
-        kind  : 'Overall',
+      this.$http.post('/regression/allstatus',{
         projectname : projectname
       }).then(
         function(response){

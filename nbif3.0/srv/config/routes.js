@@ -90,6 +90,9 @@ module.exports.routes = {
   'POST /regression/testdetails' : {
     action  : 'regression/testdetails'
   },
+  'POST /regression/allstatus' : {
+    action  : 'regression/allstatus'
+  },
   'POST /regression/groupstatus' : {
     action  : 'regression/groupstatus'
   },
