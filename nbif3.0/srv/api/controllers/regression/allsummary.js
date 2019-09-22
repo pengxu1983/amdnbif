@@ -52,7 +52,7 @@ module.exports = {
 
 
   fn: async function (inputs,exits) {
-    sails.log('/regression/summary');
+    sails.log('/regression/allsummary');
     sails.log(inputs);
     let R;
     let oneregressiongroups;
@@ -60,9 +60,9 @@ module.exports = {
     //clean up DB : start
     //--------------------------------
     for(let day = 0 ; day < 5 ; day ++){
-      sails.log('clean DB');
+      //sails.log('clean DB');
       let date = moment().subtract(day+15,'days').format('YYYY-MM-DD');
-      sails.log(date);
+      //sails.log(date);
       let W;
       W = {
         kickoffdate : date
@@ -130,7 +130,6 @@ module.exports = {
       shelve      : inputs.shelve
     };
 
-    //testlist
     for(let l = 0;l<lists.length;l++){
       let W1;
       if(lists[l] =='testlist'){
@@ -210,6 +209,7 @@ module.exports = {
         runninglist = R.length;
       }
     }
+
     if(testlist ==  0){
     }
     else{

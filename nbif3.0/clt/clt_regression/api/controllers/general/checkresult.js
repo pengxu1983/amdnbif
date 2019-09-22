@@ -577,6 +577,7 @@ module.exports = {
           });
           res1.on('end', () => {
             console.log('No more data in response.');
+            console.log('allsummary done');
           });
         });
         
@@ -598,7 +599,7 @@ module.exports = {
         //----end----
       } //for one tree done
 
-      cron_check_result.start();
+      //cron_check_result.start();
     }
     // All done.
     return exits.success(JSON.stringify({

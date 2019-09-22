@@ -60,9 +60,9 @@ module.exports = {
     //clean up DB : start
     //--------------------------------
     for(let day = 0 ; day < 5 ; day ++){
-      sails.log('clean DB');
+      //sails.log('clean DB');
       let date = moment().subtract(day+15,'days').format('YYYY-MM-DD');
-      sails.log(date);
+      //sails.log(date);
       let W;
       W = {
         kickoffdate : date
