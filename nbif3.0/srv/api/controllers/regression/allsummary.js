@@ -226,9 +226,10 @@ module.exports = {
       shelve      : inputs.shelve
     };
     let W3  = JSON.parse(JSON.stringify(W2));
-    W3.testlist     =   testlist;
-    W3.passlist     =   passlist;
+    W3.testlist     =   testlist   ;
+    W3.passlist     =   passlist   ;
     W3.faillist     =   faillist   ;
+    W3.runninglist  =   runninglist;
     W3.unknownlist  =   unknownlist;
     W3.passrate     =   passrate   ;
     W3.checkedtime  =   checkedtime;
