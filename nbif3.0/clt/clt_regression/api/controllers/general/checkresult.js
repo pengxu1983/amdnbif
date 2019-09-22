@@ -231,7 +231,7 @@ module.exports = {
         }
         console.log(grouplist);
         console.log(grouplist.length);
-        grouplist.push('all');
+        //grouplist.push('all');
         let postDataG = querystring.stringify({
           'kind'        : 'oneregression',
           'kickoffdate' : treeInfo['kickoffdate'],
