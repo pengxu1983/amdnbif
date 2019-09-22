@@ -340,46 +340,6 @@ module.exports = {
         //One group in this regression : end
         //--------------------------------
       }
-      // To summary DVgroups
-      let postData = querystring.stringify({
-        'projectname' : inputs.projectname,
-        'variantname' : inputs.variantname,
-        'isBAPU'      : inputs.isBAPU,
-        'kickoffdate' : inputs.kickoffdate,
-        'changelist'  : inputs.changelist,
-        'shelve'      : inputs.shelve
-      });
-      
-      let options = {
-        hostname: 'amdnbif3.thehunters.club',
-        port: 80,
-        path: '/regression/dvgroupsummary',
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/x-www-form-urlencoded',
-          'Content-Length': Buffer.byteLength(postData)
-        }
-      };
-      
-      const req = http.request(options, (res) => {
-        //console.log(`STATUS: ${res.statusCode}`);
-        //console.log(`HEADERS: ${JSON.stringify(res.headers)}`);
-        res.setEncoding('utf8');
-        res.on('data', (chunk) => {
-          console.log(`BODY: ${chunk}`);
-        });
-        res.on('end', () => {
-          console.log('No more data in response.');
-        });
-      });
-      
-      req.on('error', (e) => {
-        console.error(`problem with request: ${e.message}`);
-      });
-      
-      // write data to request body
-      req.write(postData);
-      req.end();
 
       return exits.success(JSON.stringify({
         ok  : 'ok',

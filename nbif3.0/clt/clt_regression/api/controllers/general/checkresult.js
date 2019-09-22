@@ -404,7 +404,7 @@ module.exports = {
           else{
             nextCheck[testName]=testResult[testName];
           }
-          await dly(400);
+          await dly(100);
           let postData = querystring.stringify({
             'kind'          : 'onecase',
             'oneTestResult' : JSON.stringify({
@@ -547,6 +547,46 @@ module.exports = {
         // write data to request body
         req.write(postData);
         req.end();
+        //allsummary
+        let postData1 = querystring.stringify({
+          projectname : treeInfo['projectname'],
+          variantname : treeInfo['variantname'],
+          isBAPU      : treeInfo['isBAPU'],     
+          kickoffdate : treeInfo['kickoffdate'],
+          changelist  : treeInfo['changelist'], 
+          shelve      : treeInfo['shelve'],
+        });
+        
+        let options1 = {
+          hostname: 'amdnbif3.thehunters.club',
+          port: 80,
+          path: '/regression/allsummary',
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/x-www-form-urlencoded',
+            'Content-Length': Buffer.byteLength(postData)
+          }
+        };
+        
+        let req1 = http.request(options, (res1) => {
+          //console.log(`STATUS: ${res.statusCode}`);
+          //console.log(`HEADERS: ${JSON.stringify(res.headers)}`);
+          res1.setEncoding('utf8');
+          res1.on('data', (chunk) => {
+            console.log(`BODY: ${chunk}`);
+          });
+          res1.on('end', () => {
+            console.log('No more data in response.');
+          });
+        });
+        
+        req1.on('error', (e) => {
+          console.error(`problem with request: ${e.message}`);
+        });
+        
+        // write data to request body
+        req1.write(postData1);
+        req1.end();
         
         text = JSON.stringify(nextCheck);
         fs.writeFileSync(oneregTreeRoot +'/NBIF_TEST_TO_CHECK',text,{
