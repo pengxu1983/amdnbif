@@ -105,8 +105,8 @@ module.exports = {
       //////////////////////////
       //For 0004 end
       //////////////////////////
-      sails.log('px');
-      sails.log(R);
+      //sails.log('px');
+      //sails.log(R);
       if(R.commitfix){
         msg += 'commitfix ignored;';
       }
@@ -358,7 +358,7 @@ module.exports = {
       //////////////////////////
       //For 0004 end
       //////////////////////////
-      sails.log('length : '+notpasscases.length);
+      //sails.log('length : '+notpasscases.length);
       if(notpasscases.length == 0){
         return exits.success(JSON.stringify({
           ok  : 'notok',
@@ -373,8 +373,8 @@ module.exports = {
             variantname : notpasscases[t].variantname,
             isBAPU      : notpasscases[t].isBAPU
           });
-          sails.log('groupinfo');
-          sails.log(groupinfo.owner);
+          //sails.log('groupinfo');
+          //sails.log(groupinfo.owner);
           lastneverpass = await Regressionneverpass0001.findOne({
             testname    : notpasscases[t].testname,
             projectname : notpasscases[t].projectname,
@@ -382,8 +382,8 @@ module.exports = {
             isBAPU      : notpasscases[t].isBAPU,
             suite       : notpasscases[t].suite,
           });
-          sails.log('dbg1');
-          sails.log(lastneverpass);
+          //sails.log('dbg1');
+          //sails.log(lastneverpass);
           if(lastneverpass){
             newneverpass.push({
               testname    : notpasscases[t].testname,
@@ -406,8 +406,8 @@ module.exports = {
               isBAPU      : notpasscases[t].isBAPU,
               suite       : notpasscases[t].suite,
             });
-            sails.log('dbg2');
-            sails.log(R);
+            //sails.log('dbg2');
+            //sails.log(R);
             
             if(R.length == 0){
               newneverpass.push({
@@ -455,8 +455,8 @@ module.exports = {
           await Regressionneverpass0001.destroy({
             isBAPU  : inputs.isBAPU
           });
-          sails.log('dbg3');
-          sails.log(newneverpass.length);
+          //sails.log('dbg3');
+          //sails.log(newneverpass.length);
           await Regressionneverpass0001.createEach(newneverpass);
         }
         //////////////////////////
@@ -469,8 +469,8 @@ module.exports = {
           await Regressionneverpass0002.destroy({
             isBAPU  : inputs.isBAPU
           });
-          sails.log('dbg3');
-          sails.log(newneverpass.length);
+          //sails.log('dbg3');
+          //sails.log(newneverpass.length);
           await Regressionneverpass0002.createEach(newneverpass);
         }
         //////////////////////////
@@ -483,8 +483,8 @@ module.exports = {
           await Regressionneverpass0003.destroy({
             isBAPU  : inputs.isBAPU
           });
-          sails.log('dbg3');
-          sails.log(newneverpass.length);
+          //sails.log('dbg3');
+          //sails.log(newneverpass.length);
           await Regressionneverpass0003.createEach(newneverpass);
         }
         //////////////////////////
@@ -497,8 +497,8 @@ module.exports = {
           await Regressionneverpass0004.destroy({
             isBAPU  : inputs.isBAPU
           });
-          sails.log('dbg3');
-          sails.log(newneverpass.length);
+          //sails.log('dbg3');
+          //sails.log(newneverpass.length);
           await Regressionneverpass0004.createEach(newneverpass);
         }
         //////////////////////////
