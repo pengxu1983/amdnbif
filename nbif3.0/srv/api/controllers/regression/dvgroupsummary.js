@@ -131,7 +131,6 @@ module.exports = {
       }));
     }
     else{
-      let W1  = JSON.parse(JSON.stringify(W0));//dvgroupsummary
       for(let g=0;g<alldvgroups.length;g++){
         sails.log('dvgroup');
         sails.log(alldvgroups[g]);
@@ -143,6 +142,8 @@ module.exports = {
         let faillist    = 0;
         let unknownlist = 0;
         let runninglist = 0;
+        let passrate    = 0.00;
+        let checkedtime = moment().format('YYYY-MM-DD HH:mm:ss');
         let lists = [
           'testlist',
           'passlist',  
@@ -150,27 +151,44 @@ module.exports = {
           'unknownlist',
           'runninglist'
         ];
-        W1.DVgroup      = alldvgroups[g];
-        //Get all groupname under this DVgroup
+        let W1 = JSON.parse(JSON.stringify(W0));
+        W1.DVgroup  = alldvgroups[g];
         let R = await Groups.find(W1);
-        sails.log('all groups');
-        sails.log(R);
-        let W2  = JSON.parse(JSON.stringify(W0));//summary
-        W2.kickoffdate  = inputs.kickoffdate;
-        W2.changelist   = inputs.changelist;
-        W2.shelve       = inputs.shelve;
+        let havegroups = [];
         for(let r=0;r<R.length;r++){
-          W2.groupname    = R[r].groupname;
-          sails.log('W2');
-          sails.log(W2);
-
-
-          let R1;
+          havegroups.push(R[r].groupname);
+        }
+        for(let l=0;l<lists.length;l++){
+          let R;
+          let W2 = JSON.parse(JSON.stringify(W0));
+          W2.kickoffdate  = inputs.kickoffdate;
+          W2.changelist   = inputs.changelist;
+          W2.shelve       = inputs.shelve;
+          W2.groupname    = {'in':havegroups};
+          if(lists[l]=='testlist'){
+            sails.log('testlist cal');
+          }
+          if(lists[l]=='passlist'){
+            sails.log('passlist cal');
+            W2.result = 'PASS';
+          }
+          if(lists[l]=='faillist'){
+            sails.log('faillist cal');
+            W2.result = 'FAIL';
+          }
+          if(lists[l]=='unknownlist'){
+            sails.log('unknownlist cal');
+            W2.result = 'UNKNOWN';
+          }
+          if(lists[l]=='runninglist'){
+            sails.log('runninglist  cal');
+            W2.result = 'RUNNING';
+          }
           ////////////////////////////////
           //For 0001 start
           ////////////////////////////////
           if(inputs.projectname ==  'mi200'){
-            R1 = await Regressionsummary0001.findOne(W2);
+            R = await Regressiondetails0001.find(W2);
           }
           ////////////////////////////////
           //For 0001 end
@@ -179,7 +197,7 @@ module.exports = {
           //For 0002 start
           ////////////////////////////////
           if(inputs.projectname ==  'mero'){
-            R1 = await Regressionsummary0002.findOne(W2);
+            R = await Regressiondetails0002.find(W2);
           }
           ////////////////////////////////
           //For 0002 end
@@ -188,7 +206,7 @@ module.exports = {
           //For 0003 start
           ////////////////////////////////
           if(inputs.projectname ==  'rembrandt'){
-            R1 = await Regressionsummary0003.findOne(W2);
+            R = await Regressiondetails0003.find(W2);
           }
           ////////////////////////////////
           //For 0003 end
@@ -197,41 +215,86 @@ module.exports = {
           //For 0004 start
           ////////////////////////////////
           if(inputs.projectname ==  'floyd'){
-            R1 = await Regressionsummary0004.findOne(W2);
+            R = await Regressiondetails0004.find(W2);
           }
           ////////////////////////////////
-          //For 0004 end
+          //For 0001 end
           ////////////////////////////////
-          sails.log('R1');
-          sails.log(R1);
-          testlist    +=  Number(R1.testlist);
-          passlist    +=  Number(R1.passlist);
-          faillist    +=  Number(R1.faillist);
-          unknownlist +=  Number(R1.unknownlist);
-          runninglist +=  Number(R1.runninglist);
+          if(lists[l]=='testlist'){
+            testlist  = R.length;
+          }
+          if(lists[l]=='passlist'){
+            passlist  = R.length;
+          }
+          if(lists[l]=='faillist'){
+            faillist  = R.length;
+          }
+          if(lists[l]=='unknownlist'){
+            unknownlist = R.length;
+          }
+          if(lists[l]=='runninglist'){
+            runninglist = R.length;
+          }
         }
-        let passrate = 0.00;
-        passrate  = passlist/testlist*100;
-        passrate  = passrate.toFixed(2);
-        let checkedtime = moment().format('YYYY-MM-DD HH:mm:ss');
-        sails.log('passrate');
-        sails.log(passrate);
+        if(testlist ==  0){
+        }
+        else{
+          passrate  = passlist/testlist*100;
+          passrate  = passrate.toFixed(2);
+        }
         let W3 = JSON.parse(JSON.stringify(W0));
-        W3.DVgroup  = alldvgroups[g];
         W3.kickoffdate  = inputs.kickoffdate;
         W3.changelist   = inputs.changelist;
         W3.shelve       = inputs.shelve;
-        sails.log('W3');
-        sails.log(W3);
-        await Regressiondvgroup0001.destroy(W3);
-        W3.testlist    = testlist   ;
-        W3.passlist    = passlist   ;
-        W3.faillist    = faillist   ;
-        W3.unknownlist = unknownlist;
-        W3.runninglist = runninglist;
-        W3.passrate    = passrate   ;
-        W3.checkedtime = checkedtime;
-        await Regressiondvgroup0001.create(W3);
+        W3.DVgroup      = alldvgroups[g];
+        let W4 = JSON.parse(JSON.stringify(W3));
+        W4.testlist = testlist;
+        W4.passlist = passlist;
+        W4.faillist = faillist;
+        W4.unknownlist  = unknownlist;
+        W4.runninglist  = runninglist;
+        W4.passrate = passrate;
+        W4.checkedtime  = checkedtime;
+        ////////////////////////////////
+        //For 0001 start
+        ////////////////////////////////
+        if(inputs.projectname ==  'mi200'){
+          await Regressiondvgroup0001.destroy(W3);
+          await Regressiondvgroup0001.create(W4);
+        }
+        ////////////////////////////////
+        //For 0001 end
+        ////////////////////////////////
+        ////////////////////////////////
+        //For 0002 start
+        ////////////////////////////////
+        if(inputs.projectname ==  'mero'){
+          await Regressiondvgroup0002.destroy(W3);
+          await Regressiondvgroup0002.create(W4);
+        }
+        ////////////////////////////////
+        //For 0002 end
+        ////////////////////////////////
+        ////////////////////////////////
+        //For 0003 start
+        ////////////////////////////////
+        if(inputs.projectname ==  'rembrandt'){
+          await Regressiondvgroup0003.destroy(W3);
+          await Regressiondvgroup0003.create(W4);
+        }
+        ////////////////////////////////
+        //For 0003 end
+        ////////////////////////////////
+        ////////////////////////////////
+        //For 0004 start
+        ////////////////////////////////
+        if(inputs.projectname ==  'floyd'){
+          await Regressiondvgroup0004.destroy(W3);
+          await Regressiondvgroup0004.create(W4);
+        }
+        ////////////////////////////////
+        //For 0004 end
+        ////////////////////////////////
       }
       return exits.success(JSON.stringify({
         ok  : 'ok',
