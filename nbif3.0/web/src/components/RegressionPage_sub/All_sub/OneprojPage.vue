@@ -149,6 +149,9 @@ export default {
         this.searchparam.testnamesrch = '';
         this.searchparam.sigsrch      = '';
       }
+    },
+    projectname : function(oldv,newv){
+      this.regressionstatus(this.projectname);
     }
   },
   components  : {
@@ -293,17 +296,17 @@ export default {
       );
     },
     regressionstatus(projectname){
-      console.log('regressionstatus');
-      console.log(projectname);
+      //console.log('regressionstatus');
+      //console.log(projectname);
       this.$http.post('/regression/allstatus',{
         projectname : projectname
       }).then(
         function(response){
           if(response.body.ok =='ok'){
             this.regressionstatus_disp=  response.body.regressions;
-            console.log('regressionstatus');
-            console.log(projectname);
-            console.log(this.regressionstatus_disp);
+            //console.log('regressionstatus');
+            //console.log(projectname);
+            //console.log(this.regressionstatus_disp);
             //find latest
           }
           else{
@@ -333,7 +336,7 @@ export default {
     this.regressionstatus(this.projectname);
   },
   updated (){
-    this.regressionstatus(this.projectname);
+    //this.regressionstatus(this.projectname);
   }
 }
 </script>
