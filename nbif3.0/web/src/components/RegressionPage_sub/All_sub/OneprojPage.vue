@@ -102,7 +102,7 @@
           <el-input v-model="searchparam.sigsrch" placeholder="signature contains"></el-input>
         </el-form-item>
         <el-form-item>
-          <el-button type="primary" @click="gettestdetails(searchparam.kind,searchparam.projectname,searchparam.variantname,searchparam.groupname,searchparam.changelist,searchparam.isBAPU,searchparam.shelve,searchparam.kickoffdate)">Filter</el-button>
+          <el-button type="primary" @click="gettestdetails(searchparam.kind,searchparam.groupname,searchparam)">Filter</el-button>
         </el-form-item>
       </el-form>
       <el-table :data="testdetails_disp" style="width: 100%">
