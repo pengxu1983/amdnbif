@@ -64,7 +64,7 @@
         label="unknownnum"
       >
         <template slot-scope="scope">
-          <el-button type="text" @click="gettestdetails('UNKNOWN',scope.row.projectname,scope.row.variantname,'all',scope.row.changelist,scope.row.isBAPU,scope.row.shelve,scope.row.kickoffdate);selectedRegressionIndex = scope.$index">{{scope.row.unknownnum}}</el-button>
+          <el-button type="text" @click="gettestdetails('UNKNOWN','all',scope.row);selectedRegressionIndex = scope.$index">{{scope.row.unknownnum}}</el-button>
         </template>
       </el-table-column>
       <el-table-column
@@ -72,7 +72,7 @@
         label="notfinished"
       >
         <template slot-scope="scope">
-          <el-button type="text" @click="gettestdetails('RUNNING',scope.row.projectname,scope.row.variantname,'all',scope.row.changelist,scope.row.isBAPU,scope.row.shelve,scope.row.kickoffdate);selectedRegressionIndex = scope.$index">{{scope.row.runningnum}}</el-button>
+          <el-button type="text" @click="gettestdetails('RUNNING','all',scope.row);selectedRegressionIndex = scope.$index">{{scope.row.runningnum}}</el-button>
         </template>
       </el-table-column>
     </el-table>
