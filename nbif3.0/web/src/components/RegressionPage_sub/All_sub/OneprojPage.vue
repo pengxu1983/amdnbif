@@ -88,12 +88,14 @@
     </el-table>
     <hr />
     <div v-if="regressionselected">
-      <el-button-group>
-        <el-button 
-          type="primary"
-          v-for="onedvgrp in alldvgroups"
-        > {{ onedvgrp }} </el-button>
-      </el-button-group>
+      <el-tabs v-model="currentDVgroup" @tab-click="handleClick">
+        <el-tab-pane 
+          v-for="oneDVgrp in alldvgroups"
+          :label="oneDVgrp" 
+          :name="oneDVgrp"
+        >
+        </el-tab-pane>
+      </el-tabs>
     </div>
   </div>
 </template>
