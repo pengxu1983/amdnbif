@@ -40,9 +40,6 @@
         prop="passrate"
         label="passrate"
       >
-        <template slot-scope="scope">
-          <el-button type="text" @click="getgroupstatus(scope.row.projectname,scope.row.variantname,scope.row.changelist,scope.row.isBAPU,scope.row.shelve,scope.row.kickoffdate);selectedRegressionIndex = scope.$index">{{scope.row.passrate}}</el-button>
-        </template>
       </el-table-column>
       <el-table-column
         prop="alltestnum"
@@ -59,7 +56,7 @@
         label="failnum"
       >
         <template slot-scope="scope">
-          <el-button type="text" @click="gettestdetails('FAIL',scope.row.projectname,scope.row.variantname,'all',scope.row.changelist,scope.row.isBAPU,scope.row.shelve,scope.row.kickoffdate);selectedRegressionIndex = scope.$index">{{scope.row.failnum}}</el-button>
+          <el-button type="text" @click="gettestdetails('FAIL','all',scope.row);selectedRegressionIndex = scope.$index">{{scope.row.failnum}}</el-button>
         </template>
       </el-table-column>
       <el-table-column
@@ -90,6 +87,31 @@
         </el-tab-pane>
       </el-tabs>
     </div>
+    <el-dialog :title="title" :visible.sync="visible" width="90%">
+      <el-pagination
+        @current-change="handleCurrentChange"
+        :page-size="pagesize"
+        layout="prev, pager, next"
+        :total="testdetails.length">
+      </el-pagination>
+      <el-form :inline="true" :model="searchparam" class="demo-form-inline">
+        <el-form-item label="testname contains">
+          <el-input v-model="searchparam.testnamesrch" placeholder="testname contains"></el-input>
+        </el-form-item>
+        <el-form-item label="signature contains">
+          <el-input v-model="searchparam.sigsrch" placeholder="signature contains"></el-input>
+        </el-form-item>
+        <el-form-item>
+          <el-button type="primary" @click="gettestdetails(searchparam.kind,searchparam.projectname,searchparam.variantname,searchparam.groupname,searchparam.changelist,searchparam.isBAPU,searchparam.shelve,searchparam.kickoffdate)">Filter</el-button>
+        </el-form-item>
+      </el-form>
+      <el-table :data="testdetails_disp" style="width: 100%">
+        <el-table-column property="testname" label="testname" width="200"></el-table-column>
+        <el-table-column property="seed" label="seed" width="200"></el-table-column>
+        <el-table-column property="signature" label="signature"></el-table-column>
+        <el-table-column label="reproduce(TODO)" width="200"></el-table-column>
+      </el-table>
+    </el-dialog>
   </div>
 </template>
 
@@ -246,15 +268,15 @@ export default {
         },
       );
     },
-    gettestdetails  (kind,projectname,variantname,groupname,changelist,isBAPU,shelve,kickoffdate){
+    gettestdetails  (kind,groupname,info){
       this.searchparam.kind         = kind;
-      this.searchparam.projectname  = projectname;
-      this.searchparam.variantname  = variantname;
+      this.searchparam.projectname  = info.projectname;
+      this.searchparam.variantname  = info.variantname;
       this.searchparam.groupname    = groupname;
-      this.searchparam.changelist   = changelist;
-      this.searchparam.isBAPU       = isBAPU;
-      this.searchparam.shelve       = shelve;
-      this.searchparam.kickoffdate  = kickoffdate;
+      this.searchparam.changelist   = info.changelist;
+      this.searchparam.isBAPU       = info.isBAPU;
+      this.searchparam.shelve       = info.shelve;
+      this.searchparam.kickoffdate  = info.kickoffdate;
       console.log('gettestdetails');
       console.log(kind);
       this.visible  = true;
@@ -296,18 +318,12 @@ export default {
       );
     },
     regressionstatus(projectname){
-      //console.log('regressionstatus');
-      //console.log(projectname);
       this.$http.post('/regression/allstatus',{
         projectname : projectname
       }).then(
         function(response){
           if(response.body.ok =='ok'){
             this.regressionstatus_disp=  response.body.regressions;
-            //console.log('regressionstatus');
-            //console.log(projectname);
-            //console.log(this.regressionstatus_disp);
-            //find latest
           }
           else{
             console.log(response.body);
