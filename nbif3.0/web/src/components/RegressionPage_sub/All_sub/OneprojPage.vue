@@ -331,11 +331,9 @@ export default {
   },
   mounted (){
     this.regressionstatus(this.projectname);
-    console.log('mounted  : ' +this.projectname);
   },
   updated (){
     this.regressionstatus(this.projectname);
-    console.log('updated  : ' +this.projectname);
   }
 }
 </script>
