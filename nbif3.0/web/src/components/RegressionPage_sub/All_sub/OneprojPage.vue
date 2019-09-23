@@ -336,6 +336,9 @@ export default {
     this.regressionstatus(this.projectname);
     this.neverpasscasesget(this.projectname);
     console.log('mounted : ' +this.projectname);
+  },
+  updated (){
+    this.regressionstatus(this.projectname);
   }
 }
 </script>
