@@ -1,87 +1,101 @@
 <template>
-  <el-table
-    :data="regressionstatus_disp"
-    border
-    style="width: 100%"
-    height="500"
-    :row-class-name="selectedRegression"
-  >
-    <el-table-column
-      prop="kickoffdate"
-      label="kickoffdate"
-      sortable
+  <div>
+    <el-table
+      :data="regressionstatus_disp"
+      border
+      style="width: 100%"
+      height="500"
+      :row-class-name="selectedRegression"
     >
-    </el-table-column>
-    <el-table-column
-      prop="variantname"
-      label="variantname"
-    >
-    </el-table-column>
-    <el-table-column
-      prop="changelist"
-      label="changelist"
-    >
-    </el-table-column>
-    <el-table-column
-      prop="isBAPU"
-      label="isBAPU"
-    >
-    </el-table-column>
-    <el-table-column
-      prop="shelve"
-      label="shelve"
-    >
-    </el-table-column>
-    <el-table-column
-      prop="passrate"
-      label="passrate"
-    >
-      <template slot-scope="scope">
-        <el-button type="text" @click="getgroupstatus(scope.row.projectname,scope.row.variantname,scope.row.changelist,scope.row.isBAPU,scope.row.shelve,scope.row.kickoffdate);selectedRegressionIndex = scope.$index">{{scope.row.passrate}}</el-button>
-      </template>
-    </el-table-column>
-    <el-table-column
-      prop="alltestnum"
-      label="alltestnum"
-    >
-    </el-table-column>
-    <el-table-column
-      prop="passnum"
-      label="passnum"
-    >
-    </el-table-column>
-    <el-table-column
-      prop="failnum"
-      label="failnum"
-    >
-      <template slot-scope="scope">
-        <el-button type="text" @click="gettestdetails('FAIL',scope.row.projectname,scope.row.variantname,'all',scope.row.changelist,scope.row.isBAPU,scope.row.shelve,scope.row.kickoffdate);selectedRegressionIndex = scope.$index">{{scope.row.failnum}}</el-button>
-      </template>
-    </el-table-column>
-    <el-table-column
-      prop="unknownnum"
-      label="unknownnum"
-    >
-      <template slot-scope="scope">
-        <el-button type="text" @click="gettestdetails('UNKNOWN',scope.row.projectname,scope.row.variantname,'all',scope.row.changelist,scope.row.isBAPU,scope.row.shelve,scope.row.kickoffdate);selectedRegressionIndex = scope.$index">{{scope.row.unknownnum}}</el-button>
-      </template>
-    </el-table-column>
-    <el-table-column
-      prop="runningnum"
-      label="notfinished"
-    >
-      <template slot-scope="scope">
-        <el-button type="text" @click="gettestdetails('RUNNING',scope.row.projectname,scope.row.variantname,'all',scope.row.changelist,scope.row.isBAPU,scope.row.shelve,scope.row.kickoffdate);selectedRegressionIndex = scope.$index">{{scope.row.runningnum}}</el-button>
-      </template>
-    </el-table-column>
-    <el-table-column
-      label="summary"
-    >
-      <template slot-scope="scope">
-        <el-button type="text" @click="summary(scope.row.projectname,scope.row.variantname,scope.row.changelist,scope.row.isBAPU,scope.row.shelve,scope.row.kickoffdate)">summary</el-button>
-      </template>
-    </el-table-column>
-  </el-table>
+      <el-table-column
+        prop="kickoffdate"
+        label="kickoffdate"
+        sortable
+      >
+        <template slot-scope="scope">
+          <el-button type="text" @click="regressionselected = true">{{scope.row.kickoffdate}}</el-button>
+        </template>
+      </el-table-column>
+      <el-table-column
+        prop="variantname"
+        label="variantname"
+      >
+      </el-table-column>
+      <el-table-column
+        prop="changelist"
+        label="changelist"
+      >
+      </el-table-column>
+      <el-table-column
+        prop="isBAPU"
+        label="isBAPU"
+      >
+      </el-table-column>
+      <el-table-column
+        prop="shelve"
+        label="shelve"
+      >
+      </el-table-column>
+      <el-table-column
+        prop="passrate"
+        label="passrate"
+      >
+        <template slot-scope="scope">
+          <el-button type="text" @click="getgroupstatus(scope.row.projectname,scope.row.variantname,scope.row.changelist,scope.row.isBAPU,scope.row.shelve,scope.row.kickoffdate);selectedRegressionIndex = scope.$index">{{scope.row.passrate}}</el-button>
+        </template>
+      </el-table-column>
+      <el-table-column
+        prop="alltestnum"
+        label="alltestnum"
+      >
+      </el-table-column>
+      <el-table-column
+        prop="passnum"
+        label="passnum"
+      >
+      </el-table-column>
+      <el-table-column
+        prop="failnum"
+        label="failnum"
+      >
+        <template slot-scope="scope">
+          <el-button type="text" @click="gettestdetails('FAIL',scope.row.projectname,scope.row.variantname,'all',scope.row.changelist,scope.row.isBAPU,scope.row.shelve,scope.row.kickoffdate);selectedRegressionIndex = scope.$index">{{scope.row.failnum}}</el-button>
+        </template>
+      </el-table-column>
+      <el-table-column
+        prop="unknownnum"
+        label="unknownnum"
+      >
+        <template slot-scope="scope">
+          <el-button type="text" @click="gettestdetails('UNKNOWN',scope.row.projectname,scope.row.variantname,'all',scope.row.changelist,scope.row.isBAPU,scope.row.shelve,scope.row.kickoffdate);selectedRegressionIndex = scope.$index">{{scope.row.unknownnum}}</el-button>
+        </template>
+      </el-table-column>
+      <el-table-column
+        prop="runningnum"
+        label="notfinished"
+      >
+        <template slot-scope="scope">
+          <el-button type="text" @click="gettestdetails('RUNNING',scope.row.projectname,scope.row.variantname,'all',scope.row.changelist,scope.row.isBAPU,scope.row.shelve,scope.row.kickoffdate);selectedRegressionIndex = scope.$index">{{scope.row.runningnum}}</el-button>
+        </template>
+      </el-table-column>
+      <el-table-column
+        label="summary"
+      >
+        <template slot-scope="scope">
+          <el-button type="text" @click="summary(scope.row.projectname,scope.row.variantname,scope.row.changelist,scope.row.isBAPU,scope.row.shelve,scope.row.kickoffdate)">summary</el-button>
+        </template>
+      </el-table-column>
+    </el-table>
+    <hr />
+    <div v-if="regressionselected">
+      <el-button-group>
+        <el-button 
+          type="primary"
+          v-for="onedvgrp in alldvgroups"
+        > {{ onedvgrp }} </el-button>
+      </el-button-group>
+    </div>
+  </div>
 </template>
 
 <script>
@@ -94,6 +108,14 @@ export default {
   },
   data() {
     return {
+      alldvgroups : [
+        'HOST',
+        'DMA',
+        'MISC',
+        'OTHERS',
+        'PERF'
+      ],
+      regressionselected  : false,
       loading : false,
       regressionstatus_disp: [],
       testdetails          : [],
@@ -162,31 +184,6 @@ export default {
         return 'success-row';
       }
       return '';
-    },
-    getinfo (){
-      this.$http.post('/config/variants/get',{
-        kind  : 'all',
-      }).then(
-        function(response){
-          if(response.body.ok ==  'ok'){
-            this.variants = JSON.parse(response.body.variants);
-            console.log('all variants successfully get from DB');
-          }
-        },
-        function(){}
-      );
-      this.$http.post('/config/projects/get',{
-        kind  : 'all',
-      }).then(
-        function(response){
-          if(response.body.ok ==  'ok'){
-            //console.log(response.body.projects);
-            console.log('all projects successfully get from DB');
-            this.projects = JSON.parse(response.body.projects);
-          }
-        },
-        function(){}
-      );
     },
     handleCurrentChange (val){
       console.log(val);
@@ -332,13 +329,12 @@ export default {
     }
   },
   mounted (){
-    this.getinfo();
     this.regressionstatus(this.projectname);
-    this.neverpasscasesget(this.projectname);
-    console.log('mounted : ' +this.projectname);
+    console.log('mounted  : ' +this.projectname);
   },
   updated (){
     this.regressionstatus(this.projectname);
+    console.log('updated  : ' +this.projectname);
   }
 }
 </script>
