@@ -44,6 +44,7 @@ import Overall    from '@/components/RegressionPage_sub/Overall.vue'
 import Byusr      from '@/components/RegressionPage_sub/Byusr.vue'
 import Byfeature  from '@/components/RegressionPage_sub/Byfeature.vue'
 import ByDVgroup  from '@/components/RegressionPage_sub/ByDVgroup.vue'
+import All        from '@/components/RegressionPage_sub/All.vue'
 
 export default {
   name: 'RegressionPage',
@@ -63,6 +64,7 @@ export default {
         'Overall',
         'ByDVgroup',
         'Byfeature',
+        'All',
       ],
       currentTab  : 'Overall',
     }
@@ -71,6 +73,7 @@ export default {
     Overall,
     Byfeature,
     ByDVgroup,
+    All
   },
   computed: {
     currentTabComponent: function () {
