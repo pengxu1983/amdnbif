@@ -51,7 +51,6 @@
 </template>
 
 <script>
-let cronJob         = require("cron").CronJob;
 export default {
   name: 'AgentsPage',
   props: {
@@ -106,9 +105,6 @@ export default {
   },
   mounted  (){
     this.get();
-    let cron_check_changelist= new cronJob('* * * * * *',function(){
-      console.log('111');
-    },null,false,'Asia/Chongqing');
   }
 }
 </script>

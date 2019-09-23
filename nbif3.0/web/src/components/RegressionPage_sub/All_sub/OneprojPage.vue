@@ -78,13 +78,6 @@
           <el-button type="text" @click="gettestdetails('RUNNING',scope.row.projectname,scope.row.variantname,'all',scope.row.changelist,scope.row.isBAPU,scope.row.shelve,scope.row.kickoffdate);selectedRegressionIndex = scope.$index">{{scope.row.runningnum}}</el-button>
         </template>
       </el-table-column>
-      <el-table-column
-        label="summary"
-      >
-        <template slot-scope="scope">
-          <el-button type="text" @click="summary(scope.row.projectname,scope.row.variantname,scope.row.changelist,scope.row.isBAPU,scope.row.shelve,scope.row.kickoffdate)">summary</el-button>
-        </template>
-      </el-table-column>
     </el-table>
     <hr />
     <div v-if="regressionselected">
@@ -117,6 +110,7 @@ export default {
         'OTHERS',
         'PERF'
       ],
+      currentDVgroup  : 'HOST',
       regressionselected  : false,
       loading : false,
       regressionstatus_disp: [],
