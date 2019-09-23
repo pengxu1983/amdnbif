@@ -13,7 +13,7 @@
         sortable
       >
         <template slot-scope="scope">
-          <el-button type="text" @click="regressionselected = true">{{scope.row.kickoffdate}}</el-button>
+          <el-button type="text" @click="regressionclicked(scope.row)">{{scope.row.kickoffdate}}</el-button>
         </template>
       </el-table-column>
       <el-table-column
@@ -81,7 +81,7 @@
     </el-table>
     <hr />
     <div v-if="regressionselected">
-      <el-tabs v-model="currentDVgroup" @tab-click="handleClick">
+      <el-tabs v-model="currentDVgroup" @tab-click="dvgroupclicked()">
         <el-tab-pane 
           v-for="oneDVgrp in alldvgroups"
           :label="oneDVgrp" 
@@ -95,7 +95,6 @@
 
 <script>
 import Oneprojoneregress  from '@/components/RegressionPage_sub/Overall_sub/OneprojPage_sub/Oneprojoneregress.vue'
-let moment =require('moment');
 export default {
   name: 'OneprojPage',
   props: {
@@ -111,6 +110,7 @@ export default {
         'PERF'
       ],
       currentDVgroup  : 'HOST',
+      currentregression : {},
       regressionselected  : false,
       loading : false,
       regressionstatus_disp: [],
@@ -155,6 +155,11 @@ export default {
     Oneprojoneregress
   },
   methods : {
+    regressionclicked(info){
+      this.regressionselected = true;
+      this.currentregression  = JSON.parse(JSON.stringify(info));
+      console.log(this.currentregression.kickoffdate);
+    },
     summary(projectname,variantname,changelist,isBAPU,shelve,kickoffdate){
       this.$http.post('/regression/summary',{
         projectname : projectname,
