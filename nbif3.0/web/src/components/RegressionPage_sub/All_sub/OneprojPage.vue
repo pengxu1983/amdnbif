@@ -105,10 +105,10 @@
           <el-input v-model="searchparam.sigsrch" placeholder="signature contains"></el-input>
         </el-form-item>
         <el-form-item>
-          <el-button type="primary" @click="gettestdetails(searchparam.kind,searchparam.groupname,searchparam)">Filter</el-button>
+          <el-button type="primary" @click="gettestdetails(searchparam.result,searchparam.groupname,searchparam)">Filter</el-button>
         </el-form-item>
       </el-form>
-      <el-table :data="testdetails_disp" style="width: 100%">
+      <el-table :data="testdetails_disp" style="width: 100%" border>
         <el-table-column property="testname" label="testname" width="200"></el-table-column>
         <el-table-column property="seed" label="seed" width="200"></el-table-column>
         <el-table-column property="signature" label="signature"></el-table-column>
@@ -146,8 +146,6 @@ export default {
       title : '',
       pagesize : 500,
       selectedRegressionIndex : '',
-      testnamesrch  : '',
-      sigsrch: '',
       searchparam : {},
       oneregressioninfo : {
         projectname : '',
@@ -261,10 +259,7 @@ export default {
       W.sigsrch      = '';
       W.testnamesrch = '';
 
-      this.searchparam  = JSON.parse(JSON.stringify(info));
-      this.searchparam.result       = result;
-      this.searchparam.groupname    = groupname;
-      this.searchparam.kind         = 'testdetails';
+      this.searchparam  = JSON.parse(JSON.stringify(W));
       this.searchparam.sigsrch      = '';
       this.searchparam.testnamesrch = '';
       console.log('gettestdetails');
