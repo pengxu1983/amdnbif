@@ -51,7 +51,7 @@
         label="passnum"
       >
         <template slot-scope="scope">
-          <el-button type="text" @click="gettestdetails('PASS','all',scope.row);selectedRegressionIndex = scope.$index">{{scope.row.passnum}}</el-button>
+          <el-button type="text" @click="gettestdetails('PASS','all',scope.row,false);selectedRegressionIndex = scope.$index">{{scope.row.passnum}}</el-button>
         </template>
       </el-table-column>
       <el-table-column
@@ -59,7 +59,7 @@
         label="failnum"
       >
         <template slot-scope="scope">
-          <el-button type="text" @click="gettestdetails('FAIL','all',scope.row);selectedRegressionIndex = scope.$index">{{scope.row.failnum}}</el-button>
+          <el-button type="text" @click="gettestdetails('FAIL','all',scope.row,false);selectedRegressionIndex = scope.$index">{{scope.row.failnum}}</el-button>
         </template>
       </el-table-column>
       <el-table-column
@@ -67,7 +67,7 @@
         label="unknownnum"
       >
         <template slot-scope="scope">
-          <el-button type="text" @click="gettestdetails('UNKNOWN','all',scope.row);selectedRegressionIndex = scope.$index">{{scope.row.unknownnum}}</el-button>
+          <el-button type="text" @click="gettestdetails('UNKNOWN','all',scope.row,false);selectedRegressionIndex = scope.$index">{{scope.row.unknownnum}}</el-button>
         </template>
       </el-table-column>
       <el-table-column
@@ -75,7 +75,7 @@
         label="notfinished"
       >
         <template slot-scope="scope">
-          <el-button type="text" @click="gettestdetails('RUNNING','all',scope.row);selectedRegressionIndex = scope.$index">{{scope.row.runningnum}}</el-button>
+          <el-button type="text" @click="gettestdetails('RUNNING','all',scope.row,false);selectedRegressionIndex = scope.$index">{{scope.row.runningnum}}</el-button>
         </template>
       </el-table-column>
     </el-table>
@@ -105,7 +105,7 @@
           <el-input v-model="searchparam.sigsrch" placeholder="signature contains"></el-input>
         </el-form-item>
         <el-form-item>
-          <el-button type="primary" @click="gettestdetails(searchparam.result,searchparam.groupname,searchparam)">Filter</el-button>
+          <el-button type="primary" @click="gettestdetails(searchparam.result,searchparam.groupname,searchparam,true)">Filter</el-button>
         </el-form-item>
       </el-form>
       <el-table :data="testdetails_disp" style="width: 100%" border>
@@ -244,7 +244,7 @@ export default {
         },
       );
     },
-    gettestdetails  (result,groupname,info){
+    gettestdetails  (result,groupname,info,filter){
       this.loading = this.$loading({
         lock: true,
         text: 'Loading',
@@ -256,13 +256,16 @@ export default {
       W.result       = result;
       W.groupname    = groupname;
       W.kind         = 'testdetails';
-      W.sigsrch      = '';
-      W.testnamesrch = '';
+      if(filter){
+      }
+      else{
+        W.sigsrch      = '';
+        W.testnamesrch = '';
+      }
 
       this.searchparam  = JSON.parse(JSON.stringify(W));
-      console.log(this.searchparam);
       console.log('gettestdetails');
-      console.log(W);
+      console.log(this.searchparam);
       this.$http.post('/regression/testdetails',W).then(
         function(response){
           this.testdetails = response.body.testdetails;
