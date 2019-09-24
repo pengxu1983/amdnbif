@@ -50,6 +50,9 @@
         prop="passnum"
         label="passnum"
       >
+        <template slot-scope="scope">
+          <el-button type="text" @click="gettestdetails('PASS','all',scope.row);selectedRegressionIndex = scope.$index">{{scope.row.passnum}}</el-button>
+        </template>
       </el-table-column>
       <el-table-column
         prop="failnum"
@@ -181,30 +184,37 @@ export default {
   },
   methods : {
     regressionclicked(info){
+      this.loading = this.$loading({
+        lock: true,
+        text: 'Loading',
+        spinner: 'el-icon-loading',
+        background: 'rgba(0, 0, 0, 0.7)'
+      });
       this.regressionselected = true;
       this.currentregression  = JSON.parse(JSON.stringify(info));
       console.log(this.currentregression.kickoffdate);
+      this.loading.close();
     },
-    summary(projectname,variantname,changelist,isBAPU,shelve,kickoffdate){
-      this.$http.post('/regression/summary',{
-        projectname : projectname,
-        variantname : variantname,
-        isBAPU      : isBAPU,     
-        kickoffdate : kickoffdate,
-        changelist  : changelist, 
-        shelve      : shelve,
-      }).then(
-        function(response){
-          alert(response.body.ok);
-        },
-        function(){}
-      );
-    },
-    neverpassupload(info){
-      console.log(info);
-    },
-    neverpassClassname({row,rowIndex}){
-    },
+    //summary(projectname,variantname,changelist,isBAPU,shelve,kickoffdate){
+    //  this.$http.post('/regression/summary',{
+    //    projectname : projectname,
+    //    variantname : variantname,
+    //    isBAPU      : isBAPU,     
+    //    kickoffdate : kickoffdate,
+    //    changelist  : changelist, 
+    //    shelve      : shelve,
+    //  }).then(
+    //    function(response){
+    //      alert(response.body.ok);
+    //    },
+    //    function(){}
+    //  );
+    //},
+    //neverpassupload(info){
+    //  console.log(info);
+    //},
+    //neverpassClassname({row,rowIndex}){
+    //},
     selectedRegression({row,rowIndex}){
       if(rowIndex ==  this.selectedRegressionIndex){
         return 'success-row';
@@ -232,9 +242,6 @@ export default {
         spinner: 'el-icon-loading',
         background: 'rgba(0, 0, 0, 0.7)'
       });
-      //setTimeout(() => {
-      //  loading.close();
-      //}, 2000);
 
       console.log('method : groupstatus');
       this.oneregressioninfo.projectname = projectname;
@@ -269,6 +276,13 @@ export default {
       );
     },
     gettestdetails  (kind,groupname,info){
+      this.loading = this.$loading({
+        lock: true,
+        text: 'Loading',
+        spinner: 'el-icon-loading',
+        background: 'rgba(0, 0, 0, 0.7)'
+      });//display loading
+
       this.searchparam.kind         = kind;
       this.searchparam.projectname  = info.projectname;
       this.searchparam.variantname  = info.variantname;
@@ -279,7 +293,6 @@ export default {
       this.searchparam.kickoffdate  = info.kickoffdate;
       console.log('gettestdetails');
       console.log(kind);
-      this.visible  = true;
       this.$http.post('/regression/testdetails',{
         projectname : this.searchparam.projectname,
         variantname : this.searchparam.variantname,
@@ -294,10 +307,9 @@ export default {
         sigsrch     : this.searchparam.sigsrch
       }).then(
         function(response){
-          console.log(kind);
-          console.log(response.body.testdetails);
           this.testdetails = response.body.testdetails;
           this.handleCurrentChange(1);
+          this.visible  = true;
           if(kind       == 'FAIL'){
             this.title  = 'FAIL tests list'
           }
