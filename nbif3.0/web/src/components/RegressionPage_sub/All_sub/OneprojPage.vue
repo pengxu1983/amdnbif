@@ -260,8 +260,7 @@ export default {
       W.testnamesrch = '';
 
       this.searchparam  = JSON.parse(JSON.stringify(W));
-      this.searchparam.sigsrch      = '';
-      this.searchparam.testnamesrch = '';
+      console.log(this.searchparam);
       console.log('gettestdetails');
       console.log(W);
       this.$http.post('/regression/testdetails',W).then(
