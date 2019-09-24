@@ -318,6 +318,12 @@ export default {
       );
     },
     regressionstatus(projectname){
+      this.loading = this.$loading({
+        lock: true,
+        text: 'Loading',
+        spinner: 'el-icon-loading',
+        background: 'rgba(0, 0, 0, 0.7)'
+      });
       this.$http.post('/regression/allstatus',{
         projectname : projectname
       }).then(
@@ -328,8 +334,11 @@ export default {
           else{
             console.log(response.body);
           }
+          this.loading.close();
         },
-        function(){}
+        function(){
+          this.loading.close();
+        }
       );
     },
     neverpasscasesget(projectname){
