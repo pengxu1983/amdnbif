@@ -253,8 +253,8 @@ export default {
         spinner: 'el-icon-loading',
         background: 'rgba(0, 0, 0, 0.7)'
       });//display loading
-      this.currentregression        = info;
-      let W= JSON.parse(JSON.stringify(info));
+      this.currentregression  = JSON.parse(JSON.stringify(info));
+      let W                   = JSON.parse(JSON.stringify(info));
       W.result       = result;
       W.groupname    = groupname;
       W.kind         = 'testdetails';
@@ -272,24 +272,11 @@ export default {
       this.$http.post('/regression/testdetails',W).then(
         function(response){
           this.testdetails = response.body.testdetails;
+          console.log('fetched tests : '+this.testdetails.length);
           this.handleCurrentChange(1);
           this.visible  = true;
           this.loading.close();
-          if(result == 'FAIL'){
-            this.title  = 'FAIL tests list'
-          }
-          if(result == 'UNKNOWN'){
-            this.title  = 'UNKNOWN tests list'
-          }
-          if(result ==  'PASS'){
-            this.title  = 'PASS tests list'
-          }
-          if(result ==  'ALL'){
-            this.title  = 'ALL tests list'
-          }
-          if(result == 'RUNNING'){
-            this.title  = 'RUNNING tests list'
-          }
+          this.title  = result+' tests of '+info.kickoffdate+' '+info.projectname+' '+info.variantname;
         },
         function(){
           this.loading.close();
