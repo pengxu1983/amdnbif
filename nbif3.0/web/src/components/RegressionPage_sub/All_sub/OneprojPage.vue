@@ -274,22 +274,22 @@ export default {
           this.testdetails = response.body.testdetails;
           this.handleCurrentChange(1);
           this.visible  = true;
-          if(kind       == 'FAIL'){
+          this.loading.close();
+          if(result == 'FAIL'){
             this.title  = 'FAIL tests list'
           }
-          else if(kind  == 'UNKNOWN'){
+          if(result == 'UNKNOWN'){
             this.title  = 'UNKNOWN tests list'
           }
-          else if(kind  ==  'PASS'){
+          if(result ==  'PASS'){
             this.title  = 'PASS tests list'
           }
-          else if(kind  ==  'ALL'){
+          if(result ==  'ALL'){
             this.title  = 'ALL tests list'
           }
-          else if(kind == 'RUNNING'){
+          if(result == 'RUNNING'){
             this.title  = 'RUNNING tests list'
           }
-          this.loading.close();
         },
         function(){
           this.loading.close();
