@@ -146,18 +146,9 @@ export default {
       title : '',
       pagesize : 500,
       selectedRegressionIndex : '',
-      searchparam : {
-        testnamesrch  : '',
-        sigsrch: '',
-        kind      : '',
-        projectname:'',
-        variantname:'',
-        groupname : '',
-        changelist: '',
-        isBAPU    : '',
-        shelve    : '',
-        kickoffdate:''
-      },
+      testnamesrch  : '',
+      sigsrch: '',
+      searchparam : {},
       oneregressioninfo : {
         projectname : '',
         variantname : '',
@@ -195,26 +186,6 @@ export default {
       console.log(this.currentregression.kickoffdate);
       this.loading.close();
     },
-    //summary(projectname,variantname,changelist,isBAPU,shelve,kickoffdate){
-    //  this.$http.post('/regression/summary',{
-    //    projectname : projectname,
-    //    variantname : variantname,
-    //    isBAPU      : isBAPU,     
-    //    kickoffdate : kickoffdate,
-    //    changelist  : changelist, 
-    //    shelve      : shelve,
-    //  }).then(
-    //    function(response){
-    //      alert(response.body.ok);
-    //    },
-    //    function(){}
-    //  );
-    //},
-    //neverpassupload(info){
-    //  console.log(info);
-    //},
-    //neverpassClassname({row,rowIndex}){
-    //},
     selectedRegression({row,rowIndex}){
       if(rowIndex ==  this.selectedRegressionIndex){
         return 'success-row';
@@ -275,37 +246,30 @@ export default {
         },
       );
     },
-    gettestdetails  (kind,groupname,info){
+    gettestdetails  (result,groupname,info){
       this.loading = this.$loading({
         lock: true,
         text: 'Loading',
         spinner: 'el-icon-loading',
         background: 'rgba(0, 0, 0, 0.7)'
       });//display loading
+      this.currentregression        = info;
+      let W= JSON.parse(JSON.stringify(info));
+      W.result       = result;
+      W.groupname    = groupname;
+      W.kind         = 'testdetails';
+      W.sigsrch      = '';
+      W.testnamesrch = '';
 
-      this.searchparam.kind         = kind;
-      this.searchparam.projectname  = info.projectname;
-      this.searchparam.variantname  = info.variantname;
+      this.searchparam  = JSON.parse(JSON.stringify(info));
+      this.searchparam.result       = result;
       this.searchparam.groupname    = groupname;
-      this.searchparam.changelist   = info.changelist;
-      this.searchparam.isBAPU       = info.isBAPU;
-      this.searchparam.shelve       = info.shelve;
-      this.searchparam.kickoffdate  = info.kickoffdate;
+      this.searchparam.kind         = 'testdetails';
+      this.searchparam.sigsrch      = '';
+      this.searchparam.testnamesrch = '';
       console.log('gettestdetails');
-      console.log(kind);
-      this.$http.post('/regression/testdetails',{
-        projectname : this.searchparam.projectname,
-        variantname : this.searchparam.variantname,
-        groupname   : this.searchparam.groupname,
-        changelist  : this.searchparam.changelist,
-        isBAPU      : this.searchparam.isBAPU,
-        shelve      : this.searchparam.shelve,
-        kickoffdate : this.searchparam.kickoffdate,
-        kind        : 'testdetails',
-        result      : this.searchparam.kind,
-        testnamesrch: this.searchparam.testnamesrch,
-        sigsrch     : this.searchparam.sigsrch
-      }).then(
+      console.log(W);
+      this.$http.post('/regression/testdetails',W).then(
         function(response){
           this.testdetails = response.body.testdetails;
           this.handleCurrentChange(1);
@@ -325,8 +289,11 @@ export default {
           else if(kind == 'RUNNING'){
             this.title  = 'RUNNING tests list'
           }
+          this.loading.close();
         },
-        function(){}
+        function(){
+          this.loading.close();
+        }
       );
     },
     regressionstatus(projectname){
