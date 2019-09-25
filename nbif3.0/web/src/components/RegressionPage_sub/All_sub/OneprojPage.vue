@@ -89,6 +89,36 @@
         >
         </el-tab-pane>
       </el-tabs>
+      <el-table
+        :data="DVgroupstatus"
+        border
+        style="width: 100%">
+        <el-table-column
+          prop="alltestnum"
+          label="alltestnum"
+        >
+        </el-table-column>
+        <el-table-column
+          prop="passnum"
+          label="passnum"
+        >
+        </el-table-column>
+        <el-table-column
+          prop="failnum"
+          label="failnum"
+        >
+        </el-table-column>
+        <el-table-column
+          prop="unknownnum"
+          label="unknownnum"
+        >
+        </el-table-column>
+        <el-table-column
+          prop="runningnum"
+          label="notfinished"
+        >
+        </el-table-column>
+      </el-table>
     </div>
     <el-dialog :title="title" :visible.sync="visible" width="90%">
       <el-pagination
@@ -166,12 +196,23 @@ export default {
     },
     projectname : function(oldv,newv){
       this.regressionstatus(this.projectname);
+      this.regressionselected = false;
     }
   },
   components  : {
     Oneprojoneregress
   },
   methods : {
+    dvgroupclicked(){
+      this.loading = this.$loading({
+        lock: true,
+        text: 'Loading',
+        spinner: 'el-icon-loading',
+        background: 'rgba(0, 0, 0, 0.7)'
+      });
+      this.$http.post('/regression').then();
+      this.loading.close();
+    },
     regressionclicked(info){
       this.loading = this.$loading({
         lock: true,
