@@ -225,7 +225,7 @@ export default {
         function(response){
           if(response.body.ok ==  'ok'){
             console.log(response.body.DVgroupstatus);
-            //this.DVgroupstatus  = response.body.DVgroupstatus;
+            this.DVgroupstatus  = response.body.DVgroupstatus;
           }
           this.loading.close();
         },
