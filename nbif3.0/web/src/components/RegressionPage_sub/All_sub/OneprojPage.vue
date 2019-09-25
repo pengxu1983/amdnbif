@@ -211,6 +211,7 @@ export default {
         spinner: 'el-icon-loading',
         background: 'rgba(0, 0, 0, 0.7)'
       });
+      console.log(this.currentDVgroup);
       this.$http.post('/regression/onedvgroupstatus',{
         kind  : 'one',
         projectname   : this.currentregression.projectname,
