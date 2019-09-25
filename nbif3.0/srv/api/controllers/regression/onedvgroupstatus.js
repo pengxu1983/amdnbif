@@ -93,7 +93,7 @@ module.exports = {
       sails.log(R);
       return exits.success(JSON.stringify({
         ok  : 'ok',
-        DVgroupstatus : R
+        DVgroupstatus : [R]
       }));
     }
     // All done.
