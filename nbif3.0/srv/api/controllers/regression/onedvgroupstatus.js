@@ -22,7 +22,7 @@ module.exports = {
     },
     kickoffdate : {
       type  : 'string'
-    }.
+    },
     isBAPU  : {
       type  : 'string'
     },
