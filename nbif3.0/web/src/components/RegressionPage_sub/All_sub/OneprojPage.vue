@@ -118,6 +118,11 @@
           label="notfinished"
         >
         </el-table-column>
+        <el-table-column
+          prop="passrate"
+          label="passrate(%)"
+        >
+        </el-table-column>
       </el-table>
     </div>
     <el-dialog :title="title" :visible.sync="visible" width="90%">
