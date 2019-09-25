@@ -94,27 +94,27 @@
         border
         style="width: 100%">
         <el-table-column
-          prop="alltestnum"
+          prop="testlist"
           label="alltestnum"
         >
         </el-table-column>
         <el-table-column
-          prop="passnum"
+          prop="passlist"
           label="passnum"
         >
         </el-table-column>
         <el-table-column
-          prop="failnum"
+          prop="faillist"
           label="failnum"
         >
         </el-table-column>
         <el-table-column
-          prop="unknownnum"
+          prop="unknownlist"
           label="unknownnum"
         >
         </el-table-column>
         <el-table-column
-          prop="runningnum"
+          prop="runninglist"
           label="notfinished"
         >
         </el-table-column>
@@ -165,6 +165,7 @@ export default {
         'PERF'
       ],
       currentDVgroup  : 'HOST',
+      DVgroupstatus : [],
       currentregression : {},
       regressionselected  : false,
       loading : false,
@@ -210,8 +211,26 @@ export default {
         spinner: 'el-icon-loading',
         background: 'rgba(0, 0, 0, 0.7)'
       });
-      this.$http.post('/regression').then();
-      this.loading.close();
+      this.$http.post('/regression/onedvgroupstatus',{
+        kind  : 'one',
+        projectname   : currentregression.projectname,
+        variantname   : currentregression.variantname,
+        kickoffdate   : currentregression.kickoffdate,
+        isBAPU        : currentregression.isBAPU     ,
+        changelist    : currentregression.changelist ,
+        shelve        : currentregression.shelve     ,
+        DVgroup       : currentDVgroup    ,
+      }).then(
+        function(response){
+          if(response.body.ok ==  'ok'){
+            this.DVgroupstatus  = response.body.DVgroupstatus
+          }
+          this.loading.close();
+        },
+        function(){
+          this.loading.close();
+        }
+      );
     },
     regressionclicked(info){
       this.loading = this.$loading({

@@ -90,6 +90,10 @@ module.exports = {
       ///////////////////////////////////////
       //For 0004 end
       ///////////////////////////////////////
+      return exits.success(JSON.stringify({
+        ok  : 'ok',
+        DVgroupstatus : R
+      }));
     }
     // All done.
     return exits.success(JSON.stringify({
