@@ -38,7 +38,7 @@
       </el-table-column>
       <el-table-column
         prop="passrate"
-        label="passrate"
+        label="passrate(%)"
       >
       </el-table-column>
       <el-table-column
@@ -249,6 +249,7 @@ export default {
       this.regressionselected = true;
       this.currentregression  = JSON.parse(JSON.stringify(info));
       console.log(this.currentregression.kickoffdate);
+      this.dvgroupclicked();
       this.loading.close();
     },
     selectedRegression({row,rowIndex}){
