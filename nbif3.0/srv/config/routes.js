@@ -84,6 +84,9 @@ module.exports.routes = {
   'POST /regression/dvgroupsummary' : {
     action  : 'regression/dvgroupsummary'
   },
+    'POST /regression/onedvgroupstatus' : {
+    action  : 'regression/onedvgroupstatus'
+  },
   'POST /regression/get' : {
     action  : 'regression/get'
   },
