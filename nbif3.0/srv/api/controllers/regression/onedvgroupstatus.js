@@ -90,6 +90,7 @@ module.exports = {
       ///////////////////////////////////////
       //For 0004 end
       ///////////////////////////////////////
+      sails.log(R);
       return exits.success(JSON.stringify({
         ok  : 'ok',
         DVgroupstatus : R
