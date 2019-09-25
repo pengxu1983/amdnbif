@@ -81,7 +81,7 @@
     </el-table>
     <hr />
     <div v-if="regressionselected">
-      <el-tabs v-model="currentDVgroup" @tab-click="dvgroupclicked()">
+      <el-tabs v-model="currentDVgroup" @tab-click="dvgroupclicked">
         <el-tab-pane 
           v-for="oneDVgrp in alldvgroups"
           :label="oneDVgrp" 
@@ -204,7 +204,7 @@ export default {
     Oneprojoneregress
   },
   methods : {
-    dvgroupclicked(){
+    dvgroupclicked (tab,event) {
       this.loading = this.$loading({
         lock: true,
         text: 'Loading',
@@ -213,13 +213,13 @@ export default {
       });
       this.$http.post('/regression/onedvgroupstatus',{
         kind  : 'one',
-        projectname   : currentregression.projectname,
-        variantname   : currentregression.variantname,
-        kickoffdate   : currentregression.kickoffdate,
-        isBAPU        : currentregression.isBAPU     ,
-        changelist    : currentregression.changelist ,
-        shelve        : currentregression.shelve     ,
-        DVgroup       : currentDVgroup    ,
+        projectname   : this.currentregression.projectname,
+        variantname   : this.currentregression.variantname,
+        kickoffdate   : this.currentregression.kickoffdate,
+        isBAPU        : this.currentregression.isBAPU     ,
+        changelist    : this.currentregression.changelist ,
+        shelve        : this.currentregression.shelve     ,
+        DVgroup       : this.currentDVgroup    ,
       }).then(
         function(response){
           if(response.body.ok ==  'ok'){
