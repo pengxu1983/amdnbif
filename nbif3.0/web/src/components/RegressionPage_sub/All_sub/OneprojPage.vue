@@ -94,27 +94,27 @@
         border
         style="width: 100%">
         <el-table-column
-          prop="allnum"
+          prop="testlist"
           label="alltestnum"
         >
         </el-table-column>
         <el-table-column
-          prop="passnum"
+          prop="passlist"
           label="passnum"
         >
         </el-table-column>
         <el-table-column
-          prop="failnum"
+          prop="faillist"
           label="failnum"
         >
         </el-table-column>
         <el-table-column
-          prop="unknownnum"
+          prop="unknownlist"
           label="unknownnum"
         >
         </el-table-column>
         <el-table-column
-          prop="runningnum"
+          prop="runninglist"
           label="notfinished"
         >
         </el-table-column>
@@ -140,27 +140,27 @@
         >
         </el-table-column>
         <el-table-column
-          prop="testlist"
+          prop="allnum"
           label="alltestnum"
         >
         </el-table-column>
         <el-table-column
-          prop="passlist"
+          prop="passnum"
           label="passnum"
         >
         </el-table-column>
         <el-table-column
-          prop="faillist"
+          prop="failnum"
           label="failnum"
         >
         </el-table-column>
         <el-table-column
-          prop="unknownlist"
+          prop="unknownnum"
           label="unknownnum"
         >
         </el-table-column>
         <el-table-column
-          prop="runninglist"
+          prop="runningnum"
           label="notfinished"
         >
         </el-table-column>
