@@ -278,6 +278,7 @@ export default {
             console.log(response.body.DVgroupstatus);
             this.DVgroupstatus  = response.body.DVgroupstatus;
           }
+          this.getgroupstatus();
           this.loading.close();
         },
         function(){
@@ -318,7 +319,7 @@ export default {
         this.testdetails_disp.push(this.testdetails[i]);
       }
     },
-    getgroupstatus(projectname,variantname,changelist,isBAPU,shelve,kickoffdate){
+    getgroupstatus(){
       this.loading = this.$loading({
         lock: true,
         text: 'Loading',
@@ -327,20 +328,15 @@ export default {
       });
 
       console.log('method : groupstatus');
-      this.oneregressioninfo.projectname = projectname;
-      this.oneregressioninfo.variantname = variantname;
-      this.oneregressioninfo.changelist  = changelist;
-      this.oneregressioninfo.isBAPU      = isBAPU;
-      this.oneregressioninfo.shelve      = shelve;
-      this.oneregressioninfo.kickoffdate = kickoffdate;
       this.$http.post('/regression/groupstatus',{
-        kind  : 'all',
-        projectname : projectname,
-        variantname : variantname,
-        changelist  : changelist,
-        isBAPU      : isBAPU,
-        shelve      : shelve,
-        kickoffdate : kickoffdate
+        kind  : 'one',
+        projectname : this.currentregression.projectname,
+        variantname : this.currentregression.variantname,
+        changelist  : this.currentregression.changelist,
+        isBAPU      : this.currentregression.isBAPU,
+        shelve      : this.currentregression.shelve,
+        kickoffdate : this.currentregression.kickoffdate,
+        DVgroup     : this.currentDVgroup
       }).then(
         function(response){
           if(response.body.ok ==  'ok'){
