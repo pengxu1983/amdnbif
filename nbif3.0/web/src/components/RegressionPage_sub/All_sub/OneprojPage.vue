@@ -278,8 +278,8 @@ export default {
             console.log(response.body.DVgroupstatus);
             this.DVgroupstatus  = response.body.DVgroupstatus;
           }
-          this.getgroupstatus();
           this.loading.close();
+          this.getgroupstatus();
         },
         function(){
           this.loading.close();

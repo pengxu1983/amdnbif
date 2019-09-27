@@ -54,7 +54,7 @@ module.exports = {
     if(inputs.kind  ==  'all'){
     }
     if(inputs.kind  ==  'one'){
-      let R = await Groups.findOne({
+      let R = await Groups.find({
         projectname : inputs.projectname,
         variantname : inputs.variantname,
         isBAPU      : inputs.isBAPU,
