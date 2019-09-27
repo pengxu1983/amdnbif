@@ -128,7 +128,9 @@
       <el-table
         :data="currentDVgroupstatus"
         border
-        style="width: 100%">
+        style="width: 100%"
+        height="500"
+      >
         <el-table-column
           prop="groupname"
           label="feature"
