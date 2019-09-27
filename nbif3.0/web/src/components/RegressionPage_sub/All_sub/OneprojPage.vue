@@ -124,6 +124,52 @@
         >
         </el-table-column>
       </el-table>
+      <hr />
+      <el-table
+        :data="currentDVgroupstatus"
+        border
+        style="width: 100%">
+        <el-table-column
+          prop="groupname"
+          label="feature"
+        >
+        </el-table-column>
+        <el-table-column
+          prop="owner"
+          label="owner"
+        >
+        </el-table-column>
+        <el-table-column
+          prop="testlist"
+          label="alltestnum"
+        >
+        </el-table-column>
+        <el-table-column
+          prop="passlist"
+          label="passnum"
+        >
+        </el-table-column>
+        <el-table-column
+          prop="faillist"
+          label="failnum"
+        >
+        </el-table-column>
+        <el-table-column
+          prop="unknownlist"
+          label="unknownnum"
+        >
+        </el-table-column>
+        <el-table-column
+          prop="runninglist"
+          label="notfinished"
+        >
+        </el-table-column>
+        <el-table-column
+          prop="passrate"
+          label="passrate(%)"
+        >
+        </el-table-column>
+      </el-table>
     </div>
     <el-dialog :title="title" :visible.sync="visible" width="90%">
       <el-pagination
