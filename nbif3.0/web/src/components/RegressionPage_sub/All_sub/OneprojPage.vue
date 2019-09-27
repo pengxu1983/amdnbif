@@ -224,7 +224,7 @@ export default {
       testdetails          : [],
       testdetails_disp     : [],
       visible : false,
-      groupstatus: [],
+      currentDVgroupstatus: [],
       title : '',
       pagesize : 500,
       selectedRegressionIndex : '',
@@ -342,7 +342,7 @@ export default {
           if(response.body.ok ==  'ok'){
             console.log(response.body.groupstatus);
             console.log(typeof(response.body.groupstatus));
-            this.groupstatus= response.body.groupstatus;
+            this.currentDVgroupstatus= response.body.groupstatus;
           }
           else{
             console.log(response.body);
