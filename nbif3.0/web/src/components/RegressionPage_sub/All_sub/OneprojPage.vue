@@ -156,16 +156,25 @@
           prop="failnum"
           label="failnum"
         >
+          <template slot-scope="scope">
+            <el-button type="text" @click="gettestdetails('FAIL',scope.row.groupname,scope.row,false)">{{scope.row.failnum}}</el-button>
+          </template>
         </el-table-column>
         <el-table-column
           prop="unknownnum"
           label="unknownnum"
         >
+          <template slot-scope="scope">
+            <el-button type="text" @click="gettestdetails('UNKNOWN',scope.row.groupname,scope.row,false)">{{scope.row.unknownnum}}</el-button>
+          </template>
         </el-table-column>
         <el-table-column
           prop="runningnum"
           label="notfinished"
         >
+          <template slot-scope="scope">
+            <el-button type="text" @click="gettestdetails('RUNNING',scope.row.groupname,scope.row,false)">{{scope.row.runningnum}}</el-button>
+          </template>
         </el-table-column>
         <el-table-column
           prop="passrate"
@@ -393,6 +402,8 @@ export default {
           this.visible  = true;
           this.loading.close();
           this.title  = result+' tests of '+info.kickoffdate+' '+info.projectname+' '+info.variantname;
+          console.log('currentregression');
+          console.log(currentregression);
         },
         function(){
           this.loading.close();
