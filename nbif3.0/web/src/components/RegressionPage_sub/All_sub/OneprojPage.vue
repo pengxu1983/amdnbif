@@ -51,7 +51,7 @@
         label="passnum"
       >
         <template slot-scope="scope">
-          <el-button type="text" @click="gettestdetails('PASS','all',scope.row,false);selectedRegressionIndex = scope.$index">{{scope.row.passnum}}</el-button>
+          <el-button type="text" @click="isDVgrp  = false;gettestdetails('PASS','all',scope.row,false);selectedRegressionIndex = scope.$index">{{scope.row.passnum}}</el-button>
         </template>
       </el-table-column>
       <el-table-column
@@ -59,7 +59,7 @@
         label="failnum"
       >
         <template slot-scope="scope">
-          <el-button type="text" @click="gettestdetails('FAIL','all',scope.row,false);selectedRegressionIndex = scope.$index">{{scope.row.failnum}}</el-button>
+          <el-button type="text" @click="isDVgrp  = false;gettestdetails('FAIL','all',scope.row,false);selectedRegressionIndex = scope.$index">{{scope.row.failnum}}</el-button>
         </template>
       </el-table-column>
       <el-table-column
@@ -67,7 +67,7 @@
         label="unknownnum"
       >
         <template slot-scope="scope">
-          <el-button type="text" @click="gettestdetails('UNKNOWN','all',scope.row,false);selectedRegressionIndex = scope.$index">{{scope.row.unknownnum}}</el-button>
+          <el-button type="text" @click="isDVgrp  = false;gettestdetails('UNKNOWN','all',scope.row,false);selectedRegressionIndex = scope.$index">{{scope.row.unknownnum}}</el-button>
         </template>
       </el-table-column>
       <el-table-column
@@ -75,7 +75,7 @@
         label="notfinished"
       >
         <template slot-scope="scope">
-          <el-button type="text" @click="gettestdetails('RUNNING','all',scope.row,false);selectedRegressionIndex = scope.$index">{{scope.row.runningnum}}</el-button>
+          <el-button type="text" @click="isDVgrp  = false;gettestdetails('RUNNING','all',scope.row,false);selectedRegressionIndex = scope.$index">{{scope.row.runningnum}}</el-button>
         </template>
       </el-table-column>
     </el-table>
@@ -149,7 +149,7 @@
           label="passnum"
         >
           <template slot-scope="scope">
-            <el-button type="text" @click="gettestdetails('PASS',scope.row.groupname,scope.row,false)">{{scope.row.passnum}}</el-button>
+            <el-button type="text" @click="isDVgrp  = true;gettestdetails('PASS',scope.row.groupname,scope.row,false)">{{scope.row.passnum}}</el-button>
           </template>
         </el-table-column>
         <el-table-column
@@ -376,11 +376,11 @@ export default {
         background: 'rgba(0, 0, 0, 0.7)'
       });//display loading
       let W                   = JSON.parse(JSON.stringify(info));
-      //if(this.isDVgrp){
-      //}
-      //else{
+      if(this.isDVgrp){
+      }
+      else{
         this.currentregression  = JSON.parse(JSON.stringify(info));
-      //}
+      }
       W.result       = result;
       W.groupname    = groupname;
       W.kind         = 'testdetails';
@@ -403,7 +403,7 @@ export default {
           this.loading.close();
           this.title  = result+' tests of '+info.kickoffdate+' '+info.projectname+' '+info.variantname;
           console.log('currentregression');
-          console.log(currentregression);
+          console.log(this.currentregression);
         },
         function(){
           this.loading.close();
