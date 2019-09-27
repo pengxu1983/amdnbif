@@ -40,7 +40,7 @@
 </template>
 
 <script>
-import Overall    from '@/components/RegressionPage_sub/Overall.vue'
+//import Overall    from '@/components/RegressionPage_sub/Overall.vue'
 import Byusr      from '@/components/RegressionPage_sub/Byusr.vue'
 import Byfeature  from '@/components/RegressionPage_sub/Byfeature.vue'
 import ByDVgroup  from '@/components/RegressionPage_sub/ByDVgroup.vue'
@@ -61,19 +61,19 @@ export default {
       variants    : [],
       testplans   : [],
       kinds       : [
-        'Overall',
+        //'Overall',
+        'All',
         'ByDVgroup',
         'Byfeature',
-        'All',
       ],
-      currentTab  : 'Overall',
+      currentTab  : 'All',
     }
   },
   components  : {
-    Overall,
+    //Overall,
+    All,
     Byfeature,
     ByDVgroup,
-    All
   },
   computed: {
     currentTabComponent: function () {

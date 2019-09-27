@@ -157,7 +157,7 @@
           label="failnum"
         >
           <template slot-scope="scope">
-            <el-button type="text" @click="gettestdetails('FAIL',scope.row.groupname,scope.row,false)">{{scope.row.failnum}}</el-button>
+            <el-button type="text" @click="isDVgrp  = true;gettestdetails('FAIL',scope.row.groupname,scope.row,false)">{{scope.row.failnum}}</el-button>
           </template>
         </el-table-column>
         <el-table-column
@@ -165,7 +165,7 @@
           label="unknownnum"
         >
           <template slot-scope="scope">
-            <el-button type="text" @click="gettestdetails('UNKNOWN',scope.row.groupname,scope.row,false)">{{scope.row.unknownnum}}</el-button>
+            <el-button type="text" @click="isDVgrp  = true;gettestdetails('UNKNOWN',scope.row.groupname,scope.row,false)">{{scope.row.unknownnum}}</el-button>
           </template>
         </el-table-column>
         <el-table-column
@@ -173,7 +173,7 @@
           label="notfinished"
         >
           <template slot-scope="scope">
-            <el-button type="text" @click="gettestdetails('RUNNING',scope.row.groupname,scope.row,false)">{{scope.row.runningnum}}</el-button>
+            <el-button type="text" @click="isDVgrp  = true;gettestdetails('RUNNING',scope.row.groupname,scope.row,false)">{{scope.row.runningnum}}</el-button>
           </template>
         </el-table-column>
         <el-table-column
