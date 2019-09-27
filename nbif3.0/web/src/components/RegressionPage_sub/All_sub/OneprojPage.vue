@@ -148,6 +148,9 @@
           prop="passnum"
           label="passnum"
         >
+          <template slot-scope="scope">
+            <el-button type="text" @click="gettestdetails('PASS',scope.row.groupname,scope.row,false)">{{scope.row.passnum}}</el-button>
+          </template>
         </el-table-column>
         <el-table-column
           prop="failnum"
@@ -215,9 +218,10 @@ export default {
         'OTHERS',
         'PERF'
       ],
-      currentDVgroup  : 'HOST',
       DVgroupstatus : [],
       currentregression : {},
+      currentDVgroup  : 'HOST',
+      currentgroup    : '',
       regressionselected  : false,
       loading : false,
       regressionstatus_disp: [],
@@ -229,6 +233,7 @@ export default {
       pagesize : 500,
       selectedRegressionIndex : '',
       searchparam : {},
+      isDVgrp : false,
       oneregressioninfo : {
         projectname : '',
         variantname : '',
@@ -361,8 +366,12 @@ export default {
         spinner: 'el-icon-loading',
         background: 'rgba(0, 0, 0, 0.7)'
       });//display loading
-      this.currentregression  = JSON.parse(JSON.stringify(info));
       let W                   = JSON.parse(JSON.stringify(info));
+      //if(this.isDVgrp){
+      //}
+      //else{
+        this.currentregression  = JSON.parse(JSON.stringify(info));
+      //}
       W.result       = result;
       W.groupname    = groupname;
       W.kind         = 'testdetails';
