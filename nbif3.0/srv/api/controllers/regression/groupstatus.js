@@ -123,6 +123,7 @@ module.exports = {
       });
       sails.log(onegroup.DVgroup);
       sails.log(onegroup.groupname);
+      sails.log(onegroup.owner);
       groupstatus.push({
         projectname : inputs.projectname,
         variantname : inputs.variantname,
@@ -130,6 +131,7 @@ module.exports = {
         isBAPU      : inputs.isBAPU,
         shelve      : inputs.shelve,
         kickoffdate : inputs.kickoffdate,
+        owner       : onegroup.owner,
         DVgroup     : onegroup.DVgroup,
         groupname   : R[r].groupname,
         passrate    : R[r].passrate,
