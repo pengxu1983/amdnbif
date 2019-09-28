@@ -179,7 +179,7 @@
           prop="runningnum"
           label="notfinished"
           sortable
-          sort-method="sortbynumber"
+          :sort-method="sortbynumber"
         >
           <template slot-scope="scope">
             <el-button type="text" @click="isDVgrp  = true;gettestdetails('RUNNING',scope.row.groupname,scope.row,false)">{{scope.row.runningnum}}</el-button>
