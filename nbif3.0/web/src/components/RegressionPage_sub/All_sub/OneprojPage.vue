@@ -134,21 +134,25 @@
         <el-table-column
           prop="groupname"
           label="feature"
+          sortable
         >
         </el-table-column>
         <el-table-column
           prop="owner"
           label="owner"
+          sortable
         >
         </el-table-column>
         <el-table-column
           prop="allnum"
           label="alltestnum"
+          sortable
         >
         </el-table-column>
         <el-table-column
           prop="passnum"
           label="passnum"
+          sortable
         >
           <template slot-scope="scope">
             <el-button type="text" @click="isDVgrp  = true;gettestdetails('PASS',scope.row.groupname,scope.row,false)">{{scope.row.passnum}}</el-button>
@@ -157,6 +161,7 @@
         <el-table-column
           prop="failnum"
           label="failnum"
+          sortable
         >
           <template slot-scope="scope">
             <el-button type="text" @click="isDVgrp  = true;gettestdetails('FAIL',scope.row.groupname,scope.row,false)">{{scope.row.failnum}}</el-button>
@@ -173,6 +178,7 @@
         <el-table-column
           prop="runningnum"
           label="notfinished"
+          sortable
         >
           <template slot-scope="scope">
             <el-button type="text" @click="isDVgrp  = true;gettestdetails('RUNNING',scope.row.groupname,scope.row,false)">{{scope.row.runningnum}}</el-button>
