@@ -279,6 +279,9 @@ export default {
   },
   methods : {
     sortbynumber (a,b){
+      console.log('px');
+      console.log(a);
+      console.log(b);
       let an= Number(a);
       let bn= Number(b);
       if(an>bn){
