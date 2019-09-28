@@ -179,7 +179,7 @@
           prop="runningnum"
           label="notfinished"
           :sortable="true"
-          :sort-method="sortbynumber"
+          :sort-method="sortbynumberrunningnum"
         >
           <template slot-scope="scope">
             <el-button type="text" @click="isDVgrp  = true;gettestdetails('RUNNING',scope.row.groupname,scope.row,false)">{{scope.row.runningnum}}</el-button>
@@ -259,7 +259,7 @@ export default {
         shelve      : '',
         isBAPU      : '',
         kickoffdate : ''
-      }
+      },
     }
   },
   watch : {
@@ -278,12 +278,12 @@ export default {
     Oneprojoneregress
   },
   methods : {
-    sortbynumber (a,b){
+    sortbynumberrunningnum (a,b){
       console.log('px');
-      console.log(a);
-      console.log(b);
-      let an= Number(a);
-      let bn= Number(b);
+      console.log(a.runningnum);
+      console.log(b.runningnum);
+      let an= Number(a.runningnum);
+      let bn= Number(b.runningnum);
       if(an>bn){
         return 1;
       }
