@@ -228,7 +228,6 @@
 </template>
 
 <script>
-import Oneprojoneregress  from '@/components/RegressionPage_sub/Overall_sub/OneprojPage_sub/Oneprojoneregress.vue'
 export default {
   name: 'OneprojPage',
   props: {
@@ -282,7 +281,6 @@ export default {
     }
   },
   components  : {
-    Oneprojoneregress
   },
   methods : {
     sortbynumberrunningnum (a,b){
