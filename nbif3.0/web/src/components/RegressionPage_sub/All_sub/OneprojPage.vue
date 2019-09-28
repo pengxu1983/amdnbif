@@ -179,6 +179,7 @@
           prop="runningnum"
           label="notfinished"
           sortable
+          sort-method="sortbynumber"
         >
           <template slot-scope="scope">
             <el-button type="text" @click="isDVgrp  = true;gettestdetails('RUNNING',scope.row.groupname,scope.row,false)">{{scope.row.runningnum}}</el-button>
@@ -277,6 +278,9 @@ export default {
     Oneprojoneregress
   },
   methods : {
+    sortbynumber (a,b){
+      return a-b
+    },
     dvgroupclicked (tab,event) {
       this.loading = this.$loading({
         lock: true,
