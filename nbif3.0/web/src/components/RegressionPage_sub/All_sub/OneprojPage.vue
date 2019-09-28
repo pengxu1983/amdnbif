@@ -279,10 +279,12 @@ export default {
   },
   methods : {
     sortbynumber (a,b){
-      if(a>b){
+      let an= Number(a);
+      let bn= Number(b);
+      if(an>bn){
         return 1;
       }
-      if(a<b){
+      if(an<bn){
         return -1;
       }
       return 0;
