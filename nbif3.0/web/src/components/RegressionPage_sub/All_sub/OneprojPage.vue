@@ -178,7 +178,7 @@
         <el-table-column
           prop="runningnum"
           label="notfinished"
-          sortable
+          :sortable="true"
           :sort-method="sortbynumber"
         >
           <template slot-scope="scope">
