@@ -146,13 +146,15 @@
         <el-table-column
           prop="allnum"
           label="alltestnum"
-          sortable
+          :sortable="true"
+          :sort-method="sortbynumberallnum"
         >
         </el-table-column>
         <el-table-column
           prop="passnum"
           label="passnum"
-          sortable
+          :sortable="true"
+          :sort-method="sortbynumberpassnum"
         >
           <template slot-scope="scope">
             <el-button type="text" @click="isDVgrp  = true;gettestdetails('PASS',scope.row.groupname,scope.row,false)">{{scope.row.passnum}}</el-button>
@@ -161,7 +163,8 @@
         <el-table-column
           prop="failnum"
           label="failnum"
-          sortable
+          :sortable="true"
+          :sort-method="sortbynumberfailnum"
         >
           <template slot-scope="scope">
             <el-button type="text" @click="isDVgrp  = true;gettestdetails('FAIL',scope.row.groupname,scope.row,false)">{{scope.row.failnum}}</el-button>
@@ -170,6 +173,8 @@
         <el-table-column
           prop="unknownnum"
           label="unknownnum"
+          :sortable="true"
+          :sort-method="sortbynumberunknownnum"
         >
           <template slot-scope="scope">
             <el-button type="text" @click="isDVgrp  = true;gettestdetails('UNKNOWN',scope.row.groupname,scope.row,false)">{{scope.row.unknownnum}}</el-button>
@@ -188,6 +193,8 @@
         <el-table-column
           prop="passrate"
           label="passrate(%)"
+          :sortable="true"
+          :sort-method="sortbynumberpassrate"
         >
         </el-table-column>
       </el-table>
@@ -279,11 +286,69 @@ export default {
   },
   methods : {
     sortbynumberrunningnum (a,b){
-      console.log('px');
-      console.log(a.runningnum);
-      console.log(b.runningnum);
+      console.log('runningnum');
       let an= Number(a.runningnum);
       let bn= Number(b.runningnum);
+      if(an>bn){
+        return 1;
+      }
+      if(an<bn){
+        return -1;
+      }
+      return 0;
+    },
+    sortbynumberallnum(a,b){
+      console.log('allnum');
+      let an= Number(a.allnum);
+      let bn= Number(b.allnum);
+      if(an>bn){
+        return 1;
+      }
+      if(an<bn){
+        return -1;
+      }
+      return 0;
+    },
+    sortbynumberpassnum(a,b){
+      console.log('passnum');
+      let an= Number(a.passnum);
+      let bn= Number(b.passnum);
+      if(an>bn){
+        return 1;
+      }
+      if(an<bn){
+        return -1;
+      }
+      return 0;
+    },
+    sortbynumberfailnum(a,b){
+      console.log('failnum');
+      let an= Number(a.failnum);
+      let bn= Number(b.failnum);
+      if(an>bn){
+        return 1;
+      }
+      if(an<bn){
+        return -1;
+      }
+      return 0;
+    },
+    sortbynumberunknownnum(a,b){
+      console.log('unknownnum');
+      let an= Number(a.unknownnum);
+      let bn= Number(b.unknownnum);
+      if(an>bn){
+        return 1;
+      }
+      if(an<bn){
+        return -1;
+      }
+      return 0;
+    },
+    sortbynumberpassrate(a,b){
+      console.log('passrate');
+      let an= Number(a.passrate);
+      let bn= Number(b.passrate);
       if(an>bn){
         return 1;
       }
