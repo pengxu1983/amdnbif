@@ -14,9 +14,9 @@
 </template>
 
 <script>
-import OneprojPage  from '@/components/RegressionPage_sub/All_sub/OneprojPage.vue'
+import OneprojPage  from '@/components/RegressionPage_sub/OfficialRegression_sub/OneprojPage.vue'
 export default {
-  name: 'All',
+  name: 'OfficialRegression',
   props: {
   },
   components  : {

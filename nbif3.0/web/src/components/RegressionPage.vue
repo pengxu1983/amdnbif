@@ -40,11 +40,9 @@
 </template>
 
 <script>
-//import Overall    from '@/components/RegressionPage_sub/Overall.vue'
-import Byusr      from '@/components/RegressionPage_sub/Byusr.vue'
 import Byfeature  from '@/components/RegressionPage_sub/Byfeature.vue'
 import ByDVgroup  from '@/components/RegressionPage_sub/ByDVgroup.vue'
-import All        from '@/components/RegressionPage_sub/All.vue'
+import OfficialRegression from '@/components/RegressionPage_sub/OfficialRegression.vue'
 
 export default {
   name: 'RegressionPage',
@@ -61,17 +59,16 @@ export default {
       variants    : [],
       testplans   : [],
       kinds       : [
-        //'Overall',
-        'All',
+        'OfficialRegression',
         'ByDVgroup',
         'Byfeature',
       ],
-      currentTab  : 'All',
+      currentTab  : 'OfficialRegression',
     }
   },
   components  : {
     //Overall,
-    All,
+    OfficialRegression,
     Byfeature,
     ByDVgroup,
   },
