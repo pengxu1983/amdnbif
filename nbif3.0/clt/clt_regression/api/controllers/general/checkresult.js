@@ -4,10 +4,10 @@ let regTreeRootList = [
   '/proj/cip_floyd_genz/ip_regress/antti/nbif2_0_mi200/',
   '/proj/cip_floyd_genz/ip_regress/antti/nbif2_0_mi200_apu_1/',
   '/proj/cip_floyd_genz/ip_regress/antti/nbif2_0_mi200_1/',
-  '/proj/cip_floyd_genz/ip_regress/branch_mero_pg/',
-  '/proj/cip_floyd_genz/ip_regress/branch_mero_normal/',
-  '/proj/cip_floyd_genz/ip_regress/branch_mero_long/',
   '/proj/cip_floyd_genz/ip_regress/nbif2_0_rembrandt/',
+  '/proj/cip_floyd_genz/ip_regress/nbif.regression.main.floyd.1/',
+  '/proj/cip_floyd_genz/ip_regress/nbif.regression.main.floyd.2/',
+  '/proj/cip_floyd_genz/ip_regress/nbif.regression.main.floyd.3/',
 ];//MODIFY ///TODO
 let out_home        = '/out/linux_3.10.0_64.VCS/';
 var moment          = require('moment');
@@ -404,7 +404,7 @@ module.exports = {
           else{
             nextCheck[testName]=testResult[testName];
           }
-          await dly(400);
+          await dly(300);
           let postData = querystring.stringify({
             'kind'          : 'onecase',
             'oneTestResult' : JSON.stringify({
@@ -476,7 +476,7 @@ module.exports = {
         });
         
         let options = {
-          hostname: 'amdnbif2.thehunters.club',
+          hostname: 'amdnbif3.thehunters.club',
           port: 80,
           path: '/regression/summary',
           method: 'POST',
