@@ -18,7 +18,8 @@
           <el-menu-item 
             v-for="onekind in kinds"
             :key="onekind"
-            @click="currentTab  = onekind"
+            :index="onekind"
+            @click="currentTab=onekind"
           >
             <i class="el-icon-setting"></i>
             <span slot="title">{{ kind_disp(onekind)}}</span>
@@ -38,10 +39,8 @@
 </template>
 
 <script>
-//import Byfeature  from '@/components/RegressionPage_sub/Byfeature.vue'
-//import ByDVgroup  from '@/components/RegressionPage_sub/ByDVgroup.vue'
 import OfficialRegression from '@/components/RegressionPage_sub/OfficialRegression.vue'
-import Neverpass  from '@/components/RegressionPage_sub/Neverpass.vue'
+import Neverpass          from '@/components/RegressionPage_sub/Neverpass.vue'
 
 export default {
   name: 'RegressionPage',
@@ -52,7 +51,6 @@ export default {
       projectinfo : {
         projectname : 'mi200',
         variantname : 'nbif_nv10_gpu',
-        modename    : 'rc'
       },
       projects    : [],
       variants    : [],
@@ -75,7 +73,6 @@ export default {
   },
   computed: {
     currentTabComponent: function () {
-      //console.log(this.currentTab);
       return this.currentTab;
       //return 'tab-' + this.currentTab.toLowerCase()
     }

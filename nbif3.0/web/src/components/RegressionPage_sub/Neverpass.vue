@@ -17,6 +17,7 @@
         <el-select v-model="groupinfo.variantname" placeholder="variantname">
           <el-option 
             v-for="onevariant in variants"
+            :key="onevariant"
             :label="onevariant" 
             :value="onevariant"
           ></el-option>
@@ -32,6 +33,7 @@
         <el-select v-model="groupinfo.groupname" placeholder="groupname">
           <el-option 
             v-for="onegroup in groups"
+            :key="onegroup"
             :label="onegroup.groupname" 
             :value="onegroup.groupname"
           ></el-option>
@@ -123,7 +125,7 @@
 
 <script>
 export default {
-  name: 'Byfeature',
+  name: 'Neverpass',
   props: {
   },
   data() {
