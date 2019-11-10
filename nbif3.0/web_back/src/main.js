@@ -3,7 +3,6 @@ import App from './App.vue'
 import router from './router'
 import store from './store'
 
-
 //For ElementUI
 import './plugins/element.js'
 import ElementUI from 'element-ui';
@@ -26,9 +25,7 @@ import echarts from 'echarts'
 import VueResource from 'vue-resource'
 Vue.use(VueResource);
 
-
-Vue.config.productionTip = false
-
+//For moment
 new Vue({
   router,
   store,
