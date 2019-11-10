@@ -14,12 +14,10 @@
         <el-menu
           :default-active="currentTab"
           class="el-menu-vertical-demo"
-          @open="handleOpen"
-          @close="handleClose"
         >
           <el-menu-item 
             v-for="onekind in kinds"
-            :index="onekind"
+            :key="onekind"
             @click="currentTab  = onekind"
           >
             <i class="el-icon-setting"></i>
@@ -40,9 +38,10 @@
 </template>
 
 <script>
-import Byfeature  from '@/components/RegressionPage_sub/Byfeature.vue'
-import ByDVgroup  from '@/components/RegressionPage_sub/ByDVgroup.vue'
+//import Byfeature  from '@/components/RegressionPage_sub/Byfeature.vue'
+//import ByDVgroup  from '@/components/RegressionPage_sub/ByDVgroup.vue'
 import OfficialRegression from '@/components/RegressionPage_sub/OfficialRegression.vue'
+import Neverpass  from '@/components/RegressionPage_sub/Neverpass.vue'
 
 export default {
   name: 'RegressionPage',
@@ -60,8 +59,9 @@ export default {
       testplans   : [],
       kinds       : [
         'OfficialRegression',
-        'ByDVgroup',
-        'Byfeature',
+        'Neverpass',
+        //'ByDVgroup',
+        //'Byfeature',
       ],
       currentTab  : 'OfficialRegression',
     }
@@ -69,8 +69,9 @@ export default {
   components  : {
     //Overall,
     OfficialRegression,
-    Byfeature,
-    ByDVgroup,
+    Neverpass,
+    //Byfeature,
+    //ByDVgroup,
   },
   computed: {
     currentTabComponent: function () {
@@ -83,12 +84,12 @@ export default {
     kind_disp (name){
       return name;
     },
-    handleOpen(key, keyPath) {
-      //console.log(key, keyPath);
-    },
-    handleClose(key, keyPath) {
-      //console.log(key, keyPath);
-    },
+    //handleOpen(key, keyPath) {
+    //  //console.log(key, keyPath);
+    //},
+    //handleClose(key, keyPath) {
+    //  //console.log(key, keyPath);
+    //},
   }
 }
 </script>
