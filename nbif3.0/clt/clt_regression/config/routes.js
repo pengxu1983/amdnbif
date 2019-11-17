@@ -25,8 +25,10 @@ module.exports.routes = {
   },
   'POST /general/checkresult' : {
     action : 'general/checkresult'
+  },
+  'GET /mi-200/start' : {
+    action  : 'mi-200/start'
   }
-
   /***************************************************************************
   *                                                                          *
   * More custom routes here...                                               *
