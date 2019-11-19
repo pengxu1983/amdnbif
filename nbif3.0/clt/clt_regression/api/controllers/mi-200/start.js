@@ -18,7 +18,7 @@ module.exports = {
 
 
   fn: async function (inputs) {
-    sails.helpers.gentree({
+    await sails.helpers.gentree({
       projectname : 'mi200',
       variantname : 'nbif_nv10_gpu'
     });
