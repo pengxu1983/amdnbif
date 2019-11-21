@@ -24,7 +24,7 @@ let cron_check_result = new cronJob('* * * * * *',function(){
   
   let options = {
     hostname: 'localhost',
-    port: 9002,
+    port: 9001,
     path: '/general/checkresult',
     method: 'POST',
     headers: {
