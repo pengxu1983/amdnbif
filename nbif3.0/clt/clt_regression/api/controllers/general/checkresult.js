@@ -1,9 +1,6 @@
 //let refTreeRoot     = '';
 let regTreeRootList = [
-  '/proj/cip_floyd_genz/ip_regress/nbif.regression.main.mi200.group1_1/',
-  '/proj/cip_floyd_genz/ip_regress/nbif.regression.main.mi200.group1_2/',
-  '/proj/cip_floyd_genz/ip_regress/nbif.regression.main.mi200.group2_1/',
-  '/proj/cip_floyd_genz/ip_regress/nbif.regression.main.mi200.group2_2/',
+  '/proj/cip_floyd_genz/ip_regress/nbif.regression.main.rembrandt.group1.1/',
 ];//MODIFY ///TODO
 let out_home        = '/out/linux_3.10.0_64.VCS/';
 var moment          = require('moment');
@@ -27,7 +24,7 @@ let cron_check_result = new cronJob('* * * * * *',function(){
   
   let options = {
     hostname: 'localhost',
-    port: 9001,
+    port: 9002,
     path: '/general/checkresult',
     method: 'POST',
     headers: {
@@ -240,7 +237,7 @@ module.exports = {
         });
         
         let optionsG = {
-          hostname: 'amdnbif2.thehunters.club',
+          hostname: 'amdnbif1.thehunters.club',
           port: 80,
           path: '/regression/upload',
           method: 'POST',
@@ -289,7 +286,7 @@ module.exports = {
             });
             
             let options = {
-              hostname: 'amdnbif2.thehunters.club',
+              hostname: 'amdnbif1.thehunters.club',
               port: 80,
               path: '/regression/summary',
               method: 'POST',
@@ -339,7 +336,7 @@ module.exports = {
             });
             
             let options = {
-              hostname: 'amdnbif2.thehunters.club',
+              hostname: 'amdnbif1.thehunters.club',
               port: 80,
               path: '/regression/summary',
               method: 'POST',
@@ -420,7 +417,7 @@ module.exports = {
           });
           
           let options = {
-            hostname: 'amdnbif2.thehunters.club',
+            hostname: 'amdnbif1.thehunters.club',
             port: 80,
             path: '/regression/upload',
             method: 'POST',
@@ -472,7 +469,7 @@ module.exports = {
         });
         
         let options = {
-          hostname: 'amdnbif1.thehunters.club',
+          hostname: 'amdnbif3.thehunters.club',
           port: 80,
           path: '/regression/summary',
           method: 'POST',
@@ -503,7 +500,7 @@ module.exports = {
             });
             
             let options = {
-              hostname: 'amdnbif1.thehunters.club',
+              hostname: 'amdnbif3.thehunters.club',
               port: 80,
               path: '/regression/neverpass',
               method: 'POST',
@@ -554,7 +551,7 @@ module.exports = {
         });
         
         let options1 = {
-          hostname: 'amdnbif1.thehunters.club',
+          hostname: 'amdnbif3.thehunters.club',
           port: 80,
           path: '/regression/allsummary',
           method: 'POST',
@@ -595,7 +592,7 @@ module.exports = {
         });
         
         let options2 = {
-          hostname: 'amdnbif1.thehunters.club',
+          hostname: 'amdnbif3.thehunters.club',
           port: 80,
           path: '/regression/dvgroupsummary',
           method: 'POST',
