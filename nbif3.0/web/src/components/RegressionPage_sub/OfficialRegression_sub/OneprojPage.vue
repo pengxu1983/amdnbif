@@ -84,6 +84,7 @@
       <el-tabs v-model="currentDVgroup" @tab-click="dvgroupclicked">
         <el-tab-pane 
           v-for="oneDVgrp in alldvgroups"
+          :key="oneDVgrp"
           :label="oneDVgrp" 
           :name="oneDVgrp"
         >
@@ -231,7 +232,6 @@
 export default {
   name: 'OneprojPage',
   props: {
-    projectname : ''
   },
   data() {
     return {

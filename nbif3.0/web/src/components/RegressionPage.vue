@@ -40,6 +40,7 @@
 
 <script>
 import OfficialRegression from '@/components/RegressionPage_sub/OfficialRegression.vue'
+import FunctionCoverage   from '@/components/RegressionPage_sub/FunctionCoverage.vue'
 import Neverpass          from '@/components/RegressionPage_sub/Neverpass.vue'
 
 export default {
@@ -57,6 +58,7 @@ export default {
       testplans   : [],
       kinds       : [
         'OfficialRegression',
+        'FunctionCoverage',
         'Neverpass',
         //'ByDVgroup',
         //'Byfeature',
@@ -67,6 +69,7 @@ export default {
   components  : {
     //Overall,
     OfficialRegression,
+    FunctionCoverage,
     Neverpass,
     //Byfeature,
     //ByDVgroup,
