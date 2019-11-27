@@ -232,6 +232,7 @@
 export default {
   name: 'OneprojPage',
   props: {
+    projectname : ''
   },
   data() {
     return {
