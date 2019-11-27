@@ -128,8 +128,8 @@ export default {
             this.variants = JSON.parse(response.body.variants);
             console.log('all variants successfully get from DB');
           }
-          else{
-          }
+          //else{
+          //}
         },
         function(){}
       );
