@@ -19,9 +19,19 @@ module.exports.routes = {
   *                                                                          *
   ***************************************************************************/
 
-  '/': { view: 'pages/homepage' },
-
-
+  //'/': { view: 'pages/homepage' },
+  'POST /regression/newregressionstart' : {
+    action  : 'regression/newregressionstart'
+  },
+  'POST /regression/onecasestart' : {
+    action  : 'regression/onecasestart'
+  },
+  'POST /regression/onecasestop' : {
+    action  : 'regression/onecasestop'
+  },
+  'POST /regression/lastregressionstop' : {
+    action  : 'regression/lastregressionstop'
+  },
   /***************************************************************************
   *                                                                          *
   * More custom routes here...                                               *
