@@ -1,16 +1,43 @@
 Issue Type,Issue key,Issue id,Summary,Custom field (Variant),Custom field (Variant),Custom field (Variant),Custom field (Variant),Custom field (Variant),Custom field (Variant),Custom field (Variant),Custom field (Variant),Custom field (Variant),Custom field (Variant),Custom field (Variant),Custom field (Variant),Custom field (Variant),Custom field (Variant),Custom field (Variant),Custom field (Variant),Custom field (Variant),Custom field (Variant),Custom field (Variant),Custom field (Variant),Custom field (Variant),Custom field (Variant),Assignee,Due Date,Labels,Labels,Labels,Labels,Labels,Labels,Status,Reporter,Created,Updated,Custom field (Last Comment),Custom field (Rejected Date),Custom field (Rejection Reason),Custom field (Est Deliver Date),Custom field (Functional Area),Custom field (Issue Category),Custom field (Deferred Date),Custom field (Closed Date),Custom field (Watchers),Custom field (Watchers),Custom field (Watchers),Custom field (Watchers),Custom field (Watchers),Custom field (Watchers),Custom field (Watchers),Custom field (Watchers),Custom field (Watchers),Custom field (Watchers),Custom field (Watchers),Custom field (Watchers),Custom field (Watchers),Custom field (Watchers),Custom field (Watchers),Custom field (Watchers),Custom field (Watchers),Custom field (Watchers),Custom field (Watchers),Custom field (Watchers),Custom field (Watchers),Custom field (Watchers),Custom field (Watchers),Custom field (Watchers),Custom field (Watchers),Custom field (Watchers),Custom field (Watchers),Custom field (Watchers),Custom field (Watchers),Custom field (Watchers),Custom field (Watchers),Custom field (Watchers),Custom field (Watchers),Custom field (Watchers),Custom field (Watchers)
+Defect,DEIPCNBS20-1184,1478816,[Mero] BLKID constant value isolated to 0,Mero,,,,,,,,,,,,,,,,,,,,,,alzhu,,MeroA0_ECR_PENDING,,,,,,Opened,alzhu,13/Dec/19 2:52 PM,13/Dec/19 4:14 PM,"Zhu, Allen: Tracy, please help to collect necessary info listed below:
+
+1. Detailed description of the bug:
+
+2. How was this bug been found & at what level (block/IP/!SoC, other program, etc)?
+
+3. Is this must fix?
+
+4. What is the impact of NOT fixing this bug (performance, reduced functionality, hangs/corruption, etc.)?
+
+5. Is there a potential workaround solution? (BIOS/driver/firmware...) Please provide performance impact and your recommendations.
+
+6. Which tile(s) is impacted?
+
+7. any impact to tile IO or SoC connectivity's?
+
+8. Any timing, area, repeater, tile interface, DFX impacts resulted from this ECO ( provide the details)
+
+9. Is this bug ECO-able? If yes, list ECO complexity including # of gates/flops/wires and engineer efforts(design/DV/PD/DFT) and impacts to timing/area/DFT.
+
+10. Is there any impact to the SoC verification?
+
+11. Has the proposed fix been fully verified? If not, provide status.
+
+12. When the fix is going to be available for SoC integration?
+",,,,OTHERS,Design,,,alzhu,apearson,buhengxu,ftouserk,geochen,liusha,pauls,siluo,smathad,trgong,ypeng1,zmary,,,,,,,,,,,,,,,,,,,,,,,
+Task,DEIPCNBS20-1183,1477782, [MI200]compliance case review according to latest version,MI200,,,,,,,,,,,,,,,,,,,,,,antli,27/Dec/19 12:00 AM,,,,,,,Opened,benpeng,12/Dec/19 2:18 PM,12/Dec/19 2:19 PM,,,,27/Dec/19 12:00 AM,MISC,DV/Verification,,,antli,benpeng,geochen,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,
+Task,DEIPCNBS20-1182,1477779,[MI200]compliance case review according to latest version,MI200,,,,,,,,,,,,,,,,,,,,,,belchen,27/Dec/19 12:00 AM,,,,,,,Opened,benpeng,12/Dec/19 2:16 PM,12/Dec/19 2:16 PM,,,,27/Dec/19 12:00 AM,MISC,DV/Verification,,,belchen,benpeng,geochen,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,
+Enhancement,DEIPCNBS20-1181,1477590,nbif-USB4 configuration and feature alignment for Rembrandt B0,RembrandtB0,,,,,,,,,,,,,,,,,,,,,,jchang,,nbif_shub_clientIP_questionnaire,,,,,,Opened,siluo,12/Dec/19 8:38 AM,12/Dec/19 8:45 AM,"Luo, Sidney: Hi, Jason
+
+need you and USB IP team to fill for the open items in the configuration file. thanks",,,,OTHERS,new requirement,,,bobliu,buhengxu,chengli,jchang,jgibney,jscanlon,sawei,siluo,,,,,,,,,,,,,,,,,,,,,,,,,,,
 Task,DEIPCNBS20-1180,1476816,[Floyd][Callout][RAS][NBIO][Waveform] RAS legacy behavior review,Floyd,,,,,,,,,,,,,,,,,,,,,,alzhu,,nbif_callout_nbio,,,,,,Opened,alzhu,11/Dec/19 4:19 PM,11/Dec/19 4:20 PM,,,,,MISC,DV/Verification,,,alzhu,geochen,siluo,smshen,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,
-Defect,DEIPCNBS20-1179,1476050,mismatch between nBIF MAS and RTL,Mero,,,,,,,,,,,,,,,,,,,,,,dtastzog,,,,,,,,Opened,dtastzog,10/Dec/19 9:19 PM,11/Dec/19 3:38 PM,"Yang, Shiwu: hi domis,
+Defect,DEIPCNBS20-1179,1476050,mismatch between nBIF MAS and RTL,Mero,,,,,,,,,,,,,,,,,,,,,,alxie,,,,,,,,Opened,dtastzog,10/Dec/19 9:19 PM,12/Dec/19 1:58 PM,"Han, Shawn: Hi Domis & Alex,
 
-at mero beginning we tied usb2 byass 0 at nbif, as nbif mero mas described. but iohub need usb2 send bypass 1's trans  to access mem space. and nbif has added a register slice ""GDC_RAS.GDCSHUB_RAS_HW_DEBUG.GDCSHUB_RAS_HW_08_DEBUG"" to control usb2's  bypass(default 1) by eco. and nbif mas hasn't update yet.  you could refer Jira ""
- # 
- # DEIPCNBS20-1064""
+MAS is updated at [https://amdcloud.sharepoint.com/sites/BIF/_layouts/15/Doc.aspx?sourcedoc=%7B66332D3E-5C6B-42E6-B227-1C49F9278C1D%7D&file=NBIF_SHUB_Mero_VanGogh_MAS.docx&action=default&mobileredirect=true&CT=1576130237633&OR=ItemsView]
 
- 
+Thanks,
 
-thanks,
-
-Shiwu",,,,DMA,document,,,dchen,dtastzog,ecwang,jytxart,mramamu,shiyan,siluo,tozhan,,,,,,,,,,,,,,,,,,,,,,,,,,,
+Shawn",,,,DMA,document,,,alxie,dchen,dtastzog,ecwang,jytxart,mramamu,shawhan,shiyan,siluo,tozhan,,,,,,,,,,,,,,,,,,,,,,,,,
 Defect,DEIPCNBS20-1178,1475408,[Mi200] VF hang protection fail,Deferred,,,,,,,,,,,,,,,,,,,,,,buhengxu,,,,,,,,Opened,benpeng,10/Dec/19 2:24 PM,10/Dec/19 2:24 PM,"Peng, Xu: Deferred as per [~buhengxu]",,,,HOST,Design,,,belchen,benpeng,buhengxu,jianw,smshen,trgong,,,,,,,,,,,,,,,,,,,,,,,,,,,,,
 Tracking,DEIPCNBS20-1177,1474720,Extend MPDMA AXI address based on 57-bit VA,Floyd,,,,,,,,,,,,,,,,,,,,,,shiyan,,,,,,,,Closed,myhou,09/Dec/19 10:48 PM,11/Dec/19 9:36 AM,,,,,DMA,DV/Verification,,11/Dec/19 9:36 AM,benpeng,buhengxu,chengli,myhou,qingli1,shawhan,shiyan,smchen,smshen,wang,wangr1,,,,,,,,,,,,,,,,,,,,,,,,
 Task,DEIPCNBS20-1176,1473348,[MI200]PRS / MAS review DMA part,MI200,,,,,,,,,,,,,,,,,,,,,,alxie,20/Dec/19 12:00 AM,,,,,,,Opened,benpeng,06/Dec/19 2:54 PM,06/Dec/19 2:54 PM,,,,20/Dec/19 12:00 AM,DMA,Design,,,alxie,benpeng,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,
@@ -28,116 +55,103 @@ thanks,
 
 Shiwu",,,20/Dec/19 12:00 AM,DMA,DV/Verification,,,benpeng,buhengxu,shiyan,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,
 Tracking,DEIPCNBS20-1174,1473231,"[Floyd] there is not RAS leaf information for ""mpdmatf"" connected to SDP port",Floyd,,,,,,,,,,,,,,,,,,,,,,wenyanxu,,,,,,,,Opened,jianw,06/Dec/19 11:17 AM,06/Dec/19 11:17 AM,,,,,MISC,Design,,,jianw,wenyanxu,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,
-Defect,DEIPCNBS20-1173,1473218,[Mi200] the egress port haven't been stalled when the SRAM ECC triggered ras stall,MI200,,,,,,,,,,,,,,,,,,,,,,wenyanxu,20/Dec/19 12:00 AM,,,,,,,Opened,jianw,06/Dec/19 11:07 AM,10/Dec/19 2:14 PM,"Peng, Xu: Ping [~wenyanxu] please update status in here",,,20/Dec/19 12:00 AM,MISC,Design,,,alzhu,benpeng,jianw,smshen,wenyanxu,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,
-Defect,DEIPCNBS20-1172,1473205,[MI200] new mpx client mpio and mpio_dram interface information confirm,MI200,,,,,,,,,,,,,,,,,,,,,,shiyan,,,,,,,,Opened,shiyan,06/Dec/19 10:41 AM,10/Dec/19 2:18 PM,"vince.xu: Done. Refer to Mas.
+Defect,DEIPCNBS20-1173,1473218,[Mi200] the egress port haven't been stalled when the SRAM ECC triggered ras stall,MI200,,,,,,,,,,,,,,,,,,,,,,wenyanxu,20/Dec/19 12:00 AM,,,,,,,Closed,jianw,06/Dec/19 11:07 AM,13/Dec/19 4:40 PM,"Peng, Xu: Ping [~wenyanxu] please update status in here",,,20/Dec/19 12:00 AM,MISC,Design,,13/Dec/19 4:40 PM,alzhu,benpeng,jianw,smshen,wenyanxu,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,
+Defect,DEIPCNBS20-1172,1473205,[MI200] new mpx client mpio and mpio_dram interface information confirm,MI200,,,,,,,,,,,,,,,,,,,,,,buhengxu,,,,,,,,Opened,shiyan,06/Dec/19 10:41 AM,12/Dec/19 2:49 PM,"Yang, Shiwu: hi vince,
 
-*From:* Doctor, Mihir <[Mihir.Doctor@amd.com|mailto:Mihir.Doctor@amd.com]> *Sent:* Tuesday, March 5, 2019 3:30 AM *To:* Luo, Sidney <[Sidney.Luo@amd.com|mailto:Sidney.Luo@amd.com]>; Ng, Philip <[Philip.Ng@amd.com|mailto:Philip.Ng@amd.com]>; Ahmed, Omar <[Omar.Ahmed@amd.com|mailto:Omar.Ahmed@amd.com]>; Mintz, Evgeny <[Evgeny.Mintz@amd.com|mailto:Evgeny.Mintz@amd.com]>; Chan, Maggie <[Maggie.Chan@amd.com|mailto:Maggie.Chan@amd.com]> *Cc:* vince.xu <[Buheng.Xu@amd.com|mailto:Buheng.Xu@amd.com]>; Li, Qing <[Qing.Li3@amd.com|mailto:Qing.Li3@amd.com]>; Shen, SuMin <[SuMin.Shen@amd.com|mailto:SuMin.Shen@amd.com]>; Chen2, George <[George.Chen2@amd.com|mailto:George.Chen2@amd.com]>; Mintz, Evgeny <[Evgeny.Mintz@amd.com|mailto:Evgeny.Mintz@amd.com]>; Azevedo, George <[George.Azevedo@amd.com|mailto:George.Azevedo@amd.com]> *Subject:* RE: MI200 smu MPx DMA path confirm
+the table is mp client's path and it's ok. but i still need more information.
 
- 
+blow information is come from ""*SystemHub* *Interface Specification"" mas,*
 
-Looks fine to me. Evgeny and George should also sign off.
+*pls also add mpio/mpio_dram client information to this mas, and add this file link to mi200 main mas.*
+h3. 1.1.1       SystemHub <-> SMU IP Master Interface
 
- 
-
-*From:* Luo, Sidney <[Sidney.Luo@amd.com|mailto:Sidney.Luo@amd.com]> *Sent:* Saturday, March 2, 2019 3:58 AM *To:* Ng, Philip <[Philip.Ng@amd.com|mailto:Philip.Ng@amd.com]>; Doctor, Mihir <[Mihir.Doctor@amd.com|mailto:Mihir.Doctor@amd.com]>; Ahmed, Omar <[Omar.Ahmed@amd.com|mailto:Omar.Ahmed@amd.com]>; Mintz, Evgeny <[Evgeny.Mintz@amd.com|mailto:Evgeny.Mintz@amd.com]>; Chan, Maggie <[Maggie.Chan@amd.com|mailto:Maggie.Chan@amd.com]> *Cc:* vince.xu <[Buheng.Xu@amd.com|mailto:Buheng.Xu@amd.com]>; Li, Qing <[Qing.Li3@amd.com|mailto:Qing.Li3@amd.com]>; Shen, SuMin <[SuMin.Shen@amd.com|mailto:SuMin.Shen@amd.com]>; Chen2, George <[George.Chen2@amd.com|mailto:George.Chen2@amd.com]> *Subject:* MI200 smu MPx DMA path confirm
-
- 
-
-Hi, Mihir
-
- 
-
-This table is just copied from another thread for Floyd. Here is to confirm with you in *MI200*, whether the MP0(PSP/PSPCCP) , MP1 and MPIO clients’ connection to syshub are as below, they’ll all same as in SSP (SSP don’t have MPIO), and also same as Floyd. Could you help to confirm? And as well as the performance requirements and transaction usage, thanks
+Note:
+ * MPx(DRAM) as AXI master and SystemHub as AXI slave
+ * SMU IP includes MP* (MP0, MP1, MP1DRAM, MP2 and MP4) and ZCN
+ * 48bit address
+ * MP0 is with 256bit data width, MP1/MP1DRAM is with 64bit data width, MP2 is with 32bit data width, MP4/ZCN is with 512bit data width
+ * Max burst size supported is 256B
+ * MP1DRAM would only issue DMA traffic which is connected to SDP VC7, MP1 would only issue MMIO/CFG/IO/MSG which is connected to SDP VC0/1.
+ * MP0 would issue DRAM/MMIO/CFG/IO which is mapped to SDP VC0/1
 
  
-
+|AXI interface|Note|
+|AXI AW/AR channel|MP*/ZCN_SYSTEMHUB_Data_AxADDR[47:0]|See below table for more details on address description for different types of transactions|
+|MP*/ZCN_SYSTEMHUB_Data_AxSIZE[2:0]| |
+|MP*/ZCN_SYSTEMHUB_Data_AxLEN[7:0]|Support up-to 256B burst
+See below table for more details on payload size requirement for different types of transactions|
+|MP*/ZCN_SYSTEMHUB_Data_AxBURST[1:0]|fixed to 2'b01 (INCR)|
+|MP*/ZCN_SYSTEMHUB_Data_AxCACHE[3:0]| |
+|MP*/ZCN_SYSTEMHUB_Data_AxID[7:0]| |
+|MP*/ZCN_SYSTEMHUB_Data_AxUSER[t:0]|For ZP/RV/RN, t=5
+Bit[0]: ReqIO
+Bit[1]: Compat
+Bit[2]: Bypass
+Bit[5:3]: ATid
  
-|*No*|*category*|*Path*|*Clock*|*Data width (bit)*|*Perf requirement*|*What’s the trans for?*|
-|1|DMA (upstream)|MP0 -> syshub (deadlock free channel) |Shubclk|256 (as ssp)|What is the performance in SSP?
--low , something like 2GB/s, 50% utilization|Legacy: PSP FW accessing DRAM|
-|2|DMA (upstream)|CCP->syshub|Shubclk|256 (as ssp)|What is the performance in SSP?
--- 10GB/s|Legacy: X86 offload and CCP access to DRAM.|
-| | | | | | | |
-|3|DMA (upstream)|MP1 -> syshub  (deadlock free channel)|Shubclk|64 (as ssp)|What is the performance in SSP?
--low|Legacy: MP1 FW access to DRAM|
-|4|DMA (upstream)|MP1 -> syshub (Non-blocking)|Shubclk|64 (as ssp)|What is the performance in SSP?
--low|Legacy: MP1 FW non-blocking access|
-|5|DMA (upstream)|MPIO -> syshub  (deadlock free channel)|Shubclk|64 (as MP1)|What is the performance in SSP?
--low|Legacy: MPIO FW access to DRAM|
-|6|DMA (upstream)|MPIO -> syshub (Non-blocking)|Shubclk|64 (as MP1)|What is the performance in SSP?
--low|Legacy: MPIO FW non-blocking access|
-| | | | | | | |
-
+For Ariel, t=23
+Bit[0]: ReqIO
+Bit[1]: Compat
+Bit[2]: Bypass
+Bit[5:3]: ATid
+Bit[6]: Pasid_Valid
+Bit[22:7]: 16-bit PASID
+Bit[23]: Prefetch indication
+For SSP, for MP0, t=9
+Bit[0]: ReqIO
+Bit[1]: Compat
+Bit[2]: Bypass
+Bit[5:3]: ATid
+Bit[9:6]: AxADDR[51:48]
  
-
- 
-
- 
-
- 
-
- 
-
-Thanks
-
-Sidney
-
- 
-
-*From:* Doctor, Mihir <[Mihir.Doctor@amd.com|mailto:Mihir.Doctor@amd.com]> *Sent:* Tuesday, March 5, 2019 3:30 AM *To:* Luo, Sidney <[Sidney.Luo@amd.com|mailto:Sidney.Luo@amd.com]>; Ng, Philip <[Philip.Ng@amd.com|mailto:Philip.Ng@amd.com]>; Ahmed, Omar <[Omar.Ahmed@amd.com|mailto:Omar.Ahmed@amd.com]>; Mintz, Evgeny <[Evgeny.Mintz@amd.com|mailto:Evgeny.Mintz@amd.com]>; Chan, Maggie <[Maggie.Chan@amd.com|mailto:Maggie.Chan@amd.com]> *Cc:* vince.xu <[Buheng.Xu@amd.com|mailto:Buheng.Xu@amd.com]>; Li, Qing <[Qing.Li3@amd.com|mailto:Qing.Li3@amd.com]>; Shen, SuMin <[SuMin.Shen@amd.com|mailto:SuMin.Shen@amd.com]>; Chen2, George <[George.Chen2@amd.com|mailto:George.Chen2@amd.com]>; Mintz, Evgeny <[Evgeny.Mintz@amd.com|mailto:Evgeny.Mintz@amd.com]>; Azevedo, George <[George.Azevedo@amd.com|mailto:George.Azevedo@amd.com]> *Subject:* RE: MI200 smu MPx DMA path confirm
-
- 
-
-Looks fine to me. Evgeny and George should also sign off.
-
- 
-
-*From:* Luo, Sidney <[Sidney.Luo@amd.com|mailto:Sidney.Luo@amd.com]> *Sent:* Saturday, March 2, 2019 3:58 AM *To:* Ng, Philip <[Philip.Ng@amd.com|mailto:Philip.Ng@amd.com]>; Doctor, Mihir <[Mihir.Doctor@amd.com|mailto:Mihir.Doctor@amd.com]>; Ahmed, Omar <[Omar.Ahmed@amd.com|mailto:Omar.Ahmed@amd.com]>; Mintz, Evgeny <[Evgeny.Mintz@amd.com|mailto:Evgeny.Mintz@amd.com]>; Chan, Maggie <[Maggie.Chan@amd.com|mailto:Maggie.Chan@amd.com]> *Cc:* vince.xu <[Buheng.Xu@amd.com|mailto:Buheng.Xu@amd.com]>; Li, Qing <[Qing.Li3@amd.com|mailto:Qing.Li3@amd.com]>; Shen, SuMin <[SuMin.Shen@amd.com|mailto:SuMin.Shen@amd.com]>; Chen2, George <[George.Chen2@amd.com|mailto:George.Chen2@amd.com]> *Subject:* MI200 smu MPx DMA path confirm
-
- 
-
-Hi, Mihir
-
- 
-
-This table is just copied from another thread for Floyd. Here is to confirm with you in *MI200*, whether the MP0(PSP/PSPCCP) , MP1 and MPIO clients’ connection to syshub are as below, they’ll all same as in SSP (SSP don’t have MPIO), and also same as Floyd. Could you help to confirm? And as well as the performance requirements and transaction usage, thanks
-
- 
-
- 
-|*No*|*category*|*Path*|*Clock*|*Data width (bit)*|*Perf requirement*|*What’s the trans for?*|
-|1|DMA (upstream)|MP0 -> syshub (deadlock free channel) |Shubclk|256 (as ssp)|What is the performance in SSP?
--low , something like 2GB/s, 50% utilization|Legacy: PSP FW accessing DRAM|
-|2|DMA (upstream)|CCP->syshub|Shubclk|256 (as ssp)|What is the performance in SSP?
--- 10GB/s|Legacy: X86 offload and CCP access to DRAM.|
-| | | | | | | |
-|3|DMA (upstream)|MP1 -> syshub  (deadlock free channel)|Shubclk|64 (as ssp)|What is the performance in SSP?
--low|Legacy: MP1 FW access to DRAM|
-|4|DMA (upstream)|MP1 -> syshub (Non-blocking)|Shubclk|64 (as ssp)|What is the performance in SSP?
--low|Legacy: MP1 FW non-blocking access|
-|5|DMA (upstream)|MPIO -> syshub  (deadlock free channel)|Shubclk|64 (as MP1)|What is the performance in SSP?
--low|Legacy: MPIO FW access to DRAM|
-|6|DMA (upstream)|MPIO -> syshub (Non-blocking)|Shubclk|64 (as MP1)|What is the performance in SSP?
--low|Legacy: MPIO FW non-blocking access|
-| | | | | | | |
+For SSP, for others, t=5
+Bit[0]: ReqIO
+Bit[1]: Compat
+Bit[2]: Bypass
+Bit[5:3]: ATid|
+|MP*/ZCN_SYSTEMHUB_Data_AxPROT[2:0]|No use|
+|MP*/ZCN_SYSTEMHUB_Data_AxVALID| |
+|MP*/ZCN_SYSTEMHUB_Data_AxREADY|
+| | | |
+|AXI W channel|MP*/ZCN_SYSTEMHUB_Data_WDATA[n:0]|For MP0, n=255
+For MP1/MP1DRAM, n=63
+For MP2, n=31
+For MP4/ZCN, n=511|
+|MP*/ZCN_SYSTEMHUB_Data_WSTRB[m:0]|For MP0, m=31
+For MP1/MP1DRAM, m=7
+For MP2, m=3
+For MP4/ZCN, m=63|
+|MP*/ZCN_SYSTEMHUB_Data_WLAST| |
+|MP*/ZCN_SYSTEMHUB_Data_WVALID| |
+|MP*/ZCN_SYSTEMHUB_Data_WREADY| |
+| | | |
+|AXI B channel|MP*/ZCN_SYSTEMHUB_Data_BID[7:0]| |
+|MP*/ZCN_SYSTEMHUB_Data_BRESP[1:0]| |
+|MP*/ZCN_SYSTEMHUB_Data_BVALID| |
+|MP*/ZCN_SYSTEMHUB_Data_BREADY| |
+| | | |
+|AXI R channel|MP*/ZCN_SYSTEMHUB_Data_RID[7:0]| |
+|MP*/ZCN_SYSTEMHUB_Data_RDATA[n:0]|For MP0, n=255
+For MP1/MP1DRAM, n=63
+For MP2, n=31
+For MP4/ZCN, n=511|
+|MP*/ZCN_SYSTEMHUB_Data_RRESP[1:0]| |
+|MP*/ZCN_SYSTEMHUB_Data_RLAST| |
+|MP*/ZCN_SYSTEMHUB_Data_RVALID| |
+|MP*/ZCN_SYSTEMHUB_Data_RREADY|
+|Interrupt Bundle (interrupt/PME/NMI…)|Note|
+| Interrupt Signals|MP0_SYSTMEMHUB_INT[1:0]|Bit[0] for MP0
+Bit[1] for PSPCCP|
+|MP0_SYSTEMHUB_PME|Only valid for MP0|
+| |MP2_SYSTEMHUB_INT[1:0]|For MP2|
 
  
 
  
 
- 
+thanks,
 
- 
-
- 
-
-Thanks
-
-Sidney
-
- 
-
- ",,,,DMA,Design,,,buhengxu,shiyan,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,
+shiwu",,,,DMA,Design,,,buhengxu,shiyan,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,
 Task,DEIPCNBS20-1171,1472629,"[Floyd]MPDMA_DRAM in switch, should be delete",Floyd,,,,,,,,,,,,,,,,,,,,,,wenyanxu,06/Dec/19 12:00 AM,,,,,,,Opened,benpeng,05/Dec/19 7:53 PM,05/Dec/19 7:53 PM,,,,06/Dec/19 12:00 AM,OTHERS,Design,,,benpeng,wenyanxu,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,
 Task,DEIPCNBS20-1170,1472627,[Floyd]Floyd TF-MPDMA AXI/SDP DMA/HST interface,Floyd,,,,,,,,,,,,,,,,,,,,,,qingli1,09/Dec/19 12:00 AM,,,,,,,Implemented,benpeng,05/Dec/19 7:52 PM,05/Dec/19 11:25 PM,"Li, Qing: All has been implemented and submitted.",,,11/Dec/19 12:00 AM,OTHERS,Design,,,benpeng,qingli1,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,
 Task,DEIPCNBS20-1169,1472625,[Floyd]Instance Pin,Floyd,,,,,,,,,,,,,,,,,,,,,,tingxie2,23/Dec/19 12:00 AM,,,,,,,Opened,benpeng,05/Dec/19 7:51 PM,05/Dec/19 7:51 PM,,,,23/Dec/19 12:00 AM,OTHERS,Design,,,benpeng,tingxie2,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,
@@ -166,18 +180,19 @@ Task,DEIPCNBS20-1166,1472618,[RMB]LTR/link down/D status/RAS,Rembrandt,,,,,,,,,,
 Task,DEIPCNBS20-1165,1472616,[RMB]interface fence,Rembrandt,,,,,,,,,,,,,,,,,,,,,,wenyanxu,06/Dec/19 12:00 AM,,,,,,,Opened,benpeng,05/Dec/19 7:35 PM,05/Dec/19 7:35 PM,,,,06/Dec/19 12:00 AM,OTHERS,Design,,,benpeng,wenyanxu,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,
 Task,DEIPCNBS20-1164,1472615,[RMB]z10 ctrl RTL implementation,Rembrandt,,,,,,,,,,,,,,,,,,,,,,trgong,06/Dec/19 12:00 AM,,,,,,,Opened,benpeng,05/Dec/19 7:34 PM,05/Dec/19 7:34 PM,,,,,MISC,Design,,,benpeng,trgong,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,
 Task,DEIPCNBS20-1163,1472606,[MI200]GMI timing enhancement,MI200,,,,,,,,,,,,,,,,,,,,,,trgong,13/Dec/19 12:00 AM,,,,,,,Opened,benpeng,05/Dec/19 7:15 PM,05/Dec/19 7:15 PM,,,,,OTHERS,Design,,,benpeng,trgong,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,
-Defect,DEIPCNBS20-1162,1472589,NBIF predicts different for MSGD trans from PCIe to ATHUB.,MI200,,,,,,,,,,,,,,,,,,,,,,pfli,,MI200_NBIO_SS,,,,,,Opened,suvasude,05/Dec/19 6:48 PM,10/Dec/19 3:38 PM,"Vasudevan, Sugeetharan: Hi Pengfei,
+Defect,DEIPCNBS20-1162,1472589,NBIF predicts different for MSGD trans from PCIe to ATHUB.,MI200,,,,,,,,,,,,,,,,,,,,,,suvasude,,MI200_NBIO_SS,,,,,,Opened,suvasude,05/Dec/19 6:48 PM,13/Dec/19 2:34 PM,"Li, Pengfei: HI, Sugeetharan
 
-The vnc is terminated unfortunately due to Linux box issue.
+case is failed becasue NBIF doesnot receive tag 'h14/'h15 response.
 
-Please use the below vnc,
+i marked at waveform.
 
-vnc - srdcws814:2
- pwd - 123456
- path - /local_vol1_nobackup/suvasude/dgpu/
+maybe your case ends too early.
 
-Thanks,
- Sugeetharan.V",,,,HOST,DV/Verification,,,benpeng,jixiao,pfli,suvasude,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,
+ 
+
+thanks
+
+Pengfei",,,,HOST,DV/Verification,,,benpeng,jixiao,pfli,suvasude,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,
 Task,DEIPCNBS20-1161,1472557,[MI200]ECC SRAM need add stall logic,MI200,,,,,,,,,,,,,,,,,,,,,,wenyanxu,13/Dec/19 12:00 AM,,,,,,,Opened,benpeng,05/Dec/19 6:00 PM,05/Dec/19 6:00 PM,,,,,OTHERS,Design,,,benpeng,wenyanxu,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,
 Task,DEIPCNBS20-1160,1472555,[MI200]RSMU Json file review,MI200,,,,,,,,,,,,,,,,,,,,,,bintaoli,06/Dec/19 12:00 AM,,,,,,,Closed,benpeng,05/Dec/19 5:59 PM,06/Dec/19 1:43 PM,"Peng, Xu: Confirmed with [~shawhan] Can be marked as done.
 
@@ -190,12 +205,10 @@ Task,DEIPCNBS20-1157,1472457,[MI200]nbif MI200 feature implementation/verificati
 Task,DEIPCNBS20-1156,1472456,[MI200]nbif MI200 feature implementation/verification review -- RAS/Gen5,MI200,,,,,,,,,,,,,,,,,,,,,,siluo,13/Dec/19 12:00 AM,,,,,,,Rejected,benpeng,05/Dec/19 3:45 PM,09/Dec/19 3:09 PM,"Wang, Xiaojun: this jira is duplicate with jira DEIPCNBS20-1107
 
 toggle coverage is not clear enough for sdp interface confirm,i file a callout in nbio level DEMI200-689",09/Dec/19 3:09 PM,Rejected - Duplicate,,OTHERS,DV/Verification,,,benpeng,buhengxu,siluo,xiaojwan,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,
-Task,DEIPCNBS20-1155,1472454,[MI200]nbif MI200 feature implementation/verification review -- RAS/Gen5,MI200,,,,,,,,,,,,,,,,,,,,,,benpeng,13/Dec/19 12:00 AM,,,,,,,Opened,benpeng,05/Dec/19 3:44 PM,11/Dec/19 1:15 PM,"Cheng, Lianji: what's the detail requirement about this Jira? update MAS?
+Task,DEIPCNBS20-1155,1472454,[MI200]nbif MI200 feature implementation/verification review -- RAS/Gen5,MI200,,,,,,,,,,,,,,,,,,,,,,benpeng,13/Dec/19 12:00 AM,,,,,,,Implemented,benpeng,05/Dec/19 3:44 PM,12/Dec/19 3:30 PM,"Cheng, Lianji: MAS is updated, chapter 3.6.3. 
 
-and is it only related to out STRAP for bigapu?
-
- ",,,,OTHERS,document,,,benpeng,buhengxu,chengli,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,
-Task,DEIPCNBS20-1154,1472451,[MI200]nbif MI200 feature implementation/verification review -- RAS/Gen5,MI200,,,,,,,,,,,,,,,,,,,,,,geochen,13/Dec/19 12:00 AM,,,,,,,Opened,benpeng,05/Dec/19 3:44 PM,10/Dec/19 4:24 PM,"Peng, Xu: [~alzhu] Please talk to [~geochen] directly. Previous assignee is per [~geochen]'s requirement.",,,,OTHERS,DV/Verification,,,alzhu,benpeng,buhengxu,geochen,siluo,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,
+NBIF does not directly use TOPOLOGY_ID[0] to distinguish dGPU mode or BigAPU mode.",,,,OTHERS,document,,,benpeng,buhengxu,chengli,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,
+Task,DEIPCNBS20-1154,1472451,[MI200]nbif MI200 feature implementation/verification review -- RAS/Gen5,MI200,,,,,,,,,,,,,,,,,,,,,,geochen,13/Dec/19 12:00 AM,,,,,,,Opened,benpeng,05/Dec/19 3:44 PM,12/Dec/19 2:39 PM,"Peng, Xu: [~alzhu] Please talk to [~geochen] directly. Previous assignee is per [~geochen]'s requirement.",,,,OTHERS,DV/Verification,,,alzhu,benpeng,buhengxu,geochen,siluo,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,
 Task,DEIPCNBS20-1153,1472450,[MI200]nbif MI200 feature implementation/verification review -- RAS/Gen5,MI200,,,,,,,,,,,,,,,,,,,,,,alzhu,13/Dec/19 12:00 AM,,,,,,,Implemented,benpeng,05/Dec/19 3:43 PM,05/Dec/19 5:04 PM,"Peng, Xu: Hi [~alzhu]
 
 Qing announced that MAS section 3.12 updated.
@@ -252,17 +265,7 @@ Tracking,DEIPCNBS20-1140,1471328,ECC parity verification: rtl_stdlib_cdcbufenclk
 Best Regards!
 
 Luke",,,,OTHERS,DV/Verification,,,alzhu,benpeng,jiaqiu,jixiao,wenyanxu,wluke,,,,,,,,,,,,,,,,,,,,,,,,,,,,,
-Task,DEIPCNBS20-1139,1470666,[MI200]TODO item clean up,MI200,,,,,,,,,,,,,,,,,,,,,,xiaojwan,13/Dec/19 12:00 AM,,,,,,,Opened,benpeng,03/Dec/19 9:39 PM,04/Dec/19 2:34 PM,"Peng, Xu: Hi [~xiaojwan]
-
-Reopen this since we have some misunderstanding of TODO clean up.
-
-We clean up TODO item per tree rather than per project.
-
- 
-
-You can talk to [~geochen] for details.
-
- ",,,,HOST,Design,,,benpeng,xiaojwan,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,
+Task,DEIPCNBS20-1139,1470666,[MI200]TODO item clean up,MI200,,,,,,,,,,,,,,,,,,,,,,xiaojwan,13/Dec/19 12:00 AM,,,,,,,Opened,benpeng,03/Dec/19 9:39 PM,13/Dec/19 9:38 AM,"Wang, Xiaojun: update @ 4144580",,,,HOST,Design,,,benpeng,xiaojwan,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,
 Task,DEIPCNBS20-1138,1470665,[MI200]TODO item clean up,MI200,,,,,,,,,,,,,,,,,,,,,,wenyanxu,13/Dec/19 12:00 AM,,,,,,,Opened,benpeng,03/Dec/19 9:38 PM,03/Dec/19 9:38 PM,,,,,OTHERS,Design,,,benpeng,wenyanxu,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,
 Task,DEIPCNBS20-1137,1470663,[MI200]TODO item clean up,MI200,,,,,,,,,,,,,,,,,,,,,,trgong,13/Dec/19 12:00 AM,,,,,,,Opened,benpeng,03/Dec/19 9:37 PM,03/Dec/19 9:37 PM,,,,,OTHERS,Design,,,benpeng,trgong,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,
 Task,DEIPCNBS20-1136,1470662,[MI200]TODO item clean up,MI200,,,,,,,,,,,,,,,,,,,,,,tingxie2,13/Dec/19 12:00 AM,,,,,,,Opened,benpeng,03/Dec/19 9:36 PM,03/Dec/19 9:36 PM,,,,,OTHERS,Design,,,benpeng,tingxie2,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,
@@ -275,7 +278,7 @@ Task,DEIPCNBS20-1130,1470654,[MI200]TODO item clean up,MI200,,,,,,,,,,,,,,,,,,,,
 Task,DEIPCNBS20-1129,1470653,[MI200]TODO item clean up,MI200,,,,,,,,,,,,,,,,,,,,,,pfli,13/Dec/19 12:00 AM,,,,,,,Closed,benpeng,03/Dec/19 9:31 PM,09/Dec/19 2:46 PM,"Li, Pengfei: close todo clear",,,,OTHERS,Design,,09/Dec/19 2:46 PM,benpeng,pfli,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,
 Task,DEIPCNBS20-1128,1470652,[MI200]TODO item clean up,MI200,,,,,,,,,,,,,,,,,,,,,,geochen,13/Dec/19 12:00 AM,,,,,,,Opened,benpeng,03/Dec/19 9:30 PM,03/Dec/19 9:30 PM,,,,,OTHERS,Design,,,alxie,benpeng,geochen,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,
 Task,DEIPCNBS20-1127,1470650,[MI200]TODO item clean up,MI200,,,,,,,,,,,,,,,,,,,,,,ecwang,13/Dec/19 12:00 AM,,,,,,,Opened,benpeng,03/Dec/19 9:29 PM,03/Dec/19 9:29 PM,,,,,OTHERS,Design,,,alxie,benpeng,ecwang,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,
-Task,DEIPCNBS20-1126,1470647,[MI200]TODO item clean up,MI200,,,,,,,,,,,,,,,,,,,,,,dongyu,13/Dec/19 12:00 AM,,,,,,,Opened,benpeng,03/Dec/19 9:29 PM,03/Dec/19 9:29 PM,,,,,OTHERS,Design,,,alxie,benpeng,dongyu,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,
+Task,DEIPCNBS20-1126,1470647,[MI200]TODO item clean up,MI200,,,,,,,,,,,,,,,,,,,,,,dongyu,13/Dec/19 12:00 AM,,,,,,,Implemented,benpeng,03/Dec/19 9:29 PM,13/Dec/19 11:12 AM,,,,,OTHERS,Design,,,alxie,benpeng,dongyu,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,
 Task,DEIPCNBS20-1125,1470646,[MI200]TODO item clean up,MI200,,,,,,,,,,,,,,,,,,,,,,bobliu,13/Dec/19 12:00 AM,,,,,,,Implemented,benpeng,03/Dec/19 9:27 PM,10/Dec/19 3:45 PM,"Peng, Xu: Nice work [~bobliu] . We will reserve this Jira till next round for double confirm. (About the end of this month)",,,,OTHERS,Design,,,alxie,benpeng,bobliu,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,
 Task,DEIPCNBS20-1124,1470645,[MI200]TODO item clean up,MI200,,,,,,,,,,,,,,,,,,,,,,bibliu1,13/Dec/19 12:00 AM,,,,,,,Opened,benpeng,03/Dec/19 9:26 PM,03/Dec/19 9:26 PM,,,,,OTHERS,Design,,,alxie,benpeng,bibliu1,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,
 Task,DEIPCNBS20-1123,1470644,[MI200]TODO item clean up,MI200,,,,,,,,,,,,,,,,,,,,,,belchen,13/Dec/19 12:00 AM,,,,,,,Opened,benpeng,03/Dec/19 9:25 PM,03/Dec/19 9:25 PM,,,,,OTHERS,Design,,,alxie,belchen,benpeng,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,
@@ -472,7 +475,17 @@ Defect,DEIPCNBS20-1078,1461449,nv21  link1_down cross cg issue,Deferred,,,,,,,,,
 Why is it still open??
 
 Acctually adding NV21 variant.",,,,OTHERS,Design,,,benpeng,bibliu1,geochen,qingli1,shawhan,shiyan,siluo,smchen,smshen,trgong,,,,,,,,,,,,,,,,,,,,,,,,,
-Defect,DEIPCNBS20-1077,1461324,[Mi200] vc_1_dataerror_whole_chain error,MI200,,,,,,,,,,,,,,,,,,,,,,dongyu,,,,,,,,Opened,dongyu,20/Nov/19 5:23 PM,10/Dec/19 2:21 PM,vince.xu: Pass 5 slfr case. ,,,,HOST,Design,,,benpeng,bintaoli,buhengxu,dongyu,pfli,shiyan,smchen,wangr1,,,,,,,,,,,,,,,,,,,,,,,,,,,
+Defect,DEIPCNBS20-1077,1461324,[Mi200] vc_1_dataerror_whole_chain error,MI200,,,,,,,,,,,,,,,,,,,,,,buhengxu,,,,,,,,Opened,dongyu,20/Nov/19 5:23 PM,13/Dec/19 5:30 PM,"Yu, Dong: Hi [~buhengxu],
+
+Previous change is submitted as CL4138670. 
+
+Please help to move this JIRA  to Implemented and update the root cause for this. 
+
+After that, please assign it to me to close it. Thanks.
+
+ 
+
+Yu",,,,HOST,Design,,,benpeng,bintaoli,buhengxu,dongyu,pfli,shiyan,smchen,wangr1,,,,,,,,,,,,,,,,,,,,,,,,,,,
 Defect,DEIPCNBS20-1076,1461320,[Mi200] VF hang protection fail,MI200,,,,,,,,,,,,,,,,,,,,,,buhengxu,,,,,,,,Deferred,jianw,20/Nov/19 5:21 PM,10/Dec/19 2:24 PM,"Peng, Xu: Deferred as per [~buhengxu]",,,,HOST,Design,10/Dec/19 2:23 PM,,belchen,benpeng,buhengxu,jianw,smshen,trgong,,,,,,,,,,,,,,,,,,,,,,,,,,,,,
 Defect,DEIPCNBS20-1075,1461311,[Mi200] feature information needed be updated about hang protection,MI200,,,,,,,,,,,,,,,,,,,,,,jianw,,,,,,,,Closed,jianw,20/Nov/19 5:06 PM,28/Nov/19 11:02 AM,"Gong, Tracy: Submitting change 4122031.
 ",,,,HOST,Design,,28/Nov/19 11:02 AM,jianw,trgong,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,
@@ -535,18 +548,30 @@ Defect,DEIPCNBS20-1062,1458161,nbif dynamic vc_credit_allocate support,Deferred,
 Let's defer it into a future project later than MI200, and do an common implement in main tree then.
 
  ",,,,OTHERS,Design,,,alxie,benpeng,buhengxu,geochen,shawhan,shiyan,smchen,trgong,wangr1,,,,,,,,,,,,,,,,,,,,,,,,,,
-Defect,DEIPCNBS20-1061,1457923,[MI200] Enlarge outstanding tracker buffer,MI200,,,,,,,,,,,,,,,,,,,,,,shiyan,,,,,,,,Implemented,shiyan,15/Nov/19 4:11 PM,03/Dec/19 3:05 PM,"Peng, Xu: assign back to [~shiyan] to confirm",,,,DMA,Design,,,benpeng,bintaoli,shawhan,shiyan,trgong,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,
+Defect,DEIPCNBS20-1061,1457923,[MI200] Enlarge outstanding tracker buffer,MI200,,,,,,,,,,,,,,,,,,,,,,buhengxu,,,,,,,,Implemented,shiyan,15/Nov/19 4:11 PM,13/Dec/19 4:04 PM,"Yang, Shiwu: hi vince,
+
+I have created a test to verify mi200 gmi outstanding num(total 512). and I have checked waveform mostly gmi could have 506 otsd trans  by set all  ""OUTSTANDING_VC_ALLOC.DMA_OUTSTANDING_VC*_ALLOC"" 0. could you assign a designer to double confirm this ?
+
+vnc(srdcws706:1/123456).
+
+(mdj_ld dma_dev0_athub_cg_test 12345678)
+
+ 
+
+thanks,
+
+Shiwu",,,,DMA,Design,,,benpeng,bintaoli,buhengxu,shawhan,shiyan,trgong,,,,,,,,,,,,,,,,,,,,,,,,,,,,,
 Defect,DEIPCNBS20-1060,1457906,[MI200]Console IOV DMA error rps AER log issue,MI200,,,,,,,,,,,,,,,,,,,,,,siluo,,,,,,,,Deferred,shiyan,15/Nov/19 3:38 PM,04/Dec/19 4:14 PM,"Peng, Xu: Assign [~siluo] to review",,,,DMA,design-nbif,19/Nov/19 4:14 PM,,alzhu,benpeng,buhengxu,myhou,shawhan,shiyan,siluo,trgong,wangr1,,,,,,,,,,,,,,,,,,,,,,,,,,
 Tracking,DEIPCNBS20-1059,1457303,[Mero] connection error between parity_err_det and DEDB,Mero,,,,,,,,,,,,,,,,,,,,,,trgong,,,,,,,,Closed,jianw,15/Nov/19 12:42 AM,26/Nov/19 2:08 PM,"Zhu, Allen: According to reply from Fengming, current connection in Mero is correct. No need to fix.",26/Nov/19 2:08 PM,Rejected - Invalid,,OTHERS,Design,,26/Nov/19 2:08 PM,alzhu,geochen,jianw,siluo,smshen,trgong,,,,,,,,,,,,,,,,,,,,,,,,,,,,,
 Question,DEIPCNBS20-1058,1457272,[Mero] RAS gdc CDC sync behavior about the PMGR_dedrpt_valid/id,Mero,,,,,,,,,,,,,,,,,,,,,,trgong,,,,,,,,Closed,jianw,15/Nov/19 12:16 AM,26/Nov/19 2:12 PM,"Zhu, Allen: No cdc issue for pmgr interfaces here, the issue reported in MI200 is a wrong instantiation of gdc domain pmgr interfaces into bifc domain. They should be moved back to gdc domain. No CDC issue will be introduced if they remain in the same domain.",26/Nov/19 2:11 PM,Rejected - Invalid,,OTHERS,design-nbif,,26/Nov/19 2:12 PM,alzhu,buhengxu,geochen,jianw,smshen,trgong,wenyanxu,,,,,,,,,,,,,,,,,,,,,,,,,,,,
 Defect,DEIPCNBS20-1057,1457209,"[Badami] ""sion_cfifo_overflow"" assertion triggered because of the skew caused by FifoFull and FifoWr both asserted with the same wrRspVld signal arriving on different paths",Starship,,,,,,,,,,,,,,,,,,,,,,siluo,,,,,,,,Opened,bmarinko,14/Nov/19 10:42 PM,14/Nov/19 10:42 PM,,,,,OTHERS,Design,,,bmarinko,jytxart,lharper,siluo,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,
-Defect,DEIPCNBS20-1056,1456871,[Mi200] Signals connect error into Sram Leaf between INSECB and parity_err_det,MI200,,,,,,,,,,,,,,,,,,,,,,jianw,,,,,,,,Implemented,jianw,14/Nov/19 3:01 PM,09/Dec/19 2:53 PM,"Han, Shawn: Hi James,
+Defect,DEIPCNBS20-1056,1456871,[Mi200] Signals connect error into Sram Leaf between INSECB and parity_err_det,MI200,,,,,,,,,,,,,,,,,,,,,,jianw,,,,,,,,Closed,jianw,14/Nov/19 3:01 PM,13/Dec/19 4:42 PM,"Wang, Jian: The verification is ok.
 
-RTL is fixed at 4131223.
+ 
 
-Thanks,
+Thanks
 
-Shawn",,,,MISC,Design,,,belchen,benpeng,jianw,shawhan,smshen,wenyanxu,,,,,,,,,,,,,,,,,,,,,,,,,,,,,
+James",,,,MISC,Design,,13/Dec/19 4:42 PM,belchen,benpeng,jianw,shawhan,smshen,wenyanxu,,,,,,,,,,,,,,,,,,,,,,,,,,,,,
 Defect,DEIPCNBS20-1055,1454794,register RAS_ATHUB_ERR_EVENT_INTERRUPT_STATUS and ringbuffer/wptr trigger are inconsistent,MI200,,,,,,,,,,,,,,,,,,,,,,siluo,29/Nov/19 12:00 AM,,,,,,,Closed,bibliu1,12/Nov/19 11:37 AM,05/Dec/19 6:18 PM,"Liu, Bin: vince fix the issue nbif2_0/nbif2_0_main@4132355",,,,MISC,Design,,05/Dec/19 6:18 PM,alxie,benpeng,bibliu1,bintaoli,buhengxu,geochen,qingli1,shawhan,shiyan,siluo,smchen,trgong,,,,,,,,,,,,,,,,,,,,,,,
 Tracking,DEIPCNBS20-1054,1453738,[RMB] Tool update causing error report,Rembrandt,,,,,,,,,,,,,,,,,,,,,,bobliu,,,,,,,,Opened,bobliu,11/Nov/19 3:38 PM,26/Nov/19 10:47 PM,"Peng, Xu: Modify the title",,,,OTHERS,CDS and other flow issue,,,alzhu,benpeng,bobliu,geochen,siluo,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,
 Defect,DEIPCNBS20-1053,1452263,New flr exec registers should be added in GEN5,MI200,,,,,,,,,,,,,,,,,,,,,,belchen,22/Nov/19 12:00 AM,,,,,,,Closed,belchen,08/Nov/19 1:06 PM,09/Dec/19 2:56 PM,"Chen, Belle: All flr exec registers are checked thru waveform review.",,,13/Dec/19 12:00 AM,MISC,Design,,09/Dec/19 2:56 PM,belchen,benpeng,bobliu,buhengxu,geochen,qingli1,shawhan,siluo,smshen,,,,,,,,,,,,,,,,,,,,,,,,,,
@@ -590,7 +615,15 @@ if you think it should be rejected, please review with [~siluo] and proceed.
  ",26/Nov/19 1:45 PM,Rejected - Invalid,,DMA,design-nbif,,,benpeng,pfli,qingli1,trgong,wangr1,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,
 Defect,DEIPCNBS20-1037,1445970,cannot inject error in gid6 mid1,Mero,,,,,,,,,,,,,,,,,,,,,,dtastzog,,,,,,,,Closed,dtastzog,31/Oct/19 7:27 PM,04/Dec/19 6:40 PM,"Tastzoglou, Dimosthenis: Thanks Allen, with your suggetions test cases are ok.",04/Dec/19 6:40 PM,Rejected - Clarification Needed,,OTHERS,design-shub,,04/Dec/19 6:40 PM,alzhu,dchen,dtastzog,jytxart,mdutina,mqasim,mramamu,tozhan,,,,,,,,,,,,,,,,,,,,,,,,,,,
 Defect,DEIPCNBS20-1036,1445923,Mero Secure mode enabled by default in Rembrandt nBIF,Rembrandt,,,,,,,,,,,,,,,,,,,,,,jytxart,,,,,,,,Implemented,jytxart,31/Oct/19 6:24 PM,26/Nov/19 10:50 PM,"Cheng, Lianji: this update has been released in LSB.",,,,MISC,design-nbif,,,benpeng,chengli,dtastzog,jytxart,mdutina,mgiamour,mramamu,nmoustak,siluo,tozhan,,,,,,,,,,,,,,,,,,,,,,,,,
-Task,DEIPCNBS20-1035,1445651,[FLOYD] mpdma axi vc channel select,Floyd,,,,,,,,,,,,,,,,,,,,,,qingli1,,,,,,,,Opened,shiyan,31/Oct/19 10:59 AM,31/Oct/19 10:59 AM,,,,,OTHERS,design-nbif,,,bibliu1,geochen,qingli1,shawhan,shiyan,smchen,smshen,wangr1,,,,,,,,,,,,,,,,,,,,,,,,,,,
+Task,DEIPCNBS20-1035,1445651,[FLOYD] mpdma axi vc channel select,Floyd,,,,,,,,,,,,,,,,,,,,,,qingli1,,,,,,,,Opened,shiyan,31/Oct/19 10:59 AM,13/Dec/19 3:59 PM,"Han, Shawn: Hi Bin,
+
+VC1 is illegal for dynamic VC. If MPDMA send trans with VC0, A2S will send it on VC0 or VC1 based on the trans type.
+
+Whether MPDMA will send VC1, this should be confirm by MPDMA team.
+
+Thanks,
+
+Shawn",,,,OTHERS,design-nbif,,,bibliu1,geochen,qingli1,shawhan,shiyan,smchen,smshen,wangr1,,,,,,,,,,,,,,,,,,,,,,,,,,,
 Defect,DEIPCNBS20-1034,1444897,GEN5 changes issue about Enable Lower SKP OS Generation Vector and AP_COUNT,MI200,,,,,,,,,,,,,,,,,,,,,,qingli1,07/Nov/19 12:00 AM,,,,,,,Opened,belchen,30/Oct/19 6:12 PM,02/Dec/19 4:10 PM,"Peng, Xu: Seems that previous fix not valid",,,,MISC,Design,,,belchen,benpeng,bobliu,buhengxu,geochen,qingli1,siluo,smshen,,,,,,,,,,,,,,,,,,,,,,,,,,,
 Enhancement,DEIPCNBS20-1033,1444811,Stone MCTP support (FFFE_3 msg support for DMA path),Floyd,,,,,,,,,,,,,,,,,,,,,,siluo,,ICT::CIP::CRB::pending,,,,,,Opened,smshen,30/Oct/19 4:27 PM,04/Nov/19 5:10 PM,,,,,OTHERS,design-nbif,,,bobliu,buhengxu,chengli,geochen,siluo,smchen,smshen,,,,,,,,,,,,,,,,,,,,,,,,,,,,
 Defect,DEIPCNBS20-1032,1444797,[Mi200] RAS gdc CDC sync fail about the PMGR_dedrpt_valid/id,MI200,,,,,,,,,,,,,,,,,,,,,,wenyanxu,20/Dec/19 12:00 AM,,,,,,,Opened,jianw,30/Oct/19 3:58 PM,10/Dec/19 2:26 PM,"Peng, Xu: ping",,,20/Dec/19 12:00 AM,MISC,Design,,,alzhu,benpeng,buhengxu,geochen,jianw,petwang,smshen,wenyanxu,,,,,,,,,,,,,,,,,,,,,,,,,,,
@@ -759,7 +792,7 @@ For example, cvip_hang_rst_gmi_flush_rtr appeads: dma_wrrsp_vld | dma_rdrsp_vld
  ",,,,OTHERS,design-nbif,20/Nov/19 7:01 PM,,alxie,benpeng,siluo,smchen,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,
 Defect,DEIPCNBS20-1006,1432229,mero nicclk_ds allow will assert even cvip_c has outstanding trans.,Rembrandt,,,,,,,,,,,,,,,,,,,,,,bobliu,,,,,,,,Opened,alzhu,14/Oct/19 2:54 PM,26/Nov/19 10:54 PM,"Peng, Xu: I am confused here why the Jira cloned by is already implemented and we still have actions here in this JIRA?",,,,MISC,Design,,,alxie,alzhu,benpeng,bobliu,buhengxu,ecwang,geochen,jianw,pxu,shawhan,shiyan,smchen,trgong,,,,,,,,,,,,,,,,,,,,,,
 Defect,DEIPCNBS20-1005,1432005,[floyd] pre-include for ReqUser mismatch,Floyd,,,,,,,,,,,,,,,,,,,,,,smshen,25/Oct/19 12:00 AM,,,,,,,Opened,rcao,13/Oct/19 10:20 PM,13/Oct/19 10:20 PM,,,,,OTHERS,others,,,rcao,smshen,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,
-Enhancement,DEIPCNBS20-1004,1431110,Increase the nBIF DMA OT size (ATHUB direction) from 512 to 768 ,MI200,,,,,,,,,,,,,,,,,,,,,,rezers,,ICT::CIP::CRB::Escalated,MI200_FCR_DENIED,,,,,Opened,llu1,11/Oct/19 6:18 PM,26/Nov/19 6:00 PM,"Wang, Eric: SOC decided to reject this request because this nice-to-have change will cause NBIO release delay by 1 more week, and add additional risk to timing/area closure. ",,,,DMA,design-nbif,,,andson,benpeng,buhengxu,chdavid,erwang,harsu,jixiao,liwei,llu1,magchan,qmsun,rezers,siluo,sshong,,,,,,,,,,,,,,,,,,,,,
+Enhancement,DEIPCNBS20-1004,1431110,Increase the nBIF DMA OT size (ATHUB direction) from 512 to 768 ,MI200,,,,,,,,,,,,,,,,,,,,,,rezers,,ICT::CIP::CRB::Escalated,MI200_FCR_DENIED,,,,,Opened,llu1,11/Oct/19 6:18 PM,11/Dec/19 4:51 PM,"Wang, Eric: SOC decided to reject this request because this nice-to-have change will cause NBIO release delay by 1 more week, and add additional risk to timing/area closure. ",,,,DMA,design-nbif,,,andson,benpeng,buhengxu,chdavid,erwang,harsu,jasowang,jixiao,liwei,llu1,magchan,qmsun,rezers,siluo,sshong,,,,,,,,,,,,,,,,,,,,
 Documentation,DEIPCNBS20-1003,1429997,[Sata] Plz review sata PCI registers for Floyd,Floyd,,,,,,,,,,,,,,,,,,,,,,smshen,,,,,,,,Opened,hgli,10/Oct/19 3:10 PM,20/Nov/19 4:27 PM,"Wang YaFei:  For issue “_2) PCI_0xA0[19:17] (Multiple Message Capable), plz set its default value to 4h considering Stone Sata has 8 ports per controller._
 
 _Plz let me know if any question_” have fixed. And the submitted CL is nbif2_0/nbif2_0_main@4110243",,,,OTHERS,design-nbif,,,agu,hgli,petwang,smshen,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,
@@ -1092,7 +1125,7 @@ Thanks,
 Lei",,,,OTHERS,design-nbif,,11/Oct/19 4:53 PM,alzhu,benpeng,bibliu1,jiaqiu,jixiao,leimu102,petwang,shawhan,,,,,,,,,,,,,,,,,,,,,,,,,,,
 Defect,DEIPCNBS20-927,1393030,S interface only supports 32B reads,Mero,,,,,,,,,,,,,,,,,,,,,,siluo,,ICT::CIP::CRB::Approved,ICT::CIP::RCCA,ICT::CIP::RCCA::Pending,MeroA0_ECR_APPROVED,,,Closed,smetsis,21/Aug/19 11:35 PM,13/Nov/19 3:00 AM,"Luo, Sidney: this is ready from drop nbif2_0/nbif2_0_mero_release@4041722 in 9/22.",,,,OTHERS,design-nbif,,14/Oct/19 11:31 AM,alxie,alzhu,andson,apearson,buhengxu,gukrishn,knarasim,phng,pkoran,pxu,siluo,smetsis,spoutass,tingxie2,tluong,wkoch,,,,,,,,,,,,,,,,,,,
 Defect,DEIPCNBS20-926,1392863,ordering issue in new a2s ,MI200,,,,,,,,,,,,,,,,,,,,,,zhegao,,,,,,,,Closed,zhegao,21/Aug/19 7:42 PM,22/Nov/19 12:29 PM,"Gao, Zhe: these ordering cases about this issue are pass in regression",,,,OTHERS,design-nbif,,22/Nov/19 12:29 PM,bibliu1,buhengxu,geochen,shawhan,shiyan,siluo,smchen,wangr1,zhegao,,,,,,,,,,,,,,,,,,,,,,,,,,
-Defect,DEIPCNBS20-925,1392403,unitID in SDP vwire,MI200,,,,,,,,,,,,,,,,,,,,,,tingxie2,,,,,,,,Opened,lweng,21/Aug/19 1:00 PM,02/Dec/19 5:20 PM,"Peng, Xu: Ping
+Defect,DEIPCNBS20-925,1392403,unitID in SDP vwire,MI200,,,,,,,,,,,,,,,,,,,,,,lweng,,,,,,,,Implemented,lweng,21/Aug/19 1:00 PM,13/Dec/19 5:35 PM,"Peng, Xu: Ping
 
 Where are we",,,,MISC,Design,,,benpeng,geochen,lweng,smshen,tingxie2,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,
 Defect,DEIPCNBS20-924,1392358,The interrupt trans initiated by secure_usb is droped in nbif,Mero,,,,,,,,,,,,,,,,,,,,,,tingxie2,,,,,,,,Closed,xiaojwan,21/Aug/19 11:07 AM,05/Sep/19 4:57 PM,"Zhu, Allen: Ping, Xiaojun please update your status, thanks.",,,,OTHERS,design-nbif,,05/Sep/19 4:57 PM,alzhu,tingxie2,xiaojwan,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,
@@ -1566,16 +1599,82 @@ Great! Thanks for explanation. I'll enable interrupt lines for SATA1 with REGS_I
 
 Regards,
 Bojan",09/Jul/19 8:36 PM,Rejected - Invalid,,OTHERS,DV component -- predictor,,09/Jul/19 8:36 PM,bibliu1,bmarinko,shiyan,siluo,zacimovic,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,
-Tracking,DEIPCNBS20-844,1323560,[Mero/VG nBIF] Actions for USB PCI ID and Class code,Mero,,,,,,,,,,,,,,,,,,,,,,belchen,,,,,,,,Closed,ywlv,13/May/19 5:37 PM,05/Sep/19 6:21 PM,"Yang, Shiwu: hi belle,
-
-Could you help to confirm this?
+Tracking,DEIPCNBS20-844,1323560,[Mero/VG nBIF] Actions for USB PCI ID and Class code,Mero,,,,,,,,,,,,,,,,,,,,,,shawhan,,,,,,,,Opened,ywlv,13/May/19 5:37 PM,13/Dec/19 10:18 AM,"Lv, YuWen: Copy the communication in mail for action item C>
 
  
 
-thanks,
+*From:* Han, Shawn <Shawn.Han@amd.com> *Sent:* Thursday, December 12, 2019 3:56 PM *To:* Luo, Sidney <Sidney.Luo@amd.com>; Lv, YuWen <YuWen.Lv@amd.com>; vince.xu <Buheng.Xu@amd.com>; Wang, Echo <Echo.Wang@amd.com>; Weng, Lingyun <Lingyun.Weng@amd.com> *Subject:* RE: [Mero nBIF] status of action item c> of DEIPCNBS20-844
 
-Shiwu",,,,OTHERS,design-nbif,,05/Sep/19 6:21 PM,alxie,belchen,bibliu1,buhengxu,cakong,geochen,jchang,jscanlon,kxu,qingli1,ryzhang,shawhan,shiyan,siluo,twang12,ywlv,zfyang,,,,,,,,,,,,,,,,,,
-Defect,DEIPCNBS20-843,1323483,Write and read have difference behavior to hdp p2p special range,MI200,,,,,,,,,,,,,,,,,,,,,,pfli,,,,,,,,Opened,pfli,13/May/19 4:22 PM,02/Dec/19 5:28 PM,"Peng, Xu: assign [~pfli] to reproduce first",,,,HOST,Design,,,benpeng,buhengxu,geochen,pfli,shawhan,smshen,tingxie2,,,,,,,,,,,,,,,,,,,,,,,,,,,,
+ 
+
+Hi Lingyun,
+
+We need to add Device ID programming guide for VG mode. Let’s review it after you finish the update. Thanks a lot!
+
+ 
+
+Thanks,
+
+Shawn
+
+ 
+
+*From:* Luo, Sidney <Sidney.Luo@amd.com> *Sent:* Thursday, December 12, 2019 2:08 PM *To:* Lv, YuWen <YuWen.Lv@amd.com>; vince.xu <Buheng.Xu@amd.com>; Wang, Echo <Echo.Wang@amd.com>; Han, Shawn <Shawn.Han@amd.com> *Subject:* RE: [Mero nBIF] status of action item c> of DEIPCNBS20-844
+
+ 
+
+[AMD Official Use Only - Internal Distribution Only]
+
+ 
+
+We’ll have VG mode nbif programming sequence provided in nbif PPR.
+
+ 
+
+Shawn
+
+ 
+
+Could you follow this to have the PPR updated? thanks
+
+ 
+
+Thanks
+
+Sidney
+
+ 
+
+*From:* Lv, YuWen <YuWen.Lv@amd.com> *Sent:* Wednesday, December 11, 2019 8:19 PM *To:* Luo, Sidney <Sidney.Luo@amd.com>; vince.xu <Buheng.Xu@amd.com> *Subject:* RE: [Mero nBIF] status of action item c> of DEIPCNBS20-844
+
+ 
+
++vince to check
+
+ 
+
+*From:* Lv, YuWen *Sent:* Thursday, December 12, 2019 12:17 PM *To:* Luo, Sidney <Sidney.Luo@amd.com> *Subject:* [Mero nBIF] status of action item c> of DEIPCNBS20-844
+
+ 
+
+Hi Sidney
+
+ 
+
+             For the action item C> of DEIPCNBS20-844,  may I know the status?
+
+ Best Regards
+
+Steven Lv",,,,OTHERS,design-nbif,,,alxie,belchen,bibliu1,buhengxu,cakong,geochen,jchang,jscanlon,kxu,qingli1,ryzhang,shawhan,shiyan,siluo,twang12,ywlv,,,,,,,,,,,,,,,,,,,
+Defect,DEIPCNBS20-843,1323483,Write and read have difference behavior to hdp p2p special range,MI200,,,,,,,,,,,,,,,,,,,,,,tingxie2,,,,,,,,Opened,pfli,13/May/19 4:22 PM,12/Dec/19 2:00 PM,"Li, Pengfei: HI, xieting
+
+you can check this case waveform at srdcws707:4
+
+ 
+
+thanks
+
+Pengfei",,,,HOST,Design,,,benpeng,buhengxu,geochen,pfli,shawhan,smshen,tingxie2,,,,,,,,,,,,,,,,,,,,,,,,,,,,
 Tracking,DEIPCNBS20-842,1320168,[Mero] Tool update causing error report,Mero,,,,,,,,,,,,,,,,,,,,,,bobliu,,,,,,,,Deferred,alzhu,07/May/19 5:12 PM,11/Nov/19 3:39 PM,"Zhu, Allen: clone Jira DEIPCNBS20-1010 created for mainline, this should be removed from ignore rules.",,,,OTHERS,CDS and other flow issue,16/Oct/19 4:08 PM,,alzhu,bobliu,geochen,siluo,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,
 Question,DEIPCNBS20-841,1318806,[Navi23] nbif rsmu pre-include fix,Navi21,,,,,,,,,,,,,,,,,,,,,,rcao,06/May/19 12:00 AM,,,,,,,Closed,rcao,05/May/19 11:08 AM,14/May/19 10:14 AM,"Shen, SuMin: Hi, Runan
 
@@ -1783,9 +1882,19 @@ Enhancement,DEIPCNBS20-795,1293578,There will be one more LTR message for gfx wh
 Defect,DEIPCNBS20-794,1292883,different process between func0 in nonD0 and func1 in nonD0  ,Main,,,,,,,,,,,,,,,,,,,,,,qingli1,,,,,,,,Deferred,pfli,26/Mar/19 2:48 PM,04/Nov/19 6:00 PM,"Shen, SuMin: DE will have big effort in this issue, the functions should enter non-D) status together",,,,OTHERS,design-nbif,03/Apr/19 7:22 PM,,buhengxu,geochen,pfli,pxu,qingli1,shawhan,siluo,smshen,,,,,,,,,,,,,,,,,,,,,,,,,,,
 Defect,DEIPCNBS20-793,1292864,HDP Atomic Issue,Navi21,,,,,,,,,,,,,,,,,,,,,,zfyang,,N21A0_ECR_APPROVED,,,,,,Closed,zfyang,26/Mar/19 2:20 PM,09/May/19 1:45 PM,"Luo, Sidney: this is fixed together with another atomic bug in {color:#333333}nbif2_0/nbif2_0_nv21_branch@3830149{color}",,,,OTHERS,design-nbif,,09/May/19 1:45 PM,shawhan,siluo,smshen,zfyang,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,
 Defect,DEIPCNBS20-792,1290190,Offending '(!$isunknown(RUSER)),Navi21,,,,,,,,,,,,,,,,,,,,,,mmazibra,,,,,,,,Rejected,mmazibra,21/Mar/19 5:50 PM,04/Apr/19 12:26 PM,"Shen, SuMin: NBIO test issue.",27/Mar/19 1:22 PM,Rejected - Invalid,,OTHERS,design-nbif,,,areali,aumatiya,dchen,mdutina,mmazibra,siluo,smshen,zacimovic,,,,,,,,,,,,,,,,,,,,,,,,,,,
-Defect,DEIPCNBS20-791,1290142,[MI200]WR rsp collision RD rsp issue,MI200,,,,,,,,,,,,,,,,,,,,,,qingli1,,,,,,,,Opened,pfli,21/Mar/19 4:29 PM,06/Dec/19 2:49 PM,"Li, Pengfei: new waveform : srdcws707:3.
+Defect,DEIPCNBS20-791,1290142,[MI200]WR rsp collision RD rsp issue,MI200,,,,,,,,,,,,,,,,,,,,,,qingli1,,,,,,,,Opened,pfli,21/Mar/19 4:29 PM,12/Dec/19 2:29 PM,"Li, Pengfei: HI, Qing
 
-marked collision at waveform.",,,,HOST,design-nbif,,,alzhu,belchen,benpeng,buhengxu,geochen,pfli,qingli1,shawhan,siluo,smshen,trgong,,,,,,,,,,,,,,,,,,,,,,,,
+demo_test_1 is failed with your changes.
+
+seems the signal tht_err_wr_with_err and THT_RCC_wr_errVld are not synchro
+
+srdcws707:3 (123456)
+
+ 
+
+thanks
+
+Pengfei",,,,HOST,design-nbif,,,alzhu,belchen,benpeng,buhengxu,geochen,pfli,qingli1,shawhan,siluo,smshen,trgong,,,,,,,,,,,,,,,,,,,,,,,,
 Defect,DEIPCNBS20-790,1289588,[Mero] SYSHUB mUVC NOA with WRAP bursts from CVIP,Mero,,,,,,,,,,,,,,,,,,,,,,lharper,,,,,,,,Closed,lharper,21/Mar/19 1:49 AM,05/Sep/19 11:03 PM,"Harper, Liam: Sorry for the delay, closing the JIRA.",05/Sep/19 11:01 PM,Rejected - Invalid,,OTHERS,DV component -- predictor,,05/Sep/19 11:03 PM,alzhu,dongyu,geochen,lharper,mramamu,shiyan,siluo,,,,,,,,,,,,,,,,,,,,,,,,,,,,
 Defect,DEIPCNBS20-789,1289067,PCIe 4.0 Compliance failed issue,Vega20,,,,,,,,,,,,,,,,,,,,,,siluo,,ICT::CIP::CRB,,,,,,Opened,bobliu,20/Mar/19 1:31 PM,21/Mar/19 9:02 PM,"Liu, Bob: *What’s the problem:*
 
