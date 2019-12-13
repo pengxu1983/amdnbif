@@ -19,6 +19,7 @@
         >
           <el-menu-item 
             v-for="onekind in kinds"
+            :key="onekind"
             :index="onekind"
             @click="currentTab  = onekind"
           >
@@ -28,53 +29,44 @@
         </el-menu>
       </el-aside>
       <el-main>
-        <component
-          v-bind:is="currentTab"
-        ></component>
+        <OneProjJira
+          v-bind:projectname="currentTab"
+        >
+        </OneProjJira>
       </el-main>
     </el-container>
   </el-container>
 </template>
 
 <script>
-import Byprj   from '@/components/MetricsPage_sub/Byprj.vue'
-import Byusr   from '@/components/MetricsPage_sub/Byusr.vue'
-import Bygrp   from '@/components/MetricsPage_sub/Bygrp.vue'
+import OneProjJira from '@/components/JiraPage_sub/OneProjJira.vue'
 
 export default {
-  name: 'MetricsPage',
+  name: 'JiraPage',
   props: {
   },
   data() {
     return {
-      projectinfo : {
-        projectname : 'mi200'
-      },
-      projects : [],
-      variants : [],
-      users    : [],
-      currentTab  : 'Bygrp',
-      kinds     : [
-        'Byprj',
-        'Bygrp',
-        'Byusr'
+      currentTab  : 'mi200',
+      kinds : [
+        'mi200',
+        'floyd',
+        'rembrandt'
       ]
     }
   },
   components  : {
-    Byprj,
-    Bygrp,
-    Byusr,
+    OneProjJira,
   },
   methods : {
     kind_disp (name){
       return name;
     },
     handleOpen(key, keyPath) {
-      //console.log(key, keyPath);
+      window.console.log(key, keyPath);
     },
     handleClose(key, keyPath) {
-      //console.log(key, keyPath);
+      window.console.log(key, keyPath);
     },
   }
 }

@@ -116,6 +116,12 @@ module.exports.routes = {
   'POST /sanity/getinfo' : {
     action  : 'sanity/getinfo'
   },
+  'GET /jira/upload' : {
+    action  : 'jira/upload'
+  },
+  'POST /jira/getdata' : {
+    action  : 'jira/getdata'
+  }
   /***************************************************************************
   *                                                                          *
   * More custom routes here...                                               *

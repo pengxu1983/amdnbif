@@ -21,6 +21,7 @@ import '@/../node_modules/bootstrap/dist/js/bootstrap.bundle.min.js'
 
 //For Echarts
 import echarts from 'echarts'
+Vue.prototype.$echarts = echarts
 
 //For resource
 import VueResource from 'vue-resource'

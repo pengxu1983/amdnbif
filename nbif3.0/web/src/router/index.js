@@ -38,6 +38,11 @@ const routes = [
       name: 'metrics',
       component: () => import('../views/Metrics.vue')
     },
+    {
+      path: '/jira',
+      name: 'jira',
+      component: () => import('../views/Jira.vue')
+    },
 ]
 
 const router = new VueRouter({

@@ -133,7 +133,8 @@ export default {
         'regression',
         'config',
         'sanity',
-        'metrics'
+        'metrics',
+        'jira'
       ],
       versionRecord : [
         {
