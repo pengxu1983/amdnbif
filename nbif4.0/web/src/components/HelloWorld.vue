@@ -3,7 +3,7 @@
     <el-upload
       class="upload-demo"
       ref="upload"
-      action="localhost:1337/uploadfile"
+      action="localhost:1337/file"
       :on-preview="handlePreview"
       :on-remove="handleRemove"
       :file-list="fileList"
@@ -25,10 +25,11 @@ export default {
   data() {
     return {
       fileList: []
-    };
+      };
   },
   methods: {
     submitUpload() {
+      window.console.log('upload');
       this.$refs.upload.submit();
     },
     handleRemove(file, fileList) {
