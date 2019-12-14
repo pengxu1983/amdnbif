@@ -14,6 +14,9 @@ module.exports = {
     },
     period  : {
       type  : 'string'
+    },
+    projectname : {
+      type  : 'string'
     }
   },
 
@@ -32,10 +35,12 @@ module.exports = {
     let closedNumber = [];
     for(let i=0;i<datax.length;i++){
       let tmp = await Nbifinternal.count({
+        Variant : inputs.projectname,
         Created : moment(datax[i]).format('YYYY/MM/DD')
       });
       createdNumber.push(tmp);
       tmp = await Nbifinternal.count({
+        Variant : inputs.projectname,
         Closed_Date : moment(datax[i]).format('YYYY/MM/DD')
       });
       sails.log(moment(datax[i]).format('YYYY/MM/DD'));

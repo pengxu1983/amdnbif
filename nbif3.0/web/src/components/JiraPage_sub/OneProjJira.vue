@@ -99,7 +99,8 @@ export default {
       window.console.log(this.datax);
       this.$http.post('/jira/getdata',{
         datax   :JSON.stringify(this.datax_raw),
-        period  :this.period
+        period  :this.period,
+        projectname : this.projectname
       }).then(
         function(response){
           window.console.log(response);

@@ -47,11 +47,11 @@ export default {
   },
   data() {
     return {
-      currentTab  : 'mi200',
+      currentTab  : 'MI200',
       kinds : [
-        'mi200',
-        'floyd',
-        'rembrandt'
+        'MI200',
+        'Floyd',
+        'Rembrandt'
       ]
     }
   },

@@ -16,10 +16,7 @@ module.exports = {
     'Issue_Type'  :{
       type:'string'
     },
-    'Issue_key'   :{
-      type:'string'
-    },
-    'Issue_id'    :{
+    'Key'   :{
       type:'string'
     },
     'Summary'     :{
@@ -89,7 +86,7 @@ module.exports = {
     //  ╩ ╩╚═╝╚═╝╚═╝╚═╝╩╩ ╩ ╩ ╩╚═╝╝╚╝╚═╝
 
   
-    },
+  },
 
 };
 
