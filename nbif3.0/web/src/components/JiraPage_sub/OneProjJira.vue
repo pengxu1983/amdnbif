@@ -41,6 +41,13 @@ export default {
       return result;
     },
   },
+  watch : {
+    projectname : function(oldv,newv){
+      window.console.log(oldv);
+      window.console.log(newv);
+      this.getdata();
+    }
+  },
   methods : {
     drawLine(){
       // 基于准备好的dom，初始化echarts实例
