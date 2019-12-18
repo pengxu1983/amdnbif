@@ -24,6 +24,9 @@ module.exports = {
     sails.log('try');
     let lines = fs.readFileSync(__dirname+'/../../../../meta/nbifinternal.csv','utf8').split('\n');
     lines.pop();
+    for(let i = 0 ;i<lines.length;i++){
+      lines[i]  = lines[i].substring(0,lines[i].length-1);
+    }
     let regx04  = /(\w)\s(\w)/g
     sails.log(lines[0]);
     lines[0]  = lines[0].replace(regx04,"$1_$2");
