@@ -66,7 +66,7 @@ export default {
               trigger: 'axis',
           },
           legend: {
-              data:['created','closed']
+              data:['created','closed','rejected','deferred']
           },
           toolbox: {
               feature: {
