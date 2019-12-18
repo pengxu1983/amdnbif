@@ -1,5 +1,9 @@
 <template>
-  <div id="myChart" :style="{width: '100%', height: '600px'}">
+  <div>
+    <div id="chart_createdvsclosed" :style="{width: '100%', height: '600px'}">
+    </div>
+    <div id="chart_createdvsclosed_stack" :style="{width: '100%', height: '600px'}">
+    </div>
   </div>
 </template>
 
@@ -14,6 +18,8 @@ export default {
     return {
       datay_created   : [],
       datay_closed    : [],
+      datay_rejected  : [],
+      datay_deferred  : [],
       period          : 'day',
       stack           : 'no',
       //endtime       : moment().format('YYYY/MM/DD'),
@@ -51,7 +57,7 @@ export default {
   methods : {
     drawLine(){
       // 基于准备好的dom，初始化echarts实例
-      let myChart = this.$echarts.init(document.getElementById('myChart'));
+      let chart_createdvsclosed = this.$echarts.init(document.getElementById('chart_createdvsclosed'));
       let option = {
           title: {
               text: 'Created VS Closed'
@@ -96,10 +102,20 @@ export default {
                   type:'line',
                   data:this.datay_closed
               },
+              {
+                  name:'rejected',
+                  type:'line',
+                  data:this.datay_rejected
+              },
+              {
+                  name:'deferred',
+                  type:'line',
+                  data:this.datay_deferred
+              },
           ]
       };
       // 绘制图表
-      myChart.setOption(option);
+      chart_createdvsclosed.setOption(option);
     },
     getdata(){
       //get data from DB
@@ -114,6 +130,8 @@ export default {
           if(response.body.ok ==  'ok'){
             this.datay_closed   = JSON.parse(response.body.datay_closed);
             this.datay_created  = JSON.parse(response.body.datay_created);
+            this.datay_rejected = JSON.parse(response.body.datay_rejected);
+            this.datay_deferred = JSON.parse(response.body.datay_deferred);
             this.drawLine();
           }
         },
