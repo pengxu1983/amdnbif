@@ -57,14 +57,14 @@ module.exports = {
         Rejected_Date : moment(datax[i]).format('YYYY/MM/DD')
       });
       sails.log(moment(datax[i]).format('YYYY/MM/DD'));
-      datay_rejected.push(tmp);
+      rejectedNumber.push(tmp);
       tmp = await Nbifinternal.count({
         Issue_Type  : 'Defect',
         Variant : inputs.projectname,
         Deferred_Date: moment(datax[i]).format('YYYY/MM/DD')
       });
       sails.log(moment(datax[i]).format('YYYY/MM/DD'));
-      datay_deferred.push(tmp);
+      deferredNumber.push(tmp);
     }
     sails.log('aaa');
     sails.log(createdNumber);
