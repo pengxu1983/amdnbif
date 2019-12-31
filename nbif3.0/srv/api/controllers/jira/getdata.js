@@ -32,6 +32,9 @@ module.exports = {
     let datax   = JSON.parse(inputs.datax);
     let period  = inputs.period;
     let createdNumber = [];
+    let createdNumber_stack = [];
+    let resolvedNumber  = [];
+    let resolvedNumber_stack = [];
     let closedNumber = [];
     let openedNumber = [];
     let implementedNumber = [];
@@ -65,6 +68,14 @@ module.exports = {
       });
       sails.log(moment(datax[i]).format('YYYY/MM/DD'));
       deferredNumber.push(tmp);
+    }
+    //stacked
+    let jiras = await Nbifinternal.find({
+      Issue_Type  : 'Defect',
+      Variant     : inputs.projectname
+    });
+    for(let i=0;i<datax.length;i++){
+      //opened stacked
     }
     sails.log('aaa');
     sails.log(createdNumber);

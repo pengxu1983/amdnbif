@@ -127,7 +127,7 @@ export default {
         'Tomb Sweeping Day',
         'Labor Day',
       ],
-      currentvacation : 'National Day',
+      currentvacation : 'Spring Festival',
       vacations : [],
       items : [
         'regression',
