@@ -170,7 +170,7 @@ export default {
   },
   methods : {
     neverpassupload(info){
-      console.log(info.testname);
+      window.console.log(info.testname);
       this.$http.post('/regression/neverpass',{
         kind  : 'commitone',
         testname  : info.testname,
@@ -191,8 +191,8 @@ export default {
     },
     neverpasscasesget(projectname,groupname,isBAPU){
       this.neverpasscases = [];
-      console.log('neverpasscasesget');
-      console.log(projectname);
+      window.console.log('neverpasscasesget');
+      window.console.log(projectname);
       this.$http.post('/regression/neverpass',{
         kind  : 'getonegroup',
         projectname : projectname,
@@ -218,7 +218,7 @@ export default {
             this.regressionstatus=  response.body.regressions;
           }
           else{
-            console.log(response.body);
+            window.console.log(response.body);
           }
         },
         function(){}
@@ -234,8 +234,8 @@ export default {
       this.searchparam.isBAPU       = isBAPU;
       this.searchparam.shelve       = shelve;
       this.searchparam.kickoffdate  = kickoffdate;
-      console.log('gettestdetails');
-      console.log(kind);
+      window.console.log('gettestdetails');
+      window.console.log(kind);
       this.visible  = true;
       this.$http.post('/regression/testdetails',{
         projectname : this.searchparam.projectname,
@@ -251,8 +251,8 @@ export default {
         sigsrch     : this.searchparam.sigsrch
       }).then(
         function(response){
-          console.log(kind);
-          console.log(response.body.testdetails);
+          window.console.log(kind);
+          window.console.log(response.body.testdetails);
           this.testdetails = response.body.testdetails;
           this.handleCurrentChange(1);
           if(kind       == 'FAIL'){
@@ -275,7 +275,7 @@ export default {
       );
     },
     handleCurrentChange (val){
-      console.log(val);
+      window.console.log(val);
       this.testdetails_disp=[];
       let maxindex;
       if((val*this.pagesize)<this.testdetails.length){
@@ -292,18 +292,18 @@ export default {
       this.getinfo();
     },
     getvariants (){
-      console.log('getvariants');
+      window.console.log('getvariants');
       for(let p=0;p<this.projects.length;p++){
         if(this.projects[p].projectname ==  this.groupinfo.projectname){
-          console.log('pxpxpx');
-          console.log(this.projects[p].validvariants);
+          window.console.log('pxpxpx');
+          window.console.log(this.projects[p].validvariants);
           this.variants = this.projects[p].validvariants;
           this.groupinfo.variantname  = this.variants[0];
         }
       }
     },
     getgroups (){
-      console.log('getgroups');
+      window.console.log('getgroups');
       for(let p=0;p<this.projects.length;p++){
         if(this.projects[p].projectname == this.groupinfo.projectname){
           this.$http.post('/config/groups/get',{
@@ -315,7 +315,7 @@ export default {
             function(response){
               if(response.body.ok == 'ok'){
                 this.groups= JSON.parse(response.body.groups);
-                console.log('Project : '+this.groupinfo.projectname+ ' groups successfully get from DB');
+                window.console.log('Project : '+this.groupinfo.projectname+ ' groups successfully get from DB');
               }
               else{
               }
@@ -333,8 +333,8 @@ export default {
       }).then(
         function(response){
           if(response.body.ok ==  'ok'){
-            //console.log(response.body.projects);
-            console.log('all projects successfully get from DB');
+            //window.console.log(response.body.projects);
+            window.console.log('all projects successfully get from DB');
             this.projects = JSON.parse(response.body.projects);
             this.getvariants();
             this.getgroups();

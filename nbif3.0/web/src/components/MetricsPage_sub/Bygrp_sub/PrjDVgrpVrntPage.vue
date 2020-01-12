@@ -110,10 +110,10 @@ export default {
       return R;
     },
     getstatus (){
-      console.log('getstatus');
-      console.log(this.projectname);
-      console.log(this.variantname);
-      console.log(this.DVgroup);
+      window.console.log('getstatus');
+      window.console.log(this.projectname);
+      window.console.log(this.variantname);
+      window.console.log(this.DVgroup);
       this.$http.post('/metrics/getdvgroupprstatus',{
         kind  : 'Bygrp',
         projectname : this.projectname,
@@ -121,8 +121,8 @@ export default {
         DVgroup     : this.DVgroup
       }).then(
         function(response){
-          console.log(response.body.featuregroups);
-          console.log(typeof(response.body.featuregroups));
+          window.console.log(response.body.featuregroups);
+          window.console.log(typeof(response.body.featuregroups));
           this.DVgroupPRstatus  = JSON.parse(response.body.featuregroups);
         },
         function(){}
