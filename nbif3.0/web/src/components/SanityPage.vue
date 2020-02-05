@@ -28,6 +28,9 @@
           <el-form-item label="shelvenumber">
             <el-input v-model="selectedshelvenumber" placeholder="shelvenumber"></el-input>
           </el-form-item>
+          <el-form-item label="email">
+            <el-input v-model="email" placeholder="email"></el-input>
+          </el-form-item>
           <el-form-item>
             <el-button type="primary" @click="submitChangelist">Submit</el-button>
           </el-form-item>

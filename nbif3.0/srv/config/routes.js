@@ -116,6 +116,9 @@ module.exports.routes = {
   'POST /sanity/getinfo' : {
     action  : 'sanity/getinfo'
   },
+  'POST /sanity/check' : {
+    action  : 'sanity/check'
+  },
   'GET /jira/upload' : {
     action  : 'jira/upload'
   },
