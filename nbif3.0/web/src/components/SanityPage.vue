@@ -3,35 +3,33 @@
     <el-main>
       <el-row>
         <el-form :inline="true" :model="projectinfo" class="demo-form-inline">
-          <el-form-item label="Project">
-            <el-select v-model="projectinfo.projectname" placeholder="Project" @change="getprojects()">
+          <el-form-item label="codeline">
+            <el-select v-model="selectedcodeline">
               <el-option 
-                v-for="oneproject in projects"
-                :label="oneproject.projectname" 
-                :value="oneproject.projectname"
-              >
-              </el-option>
-            </el-select>
-          </el-form-item>
-          <el-form-item label="Variant">
-            <el-select v-model="projectinfo.variantname" placeholder="Variant" @change="getgroups()">
-              <el-option 
-                v-for="onevariant in validvariants"
-                :label="onevariant" 
-                :value="onevariant"
-              >
-              </el-option>
-            </el-select>
-          </el-form-item>
-          <el-form-item label="isBAPU">
-            <el-select v-model="projectinfo.isBAPU" placeholder="BAPU" @change="getgroups()">
-              <el-option 
-                v-for="item in options"
+                v-for="item in codelines"
+                :key="item"
                 :label="item" 
                 :value="item"
               >
               </el-option>
             </el-select>
+          </el-form-item>
+          <el-form-item label="branch_name">
+            <el-select v-model="selectedbranch_name">
+              <el-option 
+                v-for="item in branch_names"
+                :key="item"
+                :label="item" 
+                :value="item"
+              >
+              </el-option>
+            </el-select>
+          </el-form-item>
+          <el-form-item label="shelvenumber">
+            <el-input v-model="selectedshelvenumber" placeholder="shelvenumber"></el-input>
+          </el-form-item>
+          <el-form-item>
+            <el-button type="primary" @click="submitChangelist">Submit</el-button>
           </el-form-item>
         </el-form>
       </el-row>
@@ -57,6 +55,26 @@ export default {
       ],
       selectedcodeline  : 'nbif2_0',
       selectedbranch_name : 'nbif2_0_main',
+      selectedshelvenumber  : '',
+      email : ''
+    }
+  },
+  methods : {
+    submitChangelist(){
+      window.console.log('submitting shelvenumber ');
+      this.$http.post('/sanity/check',{
+        codeline    : this.selectedcodeline,
+        branch_name : this.selectedbranch_name,
+        shelvenumber: this.selectedshelvenumber,
+        email       : this.email
+      }).then(
+        function(response){
+          window.console.log(response);
+        },
+        function(response){
+          window.console.log(response);
+        }
+      );
     }
   }
 }
