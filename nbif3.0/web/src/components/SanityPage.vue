@@ -13,7 +13,7 @@
       <el-main>
           <el-form :inline="true" :model="configuration_id" class="demo-form-inline">
             <el-form-item label="codeline">
-              <el-select v-model="configuration_id.selectedcodeline">
+              <el-select v-model="configuration_id.codeline">
                 <el-option 
                   v-for="item in codelines"
                   :key="item"
@@ -24,7 +24,7 @@
               </el-select>
             </el-form-item>
             <el-form-item label="branch_name">
-              <el-select v-model="configuration_id.selectedbranch_name">
+              <el-select v-model="configuration_id.branch_name">
                 <el-option 
                   v-for="item in branch_names"
                   :key="item"
@@ -35,7 +35,7 @@
               </el-select>
             </el-form-item>
             <el-form-item label="shelvenumber">
-              <el-input v-model="configuration_id.selectedshelvenumber" placeholder="shelvenumber"></el-input>
+              <el-input v-model="configuration_id.shelvenumber" placeholder="shelvenumber"></el-input>
             </el-form-item>
             <el-form-item label="email">
               <el-input v-model="configuration_id.email" placeholder="email"></el-input>
@@ -66,9 +66,9 @@ export default {
         'nbif2_0_main'
       ],
       configuration_id : {
-        selectedcodeline  : 'nbif2_0',
-        selectedbranch_name : 'nbif2_0_main',
-        selectedshelvenumber  : '',
+        codeline  : 'nbif2_0',
+        branch_name : 'nbif2_0_main',
+        shelvenumber  : '',
         email : '',
         changelist : 'top',
       }
