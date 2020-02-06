@@ -1,8 +1,17 @@
 <template>
   <el-container>
+    <el-header>
+      <nav class="navbar navbar-dark fixed-top bg-dark flex-md-nowrap p-0 shadow">
+        <a class="navbar-brand col-sm-3 col-md-2 mr-0" href="/">NBIF Main Page</a>
+        <ul class="navbar-nav px-3">
+          <li class="nav-item text-nowrap">
+          </li>
+        </ul>
+      </nav>
+    </el-header>
     <el-main>
       <el-row>
-        <el-form :inline="true" :model="projectinfo" class="demo-form-inline">
+        <el-form :inline="true"  class="demo-form-inline">
           <el-form-item label="codeline">
             <el-select v-model="selectedcodeline">
               <el-option 
@@ -59,16 +68,22 @@ export default {
       selectedcodeline  : 'nbif2_0',
       selectedbranch_name : 'nbif2_0_main',
       selectedshelvenumber  : '',
-      email : ''
+      email : '',
+      changelist : 'top'
     }
   },
   methods : {
     submitChangelist(){
       window.console.log('submitting shelvenumber ');
+      if(this.email == ''){
+        window.console.log('email is not allowed to be blank');
+        return;
+      }
       this.$http.post('/sanity/check',{
         codeline    : this.selectedcodeline,
         branch_name : this.selectedbranch_name,
         shelvenumber: this.selectedshelvenumber,
+        changelist  : this.changelist,
         email       : this.email
       }).then(
         function(response){

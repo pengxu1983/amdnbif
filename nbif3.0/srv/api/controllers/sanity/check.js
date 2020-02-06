@@ -11,7 +11,7 @@ module.exports = {
     kind  : {
       type  : 'string'
     },
-    changelist  : {
+    shelvenumber: {
       type  : 'string'
     },
     email : {
@@ -34,6 +34,9 @@ module.exports = {
   fn: async function (inputs, exits) {
     sails.log('/sanity/check');
     sails.log(inputs);
+    if(inputs.changelist != 'top'){
+      sails.log('not from top cl');
+    }
     // All done.
     return exits.success(JSON.stringify({
       ok  : 'ok',
