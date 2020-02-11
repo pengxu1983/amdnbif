@@ -8,7 +8,9 @@ module.exports = {
 
 
   inputs: {
-
+    projectname : {
+      type  : 'string'
+    }
   },
 
 
@@ -20,10 +22,10 @@ module.exports = {
   fn: async function (inputs,exits) {
     sails.log('/regression/start');
     sails.log(inputs);
+
     // All done.
     return exits.success(JSON.stringify({
       ok  : 'ok',
-      msg : 'ok'
     }));
 
   }
