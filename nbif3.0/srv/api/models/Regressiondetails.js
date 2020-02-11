@@ -12,6 +12,12 @@ module.exports = {
     //  ╔═╗╦═╗╦╔╦╗╦╔╦╗╦╦  ╦╔═╗╔═╗
     //  ╠═╝╠╦╝║║║║║ ║ ║╚╗╔╝║╣ ╚═╗
     //  ╩  ╩╚═╩╩ ╩╩ ╩ ╩ ╚╝ ╚═╝╚═╝
+    codeline    : {
+      type      : 'string'
+    },
+    branch_name : {
+      type      : 'string'
+    },
     changelist  : {
       type      : 'string'
     },
