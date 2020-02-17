@@ -27,31 +27,35 @@ module.exports = {
 
   fn: async function (inputs,exits) {
     let regressionid  = {
-      projectname : 'mi200',
-      variantname : 'nbif_nv10_gpu',
+      projectname : 'rmb',
+      variantname : 'nbif_draco_gpu',
       branchname  : 'main',
       changelist  : 'latest',
-      workspace   : '/proj/cip_nbif_regress1/nbif_regression/try1',
+      //workspace   : '/proj/cip_nbif_regress2/nbif_regression/',
+      treeRoot    : '/proj/cip_nbif_regress2/nbif_regression/nbif.regression.main.nbif_draco_gpu.1'
     };
     await sails.helpers.sync.with(regressionid);
     await sails.helpers.prebuild.with(regressionid);
     await sails.helpers.build.with(regressionid);
-    let treeRoot = regressionid.workspace+'/'+regressionid.projectname+'.'+regressionid.variantname;
-    child_process.exec('bsub -P bif-shub1 -q normal -Is -J NBIFrg -R \'rusage[mem=1000] select[type==RHEL7_64]\' '+treeRoot+'.sync',(error,stdout,stderr)=>{
+    await sails.helpers.kickoff.with(regressionid);
+    child_process.exec('bsub -P bif-shub1 -q normal -Is -J NBIFrg -R \'rusage[mem=1000] select[type==RHEL7_64]\' '+regressionid.treeRoot+'.sync',(error,stdout,stderr)=>{
       if(error){
         sails.log(error);
         return;
       }
       sails.log(stdout);
       sails.log(stderr);
-      fs.writeFileSync(regressionid.workspace+'/SYNCPASS','',{
+      if(fs.existsSync(regressionid.treeRoot+'/SYNCPASS')){
+        fs.unlinkSync(regressionid.treeRoot+'/SYNCPASS');
+      }
+      fs.writeFileSync(regressionid.treeRoot+'/SYNCPASS','',{
         encoding  : 'utf8',
         mode      : '0600',
         flag      : 'w'
       });
       ///////////////
-      child_process.exec('bsub -P bif-shub1 -q normal -Is -J NBIFrg -R \'rusage[mem=5000] select[type==RHEL7_64]\' '+treeRoot+'.prebuild',{
-        maxBuffer : 100*1024*1024
+      child_process.exec('bsub -P bif-shub1 -q normal -Is -J NBIFrg -R \'rusage[mem=5000] select[type==RHEL7_64]\' '+regressionid.treeRoot+'.prebuild',{
+        maxBuffer : 200*1024*1024
       },(error,stdout,stderr)=>{
         if(error){
           sails.log(error);
@@ -59,13 +63,16 @@ module.exports = {
         }
         sails.log(stdout);
         sails.log(stderr);
-        fs.writeFileSync(regressionid.workspace+'/PREBUILDPASS','',{
+        if(fs.existsSync(regressionid.treeRoot+'/PREBUILDPASS')){
+          fs.unlinkSync(regressionid.treeRoot+'/PREBUILDPASS');
+        }
+        fs.writeFileSync(regressionid.treeRoot+'/PREBUILDPASS','',{
           encoding  : 'utf8',
           mode      : '0600',
           flag      : 'w'
         });
         ///////////////
-        child_process.exec('bsub -P bif-shub1 -q normal -Is -J NBIFrg -R \'rusage[mem=10000] select[type==RHEL7_64]\' '+treeRoot+'.build',{
+        child_process.exec('bsub -P bif-shub1 -q normal -Is -J NBIFrg -R \'rusage[mem=10000] select[type==RHEL7_64]\' '+regressionid.treeRoot+'.build',{
           maxBuffer : 100*1024*1024
         },(error,stdout,stderr)=>{
           if(error){
@@ -74,12 +81,34 @@ module.exports = {
           }
           sails.log(stdout);
           sails.log(stderr);
-          fs.writeFileSync(regressionid.workspace+'/BUILDPASS','',{
+          if(fs.existsSync(regressionid.treeRoot+'/BUILDPASS')){
+            fs.unlinkSync(regressionid.treeRoot+'/BUILDPASS');
+          }
+          fs.writeFileSync(regressionid.treeRoot+'/BUILDPASS','',{
             encoding  : 'utf8',
             mode      : '0600',
             flag      : 'w'
           });
           ///////////////
+          child_process.exec('bsub -P bif-shub1 -q normal -Is -J NBIFrg -R \'rusage[mem=10000] select[type==RHEL7_64]\' '+regressionid.treeRoot+'.kickoff',{
+            maxBuffer : 200*1024*1024
+          },(error,stdout,stderr)=>{
+            if(error){
+              sails.log(error);
+              return;
+            }
+            sails.log(stdout);
+            sails.log(stderr);
+            if(fs.existsSync(regressionid.treeRoot+'/KICKOFFPASS')){
+              fs.unlinkSync(regressionid.treeRoot+'/KICKOFFPASS');
+            }
+            fs.writeFileSync(regressionid.treeRoot+'/KICKOFFPASS','',{
+              encoding  : 'utf8',
+              mode      : '0600',
+              flag      : 'w'
+            });
+            ///////////////
+          });
         });
       });
     });

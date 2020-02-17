@@ -37,6 +37,9 @@ module.exports = {
     },
     isBACO      : {
       type  : 'string'
+    },
+    treeRoot    : {
+      type  : 'string'
     }
   },
 
@@ -53,31 +56,18 @@ module.exports = {
   fn: async function (inputs) {
     sails.log('tree prebuild script');
     sails.log(inputs);
-    let treeRoot = inputs.workspace+'/'+inputs.projectname+'.'+inputs.variantname;
     let text = '';
     text += '#!/tool/pandora64/bin/tcsh\n';
     text += 'source /proj/verif_release_ro/cbwa_initscript/current/cbwa_init.csh\n';
-    text += 'cd '+treeRoot+'\n';
+    text += 'cd '+inputs.treeRoot+'\n';
     text += 'bootenv -v '+inputs.variantname+'\n';
     text += 'dj -l testlist.log -DDEBUG -m run_test -s nbifall all -a print -w "config==nbif_all_rtl"\n';
-    fs.writeFileSync(treeRoot+'.prebuild',text,{
+    text += 'rm -rf '+inputs.treeRoot+'/out\n';
+    fs.writeFileSync(inputs.treeRoot+'.prebuild',text,{
       encoding  : 'utf8',
       mode      : '0700',
       flag      : 'w'
     });
-    //child_process.exec('bsub -P bif-shub1 -q normal -Is -J NBIFrg -R \'rusage[mem=5000] select[type==RHEL7_64]\' '+treeRoot+'.prebuild',(error,stdout,stderr)=>{
-    //  if(error){
-    //    sails.log(error);
-    //    return;
-    //  }
-    //  sails.log(stdout);
-    //  sails.log(stderr);
-    //  fs.writeFileSync(inputs.workspace+'/PREBUILDPASS','',{
-    //    encoding  : 'utf8',
-    //    mode      : '0600',
-    //    flag      : 'w'
-    //  });
-    //});
   }
 
 
