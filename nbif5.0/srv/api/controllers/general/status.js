@@ -1,10 +1,10 @@
 module.exports = {
 
 
-  friendlyName: 'Stop',
+  friendlyName: 'Status',
 
 
-  description: 'Stop regression.',
+  description: 'Status general.',
 
 
   inputs: {

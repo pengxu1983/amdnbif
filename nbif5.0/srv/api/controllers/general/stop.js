@@ -1,10 +1,10 @@
 module.exports = {
 
 
-  friendlyName: 'Nb rg running',
+  friendlyName: 'Stop',
 
 
-  description: '',
+  description: 'Stop general.',
 
 
   inputs: {
