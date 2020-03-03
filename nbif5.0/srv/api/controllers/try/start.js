@@ -53,6 +53,7 @@ module.exports = {
       let projectname;
       let shelve;
       let kickoffdate;
+      let variantname;
       lines[0].replace(regx01,function(rs,$1,$2,$3){
         codeline  = $1;
         branch_name = $2;
@@ -80,6 +81,9 @@ module.exports = {
           if($1 == 'kickoffdate'){
             kickoffdate = $2;
           }
+          if($1 == 'variantname'){
+            variantname = $2;
+          }
         });
       }
       //testlist.log
@@ -87,13 +91,13 @@ module.exports = {
       lines = fs.readFileSync(inputs.treeRoot+'/testlist.log','utf8').split('\n');
       lines.pop();
       regx01  = /^\[dj \d+:\d+:\d+ I\]: PASSED ctxt (\w+), evaluation of 'testcase '(nbif\(:\w+, :)(\w+)\)::(.*)\/(.*)''/;
-      let regx001    = /\^[dj \d+:\d+:\d+ I\]:   "attributes": /;
+      let regx001    = /^\[dj \d+:\d+:\d+ I\]:   "attributes": /;
       let regx002    = /^\[dj \d+:\d+:\d+ I\]:   }/;
       let regx003    = /^\[dj \d+:\d+:\d+ I\]:     "name": "(.*)"/;
       let regx004    = /^\[dj \d+:\d+:\d+ I\]:     "config": "(.*)"/;
       let regx005    = /^\[dj \d+:\d+:\d+ I\]:     "group": "(.*)"/;
       let regx006    = /^\[dj \d+:\d+:\d+ I\]:     "run_out_path": "(.*)"/;
-      let regx007    = /^\[dj \d+:\d+:\d+ I\]:     "fullname": "nbif\(:(\w+), :(\w+)\)::(\w+)/\w+"/;
+      let regx007    = /^\[dj \d+:\d+:\d+ I\]:     "fullname": "nbif\(:(\w+), :(\w+)\)::(\w+)\/\w+"/;
       let flag  = 0;
       let testname;
       let suite;
@@ -110,6 +114,7 @@ module.exports = {
             variantname : variantname,
             suite       : suite,
             config      : config,
+            groupname   : group,
             testname    : testname,
             codeline    : codeline,
             branch_name : branch_name,
@@ -119,42 +124,43 @@ module.exports = {
             shelve      : shelve
           };
           sails.log(caseid);
+          tests.push(caseid);
         }
         if(flag == 1){
           if(regx003.test(lines[l])){
-            lines[l].replace(regx003, function(rs,$1)){
+            lines[l].replace(regx003, function(rs,$1){
               testname  = $1;
-            }
+            });
           }
           if(regx004.test(lines[l])){
-            lines[l].replace(regx004, function(rs,$1)){
+            lines[l].replace(regx004, function(rs,$1){
               config  = $1;
-            }
+            });
           }
           if(regx005.test(lines[l])){
-            lines[l].replace(regx005, function(rs,$1)){
+            lines[l].replace(regx005, function(rs,$1){
               group = $1;
-            }
+            });
           }
           if(regx007.test(lines[l])){
-            lines[l].replace(regx007, function(rs,$1,$2,$3)){
+            lines[l].replace(regx007, function(rs,$1,$2,$3){
               projectname = $2;
               suite = $3;
-            }
+            });
           }
         }
       }
-      //sails.log(tests.length);
-      //for(let t=0;t<tests.length;t++){
-      //  await Regressiondetails.destroy(tests[t]);
-      //  let onecase = JSON.parse(JSON.stringify(tests[t]));
-      //  onecase.seed         = 'NA';
-      //  onecase.result       = 'notstarted';
-      //  onecase.signature    = 'NA';
-      //  onecase.starttime    = 'NA';
-      //  onecase.endtime      = 'NA';
-      //  await Regressiondetails.create(onecase);
-      //}
+      sails.log(tests.length);
+      for(let t=0;t<tests.length;t++){
+        await Regressiondetails.destroy(tests[t]);
+        let onecase = JSON.parse(JSON.stringify(tests[t]));
+        onecase.seed         = 'NA';
+        onecase.result       = 'notstarted';
+        onecase.signature    = 'NA';
+        onecase.starttime    = 'NA';
+        onecase.endtime      = 'NA';
+        await Regressiondetails.create(onecase);
+      }
       return exits.success(JSON.stringify({
         ok  : 'ok'
       }));
