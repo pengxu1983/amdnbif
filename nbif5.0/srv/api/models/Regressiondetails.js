@@ -53,6 +53,9 @@ module.exports = {
     isBAPU      : {
       type      : 'string'
     },
+    config      : {
+      type      : 'string'
+    },
     suite       : {
       type      : 'string'
     },

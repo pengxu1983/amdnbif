@@ -87,52 +87,74 @@ module.exports = {
       lines = fs.readFileSync(inputs.treeRoot+'/testlist.log','utf8').split('\n');
       lines.pop();
       regx01  = /^\[dj \d+:\d+:\d+ I\]: PASSED ctxt (\w+), evaluation of 'testcase '(nbif\(:\w+, :)(\w+)\)::(.*)\/(.*)''/;
+      let regx001    = /\^[dj \d+:\d+:\d+ I\]:   "attributes": /;
+      let regx002    = /^\[dj \d+:\d+:\d+ I\]:   }/;
+      let regx003    = /^\[dj \d+:\d+:\d+ I\]:     "name": "(.*)"/;
+      let regx004    = /^\[dj \d+:\d+:\d+ I\]:     "config": "(.*)"/;
+      let regx005    = /^\[dj \d+:\d+:\d+ I\]:     "group": "(.*)"/;
+      let regx006    = /^\[dj \d+:\d+:\d+ I\]:     "run_out_path": "(.*)"/;
+      let regx007    = /^\[dj \d+:\d+:\d+ I\]:     "fullname": "nbif\(:(\w+), :(\w+)\)::(\w+)/\w+"/;
+      let flag  = 0;
+      let testname;
+      let suite;
+      let config;
+      let group;
+      let run_out_path;
       for(let l=0;l<lines.length;l++){
-        if(regx01.test(lines[l])){
-          lines[l].replace(regx01,function(rs, $1,$2,$3,$4,$5){
-            //sails.log('variantname '+$1);
-            //sails.log('testname '+$5);
-            //sails.log('codeline '+codeline);
-            //sails.log('branch_name '+branch_name);
-            //sails.log('changelist '+changelist);
-            //sails.log('projectname '+projectname);
-            //sails.log('shelve '+shelve);
-            //sails.log('kickoffdate '+kickoffdate);
-            let variantname = $1;
-            let suite = $4;
-            let testname  = $5;
-            let caseid  = {
-              variantname : variantname,
-              suite       : suite,
-              testname    : testname,
-              codeline    : codeline,
-              branch_name : branch_name,
-              changelist  : changelist,
-              projectname : projectname,
-              kickoffdate : kickoffdate,
-              shelve      : shelve
-            };
-            //let onecase = JSON.parse(JSON.stringify(caseid));
-            //onecase.seed         = 'NA';
-            //onecase.result       = 'notstarted';
-            //onecase.signature    = 'NA';
-            //onecase.starttime    = 'NA';
-            //onecase.endtime      = 'NA';
-            tests.push(caseid);
-          });
+        if(regx001.test(lines[l])){
+          flag  = 1;
+        }
+        if(regx002.test(lines[l])){
+          flag  = 0;
+          let caseid  = {
+            variantname : variantname,
+            suite       : suite,
+            config      : config,
+            testname    : testname,
+            codeline    : codeline,
+            branch_name : branch_name,
+            changelist  : changelist,
+            projectname : projectname,
+            kickoffdate : kickoffdate,
+            shelve      : shelve
+          };
+          sails.log(caseid);
+        }
+        if(flag == 1){
+          if(regx003.test(lines[l])){
+            lines[l].replace(regx003, function(rs,$1)){
+              testname  = $1;
+            }
+          }
+          if(regx004.test(lines[l])){
+            lines[l].replace(regx004, function(rs,$1)){
+              config  = $1;
+            }
+          }
+          if(regx005.test(lines[l])){
+            lines[l].replace(regx005, function(rs,$1)){
+              group = $1;
+            }
+          }
+          if(regx007.test(lines[l])){
+            lines[l].replace(regx007, function(rs,$1,$2,$3)){
+              projectname = $2;
+              suite = $3;
+            }
+          }
         }
       }
-      sails.log(tests.length);
-      for(let t=0;t<tests.length;t++){
-        await Regressiondetails.destroy(tests[t]);
-        let onecase = JSON.parse(JSON.stringify(tests[t]));
-        onecase.seed         = 'NA';
-        onecase.result       = 'notstarted';
-        onecase.signature    = 'NA';
-        onecase.starttime    = 'NA';
-        onecase.endtime      = 'NA';
-        await Regressiondetails.create(onecase);
-      }
+      //sails.log(tests.length);
+      //for(let t=0;t<tests.length;t++){
+      //  await Regressiondetails.destroy(tests[t]);
+      //  let onecase = JSON.parse(JSON.stringify(tests[t]));
+      //  onecase.seed         = 'NA';
+      //  onecase.result       = 'notstarted';
+      //  onecase.signature    = 'NA';
+      //  onecase.starttime    = 'NA';
+      //  onecase.endtime      = 'NA';
+      //  await Regressiondetails.create(onecase);
+      //}
       return exits.success(JSON.stringify({
         ok  : 'ok'
       }));
