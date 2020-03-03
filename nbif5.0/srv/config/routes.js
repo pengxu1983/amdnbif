@@ -29,6 +29,9 @@ module.exports.routes = {
   'GET /regression/ctrl' : {
     action  : 'regression/ctrl'
   },
+  'POST /try/start' : {
+    action  : 'try/start'
+  },
 
   /***************************************************************************
   *                                                                          *

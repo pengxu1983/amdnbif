@@ -41,7 +41,10 @@ module.exports = {
       type      : 'string',
       columnType: 'longtext'
     },
-    runtime     : {
+    starttime     : {
+      type      : 'string'
+    },
+    endtime : {
       type      : 'string'
     },
     groupname   : {
