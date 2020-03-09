@@ -32,6 +32,12 @@ module.exports.routes = {
   'POST /try/start' : {
     action  : 'try/start'
   },
+  'POST /try/onecasestart' : {
+    action  : 'try/onecasestart'
+  },
+  'POST /try/onecaseend' : {
+    action  : 'try/onecaseend'
+  },
 
   /***************************************************************************
   *                                                                          *

@@ -54,6 +54,7 @@ module.exports = {
       let shelve;
       let kickoffdate;
       let variantname;
+      let isBAPU;
       lines[0].replace(regx01,function(rs,$1,$2,$3){
         codeline  = $1;
         branch_name = $2;
@@ -83,6 +84,9 @@ module.exports = {
           }
           if($1 == 'variantname'){
             variantname = $2;
+          }
+          if($1 == 'isBAPU'){
+            isBAPU  = $2;
           }
         });
       }
@@ -121,7 +125,8 @@ module.exports = {
             changelist  : changelist,
             projectname : projectname,
             kickoffdate : kickoffdate,
-            shelve      : shelve
+            shelve      : shelve,
+            isBAPU      : isBAPU,
           };
           sails.log(caseid);
           tests.push(caseid);
@@ -144,7 +149,7 @@ module.exports = {
           }
           if(regx007.test(lines[l])){
             lines[l].replace(regx007, function(rs,$1,$2,$3){
-              projectname = $2;
+              //projectname = $2;
               suite = $3;
             });
           }
@@ -152,6 +157,38 @@ module.exports = {
       }
       sails.log(tests.length);
       for(let t=0;t<tests.length;t++){
+        let onegroup  = await Groups.find({
+          projectname : tests[t].projectname,
+          variantname : tests[t].variantname,
+          isBAPU      : tests[t].isBAPU,
+          groupname   : tests[t].groupname
+        });
+        if(onegroup.length > 1){
+          await Groups.destroy({
+            projectname : tests[t].projectname,
+            variantname : tests[t].variantname,
+            isBAPU      : tests[t].isBAPU,
+            groupname   : tests[t].groupname
+          });
+          await Groups.create({
+            projectname : tests[t].projectname,
+            variantname : tests[t].variantname,
+            isBAPU      : tests[t].isBAPU,
+            groupname   : tests[t].groupname,
+            owner       : '',
+            DVgroup     : '',
+          });
+        }
+        if(onegroup.length ==0){
+          await Groups.create({
+            projectname : tests[t].projectname,
+            variantname : tests[t].variantname,
+            isBAPU      : tests[t].isBAPU,
+            groupname   : tests[t].groupname,
+            owner       : '',
+            DVgroup     : '',
+          });
+        }
         await Regressiondetails.destroy(tests[t]);
         let onecase = JSON.parse(JSON.stringify(tests[t]));
         onecase.seed         = 'NA';
