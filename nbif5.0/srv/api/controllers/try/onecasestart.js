@@ -47,6 +47,7 @@ module.exports = {
     sails.log('/try/onecasestart');
     sails.log(inputs);
     let onecaseDB = await Regressiondetails.find({
+      testname    : inputs.testname,
       projectname:  inputs.projectname,
       variantname:  inputs.variantname,
       kickoffdate:  inputs.kickoffdate,
@@ -58,6 +59,7 @@ module.exports = {
     });
     if(onecaseDB.length >1){
       await Regressiondetails.destroy({
+        testname    : inputs.testname,
         projectname:  inputs.projectname,
         variantname:  inputs.variantname,
         kickoffdate:  inputs.kickoffdate,
@@ -68,6 +70,7 @@ module.exports = {
         shelve: inputs.shelve,
       });
       await Regressiondetails.create({
+        testname    : inputs.testname,
         projectname:  inputs.projectname,
         variantname:  inputs.variantname,
         kickoffdate:  inputs.kickoffdate,
@@ -86,6 +89,7 @@ module.exports = {
     }
     if(onecaseDB.length ==  0){
       await Regressiondetails.create({
+        testname    : inputs.testname,
         projectname:  inputs.projectname,
         variantname:  inputs.variantname,
         kickoffdate:  inputs.kickoffdate,
@@ -104,6 +108,7 @@ module.exports = {
     }
     if(onecaseDB.length ==  1){
       await Regressiondetails.update({
+        testname    : inputs.testname,
         projectname:  inputs.projectname,
         variantname:  inputs.variantname,
         kickoffdate:  inputs.kickoffdate,
