@@ -35,6 +35,9 @@ module.exports = {
     seed  :{
       type  : 'string'
     },
+    kickoffdate : {
+      type  : 'string'
+    }
   },
 
 
