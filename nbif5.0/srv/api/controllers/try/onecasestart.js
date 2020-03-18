@@ -82,7 +82,7 @@ module.exports = {
         changelist: inputs.changelist,
         isBAPU: inputs.isBAPU,
         shelve: inputs.shelve,
-        result: 'running',
+        result: 'RUNNING',
         seed  : inputs.seed
       });
       return exits.success(JSON.stringify({

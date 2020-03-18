@@ -238,7 +238,7 @@ module.exports = {
         await Regressiondetails.destroy(tests[t]);
         let onecase = JSON.parse(JSON.stringify(tests[t]));
         onecase.seed         = 'NA';
-        onecase.result       = 'notstarted';
+        onecase.result       = 'NOTSTARTED';
         onecase.signature    = 'NA';
         onecase.starttime    = 'NA';
         onecase.endtime      = 'NA';
