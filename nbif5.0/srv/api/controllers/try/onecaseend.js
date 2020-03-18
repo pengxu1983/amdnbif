@@ -1,3 +1,4 @@
+var moment = require('moment');
 module.exports = {
 
 
@@ -55,6 +56,7 @@ module.exports = {
   fn: async function (inputs,exits) {
     sails.log('/try/onecaseend');
     sails.log(inputs);
+    let endtime = moment().format('YYYYMMDDHHmmss');
     let onecaseDB = await Regressiondetails.find({
       testname    : inputs.testname,
       projectname:  inputs.projectname,
@@ -90,7 +92,8 @@ module.exports = {
         shelve: inputs.shelve,
         result: inputs.result,
         seed  : inputs.seed,
-        signature : inputs.signature
+        signature : inputs.signature,
+        endtime : endtime
       });
       return exits.success(JSON.stringify({
         ok  : 'notok',
@@ -110,7 +113,8 @@ module.exports = {
         shelve: inputs.shelve,
         result: inputs.result,
         seed  : inputs.seed,
-        signature : inputs.signature
+        signature : inputs.signature,
+        endtime : endtime
       });
       return exits.success(JSON.stringify({
         ok  : 'notok',
@@ -130,7 +134,8 @@ module.exports = {
         shelve: inputs.shelve,
       },{
         result: inputs.result,
-        signature : inputs.signature
+        signature : inputs.signature,
+        endtime : endtime
       });
     }
     // All done.

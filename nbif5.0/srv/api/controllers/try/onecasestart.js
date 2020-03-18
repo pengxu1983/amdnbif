@@ -49,6 +49,7 @@ module.exports = {
   fn: async function (inputs,exits) {
     sails.log('/try/onecasestart');
     sails.log(inputs);
+    let starttime = moment().format('YYYYMMDDHHmmss');
     let onecaseDB = await Regressiondetails.find({
       testname    : inputs.testname,
       projectname:  inputs.projectname,
@@ -83,7 +84,8 @@ module.exports = {
         isBAPU: inputs.isBAPU,
         shelve: inputs.shelve,
         result: 'RUNNING',
-        seed  : inputs.seed
+        seed  : inputs.seed,
+        starttime : starttime
       });
       return exits.success(JSON.stringify({
         ok  : 'notok',
@@ -101,8 +103,9 @@ module.exports = {
         changelist: inputs.changelist,
         isBAPU: inputs.isBAPU,
         shelve: inputs.shelve,
-        result: 'running',
-        seed  : inputs.seed
+        result: 'RUNNING',
+        seed  : inputs.seed,
+        starttime : starttime
       });
       return exits.success(JSON.stringify({
         ok  : 'notok',
@@ -121,8 +124,9 @@ module.exports = {
         isBAPU: inputs.isBAPU,
         shelve: inputs.shelve,
       },{
-        result: 'running',
-        seed  : inputs.seed
+        result: 'RUNNING',
+        seed  : inputs.seed,
+        starttime : starttime
       });
     }
     // All done.
