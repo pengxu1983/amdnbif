@@ -28,7 +28,53 @@ module.exports = {
   fn: async function (inputs,exits) {
     sails.log('/try/start');
     sails.log(inputs);
-    if(!fs.existsSync(inputs.treeRoot+'/testlist.log')){
+    let localpath = "/local_vol1_nobackup/benpeng/"+inputs.treeRoot;
+    child_process.execSync('mkdir -p '+localpath);
+    let passwd  = "4rfv^YHN";
+    let text ="";
+    //NBIF_TREE_INFO
+    text += "#!/tool/pandora64/bin/expect\n";
+    text += "spawn scp benpeng@atlibex-neu0450:"+inputs.treeRoot+"/NBIF_TREE_INFO"+" "+localpath+"/.\n";
+    text += "expect \"*Password:\" { \n";
+    text += "  send "+passwd+"\\r"+"\n";
+    text += "  expect eof\n";
+    text += "}\n";
+    fs.writeFileSync(localpath+"/NBIF_TREE_INFO.cp",text, {
+      encoding  : 'utf8',
+      mode      : '0700',
+      flag      : 'w'
+    });
+    text  = "";
+    child_process.execFileSync(localpath+"/NBIF_TREE_INFO.cp");
+    //testlist.log
+    text += "#!/tool/pandora64/bin/expect\n";
+    text += "spawn scp benpeng@atlibex-neu0450:"+inputs.treeRoot+"/testlist.log"+" "+localpath+"/.\n";
+    text += "expect \"*Password:\" { \n";
+    text += "  send "+passwd+"\\r"+"\n";
+    text += "  expect eof\n";
+    text += "}\n";
+    fs.writeFileSync(localpath+"/testlist.log.cp",text, {
+      encoding  : 'utf8',
+      mode      : '0700',
+      flag      : 'w'
+    });
+    text  = "";
+    child_process.execFileSync(localpath+"/testlist.log.cp");
+    //configuration_id
+    text += "#!/tool/pandora64/bin/expect\n";
+    text += "spawn scp benpeng@atlibex-neu0450:"+inputs.treeRoot+"/configuration_id"+" "+localpath+"/.\n";
+    text += "expect \"*Password:\" { \n";
+    text += "  send "+passwd+"\\r"+"\n";
+    text += "  expect eof\n";
+    text += "}\n";
+    fs.writeFileSync(localpath+"/configuration_id.cp",text, {
+      encoding  : 'utf8',
+      mode      : '0700',
+      flag      : 'w'
+    });
+    text  = "";
+    child_process.execFileSync(localpath+"/configuration_id.cp");
+    if(!fs.existsSync(localpath+'/testlist.log')){
       return exits.success(JSON.stringify({
         ok  : 'notok',
         msg : 'file testlist.log not found'
@@ -37,14 +83,14 @@ module.exports = {
     else{
       sails.log('testlist.log ok');
       //configuration_id
-      if(!fs.existsSync(inputs.treeRoot+'/configuration_id')){
+      if(!fs.existsSync(localpath+'/configuration_id')){
         return exits.success(JSON.stringify({
           ok  : 'notok',
           msg : 'file configuration_id not found'
         }));
       }
       sails.log('configuration_id ok');
-      let lines = fs.readFileSync(inputs.treeRoot+'/configuration_id','utf8').split('\n');
+      let lines = fs.readFileSync(localpath+'/configuration_id','utf8').split('\n');
       let regx01  =/(\w+)\/(\w+)@(\w+)/;
       lines.pop();
       let codeline;
@@ -61,13 +107,13 @@ module.exports = {
         changelist  = $3;
       });
       //NBIF_TREE_INFO
-      if(!fs.existsSync(inputs.treeRoot+'/NBIF_TREE_INFO')){
+      if(!fs.existsSync(localpath+'/NBIF_TREE_INFO')){
         return exits.success(JSON.stringify({
           ok  : 'notok',
           msg : 'file NBIF_TREE_INFO not found'
         }));
       }
-      lines = fs.readFileSync(inputs.treeRoot+'/NBIF_TREE_INFO','utf8').split('\n');
+      lines = fs.readFileSync(localpath+'/NBIF_TREE_INFO','utf8').split('\n');
       lines.pop();
       regx01  = /(\w+):::(\S+)/;
       for(let l=0;l<lines.length;l++){
@@ -92,7 +138,7 @@ module.exports = {
       }
       //testlist.log
       let tests = [];
-      lines = fs.readFileSync(inputs.treeRoot+'/testlist.log','utf8').split('\n');
+      lines = fs.readFileSync(localpath+'/testlist.log','utf8').split('\n');
       lines.pop();
       regx01  = /^\[dj \d+:\d+:\d+ I\]: PASSED ctxt (\w+), evaluation of 'testcase '(nbif\(:\w+, :)(\w+)\)::(.*)\/(.*)''/;
       let regx001    = /^\[dj \d+:\d+:\d+ I\]:   "attributes": /;
