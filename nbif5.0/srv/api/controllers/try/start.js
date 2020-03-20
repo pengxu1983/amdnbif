@@ -59,7 +59,9 @@ module.exports = {
       flag      : 'w'
     });
     text  = "";
-    child_process.execFileSync(localpath+"/testlist.log.cp");
+    child_process.execFileSync(localpath+"/testlist.log.cp",{
+      maxBuffer : 200*1024*1024
+    });
     //configuration_id
     text += "#!/tool/pandora64/bin/expect\n";
     text += "spawn scp benpeng@atlibex-neu0450:"+inputs.treeRoot+"/configuration_id"+" "+localpath+"/.\n";
@@ -74,6 +76,7 @@ module.exports = {
     });
     text  = "";
     child_process.execFileSync(localpath+"/configuration_id.cp");
+    return;
     if(!fs.existsSync(localpath+'/testlist.log')){
       return exits.success(JSON.stringify({
         ok  : 'notok',
