@@ -38,6 +38,9 @@ module.exports.routes = {
   'POST /try/onecaseend' : {
     action  : 'try/onecaseend'
   },
+  'POST /try/notstarted' : {
+    action  : 'try/notstarted'
+  },
 
   /***************************************************************************
   *                                                                          *
