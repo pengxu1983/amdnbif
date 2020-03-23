@@ -18,14 +18,15 @@ module.exports = {
     shelve    : {
       type    : 'string' 
     },
-    host      : {
+    hostname  : {
       type    : 'string'
     },
     password  : {
       type    : 'string'
     },
     testlist  : {
-      type    : 'string'
+      type    : 'string',
+      columnType  : 'longtext'
     },
     treeRoot  : {
       type    : 'string'
@@ -35,6 +36,19 @@ module.exports = {
     },
     resultlocation  : {
       type    : 'string'
+    },
+    codeline  : {
+      type    : 'string'
+    },
+    branch_name : {
+      type    : 'string'
+    },
+    changelist  : {
+      type    : 'string'
+    },
+    details     : {
+      type    : 'string',
+      columnType  : 'longtext'
     }
 
     //  ╔═╗╔╦╗╔╗ ╔═╗╔╦╗╔═╗
