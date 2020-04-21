@@ -20,12 +20,7 @@ module.exports.routes = {
   ***************************************************************************/
 
   '/': { view: 'pages/homepage' },
-  'POST /sanity/check'  : {
-    action  : 'sanity/check'
-  },
-  'POST /sanity/uploadchangelist'  : {
-    action  : 'sanity/uploadchangelist'
-  },
+
 
   /***************************************************************************
   *                                                                          *
