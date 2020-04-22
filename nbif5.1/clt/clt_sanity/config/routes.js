@@ -26,7 +26,15 @@ module.exports.routes = {
   'POST /sanity/uploadchangelist'  : {
     action  : 'sanity/uploadchangelist'
   },
-
+  'POST /sanity/updatechangelist'  : {
+    action  : 'sanity/updatechangelist'
+  },
+  'POST /sanity/getchangelist'  : {
+    action  : 'sanity/getchangelist'
+  },
+  'POST /sanity/runsanity'  : {
+    action  : 'sanity/runsanity'
+  },
   /***************************************************************************
   *                                                                          *
   * More custom routes here...                                               *
