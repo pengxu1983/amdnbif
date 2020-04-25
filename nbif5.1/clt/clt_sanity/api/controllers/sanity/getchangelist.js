@@ -21,10 +21,11 @@ module.exports = {
 
   fn: async function (inputs,exits) {
     sails.log('/sanity/getchangelist');
-    sails.log(inputs);
+    //sails.log(inputs);
     let CLDB =  await Sanitychangelists.find({
       result      : inputs.result
     });
+    sails.log(CLDB);
     // All done.
     return exits.success(JSON.stringify(CLDB));
 

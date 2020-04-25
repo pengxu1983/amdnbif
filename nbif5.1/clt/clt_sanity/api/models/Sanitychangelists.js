@@ -44,6 +44,9 @@ module.exports = {
     },
     submitdate  : {
       type    : 'string'
+    },
+    username    : {
+      type    : 'string'
     }
 
     //  ╔═╗╔╦╗╔╗ ╔═╗╔╦╗╔═╗
