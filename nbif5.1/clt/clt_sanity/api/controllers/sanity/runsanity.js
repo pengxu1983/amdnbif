@@ -38,7 +38,7 @@ let djregxfail      = /dj exited with errors/;
 let djregxpass      = /dj exited successfully/;
 let syncregxpass    = /All syncs OK/;
 let resolvefail     = /resolve skipped/;
-let HOME            = '/proj/cip_nbif_dv_3/changelistcheck';
+let HOME            = '/proj/cip_nbif_de_2/changelistcheck';
 let refTrees        = [HOME+'/nbif.ref.main'];
 let maxPS_CL        = 20;
 let maxPS_SH        = 20;//TODO
@@ -79,6 +79,31 @@ let checkifdone     = function(treeRoot,stat){
         }
       }
     }
+  }
+  if(overallstatus  ==  'PASS'){
+    child_process.execSync('mv '+treeRoot+' '+treeRoot+'.rm');
+    child_process.exec('bsub -P GIONB-SRDC -q regr_high -Is -J nbif_C_cln -R "rusage[mem=1000] select[type==RHEL7_64]" rm -rf '+treeRoot+'.rm');
+    child_process.exec('mutt Benny.Peng@amd.com -s [NBIF][SanityCheck]['+overallstatus+'][treeRoot:'+treeRoot+'] ',function(err,stdout,stderr){});
+  }
+  if(overallstatus  ==  'FAIL'){
+    child_process.exec('mutt Benny.Peng@amd.com -s [NBIF][SanityCheck]['+overallstatus+'][treeRoot:'+treeRoot+'] ',function(err,stdout,stderr){});
+    setTimeout(function(){
+      let reverttext  = '';
+      reverttext  +=  '#!/tool/pandora64/bin/tcsh\n';
+      reverttext  +=  'source /proj/verif_release_ro/cbwa_initscript/current/cbwa_init.csh\n';
+      reverttext  +=  'cd '+treeRoot+'\n';
+      reverttext  +=  'p4 revert ...\n'
+      fs.writeFileSync(treeRoot+'.revert.script',reverttext,{
+        encoding  : 'utf8',
+        mode      : '0700',
+        flag      : 'w'
+      });
+      child_process.execSync(treeRoot+'.revert.script');
+      child_process.execSync('mv '+treeRoot+' '+treeRoot+'.rm');
+      child_process.execSync('rm -rf '+treeRoot+'.*.log');
+      child_process.execSync('rm -rf '+treeRoot+'.*.script');
+      child_process.exec('bsub -P GIONB-SRDC -q regr_high -Is -J nbif_C_cln -R "rusage[mem=1000] select[type==RHEL7_64]" rm -rf '+treeRoot+'.rm');
+    },24*3600*1000);
   }
   console.log(loginit()+treeRoot+' finished number is '+finishednumber);
   return  overallstatus;
@@ -297,9 +322,22 @@ module.exports = {
                       result      : R,
                       details     : JSON.stringify(stat)
                     });
+                    runningtasks_CL--;
                   }
                   if(inputs.kind  ==  'shelvecheck'){
+                    await Sanityshelves.update({
+                      shelve      : shelve,
+                      codeline    : codeline,
+                      branch_name : branch_name
+                    },{
+                      result      : R,
+                      details     : JSON.stringify(stat)
+                    });
+                    runningtasks_SH--;
                   }
+                  console.log(loginit()+treeRoot+' DB update');
+                  console.log(loginit()+'runningtasks_SH is now '+runningtasks_SH);
+                  console.log(loginit()+'runningtasks_CL is now '+runningtasks_CL);
                 }
                 //check result
               }
@@ -345,22 +383,35 @@ module.exports = {
                   stat[variantname][kind][taskname]='SYNCFAIL';
                   console.log(loginit()+treeRoot+' stat is '+ JSON.stringify(stat));
                   let R = checkifdone(treeRoot,stat);
-                if(R  ==  'NOTDONE'){
-                }
-                else{
-                  if(inputs.kind  ==  'changelistcheck'){
-                    await Sanitychangelists.update({
-                      changelist  : changelist,
-                      codeline    : codeline,
-                      branch_name : branch_name
-                    },{
-                      result      : R,
-                      details     : JSON.stringify(stat)
-                    });
+                  if(R  ==  'NOTDONE'){
                   }
-                  if(inputs.kind  ==  'shelvecheck'){
+                  else{
+                    if(inputs.kind  ==  'changelistcheck'){
+                      await Sanitychangelists.update({
+                        changelist  : changelist,
+                        codeline    : codeline,
+                        branch_name : branch_name
+                      },{
+                        result      : R,
+                        details     : JSON.stringify(stat)
+                      });
+                      runningtasks_CL--;
+                    }
+                    if(inputs.kind  ==  'shelvecheck'){
+                      await Sanityshelves.update({
+                        shelve      : shelve,
+                        codeline    : codeline,
+                        branch_name : branch_name
+                      },{
+                        result      : R,
+                        details     : JSON.stringify(stat)
+                      });
+                      runningtasks_SH--;
+                    }
+                    console.log(loginit()+treeRoot+' DB update');
+                    console.log(loginit()+'runningtasks_SH is now '+runningtasks_SH);
+                    console.log(loginit()+'runningtasks_CL is now '+runningtasks_CL);
                   }
-                }
                   //check result
                 }
               }
@@ -414,22 +465,35 @@ module.exports = {
                       stat[variantname][kind][taskname]='RESOLVEFAIL';
                       console.log(loginit()+treeRoot+' stat is '+ JSON.stringify(stat));
                       let R = checkifdone(treeRoot,stat);
-                if(R  ==  'NOTDONE'){
-                }
-                else{
-                  if(inputs.kind  ==  'changelistcheck'){
-                    await Sanitychangelists.update({
-                      changelist  : changelist,
-                      codeline    : codeline,
-                      branch_name : branch_name
-                    },{
-                      result      : R,
-                      details     : JSON.stringify(stat)
-                    });
-                  }
-                  if(inputs.kind  ==  'shelvecheck'){
-                  }
-                }
+                      if(R  ==  'NOTDONE'){
+                      }
+                      else{
+                        if(inputs.kind  ==  'changelistcheck'){
+                          await Sanitychangelists.update({
+                            changelist  : changelist,
+                            codeline    : codeline,
+                            branch_name : branch_name
+                          },{
+                            result      : R,
+                            details     : JSON.stringify(stat)
+                          });
+                          runningtasks_CL--;
+                        }
+                        if(inputs.kind  ==  'shelvecheck'){
+                          await Sanityshelves.update({
+                            shelve      : shelve,
+                            codeline    : codeline,
+                            branch_name : branch_name
+                          },{
+                            result      : R,
+                            details     : JSON.stringify(stat)
+                          });
+                          runningtasks_SH--;
+                        }
+                        console.log(loginit()+treeRoot+' DB update');
+                        console.log(loginit()+'runningtasks_SH is now '+runningtasks_SH);
+                        console.log(loginit()+'runningtasks_CL is now '+runningtasks_CL);
+                      }
                       //check result
                     }
                   }
@@ -460,22 +524,35 @@ module.exports = {
                         stat[variantname][kind][taskname]='RESOLVEFAIL';
                         console.log(loginit()+treeRoot+' stat is '+ JSON.stringify(stat));
                         let R = checkifdone(treeRoot,stat);
-                if(R  ==  'NOTDONE'){
-                }
-                else{
-                  if(inputs.kind  ==  'changelistcheck'){
-                    await Sanitychangelists.update({
-                      changelist  : changelist,
-                      codeline    : codeline,
-                      branch_name : branch_name
-                    },{
-                      result      : R,
-                      details     : JSON.stringify(stat)
-                    });
-                  }
-                  if(inputs.kind  ==  'shelvecheck'){
-                  }
-                }
+                        if(R  ==  'NOTDONE'){
+                        }
+                        else{
+                          if(inputs.kind  ==  'changelistcheck'){
+                            await Sanitychangelists.update({
+                              changelist  : changelist,
+                              codeline    : codeline,
+                              branch_name : branch_name
+                            },{
+                              result      : R,
+                              details     : JSON.stringify(stat)
+                            });
+                            runningtasks_CL--;
+                          }
+                          if(inputs.kind  ==  'shelvecheck'){
+                            await Sanityshelves.update({
+                              shelve      : shelve,
+                              codeline    : codeline,
+                              branch_name : branch_name
+                            },{
+                              result      : R,
+                              details     : JSON.stringify(stat)
+                            });
+                            runningtasks_SH--;
+                          }
+                          console.log(loginit()+treeRoot+' DB update');
+                          console.log(loginit()+'runningtasks_SH is now '+runningtasks_SH);
+                          console.log(loginit()+'runningtasks_CL is now '+runningtasks_CL);
+                        }
                         //check result
                       }
                     }
@@ -511,8 +588,17 @@ module.exports = {
                             if(variantname  ==  'nbif_draco_gpu'){
                               runtext +='bsub -P GIONB-SRDC -q regr_high -Is -J nbif_C_rn -R "rusage[mem=30000] select[type==RHEL7_64]" '+"dj -l "+treeRoot+"/nb__."+variantname+".run."+taskname+".log"+" -e 'releaseflow::dropflow(:rtl_drop).build(:rhea_drop,:rhea_dc)' -DPUBLISH_BLKS=nbif_shub_wrap_algfx\n";
                             }
-                            else{
+                            if(variantname  ==  'nbif_nv10_gpu'){
                               runtext +='bsub -P GIONB-SRDC -q regr_high -Is -J nbif_C_rn -R "rusage[mem=30000] select[type==RHEL7_64]" '+"dj -l "+treeRoot+"/nb__."+variantname+".run."+taskname+".log"+" -e 'releaseflow::dropflow(:rtl_drop).build(:rhea_drop,:rhea_dc)' -DPUBLISH_BLKS=nbif_shub_wrap_gfx\n";
+                            }
+                            if(variantname  ==  'nbif_et_0'){
+                              runtext +='bsub -P GIONB-SRDC -q regr_high -Is -J nbif_C_rn -R "rusage[mem=30000] select[type==RHEL7_64]" '+"dj -l "+treeRoot+"/nb__."+variantname+".run."+taskname+".log"+" -e 'releaseflow::dropflow(:rtl_drop).build(:rhea_drop,:rhea_dc)' -DPUBLISH_BLKS=nbif_shub_wrap_et_0\n";
+                            }
+                            if(variantname  ==  'nbif_et_1'){
+                              runtext +='bsub -P GIONB-SRDC -q regr_high -Is -J nbif_C_rn -R "rusage[mem=30000] select[type==RHEL7_64]" '+"dj -l "+treeRoot+"/nb__."+variantname+".run."+taskname+".log"+" -e 'releaseflow::dropflow(:rtl_drop).build(:rhea_drop,:rhea_dc)' -DPUBLISH_BLKS=nbif_shub_wrap_et_1\n";
+                            }
+                            if(variantname  ==  'nbif_et_2'){
+                              runtext +='bsub -P GIONB-SRDC -q regr_high -Is -J nbif_C_rn -R "rusage[mem=30000] select[type==RHEL7_64]" '+"dj -l "+treeRoot+"/nb__."+variantname+".run."+taskname+".log"+" -e 'releaseflow::dropflow(:rtl_drop).build(:rhea_drop,:rhea_dc)' -DPUBLISH_BLKS=nbif_shub_wrap_et_2\n";
                             }
                             break;
                         }
@@ -538,22 +624,35 @@ module.exports = {
                           stat[variantname][kind][taskname]='RUNFAIL';
                           console.log(loginit()+treeRoot+' '+JSON.stringify(stat));
                           let R = checkifdone(treeRoot,stat);
-                if(R  ==  'NOTDONE'){
-                }
-                else{
-                  if(inputs.kind  ==  'changelistcheck'){
-                    await Sanitychangelists.update({
-                      changelist  : changelist,
-                      codeline    : codeline,
-                      branch_name : branch_name
-                    },{
-                      result      : R,
-                      details     : JSON.stringify(stat)
-                    });
-                  }
-                  if(inputs.kind  ==  'shelvecheck'){
-                  }
-                }
+                          if(R  ==  'NOTDONE'){
+                          }
+                          else{
+                            if(inputs.kind  ==  'changelistcheck'){
+                              await Sanitychangelists.update({
+                                changelist  : changelist,
+                                codeline    : codeline,
+                                branch_name : branch_name
+                              },{
+                                result      : R,
+                                details     : JSON.stringify(stat)
+                              });
+                              runningtasks_CL--;
+                            }
+                            if(inputs.kind  ==  'shelvecheck'){
+                              await Sanityshelves.update({
+                                shelve      : shelve,
+                                codeline    : codeline,
+                                branch_name : branch_name
+                              },{
+                                result      : R,
+                                details     : JSON.stringify(stat)
+                              });
+                              runningtasks_SH--;
+                            }
+                            console.log(loginit()+treeRoot+' DB update');
+                            console.log(loginit()+'runningtasks_SH is now '+runningtasks_SH);
+                            console.log(loginit()+'runningtasks_CL is now '+runningtasks_CL);
+                          }
                           //check result
                         }
                         let lines = fs.readFileSync(treeRoot+"/nb__."+variantname+".run."+taskname+".log",'utf8').split('\n');
@@ -561,6 +660,11 @@ module.exports = {
                         for(let l=0;l<lines.length;l++){
                           if(djregxpass.test(lines[l])){
                             console.log(loginit()+treeRoot+' variant:'+variantname+' task:'+taskname+' run pass');
+                            console.log(loginit()+treeRoot+'/out.'+variantname+'.'+kind+'.'+taskname+'is being cleaned');
+                            //child_process.exec('bsub -P GIONB-SRDC -q regr_high -Is -J nbif_C_cln -R "rusage[mem=1000] select[type==RHEL7_64]" rm -rf '+treeRoot+'/out.'+variantname+'.'+kind+'.'+taskname, async function(err5,stdout5,stderr5){//TODO not sure if need bsub
+                            child_process.exec('rm -rf '+treeRoot+'/out.'+variantname+'.'+kind+'.'+taskname, async function(err5,stdout5,stderr5){//TODO not sure if need bsub
+                              console.log(loginit()+treeRoot+'/out.'+variantname+'.'+kind+'.'+taskname+'is cleaned');
+                            });
                             fs.writeFileSync(treeRoot+'/result.'+variantname+'.'+kind+'.'+taskname+'.RUNPASS','',{
                               encoding  : 'utf8',
                               mode      : '0600',
@@ -569,22 +673,35 @@ module.exports = {
                             stat[variantname][kind][taskname]='RUNPASS';
                             console.log(loginit()+treeRoot+' '+JSON.stringify(stat));
                             let R = checkifdone(treeRoot,stat);
-                if(R  ==  'NOTDONE'){
-                }
-                else{
-                  if(inputs.kind  ==  'changelistcheck'){
-                    await Sanitychangelists.update({
-                      changelist  : changelist,
-                      codeline    : codeline,
-                      branch_name : branch_name
-                    },{
-                      result      : R,
-                      details     : JSON.stringify(stat)
-                    });
-                  }
-                  if(inputs.kind  ==  'shelvecheck'){
-                  }
-                }
+                            if(R  ==  'NOTDONE'){
+                            }
+                            else{
+                              if(inputs.kind  ==  'changelistcheck'){
+                                await Sanitychangelists.update({
+                                  changelist  : changelist,
+                                  codeline    : codeline,
+                                  branch_name : branch_name
+                                },{
+                                  result      : R,
+                                  details     : JSON.stringify(stat)
+                                });
+                                runningtasks_CL--;
+                              }
+                              if(inputs.kind  ==  'shelvecheck'){
+                                await Sanityshelves.update({
+                                  shelve      : shelve,
+                                  codeline    : codeline,
+                                  branch_name : branch_name
+                                },{
+                                  result      : R,
+                                  details     : JSON.stringify(stat)
+                                });
+                                runningtasks_SH--;
+                              }
+                              console.log(loginit()+treeRoot+' DB update');
+                              console.log(loginit()+'runningtasks_SH is now '+runningtasks_SH);
+                              console.log(loginit()+'runningtasks_CL is now '+runningtasks_CL);
+                            }
                             //check result
                             break;
                           }
@@ -598,22 +715,35 @@ module.exports = {
                             stat[variantname][kind][taskname]='RUNFAIL';
                             console.log(loginit()+treeRoot+' '+JSON.stringify(stat));
                             let R = checkifdone(treeRoot,stat);
-                if(R  ==  'NOTDONE'){
-                }
-                else{
-                  if(inputs.kind  ==  'changelistcheck'){
-                    await Sanitychangelists.update({
-                      changelist  : changelist,
-                      codeline    : codeline,
-                      branch_name : branch_name
-                    },{
-                      result      : R,
-                      details     : JSON.stringify(stat)
-                    });
-                  }
-                  if(inputs.kind  ==  'shelvecheck'){
-                  }
-                }
+                            if(R  ==  'NOTDONE'){
+                            }
+                            else{
+                              if(inputs.kind  ==  'changelistcheck'){
+                                await Sanitychangelists.update({
+                                  changelist  : changelist,
+                                  codeline    : codeline,
+                                  branch_name : branch_name
+                                },{
+                                  result      : R,
+                                  details     : JSON.stringify(stat)
+                                });
+                                runningtasks_CL--;
+                              }
+                              if(inputs.kind  ==  'shelvecheck'){
+                                await Sanityshelves.update({
+                                  shelve      : shelve,
+                                  codeline    : codeline,
+                                  branch_name : branch_name
+                                },{
+                                  result      : R,
+                                  details     : JSON.stringify(stat)
+                                });
+                                runningtasks_SH--;
+                              }
+                              console.log(loginit()+treeRoot+' DB update');
+                              console.log(loginit()+'runningtasks_SH is now '+runningtasks_SH);
+                              console.log(loginit()+'runningtasks_CL is now '+runningtasks_CL);
+                            }
                             //check result
                             break;
                           }
@@ -632,22 +762,35 @@ module.exports = {
                           stat[variantname][kind][taskname]='RUNFAIL';
                           console.log(loginit()+treeRoot+' '+JSON.stringify(stat));
                           let R = checkifdone(treeRoot,stat);
-                if(R  ==  'NOTDONE'){
-                }
-                else{
-                  if(inputs.kind  ==  'changelistcheck'){
-                    await Sanitychangelists.update({
-                      changelist  : changelist,
-                      codeline    : codeline,
-                      branch_name : branch_name
-                    },{
-                      result      : R,
-                      details     : JSON.stringify(stat)
-                    });
-                  }
-                  if(inputs.kind  ==  'shelvecheck'){
-                  }
-                }
+                          if(R  ==  'NOTDONE'){
+                          }
+                          else{
+                            if(inputs.kind  ==  'changelistcheck'){
+                              await Sanitychangelists.update({
+                                changelist  : changelist,
+                                codeline    : codeline,
+                                branch_name : branch_name
+                              },{
+                                result      : R,
+                                details     : JSON.stringify(stat)
+                              });
+                              runningtasks_CL--;
+                            }
+                            if(inputs.kind  ==  'shelvecheck'){
+                              await Sanityshelves.update({
+                                shelve      : shelve,
+                                codeline    : codeline,
+                                branch_name : branch_name
+                              },{
+                                result      : R,
+                                details     : JSON.stringify(stat)
+                              });
+                              runningtasks_SH--;
+                            }
+                            console.log(loginit()+treeRoot+' DB update');
+                            console.log(loginit()+'runningtasks_SH is now '+runningtasks_SH);
+                            console.log(loginit()+'runningtasks_CL is now '+runningtasks_CL);
+                          }
                           //check result
                         }
                       });
@@ -655,7 +798,6 @@ module.exports = {
                   }
                 }
               }
-              
             }
           });
         }

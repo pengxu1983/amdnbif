@@ -82,7 +82,7 @@ let R = child_process.execSync('whoami',{
 }).split('\n');
 let whoami=R[0];
 console.log(loginit()+'whoami : '+R[0]);
-let HOME            = '/proj/cip_nbif_dv_3/changelistcheck';
+let HOME            = '/proj/cip_nbif_de_2/changelistcheck';
 let checknumber     = 3;
 let maxPS_CL        = 20;
 let runningtasks    = 0;
