@@ -222,7 +222,7 @@ let cron_clupdate = new cronJob('0 * * * * *',function(){
     //console.log(changelists);
   }
 },null,true,'Asia/Chongqing');
-let cron_check  = new cronJob('*/5 * * * * *',function(){
+let cron_check  = new cronJob('0 0 * * * *',function(){
   httpreq('localhost','9001','/sanity/runsanity','POST',{
     'kind'        : 'changelistcheck',
   });

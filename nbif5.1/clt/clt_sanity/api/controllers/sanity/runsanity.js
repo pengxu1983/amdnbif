@@ -83,10 +83,16 @@ let checkifdone     = function(treeRoot,stat){
   if(overallstatus  ==  'PASS'){
     child_process.execSync('mv '+treeRoot+' '+treeRoot+'.rm');
     child_process.exec('bsub -P GIONB-SRDC -q regr_high -Is -J nbif_C_cln -R "rusage[mem=1000] select[type==RHEL7_64]" rm -rf '+treeRoot+'.rm');
-    child_process.exec('mutt Benny.Peng@amd.com -s [NBIF][SanityCheck]['+overallstatus+'][treeRoot:'+treeRoot+'] ',function(err,stdout,stderr){});
+    console.log(loginit()+'sending email');
+    child_process.exec('mutt Benny.Peng@amd.com -s [NBIF][SanityCheck]['+overallstatus+'][treeRoot:'+treeRoot+'] ',function(err,stdout,stderr){
+      console.log(loginit()+'email done');
+    });
   }
   if(overallstatus  ==  'FAIL'){
-    child_process.exec('mutt Benny.Peng@amd.com -s [NBIF][SanityCheck]['+overallstatus+'][treeRoot:'+treeRoot+'] ',function(err,stdout,stderr){});
+    console.log(loginit()+'sending email');
+    child_process.exec('mutt Benny.Peng@amd.com -s [NBIF][SanityCheck]['+overallstatus+'][treeRoot:'+treeRoot+'] ',function(err,stdout,stderr){
+      console.log(loginit()+'email done');
+    });
     setTimeout(function(){
       let reverttext  = '';
       reverttext  +=  '#!/tool/pandora64/bin/tcsh\n';
@@ -660,10 +666,10 @@ module.exports = {
                         for(let l=0;l<lines.length;l++){
                           if(djregxpass.test(lines[l])){
                             console.log(loginit()+treeRoot+' variant:'+variantname+' task:'+taskname+' run pass');
-                            console.log(loginit()+treeRoot+'/out.'+variantname+'.'+kind+'.'+taskname+'is being cleaned');
+                            console.log(loginit()+treeRoot+'/out.'+variantname+'.'+kind+'.'+taskname+' is being cleaned');
                             //child_process.exec('bsub -P GIONB-SRDC -q regr_high -Is -J nbif_C_cln -R "rusage[mem=1000] select[type==RHEL7_64]" rm -rf '+treeRoot+'/out.'+variantname+'.'+kind+'.'+taskname, async function(err5,stdout5,stderr5){//TODO not sure if need bsub
                             child_process.exec('rm -rf '+treeRoot+'/out.'+variantname+'.'+kind+'.'+taskname, async function(err5,stdout5,stderr5){//TODO not sure if need bsub
-                              console.log(loginit()+treeRoot+'/out.'+variantname+'.'+kind+'.'+taskname+'is cleaned');
+                              console.log(loginit()+treeRoot+'/out.'+variantname+'.'+kind+'.'+taskname+' is cleaned');
                             });
                             fs.writeFileSync(treeRoot+'/result.'+variantname+'.'+kind+'.'+taskname+'.RUNPASS','',{
                               encoding  : 'utf8',

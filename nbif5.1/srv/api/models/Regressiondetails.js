@@ -65,6 +65,12 @@ module.exports = {
     shelve      : {
       type      : 'string'
     },
+    bsubid      : {
+      type      : 'string'
+    },
+    isOfficial  : {
+      type      : 'string'
+    }
     
 
 
