@@ -82,7 +82,7 @@ let R = child_process.execSync('whoami',{
 }).split('\n');
 let whoami=R[0];
 console.log(loginit()+'whoami : '+R[0]);
-let HOME            = '/proj/cip_nbif_de_2/changelistcheck';
+let HOME            = '/proj/cip_nbif_regress1/sanitychangelistcheck';
 let checknumber     = 3;
 let maxPS_CL        = 20;
 let runningtasks    = 0;
@@ -149,7 +149,7 @@ let checkifdone     = function(resultlocation,stat,changelistobj){
     }
   }
 };
-let cron_sync = new cronJob('0 0 * * * *',function(){
+let cron_sync = new cronJob('0 */10 * * * *',function(){
   for(let treeId  =0;treeId < refTrees.length;treeId++){
     let synctext  = '';
     synctext  +=  '#!/tool/pandora64/bin/tcsh\n';

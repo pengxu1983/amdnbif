@@ -13,7 +13,30 @@ module.exports = {
 
 
   exits: {
-
+    isOfficial  : {
+      type      : 'string'
+    },
+    variantname : {
+      type      : 'string'
+    },
+    codeline    : {
+      type      : 'string'
+    },
+    branch_name : {
+      type      : 'string'
+    },
+    groupname   : {
+      type      : 'string'
+    },
+    projectname : {
+      type      : 'string'
+    },
+    isBAPU      : {
+      type      : 'string'
+    },
+    shelve      : {
+      type      : 'string'
+    }
   },
 
 

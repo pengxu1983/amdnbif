@@ -38,7 +38,7 @@ let djregxfail      = /dj exited with errors/;
 let djregxpass      = /dj exited successfully/;
 let syncregxpass    = /All syncs OK/;
 let resolvefail     = /resolve skipped/;
-let HOME            = '/proj/cip_nbif_de_2/changelistcheck';
+let HOME            = '/proj/cip_nbif_regress1/sanitychangelistcheck';
 let refTrees        = [HOME+'/nbif.ref.main'];
 let maxPS_CL        = 20;
 let maxPS_SH        = 20;//TODO
@@ -46,6 +46,7 @@ let maxPSperson_SH  = 3;//TODO
 let runningtasks_CL = 0;
 let runningtasks_SH = 0;
 let checkifdone     = function(treeRoot,stat){
+  let mailbody  = '';
   let overallstatus = 'PASS';
   let finishednumber  = 0;
   for(let variantname in MASK){
@@ -69,28 +70,39 @@ let checkifdone     = function(treeRoot,stat){
     let regx  = /FAIL/;
     console.log(loginit()+treeRoot+' check done');
     for(let variantname in MASK){
+      mailbody += 'Variant:'+variantname+'\n';
       for(let kind  in  MASK[variantname]){
+        mailbody += '  Kind:'+kind+'\n';
         for(let taskname in MASK[variantname][kind]){
           if(MASK[variantname][kind][taskname]=='yes'){
             if(regx.test(stat[variantname][kind][taskname])){
+              mailbody += '    Task:'+taskname+':FAIL\n';
               overallstatus = 'FAIL';
+            }
+            if(stat[variantname][kind][taskname]=='RUNPASS'){
+              mailbody += '    Task:'+taskname+':PASS\n';
             }
           }
         }
       }
     }
   }
+  fs.writeFileSync(treeRoot+'/report',mailbody,{
+    encoding  : 'utf8',
+    mode      : '0600',
+    flag      : 'w'
+  });
   if(overallstatus  ==  'PASS'){
     child_process.execSync('mv '+treeRoot+' '+treeRoot+'.rm');
     child_process.exec('bsub -P GIONB-SRDC -q regr_high -Is -J nbif_C_cln -R "rusage[mem=1000] select[type==RHEL7_64]" rm -rf '+treeRoot+'.rm');
     console.log(loginit()+'sending email');
-    child_process.exec('mutt Benny.Peng@amd.com -s [NBIF][SanityCheck]['+overallstatus+'][treeRoot:'+treeRoot+'] ',function(err,stdout,stderr){
+    child_process.exec('mutt Benny.Peng@amd.com -s [NBIF][SanityCheck]['+overallstatus+'][treeRoot:'+treeRoot+'] < '+treeRoot+'/report',function(err,stdout,stderr){
       console.log(loginit()+'email done');
     });
   }
   if(overallstatus  ==  'FAIL'){
     console.log(loginit()+'sending email');
-    child_process.exec('mutt Benny.Peng@amd.com -s [NBIF][SanityCheck]['+overallstatus+'][treeRoot:'+treeRoot+'] ',function(err,stdout,stderr){
+    child_process.exec('mutt Benny.Peng@amd.com -s [NBIF][SanityCheck]['+overallstatus+'][treeRoot:'+treeRoot+'] < '+treeRoot+'/report',function(err,stdout,stderr){
       console.log(loginit()+'email done');
     });
     setTimeout(function(){
@@ -291,7 +303,8 @@ module.exports = {
     let syncstarttime = new moment();
     //child_process.execSync('bsub -P GIONB-SRDC -q regr_high -Is -J nbif_C_sy -R "rusage[mem=1000] select[type==RHEL7_64]" '+treeRoot+'.sync.script');
     console.log(loginit()+treeRoot+' sync start');
-    child_process.exec('bsub -P GIONB-SRDC -q regr_high -Is -J nbif_C_sy -R "rusage[mem=1000] select[type==RHEL7_64]" '+treeRoot+'.sync.script',async function(err2,stdout2,stderr2){
+    //child_process.exec('bsub -P GIONB-SRDC -q regr_high -Is -J nbif_C_sy -R "rusage[mem=1000] select[type==RHEL7_64]" '+treeRoot+'.sync.script',async function(err2,stdout2,stderr2){
+    child_process.exec(treeRoot+'.sync.script',async function(err2,stdout2,stderr2){
       let syncendtime = new moment();
       console.log(loginit()+treeRoot+' sync done');
       console.log(loginit()+treeRoot+' sync cost '+moment.duration(syncendtime.diff(syncstarttime)).as('minutes')+' minutes');

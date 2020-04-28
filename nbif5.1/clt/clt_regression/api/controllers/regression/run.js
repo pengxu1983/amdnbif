@@ -19,6 +19,18 @@ module.exports = {
     },
     branch_name : {
       type      : 'string'
+    },
+    groupname   : {
+      type      : 'string'
+    },
+    projectname : {
+      type      : 'string'
+    },
+    isBAPU      : {
+      type      : 'string'
+    },
+    shelve      : {
+      type      : 'string'
     }
   },
 
