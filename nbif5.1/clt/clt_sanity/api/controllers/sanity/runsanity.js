@@ -94,7 +94,9 @@ let checkifdone     = function(treeRoot,stat){
   });
   if(overallstatus  ==  'PASS'){
     child_process.execSync('mv '+treeRoot+' '+treeRoot+'.rm');
-    child_process.exec('bsub -P GIONB-SRDC -q regr_high -Is -J nbif_C_cln -R "rusage[mem=1000] select[type==RHEL7_64]" rm -rf '+treeRoot+'.rm');
+    child_process.exec('bsub -P GIONB-SRDC -q regr_high -Is -J nbif_C_cln -R "rusage[mem=1000] select[type==RHEL7_64]" rm -rf '+treeRoot+'.rm',function(err,stdout,stderr){
+      console.log(loginit()+treeRoot+' cleaned done');
+    });
     console.log(loginit()+'sending email');
     child_process.exec('mutt Benny.Peng@amd.com -s [NBIF][SanityCheck]['+overallstatus+'][treeRoot:'+treeRoot+'] < '+treeRoot+'/report',function(err,stdout,stderr){
       console.log(loginit()+'email done');
@@ -470,6 +472,176 @@ module.exports = {
                 mode      : '0600',
                 flag      : 'w'
               });
+              //for(let variantname in MASK){
+              //  for(let kind  in  MASK[variantname]){
+              //    for(let taskname in MASK[variantname][kind]){
+              //      if(MASK[variantname][kind][taskname]=='yes'){
+              //        console.log(loginit()+treeRoot+' '+variantname+' '+kind+' '+taskname+' run fail');
+              //        console.log(loginit()+treeRoot+' '+variantname+' '+kind+' '+taskname+' resolve fail');
+              //        fs.writeFileSync(treeRoot+'/result.'+variantname+'.'+kind+'.'+taskname+'.RESOLVEFAIL','',{
+              //          encoding  : 'utf8',
+              //          mode      : '0600',
+              //          flag      : 'w'
+              //        });
+              //        stat[variantname][kind][taskname]='RESOLVEFAIL';
+              //        console.log(loginit()+treeRoot+' stat is '+ JSON.stringify(stat));
+              //        let R = checkifdone(treeRoot,stat);
+              //        if(R  ==  'NOTDONE'){
+              //        }
+              //        else{
+              //          if(inputs.kind  ==  'changelistcheck'){
+              //            await Sanitychangelists.update({
+              //              changelist  : changelist,
+              //              codeline    : codeline,
+              //              branch_name : branch_name
+              //            },{
+              //              result      : R,
+              //              details     : JSON.stringify(stat)
+              //            });
+              //            runningtasks_CL--;
+              //          }
+              //          if(inputs.kind  ==  'shelvecheck'){
+              //            await Sanityshelves.update({
+              //              shelve      : shelve,
+              //              codeline    : codeline,
+              //              branch_name : branch_name
+              //            },{
+              //              result      : R,
+              //              details     : JSON.stringify(stat)
+              //            });
+              //            runningtasks_SH--;
+              //          }
+              //          console.log(loginit()+treeRoot+' DB update');
+              //          console.log(loginit()+'runningtasks_SH is now '+runningtasks_SH);
+              //          console.log(loginit()+'runningtasks_CL is now '+runningtasks_CL);
+              //        }
+              //        //check result
+              //      }
+              //    }
+              //  }
+              //}
+            }
+            if(!fs.existsSync(treeRoot+'/nb__.resolve.log')){
+              console.log(loginit()+treeRoot+' resolve fail');
+              fs.writeFileSync(treeRoot+'/nb__.resolve.FAIL','',{
+                encoding  : 'utf8',
+                mode      : '0600',
+                flag      : 'w'
+              });
+              //for(let variantname in MASK){
+              //  for(let kind  in  MASK[variantname]){
+              //    for(let taskname in MASK[variantname][kind]){
+              //      if(MASK[variantname][kind][taskname]=='yes'){
+              //        console.log(loginit()+treeRoot+' '+variantname+' '+kind+' '+taskname+' run fail');
+              //        console.log(loginit()+treeRoot+' '+variantname+' '+kind+' '+taskname+' resolve fail');
+              //        fs.writeFileSync(treeRoot+'/result.'+variantname+'.'+kind+'.'+taskname+'.RESOLVEFAIL','',{
+              //          encoding  : 'utf8',
+              //          mode      : '0600',
+              //          flag      : 'w'
+              //        });
+              //        stat[variantname][kind][taskname]='RESOLVEFAIL';
+              //        console.log(loginit()+treeRoot+' stat is '+ JSON.stringify(stat));
+              //        let R = checkifdone(treeRoot,stat);
+              //        if(R  ==  'NOTDONE'){
+              //        }
+              //        else{
+              //          if(inputs.kind  ==  'changelistcheck'){
+              //            await Sanitychangelists.update({
+              //              changelist  : changelist,
+              //              codeline    : codeline,
+              //              branch_name : branch_name
+              //            },{
+              //              result      : R,
+              //              details     : JSON.stringify(stat)
+              //            });
+              //            runningtasks_CL--;
+              //          }
+              //          if(inputs.kind  ==  'shelvecheck'){
+              //            await Sanityshelves.update({
+              //              shelve      : shelve,
+              //              codeline    : codeline,
+              //              branch_name : branch_name
+              //            },{
+              //              result      : R,
+              //              details     : JSON.stringify(stat)
+              //            });
+              //            runningtasks_SH--;
+              //          }
+              //          console.log(loginit()+treeRoot+' DB update');
+              //          console.log(loginit()+'runningtasks_SH is now '+runningtasks_SH);
+              //          console.log(loginit()+'runningtasks_CL is now '+runningtasks_CL);
+              //        }
+              //        //check result
+              //      }
+              //    }
+              //  }
+              //}
+            }
+            else{
+              let lines = fs.readFileSync(treeRoot+'/nb__.resolve.log','utf8').split('\n');
+              lines.pop();
+              for(let l=0;l<lines.length;l++){
+                if(resolvefail.test(lines[l])){
+                  console.log(loginit()+treeRoot+' resolve fail')
+                  fs.writeFileSync(treeRoot+'/nb__.resolve.FAIL','',{
+                    encoding  : 'utf8',
+                    mode      : '0600',
+                    flag      : 'w'
+                  });
+                  //for(let variantname in MASK){
+                  //  for(let kind  in  MASK[variantname]){
+                  //    for(let taskname in MASK[variantname][kind]){
+                  //      if(MASK[variantname][kind][taskname]=='yes'){
+                  //        console.log(loginit()+treeRoot+' '+variantname+' '+kind+' '+taskname+' run fail');
+                  //        console.log(loginit()+treeRoot+' '+variantname+' '+kind+' '+taskname+' resolve fail');
+                  //        fs.writeFileSync(treeRoot+'/result.'+variantname+'.'+kind+'.'+taskname+'.RESOLVEFAIL','',{
+                  //          encoding  : 'utf8',
+                  //          mode      : '0600',
+                  //          flag      : 'w'
+                  //        });
+                  //        stat[variantname][kind][taskname]='RESOLVEFAIL';
+                  //        console.log(loginit()+treeRoot+' stat is '+ JSON.stringify(stat));
+                  //        let R = checkifdone(treeRoot,stat);
+                  //        if(R  ==  'NOTDONE'){
+                  //        }
+                  //        else{
+                  //          if(inputs.kind  ==  'changelistcheck'){
+                  //            await Sanitychangelists.update({
+                  //              changelist  : changelist,
+                  //              codeline    : codeline,
+                  //              branch_name : branch_name
+                  //            },{
+                  //              result      : R,
+                  //              details     : JSON.stringify(stat)
+                  //            });
+                  //            runningtasks_CL--;
+                  //          }
+                  //          if(inputs.kind  ==  'shelvecheck'){
+                  //            await Sanityshelves.update({
+                  //              shelve      : shelve,
+                  //              codeline    : codeline,
+                  //              branch_name : branch_name
+                  //            },{
+                  //              result      : R,
+                  //              details     : JSON.stringify(stat)
+                  //            });
+                  //            runningtasks_SH--;
+                  //          }
+                  //          console.log(loginit()+treeRoot+' DB update');
+                  //          console.log(loginit()+'runningtasks_SH is now '+runningtasks_SH);
+                  //          console.log(loginit()+'runningtasks_CL is now '+runningtasks_CL);
+                  //        }
+                  //        //check result
+                  //      }
+                  //    }
+                  //  }
+                  //}
+                  break;
+                }
+              }
+            }
+            if(fs.existsSync(treeRoot+'/nb__.resolve.FAIL')){
+              console.log(loginit()+treeRoot+' resolve FAIL');
               for(let variantname in MASK){
                 for(let kind  in  MASK[variantname]){
                   for(let taskname in MASK[variantname][kind]){
@@ -519,68 +691,8 @@ module.exports = {
                 }
               }
             }
-            let lines = fs.readFileSync(treeRoot+'/nb__.resolve.log','utf8').split('\n');
-            lines.pop();
-            for(let l=0;l<lines.length;l++){
-              if(resolvefail.test(lines[l])){
-                console.log(loginit()+treeRoot+' resolve fail')
-                fs.writeFileSync(treeRoot+'/nb__.resolve.FAIL','',{
-                  encoding  : 'utf8',
-                  mode      : '0600',
-                  flag      : 'w'
-                });
-                for(let variantname in MASK){
-                  for(let kind  in  MASK[variantname]){
-                    for(let taskname in MASK[variantname][kind]){
-                      if(MASK[variantname][kind][taskname]=='yes'){
-                        console.log(loginit()+treeRoot+' '+variantname+' '+kind+' '+taskname+' run fail');
-                        console.log(loginit()+treeRoot+' '+variantname+' '+kind+' '+taskname+' resolve fail');
-                        fs.writeFileSync(treeRoot+'/result.'+variantname+'.'+kind+'.'+taskname+'.RESOLVEFAIL','',{
-                          encoding  : 'utf8',
-                          mode      : '0600',
-                          flag      : 'w'
-                        });
-                        stat[variantname][kind][taskname]='RESOLVEFAIL';
-                        console.log(loginit()+treeRoot+' stat is '+ JSON.stringify(stat));
-                        let R = checkifdone(treeRoot,stat);
-                        if(R  ==  'NOTDONE'){
-                        }
-                        else{
-                          if(inputs.kind  ==  'changelistcheck'){
-                            await Sanitychangelists.update({
-                              changelist  : changelist,
-                              codeline    : codeline,
-                              branch_name : branch_name
-                            },{
-                              result      : R,
-                              details     : JSON.stringify(stat)
-                            });
-                            runningtasks_CL--;
-                          }
-                          if(inputs.kind  ==  'shelvecheck'){
-                            await Sanityshelves.update({
-                              shelve      : shelve,
-                              codeline    : codeline,
-                              branch_name : branch_name
-                            },{
-                              result      : R,
-                              details     : JSON.stringify(stat)
-                            });
-                            runningtasks_SH--;
-                          }
-                          console.log(loginit()+treeRoot+' DB update');
-                          console.log(loginit()+'runningtasks_SH is now '+runningtasks_SH);
-                          console.log(loginit()+'runningtasks_CL is now '+runningtasks_CL);
-                        }
-                        //check result
-                      }
-                    }
-                  }
-                }
-                break;
-              }
-            }
-            if(!fs.existsSync(treeRoot+'/nb__.resolve.FAIL')){
+            //if(!fs.existsSync(treeRoot+'/nb__.resolve.FAIL')){
+            else{
               console.log(loginit()+treeRoot+' resolve pass')
               //resolve pass
               fs.writeFileSync(treeRoot+'/nb__.resolve.PASS','',{
@@ -593,230 +705,238 @@ module.exports = {
                 for(let kind  in  MASK[variantname]){
                   for(let taskname in MASK[variantname][kind]){
                     if(MASK[variantname][kind][taskname]=='yes'){
-                      let runtext = '';
-                      runtext += '#!/tool/pandora64/bin/tcsh\n';
-                      runtext += 'source /proj/verif_release_ro/cbwa_initscript/current/cbwa_init.csh\n';
-                      runtext += 'cd '+treeRoot+'\n';
-                      runtext += 'bootenv -v '+variantname+' -out_anchor '+treeRoot+'/out.'+variantname+'.'+kind+'.'+taskname+'\n';
-                      if(kind ==  'test'){
-                        runtext +='bsub -P GIONB-SRDC -q regr_high -Is -J nbif_C_rn -R "rusage[mem=5000] select[type==RHEL7_64]" dj -l '+treeRoot+'/nb__.'+variantname+'.run.'+taskname+'.log -DUVM_VERBOSITY=UVM_LOW -m4 -DUSE_VRQ -DCGM -DSEED=12345678 run_test -s nbiftdl '+taskname+'_nbif_all_rtl\n';
-                      }
-                      if(kind ==  'task'){
-                        switch (taskname) {
-                          case 'dcelab':
-                            if(variantname  ==  'nbif_draco_gpu'){
-                              runtext +='bsub -P GIONB-SRDC -q regr_high -Is -J nbif_C_rn -R "rusage[mem=30000] select[type==RHEL7_64]" '+"dj -l "+treeRoot+"/nb__."+variantname+".run."+taskname+".log"+" -e 'releaseflow::dropflow(:rtl_drop).build(:rhea_drop,:rhea_dc)' -DPUBLISH_BLKS=nbif_shub_wrap_algfx\n";
-                            }
-                            if(variantname  ==  'nbif_nv10_gpu'){
-                              runtext +='bsub -P GIONB-SRDC -q regr_high -Is -J nbif_C_rn -R "rusage[mem=30000] select[type==RHEL7_64]" '+"dj -l "+treeRoot+"/nb__."+variantname+".run."+taskname+".log"+" -e 'releaseflow::dropflow(:rtl_drop).build(:rhea_drop,:rhea_dc)' -DPUBLISH_BLKS=nbif_shub_wrap_gfx\n";
-                            }
-                            if(variantname  ==  'nbif_et_0'){
-                              runtext +='bsub -P GIONB-SRDC -q regr_high -Is -J nbif_C_rn -R "rusage[mem=30000] select[type==RHEL7_64]" '+"dj -l "+treeRoot+"/nb__."+variantname+".run."+taskname+".log"+" -e 'releaseflow::dropflow(:rtl_drop).build(:rhea_drop,:rhea_dc)' -DPUBLISH_BLKS=nbif_shub_wrap_et_0\n";
-                            }
-                            if(variantname  ==  'nbif_et_1'){
-                              runtext +='bsub -P GIONB-SRDC -q regr_high -Is -J nbif_C_rn -R "rusage[mem=30000] select[type==RHEL7_64]" '+"dj -l "+treeRoot+"/nb__."+variantname+".run."+taskname+".log"+" -e 'releaseflow::dropflow(:rtl_drop).build(:rhea_drop,:rhea_dc)' -DPUBLISH_BLKS=nbif_shub_wrap_et_1\n";
-                            }
-                            if(variantname  ==  'nbif_et_2'){
-                              runtext +='bsub -P GIONB-SRDC -q regr_high -Is -J nbif_C_rn -R "rusage[mem=30000] select[type==RHEL7_64]" '+"dj -l "+treeRoot+"/nb__."+variantname+".run."+taskname+".log"+" -e 'releaseflow::dropflow(:rtl_drop).build(:rhea_drop,:rhea_dc)' -DPUBLISH_BLKS=nbif_shub_wrap_et_2\n";
-                            }
-                            break;
-                        }
-                      }
-                      fs.writeFileSync(treeRoot+'.'+variantname+'.run.'+taskname+'.script',runtext,{
-                        encoding  : 'utf8',
-                        mode      : '0700',
-                        flag      : 'w'
-                      });
-                      let taskstarttime = new moment();
-                      console.log(loginit()+treeRoot+' variant:'+variantname+' task:'+taskname+' run start');
-                      child_process.exec(treeRoot+'.'+variantname+'.run.'+taskname+'.script',async function(err4,stdout4,stderr4){
-                        let taskendtime = new moment();
-                        console.log(loginit()+treeRoot+' variant:'+variantname+' task:'+taskname+' run done');
-                        console.log(loginit()+treeRoot+' variant:'+variantname+' task:'+taskname+' run cost '+moment.duration(taskendtime.diff(taskstarttime)).as('minutes')+' minutes');
-                        if(err4){
-                          console.log(loginit()+treeRoot+' variant:'+variantname+' task:'+taskname+' run fail '+err4);
-                          fs.writeFileSync(treeRoot+'/result.'+variantname+'.'+kind+'.'+taskname+'.RUNFAIL','',{
-                            encoding  : 'utf8',
-                            mode      : '0600',
-                            flag      : 'w'
-                          });
-                          stat[variantname][kind][taskname]='RUNFAIL';
-                          console.log(loginit()+treeRoot+' '+JSON.stringify(stat));
-                          let R = checkifdone(treeRoot,stat);
-                          if(R  ==  'NOTDONE'){
-                          }
-                          else{
-                            if(inputs.kind  ==  'changelistcheck'){
-                              await Sanitychangelists.update({
-                                changelist  : changelist,
-                                codeline    : codeline,
-                                branch_name : branch_name
-                              },{
-                                result      : R,
-                                details     : JSON.stringify(stat)
-                              });
-                              runningtasks_CL--;
-                            }
-                            if(inputs.kind  ==  'shelvecheck'){
-                              await Sanityshelves.update({
-                                shelve      : shelve,
-                                codeline    : codeline,
-                                branch_name : branch_name
-                              },{
-                                result      : R,
-                                details     : JSON.stringify(stat)
-                              });
-                              runningtasks_SH--;
-                            }
-                            console.log(loginit()+treeRoot+' DB update');
-                            console.log(loginit()+'runningtasks_SH is now '+runningtasks_SH);
-                            console.log(loginit()+'runningtasks_CL is now '+runningtasks_CL);
-                          }
-                          //check result
-                        }
-                        let lines = fs.readFileSync(treeRoot+"/nb__."+variantname+".run."+taskname+".log",'utf8').split('\n');
-                        lines.pop();
-                        for(let l=0;l<lines.length;l++){
-                          if(djregxpass.test(lines[l])){
-                            console.log(loginit()+treeRoot+' variant:'+variantname+' task:'+taskname+' run pass');
-                            console.log(loginit()+treeRoot+'/out.'+variantname+'.'+kind+'.'+taskname+' is being cleaned');
-                            //child_process.exec('bsub -P GIONB-SRDC -q regr_high -Is -J nbif_C_cln -R "rusage[mem=1000] select[type==RHEL7_64]" rm -rf '+treeRoot+'/out.'+variantname+'.'+kind+'.'+taskname, async function(err5,stdout5,stderr5){//TODO not sure if need bsub
-                            child_process.exec('rm -rf '+treeRoot+'/out.'+variantname+'.'+kind+'.'+taskname, async function(err5,stdout5,stderr5){//TODO not sure if need bsub
-                              console.log(loginit()+treeRoot+'/out.'+variantname+'.'+kind+'.'+taskname+' is cleaned');
-                            });
-                            fs.writeFileSync(treeRoot+'/result.'+variantname+'.'+kind+'.'+taskname+'.RUNPASS','',{
-                              encoding  : 'utf8',
-                              mode      : '0600',
-                              flag      : 'w'
-                            });
-                            stat[variantname][kind][taskname]='RUNPASS';
-                            console.log(loginit()+treeRoot+' '+JSON.stringify(stat));
-                            let R = checkifdone(treeRoot,stat);
-                            if(R  ==  'NOTDONE'){
-                            }
-                            else{
-                              if(inputs.kind  ==  'changelistcheck'){
-                                await Sanitychangelists.update({
-                                  changelist  : changelist,
-                                  codeline    : codeline,
-                                  branch_name : branch_name
-                                },{
-                                  result      : R,
-                                  details     : JSON.stringify(stat)
-                                });
-                                runningtasks_CL--;
-                              }
-                              if(inputs.kind  ==  'shelvecheck'){
-                                await Sanityshelves.update({
-                                  shelve      : shelve,
-                                  codeline    : codeline,
-                                  branch_name : branch_name
-                                },{
-                                  result      : R,
-                                  details     : JSON.stringify(stat)
-                                });
-                                runningtasks_SH--;
-                              }
-                              console.log(loginit()+treeRoot+' DB update');
-                              console.log(loginit()+'runningtasks_SH is now '+runningtasks_SH);
-                              console.log(loginit()+'runningtasks_CL is now '+runningtasks_CL);
-                            }
-                            //check result
-                            break;
-                          }
-                          if(djregxfail.test(lines[l])){
-                            console.log(loginit()+treeRoot+' variant:'+variantname+' task:'+taskname+' run fail');
-                            fs.writeFileSync(treeRoot+'/result.'+variantname+'.'+kind+'.'+taskname+'.RUNFAIL','',{
-                              encoding  : 'utf8',
-                              mode      : '0600',
-                              flag      : 'w'
-                            });
-                            stat[variantname][kind][taskname]='RUNFAIL';
-                            console.log(loginit()+treeRoot+' '+JSON.stringify(stat));
-                            let R = checkifdone(treeRoot,stat);
-                            if(R  ==  'NOTDONE'){
-                            }
-                            else{
-                              if(inputs.kind  ==  'changelistcheck'){
-                                await Sanitychangelists.update({
-                                  changelist  : changelist,
-                                  codeline    : codeline,
-                                  branch_name : branch_name
-                                },{
-                                  result      : R,
-                                  details     : JSON.stringify(stat)
-                                });
-                                runningtasks_CL--;
-                              }
-                              if(inputs.kind  ==  'shelvecheck'){
-                                await Sanityshelves.update({
-                                  shelve      : shelve,
-                                  codeline    : codeline,
-                                  branch_name : branch_name
-                                },{
-                                  result      : R,
-                                  details     : JSON.stringify(stat)
-                                });
-                                runningtasks_SH--;
-                              }
-                              console.log(loginit()+treeRoot+' DB update');
-                              console.log(loginit()+'runningtasks_SH is now '+runningtasks_SH);
-                              console.log(loginit()+'runningtasks_CL is now '+runningtasks_CL);
-                            }
-                            //check result
-                            break;
-                          }
-                        }
-                        if(fs.existsSync(treeRoot+'/result.'+variantname+'.'+kind+'.'+taskname+'.RUNFAIL')){
-                        }
-                        else if(fs.existsSync(treeRoot+'/result.'+variantname+'.'+kind+'.'+taskname+'.RUNPASS')){
-                        }
-                        else{
-                          console.log(loginit()+treeRoot+' variant:'+variantname+' task:'+taskname+' run fail');
-                          fs.writeFileSync(treeRoot+'/result.'+variantname+'.'+kind+'.'+taskname+'.RUNFAIL','',{
-                            encoding  : 'utf8',
-                            mode      : '0600',
-                            flag      : 'w'
-                          });
-                          stat[variantname][kind][taskname]='RUNFAIL';
-                          console.log(loginit()+treeRoot+' '+JSON.stringify(stat));
-                          let R = checkifdone(treeRoot,stat);
-                          if(R  ==  'NOTDONE'){
-                          }
-                          else{
-                            if(inputs.kind  ==  'changelistcheck'){
-                              await Sanitychangelists.update({
-                                changelist  : changelist,
-                                codeline    : codeline,
-                                branch_name : branch_name
-                              },{
-                                result      : R,
-                                details     : JSON.stringify(stat)
-                              });
-                              runningtasks_CL--;
-                            }
-                            if(inputs.kind  ==  'shelvecheck'){
-                              await Sanityshelves.update({
-                                shelve      : shelve,
-                                codeline    : codeline,
-                                branch_name : branch_name
-                              },{
-                                result      : R,
-                                details     : JSON.stringify(stat)
-                              });
-                              runningtasks_SH--;
-                            }
-                            console.log(loginit()+treeRoot+' DB update');
-                            console.log(loginit()+'runningtasks_SH is now '+runningtasks_SH);
-                            console.log(loginit()+'runningtasks_CL is now '+runningtasks_CL);
-                          }
-                          //check result
-                        }
-                      });
                     }
                   }
                 }
               }
+              //for(let variantname in MASK){
+              //  for(let kind  in  MASK[variantname]){
+              //    for(let taskname in MASK[variantname][kind]){
+              //      if(MASK[variantname][kind][taskname]=='yes'){
+              //        let runtext = '';
+              //        runtext += '#!/tool/pandora64/bin/tcsh\n';
+              //        runtext += 'source /proj/verif_release_ro/cbwa_initscript/current/cbwa_init.csh\n';
+              //        runtext += 'cd '+treeRoot+'\n';
+              //        runtext += 'bootenv -v '+variantname+' -out_anchor '+treeRoot+'/out.'+variantname+'.'+kind+'.'+taskname+'\n';
+              //        if(kind ==  'test'){
+              //          runtext +='bsub -P GIONB-SRDC -q regr_high -Is -J nbif_C_rn -R "rusage[mem=5000] select[type==RHEL7_64]" dj -l '+treeRoot+'/nb__.'+variantname+'.run.'+taskname+'.log -DUVM_VERBOSITY=UVM_LOW -m4 -DUSE_VRQ -DCGM -DSEED=12345678 run_test -s nbiftdl '+taskname+'_nbif_all_rtl\n';
+              //        }
+              //        if(kind ==  'task'){
+              //          switch (taskname) {
+              //            case 'dcelab':
+              //              if(variantname  ==  'nbif_draco_gpu'){
+              //                runtext +='bsub -P GIONB-SRDC -q regr_high -Is -J nbif_C_rn -R "rusage[mem=30000] select[type==RHEL7_64]" '+"dj -l "+treeRoot+"/nb__."+variantname+".run."+taskname+".log"+" -e 'releaseflow::dropflow(:rtl_drop).build(:rhea_drop,:rhea_dc)' -DPUBLISH_BLKS=nbif_shub_wrap_algfx\n";
+              //              }
+              //              if(variantname  ==  'nbif_nv10_gpu'){
+              //                runtext +='bsub -P GIONB-SRDC -q regr_high -Is -J nbif_C_rn -R "rusage[mem=30000] select[type==RHEL7_64]" '+"dj -l "+treeRoot+"/nb__."+variantname+".run."+taskname+".log"+" -e 'releaseflow::dropflow(:rtl_drop).build(:rhea_drop,:rhea_dc)' -DPUBLISH_BLKS=nbif_shub_wrap_gfx\n";
+              //              }
+              //              if(variantname  ==  'nbif_et_0'){
+              //                runtext +='bsub -P GIONB-SRDC -q regr_high -Is -J nbif_C_rn -R "rusage[mem=30000] select[type==RHEL7_64]" '+"dj -l "+treeRoot+"/nb__."+variantname+".run."+taskname+".log"+" -e 'releaseflow::dropflow(:rtl_drop).build(:rhea_drop,:rhea_dc)' -DPUBLISH_BLKS=nbif_shub_wrap_et_0\n";
+              //              }
+              //              if(variantname  ==  'nbif_et_1'){
+              //                runtext +='bsub -P GIONB-SRDC -q regr_high -Is -J nbif_C_rn -R "rusage[mem=30000] select[type==RHEL7_64]" '+"dj -l "+treeRoot+"/nb__."+variantname+".run."+taskname+".log"+" -e 'releaseflow::dropflow(:rtl_drop).build(:rhea_drop,:rhea_dc)' -DPUBLISH_BLKS=nbif_shub_wrap_et_1\n";
+              //              }
+              //              if(variantname  ==  'nbif_et_2'){
+              //                runtext +='bsub -P GIONB-SRDC -q regr_high -Is -J nbif_C_rn -R "rusage[mem=30000] select[type==RHEL7_64]" '+"dj -l "+treeRoot+"/nb__."+variantname+".run."+taskname+".log"+" -e 'releaseflow::dropflow(:rtl_drop).build(:rhea_drop,:rhea_dc)' -DPUBLISH_BLKS=nbif_shub_wrap_et_2\n";
+              //              }
+              //              break;
+              //          }
+              //        }
+              //        fs.writeFileSync(treeRoot+'.'+variantname+'.run.'+taskname+'.script',runtext,{
+              //          encoding  : 'utf8',
+              //          mode      : '0700',
+              //          flag      : 'w'
+              //        });
+              //        let taskstarttime = new moment();
+              //        console.log(loginit()+treeRoot+' variant:'+variantname+' task:'+taskname+' run start');
+              //        child_process.exec(treeRoot+'.'+variantname+'.run.'+taskname+'.script',async function(err4,stdout4,stderr4){
+              //          let taskendtime = new moment();
+              //          console.log(loginit()+treeRoot+' variant:'+variantname+' task:'+taskname+' run done');
+              //          console.log(loginit()+treeRoot+' variant:'+variantname+' task:'+taskname+' run cost '+moment.duration(taskendtime.diff(taskstarttime)).as('minutes')+' minutes');
+              //          if(err4){
+              //            console.log(loginit()+treeRoot+' variant:'+variantname+' task:'+taskname+' run fail '+err4);
+              //            fs.writeFileSync(treeRoot+'/result.'+variantname+'.'+kind+'.'+taskname+'.RUNFAIL','',{
+              //              encoding  : 'utf8',
+              //              mode      : '0600',
+              //              flag      : 'w'
+              //            });
+              //            stat[variantname][kind][taskname]='RUNFAIL';
+              //            console.log(loginit()+treeRoot+' '+JSON.stringify(stat));
+              //            let R = checkifdone(treeRoot,stat);
+              //            if(R  ==  'NOTDONE'){
+              //            }
+              //            else{
+              //              if(inputs.kind  ==  'changelistcheck'){
+              //                await Sanitychangelists.update({
+              //                  changelist  : changelist,
+              //                  codeline    : codeline,
+              //                  branch_name : branch_name
+              //                },{
+              //                  result      : R,
+              //                  details     : JSON.stringify(stat)
+              //                });
+              //                runningtasks_CL--;
+              //              }
+              //              if(inputs.kind  ==  'shelvecheck'){
+              //                await Sanityshelves.update({
+              //                  shelve      : shelve,
+              //                  codeline    : codeline,
+              //                  branch_name : branch_name
+              //                },{
+              //                  result      : R,
+              //                  details     : JSON.stringify(stat)
+              //                });
+              //                runningtasks_SH--;
+              //              }
+              //              console.log(loginit()+treeRoot+' DB update');
+              //              console.log(loginit()+'runningtasks_SH is now '+runningtasks_SH);
+              //              console.log(loginit()+'runningtasks_CL is now '+runningtasks_CL);
+              //            }
+              //            //check result
+              //          }
+              //          let lines = fs.readFileSync(treeRoot+"/nb__."+variantname+".run."+taskname+".log",'utf8').split('\n');
+              //          lines.pop();
+              //          for(let l=0;l<lines.length;l++){
+              //            if(djregxpass.test(lines[l])){
+              //              console.log(loginit()+treeRoot+' variant:'+variantname+' task:'+taskname+' run pass');
+              //              console.log(loginit()+treeRoot+'/out.'+variantname+'.'+kind+'.'+taskname+' is being cleaned');
+              //              //child_process.exec('bsub -P GIONB-SRDC -q regr_high -Is -J nbif_C_cln -R "rusage[mem=1000] select[type==RHEL7_64]" rm -rf '+treeRoot+'/out.'+variantname+'.'+kind+'.'+taskname, async function(err5,stdout5,stderr5){//TODO not sure if need bsub
+              //              child_process.exec('rm -rf '+treeRoot+'/out.'+variantname+'.'+kind+'.'+taskname, async function(err5,stdout5,stderr5){//TODO not sure if need bsub
+              //                console.log(loginit()+treeRoot+'/out.'+variantname+'.'+kind+'.'+taskname+' is cleaned');
+              //              });
+              //              fs.writeFileSync(treeRoot+'/result.'+variantname+'.'+kind+'.'+taskname+'.RUNPASS','',{
+              //                encoding  : 'utf8',
+              //                mode      : '0600',
+              //                flag      : 'w'
+              //              });
+              //              stat[variantname][kind][taskname]='RUNPASS';
+              //              console.log(loginit()+treeRoot+' '+JSON.stringify(stat));
+              //              let R = checkifdone(treeRoot,stat);
+              //              if(R  ==  'NOTDONE'){
+              //              }
+              //              else{
+              //                if(inputs.kind  ==  'changelistcheck'){
+              //                  await Sanitychangelists.update({
+              //                    changelist  : changelist,
+              //                    codeline    : codeline,
+              //                    branch_name : branch_name
+              //                  },{
+              //                    result      : R,
+              //                    details     : JSON.stringify(stat)
+              //                  });
+              //                  runningtasks_CL--;
+              //                }
+              //                if(inputs.kind  ==  'shelvecheck'){
+              //                  await Sanityshelves.update({
+              //                    shelve      : shelve,
+              //                    codeline    : codeline,
+              //                    branch_name : branch_name
+              //                  },{
+              //                    result      : R,
+              //                    details     : JSON.stringify(stat)
+              //                  });
+              //                  runningtasks_SH--;
+              //                }
+              //                console.log(loginit()+treeRoot+' DB update');
+              //                console.log(loginit()+'runningtasks_SH is now '+runningtasks_SH);
+              //                console.log(loginit()+'runningtasks_CL is now '+runningtasks_CL);
+              //              }
+              //              //check result
+              //              break;
+              //            }
+              //            if(djregxfail.test(lines[l])){
+              //              console.log(loginit()+treeRoot+' variant:'+variantname+' task:'+taskname+' run fail');
+              //              fs.writeFileSync(treeRoot+'/result.'+variantname+'.'+kind+'.'+taskname+'.RUNFAIL','',{
+              //                encoding  : 'utf8',
+              //                mode      : '0600',
+              //                flag      : 'w'
+              //              });
+              //              stat[variantname][kind][taskname]='RUNFAIL';
+              //              console.log(loginit()+treeRoot+' '+JSON.stringify(stat));
+              //              let R = checkifdone(treeRoot,stat);
+              //              if(R  ==  'NOTDONE'){
+              //              }
+              //              else{
+              //                if(inputs.kind  ==  'changelistcheck'){
+              //                  await Sanitychangelists.update({
+              //                    changelist  : changelist,
+              //                    codeline    : codeline,
+              //                    branch_name : branch_name
+              //                  },{
+              //                    result      : R,
+              //                    details     : JSON.stringify(stat)
+              //                  });
+              //                  runningtasks_CL--;
+              //                }
+              //                if(inputs.kind  ==  'shelvecheck'){
+              //                  await Sanityshelves.update({
+              //                    shelve      : shelve,
+              //                    codeline    : codeline,
+              //                    branch_name : branch_name
+              //                  },{
+              //                    result      : R,
+              //                    details     : JSON.stringify(stat)
+              //                  });
+              //                  runningtasks_SH--;
+              //                }
+              //                console.log(loginit()+treeRoot+' DB update');
+              //                console.log(loginit()+'runningtasks_SH is now '+runningtasks_SH);
+              //                console.log(loginit()+'runningtasks_CL is now '+runningtasks_CL);
+              //              }
+              //              //check result
+              //              break;
+              //            }
+              //          }
+              //          if(fs.existsSync(treeRoot+'/result.'+variantname+'.'+kind+'.'+taskname+'.RUNFAIL')){
+              //          }
+              //          else if(fs.existsSync(treeRoot+'/result.'+variantname+'.'+kind+'.'+taskname+'.RUNPASS')){
+              //          }
+              //          else{
+              //            console.log(loginit()+treeRoot+' variant:'+variantname+' task:'+taskname+' run fail');
+              //            fs.writeFileSync(treeRoot+'/result.'+variantname+'.'+kind+'.'+taskname+'.RUNFAIL','',{
+              //              encoding  : 'utf8',
+              //              mode      : '0600',
+              //              flag      : 'w'
+              //            });
+              //            stat[variantname][kind][taskname]='RUNFAIL';
+              //            console.log(loginit()+treeRoot+' '+JSON.stringify(stat));
+              //            let R = checkifdone(treeRoot,stat);
+              //            if(R  ==  'NOTDONE'){
+              //            }
+              //            else{
+              //              if(inputs.kind  ==  'changelistcheck'){
+              //                await Sanitychangelists.update({
+              //                  changelist  : changelist,
+              //                  codeline    : codeline,
+              //                  branch_name : branch_name
+              //                },{
+              //                  result      : R,
+              //                  details     : JSON.stringify(stat)
+              //                });
+              //                runningtasks_CL--;
+              //              }
+              //              if(inputs.kind  ==  'shelvecheck'){
+              //                await Sanityshelves.update({
+              //                  shelve      : shelve,
+              //                  codeline    : codeline,
+              //                  branch_name : branch_name
+              //                },{
+              //                  result      : R,
+              //                  details     : JSON.stringify(stat)
+              //                });
+              //                runningtasks_SH--;
+              //              }
+              //              console.log(loginit()+treeRoot+' DB update');
+              //              console.log(loginit()+'runningtasks_SH is now '+runningtasks_SH);
+              //              console.log(loginit()+'runningtasks_CL is now '+runningtasks_CL);
+              //            }
+              //            //check result
+              //          }
+              //        });
+              //      }
+              //    }
+              //  }
+              //}
             }
           });
         }
