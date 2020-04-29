@@ -8,7 +8,7 @@ let fs              = require('fs');
 let loginit         = function(){
   return '[LOG]['+moment().format('YYYY-MM-DD HH:mm:ss')+'] ';
 };
-let process         = {};
+let PS         = {};
 module.exports = {
 
 
