@@ -20,8 +20,30 @@ module.exports.routes = {
   ***************************************************************************/
 
   '/': { view: 'pages/homepage' },
-
-
+  'POST /parameters'  : {
+    action  : 'parameters'
+  },
+  'POST /buildtree'  : {
+    action  : 'buildtree'
+  },
+  'POST /checktask'  : {
+    action  : 'checktask'
+  },
+  'POST /runtask'  : {
+    action  : 'runtask'
+  },
+  'POST /runtest'  : {
+    action  : 'runtest'
+  },
+  'POST /cleanworkspace'  : {
+    action  : 'cleanworkspace'
+  },
+  'POST /synctree'  : {
+    action  : 'synctree'
+  },
+  'POST /unshelveandresolve'  : {
+    action  : 'unshelveandresolve'
+  },
   /***************************************************************************
   *                                                                          *
   * More custom routes here...                                               *
