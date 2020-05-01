@@ -32,7 +32,7 @@ module.exports = {
       type    : 'string'
     },
     changelist  : {
-      type    : 'string'
+      type    : 'number'
     },
     testlist    : {
       type    : 'string',
