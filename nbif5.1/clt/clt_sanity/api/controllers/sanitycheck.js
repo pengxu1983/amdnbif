@@ -52,9 +52,7 @@ let checkifdone     = async function(pickedupitem, path, stat){
   }
   else{
     for(let variantname in MASK){
-      stat[variantname]={};
       for(let kind  in  MASK[variantname]){
-        stat[variantname][kind]={};
         for(let taskname in MASK[variantname][kind]){
           if(MASK[variantname][kind][taskname]=='yes'){
             if(stat[variantname][kind][taskname]['result']!='RUNPASS'){
@@ -98,18 +96,63 @@ let checkifdone     = async function(pickedupitem, path, stat){
         let mailbody  = '';
         mailbody  +=  '<html>\n';
         mailbody  +=  '<body>\n';
-        mailbody  +=  '<h1>我的第一个标题</h1>\n';
-        mailbody  +=  '<p>我的第一个段落。</p>\n';
+        mailbody  +=  '<h4>Hi '+pickedupitem.username+'h4>\n';
+        mailbody  +=  '<table border="1">\n';
+        mailbody  +=  '<tr>\n';
+        mailbody  +=  '  <th>Variant Name</th>\n';
+        mailbody  +=  '  <th>Kind</th>\n';
+        mailbody  +=  '  <th>Task Name</th>\n';
+        mailbody  +=  '</tr>\n';
+        //variantname_span get
+        for(let variantname in MASK){
+          let variantname_span=0;
+          for(let kind  in  MASK[variantname]){
+            for(let taskname in MASK[variantname][kind]){
+              if(MASK[variantname][kind][taskname]=='yes'){
+                variantname_span++;
+              }
+            }
+          }
+          mailbody  +=  '<tr>\n';
+          mailbody  +=  '  <th rowspan="'+variantname_span+'">'+variantname+'</th>\n';
+          mailbody  +=  '</tr>\n';
+          for(let kind  in  MASK[variantname]){
+            let kind_span=0;
+            for(let taskname in MASK[variantname][kind]){
+              if(MASK[variantname][kind][taskname]=='yes'){
+                kind_span++;
+              }
+            }
+            mailbody  +=  '<tr>\n';
+            mailbody  +=  '  <th rowspan="'+kind_span+'">'+kind+'</th>\n';
+            mailbody  +=  '</tr>\n';
+            for(let taskname in MASK[variantname][kind]){
+              if(MASK[variantname][kind][taskname]=='yes'){
+                mailbody  +=  '<tr>\n';
+                if(stat[variantname][kind][taskname]=='RUNPASS'){
+                  mailbody  +=  '  <td bgcolor=lightgreen>'+stat[variantname][kind][taskname]+'</td>\n';
+                }
+                else{
+                  mailbody  +=  '  <td bgcolor=red>'+stat[variantname][kind][taskname]+'</td>\n';
+                }
+                mailbody  +=  '</tr>\n';
+              }
+            }
+          }
+        }
         mailbody  +=  '</body>\n';
         mailbody  +=  '</html>\n';
+        //=====================
+        
         fs.writeFileSync(path+'/report',mailbody,{
           encoding  : 'utf8',
           mode      : '0600',
           flag      : 'w'
         });
         console.log(loginit()+'sending email');
-        child_process.exec('mutt Benny.Peng@amd.com -s [NBIF][SanityCheck]['+overallstatus+'][treeRoot:'+treeRoot+'] < '+treeRoot+'/report',function(err,stdout,stderr){
+        child_process.exec('mutt Benny.Peng@amd.com -e  \'set content_type="text/html"\' -s [NBIF][SanityCheck]['+overallstatus+'][treeRoot:'+treeRoot+'] < '+treeRoot+'/report',function(err,stdout,stderr){
           console.log(loginit()+'email done');
+          console.log(stdout);
         });
         //==========================================================
         // create mail body
