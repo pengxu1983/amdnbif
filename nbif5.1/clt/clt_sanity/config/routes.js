@@ -23,6 +23,9 @@ module.exports.routes = {
   'POST /sanity/check'  : {
     action  : 'sanity/check'
   },
+  'POST /sanity/kill'  : {
+    action  : 'sanity/kill'
+  },
   'POST /sanity/uploadchangelist'  : {
     action  : 'sanity/uploadchangelist'
   },
