@@ -38,6 +38,12 @@ module.exports.routes = {
   'POST /sanity/runsanity'  : {
     action  : 'sanity/runsanity'
   },
+  'GET /sanitycheck/:tasktype/:act'  : {
+    action  : 'sanitycheck'
+  },
+  'POST /sanitycheck'  : {
+    action  : 'sanitycheck'
+  },
   /***************************************************************************
   *                                                                          *
   * More custom routes here...                                               *
