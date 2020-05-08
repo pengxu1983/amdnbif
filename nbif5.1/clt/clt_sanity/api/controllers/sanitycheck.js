@@ -12,6 +12,22 @@ let variants        = ['nbif_nv10_gpu','nbif_draco_gpu','nbif_et_0','nbif_et_1',
 let kinds           = ['test','task'];
 let tests           = ['demo_test_0','demo_test_1','demo_test_2'];
 let tasks           = ['dcelab'];
+let djregxfail      = /dj exited with errors/;
+let djregxpass      = /dj exited successfully/;
+let syncregxpass    = /All syncs OK/;
+let resolvefail     = /resolve skipped/;
+let HOME            = '/proj/cip_nbif_regress1/sanitycheck';
+let refTrees        = [HOME+'/nbif.ref.main'];
+let maxPS_CL        = 20;
+let maxPS_SH        = 20;//TODO
+let maxPSperson_SH  = 3;//TODO
+let runningtasks_CL = 0;
+let runningtasks_SH = 0;
+let tasktype;
+let params;
+let act;
+let runtimeout      = 60*6;//6 hrs
+let PS  = {};
 let MASK            = {};
 for(let v=0;v<variants.length;v++){
   MASK[variants[v]]={};
@@ -30,7 +46,22 @@ for(let v=0;v<variants.length;v++){
   }
 }//TODO
 console.log(loginit()+JSON.stringify(MASK));
-let checkifdone     = async function(pickedupitem, path, stat){
+let getemail        = function(username){
+  let lines = fs.readFileSync('/home/benpeng/p4users','utf8').split('\n');
+  lines.pop();
+  let regx  = /^(\w+) <(\S+)>.*accessed/;
+  for(let l=0;l<lines.length;l++){
+    if(regx.test(lines[l])){
+      lines[l].replace(regx,function(rs,$1,$2){
+        if($1==username){
+          email = $2;
+        }
+      })
+    }
+  }
+  return email;
+}
+let checkifdone     = async function(pickedupitem, path, stat,res){
   let overallresult = 'PASS';
   let delaytime = 0;
   let finished  = 0;
@@ -48,7 +79,7 @@ let checkifdone     = async function(pickedupitem, path, stat){
       }
     }
   }
-  if(overallresult  ==  'NOTDONE'){
+  if(overallresult  ==  'NOTDONE') {
   }
   else{
     for(let variantname in MASK){
@@ -65,6 +96,10 @@ let checkifdone     = async function(pickedupitem, path, stat){
     }
     let itemDB;
     if(tasktype=='shelvecheck'){
+      if(PS['shelvecheck'].hasOwnProperty(pickedupitem.codeline+'_'+pickedupitem.branch_name+'_'+pickedupitem.shelve)){
+        delete PS['shelvecheck'][pickedupitem.codeline+'_'+pickedupitem.branch_name+'_'+pickedupitem.shelve];
+        console.log(loginit()+path+' PS cleaned');
+      }
       itemDB  = await Sanityshelves.find({
         codeline  : pickedupitem.codeline,
         branch_name: pickedupitem.branch_name,
@@ -96,50 +131,36 @@ let checkifdone     = async function(pickedupitem, path, stat){
         let mailbody  = '';
         mailbody  +=  '<html>\n';
         mailbody  +=  '<body>\n';
-        mailbody  +=  '<h4>Hi '+pickedupitem.username+'h4>\n';
-        mailbody  +=  '<table border="1">\n';
-        mailbody  +=  '<tr>\n';
-        mailbody  +=  '  <th>Variant Name</th>\n';
-        mailbody  +=  '  <th>Kind</th>\n';
-        mailbody  +=  '  <th>Task Name</th>\n';
-        mailbody  +=  '</tr>\n';
-        //variantname_span get
+        mailbody  +=  '<h3>Hi '+pickedupitem.username+'</h3>\n';
         for(let variantname in MASK){
-          let variantname_span=0;
-          for(let kind  in  MASK[variantname]){
-            for(let taskname in MASK[variantname][kind]){
-              if(MASK[variantname][kind][taskname]=='yes'){
-                variantname_span++;
-              }
-            }
-          }
+          mailbody  +=  '<h4>Variant : '+variantname+'</h4>\n';
+          mailbody  +=  '<table border="1">\n';
           mailbody  +=  '<tr>\n';
-          mailbody  +=  '  <th rowspan="'+variantname_span+'">'+variantname+'</th>\n';
+          mailbody  +=  '  <th>Task Name</th>\n';
+          mailbody  +=  '  <th>Result</th>\n';
           mailbody  +=  '</tr>\n';
+          
           for(let kind  in  MASK[variantname]){
-            let kind_span=0;
-            for(let taskname in MASK[variantname][kind]){
-              if(MASK[variantname][kind][taskname]=='yes'){
-                kind_span++;
-              }
-            }
-            mailbody  +=  '<tr>\n';
-            mailbody  +=  '  <th rowspan="'+kind_span+'">'+kind+'</th>\n';
-            mailbody  +=  '</tr>\n';
             for(let taskname in MASK[variantname][kind]){
               if(MASK[variantname][kind][taskname]=='yes'){
                 mailbody  +=  '<tr>\n';
-                if(stat[variantname][kind][taskname]=='RUNPASS'){
-                  mailbody  +=  '  <td bgcolor=lightgreen>'+stat[variantname][kind][taskname]+'</td>\n';
+                mailbody  +=  '  <td>'+taskname+'</td>\n';
+                if(stat[variantname][kind][taskname]['result']=='RUNPASS'){
+                  mailbody  +=  '  <td bgcolor=lightgreen>'+stat[variantname][kind][taskname]['result']+'</td>\n';
+                }
+                else if(stat[variantname][kind][taskname]['result']=='NOTDONE'){
+                  mailbody  +=  '  <td bgcolor=yellow>'+stat[variantname][kind][taskname]['result']+'</td>\n';
                 }
                 else{
-                  mailbody  +=  '  <td bgcolor=red>'+stat[variantname][kind][taskname]+'</td>\n';
+                  mailbody  +=  '  <td bgcolor=red>'+stat[variantname][kind][taskname]['result']+'</td>\n';
                 }
                 mailbody  +=  '</tr>\n';
               }
             }
           }
+          mailbody  +=  '</table>\n';
         }
+        mailbody  +=  '<h4><a href="http://logviewer-atl/'+path+'">Details</a></h4>\n';
         mailbody  +=  '</body>\n';
         mailbody  +=  '</html>\n';
         //=====================
@@ -150,7 +171,9 @@ let checkifdone     = async function(pickedupitem, path, stat){
           flag      : 'w'
         });
         console.log(loginit()+'sending email');
-        child_process.exec('mutt Benny.Peng@amd.com -e  \'set content_type="text/html"\' -s [NBIF][SanityCheck]['+overallstatus+'][treeRoot:'+treeRoot+'] < '+treeRoot+'/report',function(err,stdout,stderr){
+        let email = getemail(pickedupitem.username);
+        console.log(loginit()+'target email is '+email);
+        child_process.exec('mutt '+email+' -e  \'set content_type="text/html"\' -s [NBIF][SanityCheck]['+overallresult+'][treeRoot:'+path+'] < '+path+'/report',function(err,stdout,stderr){
           console.log(loginit()+'email done');
           console.log(stdout);
         });
@@ -174,6 +197,9 @@ let checkifdone     = async function(pickedupitem, path, stat){
         //==========================================================
         // revert script
         //==========================================================
+        if(overallresult  =='FAIL'){
+          delaytime = 24*3600*1000;
+        }
         console.log(loginit()+path+' is planned to clean after '+delaytime/3600/1000+' hrs');
         setTimeout(function(){
           child_process.execSync(path+'.revert.script');
@@ -193,21 +219,7 @@ let checkifdone     = async function(pickedupitem, path, stat){
   console.log(loginit()+path+' finished number is '+finished);
   console.log(loginit()+path+' overallresult is '+ overallresult);
 };
-let djregxfail      = /dj exited with errors/;
-let djregxpass      = /dj exited successfully/;
-let syncregxpass    = /All syncs OK/;
-let resolvefail     = /resolve skipped/;
-let HOME            = '/proj/cip_nbif_regress1/sanitycheck';
-let refTrees        = [HOME+'/nbif.ref.main'];
-let maxPS_CL        = 20;
-let maxPS_SH        = 20;//TODO
-let maxPSperson_SH  = 3;//TODO
-let runningtasks_CL = 0;
-let runningtasks_SH = 0;
-let tasktype;
-let params;
-let act;
-let PS  = {};
+
 let cron_check      = new cronJob('*/10 * * * * *',async function(){
   let pickedupitem = 'NA';
   let R;
@@ -238,9 +250,10 @@ let cron_check      = new cronJob('*/10 * * * * *',async function(){
             result      : 'KILLING'
           });
           console.log(loginit()+'remove '+K[k].resultlocation+' due to kill');
+          child_process.execSync('cd '+path+' && /tool/pandora64/.package/perforce-2009.2/bin/p4 revert ...');
           child_process.execSync('mv '+K[k].resultlocation+' '+K[k].resultlocation+'.kill');
           child_process.exec('rm -rf '+K[k].resultlocation+'.kill',async function(err1,stdout1,stderr1){
-            console.log(loginit()+'shelve '+K[k].codeline+'_'+K[k].branch_name+'_'+K[k].shelve+' killed');
+            console.log(loginit()+'shelve '+K[k].codeline+'_'+K[k].branch_name+'_'+K[k].shelve+' killed and dir removed');
             await Sanityshelves.update({
               codeline    : K[k].codeline,
               branch_name : K[k].branch_name,
@@ -248,8 +261,10 @@ let cron_check      = new cronJob('*/10 * * * * *',async function(){
             },{
               result      : 'KILLED'
             });
+            delete PS['shelvecheck'][K[k].codeline+'_'+K[k].branch_name+'_'+K[k].shelve];
+
+            child_process.exec('echo killed | mutt '+getemail(K[k].username)+' -e  \'set content_type="text/html"\' -s [NBIF][SanityCheck][KILLED]['+K[k].codeline+']['+K[k].branch_name+']['+K[k].shelve+']');
           });
-          delete PS['shelvecheck'][K[k].codeline+'_'+K[k].branch_name+'_'+K[k].shelve];
         }
         else{
           console.log(loginit()+'killing '+K[k].codeline+'_'+K[k].branch_name+'_'+K[k].shelve);
@@ -261,9 +276,9 @@ let cron_check      = new cronJob('*/10 * * * * *',async function(){
             },{
               result      : 'KILLING'
             });
+            console.log(loginit()+'killing '+ps);
             PS['shelvecheck'][K[k].codeline+'_'+K[k].branch_name+'_'+K[k].shelve][ps].kill();
           }
-          delete PS['shelvecheck'][K[k].codeline+'_'+K[k].branch_name+'_'+K[k].shelve];
           console.log(loginit()+'remove '+K[k].resultlocation+' due to kill');
           child_process.execSync('mv '+K[k].resultlocation+' '+K[k].resultlocation+'.kill');
           child_process.exec('rm -rf '+K[k].resultlocation+'.kill',async function(err1,stdout1,stderr1){
@@ -275,6 +290,8 @@ let cron_check      = new cronJob('*/10 * * * * *',async function(){
             },{
               result      : 'KILLED'
             });
+            delete PS['shelvecheck'][K[k].codeline+'_'+K[k].branch_name+'_'+K[k].shelve];
+            child_process.exec('echo killed | mutt '+getemail(K[k].username)+' -e  \'set content_type="text/html"\' -s [NBIF][SanityCheck][KILLED]['+K[k].codeline+']['+K[k].branch_name+']['+K[k].shelve+']');
           });
         }
       }
@@ -468,18 +485,40 @@ let cron_check      = new cronJob('*/10 * * * * *',async function(){
   if(tasktype =='shelvecheck'){
   }
   synctext  +=  '> '+treeRoot+'.sync.log\n';
+  synctext  +=  'p4 users > ~/p4users\n';
   fs.writeFileSync(treeRoot+'.sync.script',synctext,{
     encoding  : 'utf8',
     mode      : '0700',
     flag      : 'w'
   });
   console.log(loginit()+treeRoot+' sync script made');
-  let index = PS[tasktype][itemID].length;
   console.log(loginit()+treeRoot+' sync start');
   let syncstarttime = new moment();
   console.log(loginit()+'===='+itemID);
   PS[tasktype][itemID]['sync']=child_process.exec(treeRoot+'.sync.script',async function(err1,stdout1,stderr1){
-    delete PS[tasktype][itemID]['sync'];
+    if(PS[tasktype][itemID].hasOwnProperty('sync')){
+      delete PS[tasktype][itemID]['sync'];
+    }
+    let S;
+    if(tasktype=='shelvecheck'){
+      S = await Sanityshelves.find({
+        codeline  : pickedupitem.codeline,
+        branch_name : pickedupitem.branch_name,
+        shelve  : pickedupitem.shelve
+      });
+    }
+    if(tasktype=='changelistcheck'){
+      S = await Sanitychangelists.find({
+        codeline    : pickedupitem.codeline,
+        branch_name : pickedupitem.branch_name,
+        changelist  : pickedupitem.changelist
+      });
+    }
+    if((S[0].result ==  'TOKILL')||(S[0].result ==  'KILLED')||(S[0].result ==  'KILLING')){
+      console.log(loginit()+treeRoot+' kill');
+      return;
+    }
+    
     let syncendtime = new moment();
     console.log(loginit()+treeRoot+' sync done');
     console.log(loginit()+treeRoot+' sync cost '+moment.duration(syncendtime.diff(syncstarttime)).as('minutes')+' minutes');
@@ -529,7 +568,7 @@ let cron_check      = new cronJob('*/10 * * * * *',async function(){
               stat[variantname][kind][taskname]['runtime']=0;
               stat[variantname][kind][taskname]['memcost']='100M';
               console.log(loginit()+treeRoot+' stat is '+JSON.stringify(stat));
-              checkifdone(pickedupitem,treeRoot,stat);
+              checkifdone(pickedupitem,treeRoot,stat,'SYNCFAIL');
             }
           }
         }
@@ -538,7 +577,7 @@ let cron_check      = new cronJob('*/10 * * * * *',async function(){
     if(fs.existsSync(treeRoot+'/nb__.sync.PASS')){
       console.log(loginit()+treeRoot+' sync pass');
       ////////////////////////////////////////////////////////////
-      //Prepare resolve script
+      //Prepare resolve script and p4 users
       ////////////////////////////////////////////////////////////
       let resolvetext='';
       resolvetext += '#!/tool/pandora64/bin/tcsh\n';
@@ -564,8 +603,7 @@ let cron_check      = new cronJob('*/10 * * * * *',async function(){
       ////////////////////////////////////////////////////////////
       console.log(loginit()+treeRoot+' resolve start');
       let resolvestarttime  = new moment();
-      PS[tasktype][itemID]['resolve']=child_process.execSync(treeRoot+'.resolve.script > '+treeRoot+'/nb__.resolve.log');//TODO not sure if need to be async
-      delete PS[tasktype][itemID]['resolve'];
+      child_process.execSync(treeRoot+'.resolve.script > '+treeRoot+'/nb__.resolve.log');//TODO not sure if need to be async
       let resolveendtime  = new moment();
       console.log(loginit()+treeRoot+' resolve done');
       console.log(loginit()+treeRoot+' resolve cost '+moment.duration(resolveendtime.diff(resolvestarttime)).as('minutes')+' minutes');
@@ -615,7 +653,7 @@ let cron_check      = new cronJob('*/10 * * * * *',async function(){
                 stat[variantname][kind][taskname]['runtime']=0;
                 stat[variantname][kind][taskname]['memcost']='100M';
                 console.log(loginit()+treeRoot+' stat is '+JSON.stringify(stat));
-                checkifdone(pickedupitem,treeRoot,stat);
+                checkifdone(pickedupitem,treeRoot,stat,'RESOLVEFAIL');
               }
             }
           }
@@ -637,12 +675,12 @@ let cron_check      = new cronJob('*/10 * * * * *',async function(){
                 runtext += 'cd '+treeRoot+'\n';
                 runtext += 'bootenv -v '+variantname+' -out_anchor '+treeRoot+'/out.'+variantname+'.'+kind+'.'+taskname+'\n';
                 if(kind ==  'test'){
-                  runtext +='bsub -P GIONB-SRDC -q regr_high -Is -J nbif_C_rn -R "rusage[mem=5000] select[type==RHEL7_64]" dj -l '+treeRoot+'/nb__.run.'+variantname+'.'+kind+'.'+taskname+'.log -DUVM_VERBOSITY=UVM_LOW -m4 -DUSE_VRQ -DCGM -DSEED=12345678 run_test -s nbiftdl '+taskname+'_nbif_all_rtl\n';
+                  runtext +='bsub -P GIONB-SRDC -W '+runtimeout+' -q regr_high -Is -J nbif_C_rn -R "rusage[mem=5000] select[type==RHEL7_64]" dj -l '+treeRoot+'/nb__.run.'+variantname+'.'+kind+'.'+taskname+'.log -DUVM_VERBOSITY=UVM_LOW -m4 -DUSE_VRQ -DCGM -DSEED=12345678 run_test -s nbiftdl '+taskname+'_nbif_all_rtl\n';
                 }
                 if(kind ==  'task'){
                   switch (taskname) {
                     case 'dcelab':
-                      runtext +='bsub -P GIONB-SRDC -q regr_high -Is -J nbif_C_rn -R "rusage[mem=30000] select[type==RHEL7_64]" '+"dj -l "+treeRoot+"/nb__.run."+variantname+"."+kind+"."+taskname+".log"+" -e 'releaseflow::dropflow(:rtl_drop).build(:rhea_drop,:rhea_dc)' -DPUBLISH_BLKS=";
+                      runtext +='bsub -P GIONB-SRDC -W '+runtimeout+' -q regr_high -Is -J nbif_C_rn -R "rusage[mem=30000] select[type==RHEL7_64]" '+"dj -l "+treeRoot+"/nb__.run."+variantname+"."+kind+"."+taskname+".log"+" -e 'releaseflow::dropflow(:rtl_drop).build(:rhea_drop,:rhea_dc)' -DPUBLISH_BLKS=";
                       if(variantname  ==  'nbif_draco_gpu'){
                         runtext +=  "nbif_shub_wrap_algfx\n";
                       }
@@ -669,10 +707,31 @@ let cron_check      = new cronJob('*/10 * * * * *',async function(){
                 console.log(loginit()+treeRoot+' run script '+treeRoot+'.run.'+variantname+'.'+kind+'.'+taskname+'.script made');
                 console.log(loginit()+treeRoot+' '+variantname+'.'+kind+'.'+taskname+' run start');
                 let taskstarttime = new moment();
-                PS[tasktype][itemID]['run.'+variantname+'.'+kind+'.'+taskname]  = child_process.exec(treeRoot+'.run.'+variantname+'.'+kind+'.'+taskname+'.script',function(err_run,stdout_run,stderr_run){
+                PS[tasktype][itemID]['run.'+variantname+'.'+kind+'.'+taskname]  = child_process.exec(treeRoot+'.run.'+variantname+'.'+kind+'.'+taskname+'.script',async function(err_run,stdout_run,stderr_run){
+                  if(PS[tasktype][itemID].hasOwnProperty('run.'+variantname+'.'+kind+'.'+taskname)){
+                    delete PS[tasktype][itemID]['run.'+variantname+'.'+kind+'.'+taskname];
+                  }
+                  let S;
+                  if(tasktype=='shelvecheck'){
+                    S = await Sanityshelves.find({
+                      codeline  : pickedupitem.codeline,
+                      branch_name : pickedupitem.branch_name,
+                      shelve  : pickedupitem.shelve
+                    });
+                  }
+                  if(tasktype=='changelistcheck'){
+                    S = await Sanitychangelists.find({
+                      codeline    : pickedupitem.codeline,
+                      branch_name : pickedupitem.branch_name,
+                      changelist  : pickedupitem.changelist
+                    });
+                  }
+                  if((S[0].result ==  'TOKILL')||(S[0].result ==  'KILLED')||(S[0].result ==  'KILLING')){
+                    console.log(loginit()+treeRoot+' kill');
+                    return;
+                  }
                   let taskendtime = new moment();
                   console.log(loginit()+treeRoot+' '+variantname+'.'+kind+'.'+taskname+' run done');
-                  delete PS[tasktype][itemID]['run.'+variantname+'.'+kind+'.'+taskname];
                   console.log(loginit()+treeRoot+' '+variantname+'.'+kind+'.'+taskname+' run cost '+moment.duration(taskendtime.diff(taskstarttime)).as('minutes')+' minutes');
                   if(!fs.existsSync(treeRoot+'/nb__.run.'+variantname+'.'+kind+'.'+taskname+'.log')){
                     fs.writeFileSync(treeRoot+'/result.run.'+variantname+'.'+kind+'.'+taskname+'.RUNFAIL','',{
@@ -724,7 +783,7 @@ let cron_check      = new cronJob('*/10 * * * * *',async function(){
                       stat[variantname][kind][taskname]['memcost']='30G';
                     }
                     console.log(loginit()+treeRoot+' stat is '+JSON.stringify(stat));
-                    checkifdone(pickedupitem,treeRoot,stat);
+                    checkifdone(pickedupitem,treeRoot,stat,'RUNFAIL');
                   }
                   if(fs.existsSync(treeRoot+'/result.run.'+variantname+'.'+kind+'.'+taskname+'.RUNPASS')){
                     console.log(loginit()+treeRoot+' '+variantname+'.'+kind+'.'+taskname+' run pass');
@@ -743,7 +802,7 @@ let cron_check      = new cronJob('*/10 * * * * *',async function(){
                       stat[variantname][kind][taskname]['memcost']='30G';
                     }
                     console.log(loginit()+treeRoot+' stat is '+JSON.stringify(stat));
-                    checkifdone(pickedupitem,treeRoot,stat);
+                    checkifdone(pickedupitem,treeRoot,stat,'RUNPASS');
                   }
                 });
               }
