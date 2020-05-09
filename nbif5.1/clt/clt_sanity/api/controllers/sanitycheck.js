@@ -80,6 +80,34 @@ let checkifdone     = async function(pickedupitem, path, stat,res){
     }
   }
   if(overallresult  ==  'NOTDONE') {
+    if(tasktype=='shelvecheck'){
+      let itemDB;
+      itemDB  = await Sanityshelves.find({
+        codeline  : pickedupitem.codeline,
+        branch_name: pickedupitem.branch_name,
+        shelve  : pickedupitem.shelve
+      });
+      if(itemDB.length>1){
+        //ERROR //TODO
+      }
+      else if(itemDB.length==0){
+        //ERROR //TODO
+      }
+      else if((itemDB[0].result=='TOKILL') || (itemDB[0].result=='KILLING')||(itemDB[0].result=='KILLED')){
+        //ignore
+      }
+      else{
+        await Sanityshelves.update({
+          codeline  : pickedupitem.codeline,
+          branch_name: pickedupitem.branch_name,
+          shelve  : pickedupitem.shelve
+        },{
+          //result      : overallresult,
+          details     : JSON.stringify(stat)
+        })
+        console.log(loginit()+path+' DB updated with notdone');
+      }
+    }
   }
   else{
     for(let variantname in MASK){
