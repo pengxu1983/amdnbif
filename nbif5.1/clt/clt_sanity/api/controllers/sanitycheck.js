@@ -580,6 +580,29 @@ let cron_check      = new cronJob('*/10 * * * * *',async function(){
     }
     if(fs.existsSync(treeRoot+'/nb__.sync.FAIL')){
       console.log(loginit()+treeRoot+' sync fail');
+      ////////////////////////////////////////////////////////////
+      //re-run once more
+      ////////////////////////////////////////////////////////////
+      if(!fs.existsSync(treeRoot+'.SYNCFAIL')){
+        child_process.execSync('rm -rf '+treeRoot+'.*.log');
+        child_process.execSync('rm -rf '+treeRoot+'.*.script');
+        child_process.exec('echo "syncfail" | mutt Benny.Peng@amd.com -s [NBIF][shelvecheck][SYNCFAIL]['+treeRoot+']');
+        child_process.execSync('mv '+treeRoot+' '+treeRoot+'.SYNCFAIL');
+        if(tasktype =='shelvecheck'){
+          await Sanityshelves.update({
+            codeline    : pickedupitem.codeline,
+            branch_name : pickedupitem.branch_name,
+            shelve      : pickedupitem.shelve
+          },{
+            result      : 'NOTSTARTED',
+            resultlocation  : 'NA',
+            details     : 'NA'
+          });
+        }
+      }
+      //==========================================================
+      //re-run once more
+      //==========================================================
       for(let variantname in MASK){
         for(let kind  in  MASK[variantname]){
           for(let taskname in MASK[variantname][kind]){
