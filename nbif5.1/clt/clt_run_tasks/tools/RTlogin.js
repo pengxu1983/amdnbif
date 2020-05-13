@@ -33,13 +33,13 @@ let cron_rtlogin = new cronJob(rtlogintime.s+' '+rtlogintime.m+' * * * *',functi
       child_process.execSync('rm -rf /home/benpeng/.jfrog/');
       child_process.exec('~/nbifweb_client/software/tools/rtlogin',function(err1,result1,stderr1){
         if(err1) {
-          child_process.execSync('mutt Benny.Peng@amd.com -s [NBIF][Sanity][RTLOGINFAIL] < /proj/cip_nbif_dv_3/amdnbif/nbif5.1/clt/clt_run_tasks/tools/RTlogin.fail');
+          child_process.execSync('echo "RTLOGINFAIL" | mutt Benny.Peng@amd.com -s [NBIF][Sanity][RTLOGINFAIL]');
           throw err1;
         }
         if(regx.test(stdout)){
         }
         else{
-          child_process.execSync('mutt Benny.Peng@amd.com -s [NBIF][Sanity][RTLOGINFAIL] < /proj/cip_nbif_dv_3/amdnbif/nbif5.1/clt/clt_run_tasks/tools/RTlogin.fail');
+          child_process.execSync('echo "RTLOGINFAIL" | mutt Benny.Peng@amd.com -s [NBIF][Sanity][RTLOGINFAIL]');
           throw 'need fix';
         }
       });
