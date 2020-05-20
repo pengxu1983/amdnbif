@@ -105,6 +105,7 @@ module.exports = {
     console.log(loginit()+'regression starts');
     let treeRoot;
     let groups;
+    let bsubids = [];
     if(inputs.isOfficial  ==  'no'){
       treeRoot  = HOME+'/regression.notofficial.'+inputs.codeline+'.'+inputs.branch_name+'.'+inputs.variantname+'.'+inputs.changelist;
       if(inputs.shelve=='NA'){
@@ -361,7 +362,7 @@ module.exports = {
               buildtext += 'source /proj/verif_release_ro/cbwa_initscript/current/cbwa_init.csh\n';
               buildtext += 'cd '+treeRoot+'\n';
               buildtext += 'bootenv -v '+inputs.variantname+' -out_anchor '+treeRoot+'/out.'+inputs.variantname+'\n';
-              buildtext += 'bsub -P GIONB-SRDC -W '+inputs.timeoutsingle+' -q regr_high -Is -J nbif_R_bd -R "rusage[mem=5000] select[type==RHEL7_64]" dj -l '+treeRoot+'/nb__.build.'+inputs.variantname+'.log -DUVM_VERBOSITY=UVM_LOW -m4 -DUSE_VRQ -DCGM -DSEED=12345678 run_test -s nbiftdl demo_test_0_nbif_all_rtl -a execute=off\n';
+              buildtext += 'bsub -P GIONB-SRDC -W '+inputs.timeoutsingle*60+' -q regr_high -Is -J nbif_R_bd -R "rusage[mem=5000] select[type==RHEL7_64]" dj -l '+treeRoot+'/nb__.build.'+inputs.variantname+'.log -DUVM_VERBOSITY=UVM_LOW -m4 -DUSE_VRQ -DCGM -DSEED=12345678 run_test -s nbiftdl demo_test_0_nbif_all_rtl -a execute=off\n';
               fs.writeFileSync(treeRoot+'.build.script',buildtext,{
                 encoding  : 'utf8',
                 mode      : '0700',
@@ -479,7 +480,7 @@ module.exports = {
                         testlist[index]['name']='';
                         testlist[index]['suite']='';//TODO
                         testlist[index]['config']='';
-                        testlist[index]['group']='';
+                        testlist[index]['group']=JSON.parse(inputs.grouplist)[0];
                         testlist[index]['codeline']=inputs.codeline;
                         testlist[index]['branch_name']=inputs.branch_name;
                         testlist[index]['changelist']=inputs.changelist;
@@ -487,6 +488,7 @@ module.exports = {
                         testlist[index]['isBAPU']=inputs.isBAPU;
                         testlist[index]['isOfficial']=inputs.isOfficial;
                         testlist[index]['run_out_path']='';
+                        testlist[index]['seed']=Math.floor((Math.random()*999999)+1);
                       }
                       if(regx02.test(lines[l])){
                         flag  = 0;
@@ -498,7 +500,7 @@ module.exports = {
                           lines[l].replace(regx03,function(rs,$1){
                             testlist[index]['name'] = $1;
                             console.log(loginit()+treeRoot+' name '+testlist[index]['name']);
-                            runtext += 'bsub -P GIONB-SRDC -W '+inputs.timeoutsingle+' -q regr_high -J nbif_R_rn -R "rusage[mem=5000] select[type==RHEL7_64]" dj -l '+treeRoot+'/nb__.run.'+inputs.variantname+'.'+$1+'.log -DUVM_VERBOSITY=UVM_NONE -m4 -DUSE_VRQ -DCGM -DSEED=12345678 run_test -s nbiftdl '+$1+' -a run=only\n';//TODO
+                            runtext += 'bsub -P GIONB-SRDC -W '+inputs.timeoutsingle*60+' -q regr_high -J nbif_R_rn -R "rusage[mem=5000] select[type==RHEL7_64]" dj -l '+treeRoot+'/nb__.run.'+inputs.variantname+'.'+$1+'.log -DUVM_VERBOSITY=UVM_NONE -m4 -DUSE_VRQ -DCGM -DSEED='+testlist[index]['seed']+' run_test -s nbiftdl '+$1+' -a run=only\n';//TODO
                           });
                         }
                         //run_out_path
@@ -522,8 +524,19 @@ module.exports = {
                     console.log(loginit()+treeRoot+' run script made');
                     console.log(loginit()+treeRoot+' test number is '+testlist.length);
                     child_process.exec(treeRoot+'.run.script',function(err_run,stdout_run,stderr_run){
-                      console.log('ERR'+err_run);
-                      console.log('OUT'+stdout_run);
+                      //console.log('ERR'+err_run);
+                      //console.log('OUT'+stdout_run);
+                      let outlines  = stdout_run.split('\n');
+                      let regxjobid = /Job <(\d+)>/;
+                      outlines.pop();
+                      for(let l=0;l<outlines.length;l++){
+                        if(regxjobid.test(outlines[l])){
+                          outlines[l].replace(regxjobid,function(rs,$1){
+                            console.log(loginit()+treeRoot+' Jobid ' +$1);
+                            bsubids.push($1);
+                          });
+                        }
+                      }
                       console.log('STDERR'+stderr_run);
                       let out_hometext;
                       out_hometext  +=  '#!/tool/pandora64/bin/tcsh\n';
@@ -546,16 +559,59 @@ module.exports = {
                         mailbody  +=  '  <th>Test Name</th>\n';
                         mailbody  +=  '  <th>Result</th>\n';
                         mailbody  +=  '  <th>Seed</th>\n';
-                        mailbody  +=  '  <th>Runtime</th>\n';
-                        mailbody  +=  '  <th>group</th>\n';
-                        mailbody  +=  '  <th>signature</th>\n';
-                        for(let t =0;t<testlist.length;t++){
-
-                        }
+                        //mailbody  +=  '  <th>Runtime</th>\n';
+                        //mailbody  +=  '  <th>group</th>\n';
+                        //mailbody  +=  '  <th>signature</th>\n';
                         mailbody  +=  '</tr>\n';
+                        for(let t =0;t<testlist.length;t++){
+                          mailbody  +=  '<tr>\n';
+                          //TODO
+                          mailbody  +=  '  <td>'+testlist[t]['name']+'</td>\n';
+                          let result  = 'NOTSTARTED';
+                          let seed;
+                          let runtime = 'NA';
+                          let signature = 'NA';
+                          //result
+                          if(fs.existsSync(treeRoot+'/result.run.'+inputs.variantname+'.'+testlist[t]['name']+'.PASS')){
+                            result  = 'PASS';
+                            color   = 'lightgreen';
+                          }
+                          else if(fs.existsSync(treeRoot+'/result.run.'+inputs.variantname+'.'+testlist[t]['name']+'.FAIL')){
+                            result  = 'FAIL';
+                            color   = 'red';
+                          }
+                          else if(fs.existsSync(treeRoot+'/nb__.run.'+inputs.variantname+'.'+testlist[t]['name']+'.log')){
+                            let lines = fs.readFileSync(treeRoot+'/nb__.run.'+inputs.variantname+'.'+testlist[t]['name']+'.log','utf8').split('\n');
+                            lines.pop();
+                            for(let l=0;l<lines.length;l++){
+                              if(djregxpass.test(lines[l])){
+                                result  = 'PASS';
+                                color   = 'lightgreen';
+                                break;
+                              }
+                              if(djregxfail.test(lines[l])){
+                                result  = 'FAIL';
+                                color   = 'red';
+                                break;
+                              }
+                            }
+                          }
+                          else{
+                            result  = 'NOTSTARTED';
+                            color   = 'yellow';
+                          }
+                          //signature
+
+                          mailbody  +=  '  <td>'+result+'</td>\n';
+                          mailbody  +=  '  <td>'+testlist[t]['seed']+'</td>\n';
+                          //mailbody  +=  '  <td>Runtime</td>\n';//TODO
+                          //mailbody  +=  '  <td>'++'</td>\n';
+                          //mailbody  +=  '  <td>signature</td>\n';
+                          mailbody  +=  '</tr>\n';
+                        }
                         mailbody  +=  '</body>\n';
                         mailbody  +=  '</html>\n';
-
+                        child_process.exec('echo '+mailbody+' | mutt '+getemail(inputs.username)+' -e \'set content_type="text/html"\' -s [NBIF][Regression][notofficial][changelist:'+inputs.changelist+'][shelve:'+inputs.shelve+'][grouplist:'+inputs.grouplist+']');
                       },null,false,'Asia/Chongqing');
                       cron_check.start();
                       setTimeout(function(){
