@@ -1,0 +1,5 @@
+#!/tool/pandora64/bin/tcsh
+source /proj/verif_release_ro/cbwa_initscript/current/cbwa_init.csh
+cd undefined
+> undefined.sync.log
+p4 users > ~/p4users

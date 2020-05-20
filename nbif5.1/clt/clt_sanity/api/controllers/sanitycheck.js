@@ -654,7 +654,9 @@ let cron_check      = new cronJob('*/10 * * * * *',async function(){
       ////////////////////////////////////////////////////////////
       console.log(loginit()+treeRoot+' resolve start');
       let resolvestarttime  = new moment();
-      child_process.execSync(treeRoot+'.resolve.script > '+treeRoot+'/nb__.resolve.log');//TODO not sure if need to be async
+      child_process.execSync(treeRoot+'.resolve.script > '+treeRoot+'/nb__.resolve.log',{
+        encoding  : 'utf8'
+      }).split('\n');//TODO not sure if need to be async
       let resolveendtime  = new moment();
       console.log(loginit()+treeRoot+' resolve done');
       console.log(loginit()+treeRoot+' resolve cost '+moment.duration(resolveendtime.diff(resolvestarttime)).as('minutes')+' minutes');
