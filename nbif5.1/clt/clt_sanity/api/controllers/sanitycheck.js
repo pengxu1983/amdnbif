@@ -47,6 +47,7 @@ for(let v=0;v<variants.length;v++){
 }//TODO
 console.log(loginit()+JSON.stringify(MASK));
 let getemail        = function(username){
+  let email;
   let lines = fs.readFileSync('/home/benpeng/p4users','utf8').split('\n');
   lines.pop();
   let regx  = /^(\w+) <(\S+)>.*accessed/;
@@ -452,6 +453,7 @@ let cron_check      = new cronJob('*/10 * * * * *',async function(){
   if(tasktype =='shelvecheck'){
     itemID  = pickedupitem.codeline+'_'+pickedupitem.branch_name+'_'+pickedupitem.shelve;
     treeRoot  +=  itemID;
+    child_process.execSync('echo "<h3>Hi '+pickedupitem.username+'<h3><h4>your shelve is running</h4><h4>You can find live details in <a href="http://logviewer-atl/'+treeRoot+'">Details</a></h4>" | mutt '+getemail(pickedupitem.username)+' -e  \'set content_type="text/html"\' -s [NBIF][SanityCheck][STARTED][treeRoot:'+treeRoot+']');
     await Sanityshelves.update({
       codeline    : pickedupitem.codeline,
       branch_name : pickedupitem.branch_name,
@@ -465,7 +467,7 @@ let cron_check      = new cronJob('*/10 * * * * *',async function(){
   if(tasktype =='changelistcheck'){
     itemID  = pickedupitem.codeline+'_'+pickedupitem.branch_name+'_'+pickedupitem.changelist;
     treeRoot  +=  itemID;
-    console.log();
+    child_process.execSync('echo "<h3>Hi '+pickedupitem.username+'<h3><h4>your shelve is running</h4><h4>You can find live details in <a href="http://logviewer-atl/'+treeRoot+'">Details</a></h4>" | mutt '+getemail(pickedupitem.username)+' -e  \'set content_type="text/html"\' -s [NBIF][SanityCheck][STARTED][treeRoot:'+treeRoot+']');
     await Sanitychangelists.update({
       codeline    : pickedupitem.codeline,
       branch_name : pickedupitem.branch_name,
@@ -513,7 +515,7 @@ let cron_check      = new cronJob('*/10 * * * * *',async function(){
   if(tasktype =='shelvecheck'){
   }
   synctext  +=  '> '+treeRoot+'.sync.log\n';
-  synctext  +=  'p4 users > ~/p4users\n';
+  //synctext  +=  'p4 users > ~/p4users\n';
   fs.writeFileSync(treeRoot+'.sync.script',synctext,{
     encoding  : 'utf8',
     mode      : '0700',

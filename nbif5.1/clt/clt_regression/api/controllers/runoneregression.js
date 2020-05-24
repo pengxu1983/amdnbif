@@ -302,7 +302,7 @@ module.exports = {
             gettestlisttext += 'source /proj/verif_release_ro/cbwa_initscript/current/cbwa_init.csh\n';
             gettestlisttext += 'cd '+treeRoot+'\n';
             gettestlisttext += 'bootenv -v '+inputs.variantname+' -out_anchor '+treeRoot+'/out.'+inputs.variantname+'.testlist\n';
-            gettestlisttext += 'bsub -P GIONB-SRDC -q regr_high -Is -J nbif_R_tl -R "rusage[mem=2000] select[type==RHEL7_64]" dj -l '+treeRoot+'/testlist.'+inputs.variantname+'.log -m run_test -s nbiftdl all -a print -w " config==nbif_all_rtl && (';
+            gettestlisttext += 'bsub -P GIONB-SRDC -q regr_high -Is -J nbif_R_tl -R "rusage[mem=5000] select[type==RHEL7_64]" dj -l '+treeRoot+'/testlist.'+inputs.variantname+'.log -m run_test -s nbiftdl all -a print -w " config==nbif_all_rtl && (';
             // groups
             groups  = JSON.parse(inputs.grouplist);
             for(let g=0;g<groups.length;g++){
@@ -320,7 +320,9 @@ module.exports = {
             let gettestliststarttime  = new moment();
             console.log(loginit()+treeRoot+' testlist script made');
             console.log(loginit()+treeRoot+' testlist start');
-            PS['gettestlist']=child_process.exec(treeRoot+'.testlist.script',async function(err_tl,stdout_tl,stderr_t1){
+            PS['gettestlist']=child_process.exec(treeRoot+'.testlist.script',{
+              maxBuffer : 200*1024*1024
+            },async function(err_tl,stdout_tl,stderr_t1){
               console.log(loginit()+treeRoot+' testlist done');
               let gettestlistendtime  = new moment();
               console.log(loginit()+treeRoot+' testlist cost '+moment.duration(gettestlistendtime.diff(gettestliststarttime)).as('minutes')+' minutes');
@@ -480,7 +482,7 @@ module.exports = {
                         testlist[index]['name']='';
                         testlist[index]['suite']='';//TODO
                         testlist[index]['config']='';
-                        testlist[index]['group']=JSON.parse(inputs.grouplist)[0];
+                        testlist[index]['group']='';
                         testlist[index]['codeline']=inputs.codeline;
                         testlist[index]['branch_name']=inputs.branch_name;
                         testlist[index]['changelist']=inputs.changelist;
@@ -506,12 +508,19 @@ module.exports = {
                         //run_out_path
                         if(regx08.test(lines[l])){
                           lines[l].replace(regx08,function(rs,$1){
-                            let out_home  = treeRoot+'/out.'+treeRoot+'/out/linux_3.10.0_64.VCS';//TODO
+                            let out_home  = treeRoot+'/out.'+inputs.variantname+'/out/linux_3.10.0_64.VCS';//TODO
                             let regxouthome = /\$OUT_HOME/;
                             let R = $1;
                             R = R.replace(regxouthome,out_home);
                             testlist[index]['run_out_path'] = R;
                             console.log(loginit()+treeRoot+' run_out_path '+testlist[index]['run_out_path']);
+                          });
+                        }
+                        //group
+                        if(regx06.test(lines[l])){
+                          lines[l].replace(regx06,function(rs,$1){
+                            testlist[index]['group'] = $1;
+                            console.log(loginit()+treeRoot+' group '+testlist[index]['group']);
                           });
                         }
                       }
@@ -523,7 +532,9 @@ module.exports = {
                     });
                     console.log(loginit()+treeRoot+' run script made');
                     console.log(loginit()+treeRoot+' test number is '+testlist.length);
-                    child_process.exec(treeRoot+'.run.script',function(err_run,stdout_run,stderr_run){
+                    child_process.exec(treeRoot+'.run.script',{
+                      maxBuffer : 200*1024*1024
+                    },function(err_run,stdout_run,stderr_run){
                       //console.log('ERR'+err_run);
                       //console.log('OUT'+stdout_run);
                       let outlines  = stdout_run.split('\n');
@@ -532,53 +543,63 @@ module.exports = {
                       for(let l=0;l<outlines.length;l++){
                         if(regxjobid.test(outlines[l])){
                           outlines[l].replace(regxjobid,function(rs,$1){
-                            console.log(loginit()+treeRoot+' Jobid ' +$1);
+                            //console.log(loginit()+treeRoot+' Jobid ' +$1);
                             bsubids.push($1);
                           });
                         }
                       }
-                      console.log('STDERR'+stderr_run);
+                      //console.log('STDERR'+stderr_run);
                       let out_hometext;
                       out_hometext  +=  '#!/tool/pandora64/bin/tcsh\n';
                       out_hometext  +=  'source /proj/verif_release_ro/cbwa_initscript/current/cbwa_init.csh\n';
                       out_hometext  +=  'bootenv -v '+inputs.variantname+' -out_anchor '+treeRoot+'/out.'+inputs.variantname+'\n';
 
                       //TODO
-                      let cron_check  = new cronJob('0 */2 * * * *',async function(){
+                      let cron_check  = new cronJob('0 0 * * * *',async function(){
+                        console.log(loginit()+treeRoot+' checking result');
                         let mailbody  = '';
-                        mailbody  +=  '<html>\n';
-                        mailbody  +=  '<body>\n';
-                        mailbody  +=  '<h3>Hi '+inputs.username+'</h3>\n';
-                        mailbody  +=  '<h4>codeline: '+inputs.codeline+'</h4>\n';
-                        mailbody  +=  '<h4>branch_name: '+inputs.branch_name+'</h4>\n';
-                        mailbody  +=  '<h4>changelist: '+inputs.changelist+'</h4>\n';
-                        mailbody  +=  '<h4>shelve: '+inputs.shelve+'</h4>\n';
-                        mailbody  +=  '<h4>isOfficial: '+inputs.isOfficial+'</h4>\n';
+                        let mailbodyhead='';
+                        let mailbodyinsert='';
+                        mailbodyhead  +=  '<html>\n';
+                        mailbodyhead  +=  '<body>\n';
+                        mailbodyhead  +=  '<h3>Hi '+inputs.username+'</h3>\n';
+                        mailbodyhead  +=  '<h4>codeline: '+inputs.codeline+'</h4>\n';
+                        mailbodyhead  +=  '<h4>branch_name: '+inputs.branch_name+'</h4>\n';
+                        mailbodyhead  +=  '<h4>changelist: '+inputs.changelist+'</h4>\n';
+                        mailbodyhead  +=  '<h4>shelve: '+inputs.shelve+'</h4>\n';
+                        mailbodyhead  +=  '<h4>isOfficial: '+inputs.isOfficial+'</h4>\n';
                         mailbody  +=  '<table border="1">\n';
                         mailbody  +=  '<tr>\n';
                         mailbody  +=  '  <th>Test Name</th>\n';
                         mailbody  +=  '  <th>Result</th>\n';
                         mailbody  +=  '  <th>Seed</th>\n';
                         //mailbody  +=  '  <th>Runtime</th>\n';
-                        //mailbody  +=  '  <th>group</th>\n';
+                        mailbody  +=  '  <th>group</th>\n';
                         //mailbody  +=  '  <th>signature</th>\n';
                         mailbody  +=  '</tr>\n';
+                        let passnum =0;
+                        let failnum =0;
+                        let runnum=0;
+                        let notstartnum=0;
                         for(let t =0;t<testlist.length;t++){
                           mailbody  +=  '<tr>\n';
                           //TODO
                           mailbody  +=  '  <td>'+testlist[t]['name']+'</td>\n';
-                          let result  = 'NOTSTARTED';
+                          let result  = '';
                           let seed;
                           let runtime = 'NA';
                           let signature = 'NA';
+                          let color = '';
                           //result
                           if(fs.existsSync(treeRoot+'/result.run.'+inputs.variantname+'.'+testlist[t]['name']+'.PASS')){
                             result  = 'PASS';
                             color   = 'lightgreen';
+                            passnum++;
                           }
                           else if(fs.existsSync(treeRoot+'/result.run.'+inputs.variantname+'.'+testlist[t]['name']+'.FAIL')){
                             result  = 'FAIL';
                             color   = 'red';
+                            failnum++;
                           }
                           else if(fs.existsSync(treeRoot+'/nb__.run.'+inputs.variantname+'.'+testlist[t]['name']+'.log')){
                             let lines = fs.readFileSync(treeRoot+'/nb__.run.'+inputs.variantname+'.'+testlist[t]['name']+'.log','utf8').split('\n');
@@ -587,31 +608,67 @@ module.exports = {
                               if(djregxpass.test(lines[l])){
                                 result  = 'PASS';
                                 color   = 'lightgreen';
+                                passnum++;
+                                fs.writeFileSync(treeRoot+'/result.run.'+inputs.variantname+'.'+testlist[t]['name']+'.PASS','',{
+                                  encoding  : 'utf8',
+                                  mode      : '0600',
+                                  flag      : 'w'
+                                });
                                 break;
                               }
                               if(djregxfail.test(lines[l])){
                                 result  = 'FAIL';
                                 color   = 'red';
+                                failnum++;
+                                fs.writeFileSync(treeRoot+'/result.run.'+inputs.variantname+'.'+testlist[t]['name']+'.FAIL','',{
+                                  encoding  : 'utf8',
+                                  mode      : '0600',
+                                  flag      : 'w'
+                                });
                                 break;
                               }
+                            }
+                            if(result=='PASS'){
+                            }
+                            else if(result=='FAIL'){
+                            }
+                            else{
+                              result  = 'RUNNING';
+                              color   = 'blue';
+                              runnum++;
                             }
                           }
                           else{
                             result  = 'NOTSTARTED';
                             color   = 'yellow';
+                            notstartnum++;
                           }
                           //signature
-
-                          mailbody  +=  '  <td>'+result+'</td>\n';
+                          
+                          mailbodyinsert  = '';
+                          mailbodyinsert  +=  '<h4>total number: '+testlist.length+'</h4>\n';
+                          mailbodyinsert  +=  '<h4>pass number: '+passnum+'</h4>\n';
+                          mailbodyinsert  +=  '<h4>pass rate: '+(passnum/testlist.length*100).toFixed(2)+'</h4>\n';
+                          mailbodyinsert  +=  '<h4>not started number: '+notstartnum+'</h4>\n';
+                          mailbodyinsert  +=  '<h4>not started rate: '+(notstartnum/testlist.length*100).toFixed(2)+'</h4>\n';
+                          mailbodyinsert  +=  '<h4>running number: '+runnum+'</h4>\n';
+                          mailbodyinsert  +=  '<h4>running rate: '+(runnum/testlist.length*100).toFixed(2)+'</h4>\n';
+                          mailbody  +=  '  <td bgcolor='+color+'>'+result+'</td>\n';
                           mailbody  +=  '  <td>'+testlist[t]['seed']+'</td>\n';
                           //mailbody  +=  '  <td>Runtime</td>\n';//TODO
-                          //mailbody  +=  '  <td>'++'</td>\n';
+                          mailbody  +=  '  <td>'+testlist[t]['group']+'</td>\n';
                           //mailbody  +=  '  <td>signature</td>\n';
                           mailbody  +=  '</tr>\n';
                         }
                         mailbody  +=  '</body>\n';
                         mailbody  +=  '</html>\n';
-                        child_process.exec('echo '+mailbody+' | mutt '+getemail(inputs.username)+' -e \'set content_type="text/html"\' -s [NBIF][Regression][notofficial][changelist:'+inputs.changelist+'][shelve:'+inputs.shelve+'][grouplist:'+inputs.grouplist+']');
+                        console.log(loginit()+treeRoot+mailbody);
+                        fs.writeFileSync(treeRoot+'/report',mailbodyhead+mailbodyinsert+mailbody,{
+                          encoding  : 'utf8',
+                          mode      : '0600',
+                          flag      : 'w'
+                        });
+                        child_process.exec('mutt '+getemail(inputs.username)+' -e \'set content_type="text/html"\' -s [NBIF][Regression][notofficial][changelist:'+inputs.changelist+'][shelve:'+inputs.shelve+'][grouplist:'+inputs.grouplist+'] < '+treeRoot+'/report');
                       },null,false,'Asia/Chongqing');
                       cron_check.start();
                       setTimeout(function(){
