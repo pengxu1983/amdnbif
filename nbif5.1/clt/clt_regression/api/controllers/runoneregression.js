@@ -106,6 +106,7 @@ module.exports = {
     let treeRoot;
     let groups;
     let bsubids = [];
+    let batchID = 1;
     if(inputs.isOfficial  ==  'no'){
       treeRoot  = HOME+'/regression.notofficial.'+inputs.codeline+'.'+inputs.branch_name+'.'+inputs.variantname+'.'+inputs.changelist;
       if(inputs.shelve=='NA'){
@@ -115,6 +116,15 @@ module.exports = {
         treeRoot  +=  '.'+inputs.shelve;
       }
       treeRoot  +=  '.'+inputs.kickoffdate;
+    }
+    while(1){
+      if(fs.existsSync(treeRoot+'.'+batchID)){
+        batchID++;
+      }
+      else{
+        treeRoot  +=  '.'+batchID;
+        break;
+      }
     }
     ////////////////////////////////////////////////////////////
     //Clean up work space
@@ -302,16 +312,21 @@ module.exports = {
             gettestlisttext += 'source /proj/verif_release_ro/cbwa_initscript/current/cbwa_init.csh\n';
             gettestlisttext += 'cd '+treeRoot+'\n';
             gettestlisttext += 'bootenv -v '+inputs.variantname+' -out_anchor '+treeRoot+'/out.'+inputs.variantname+'.testlist\n';
-            gettestlisttext += 'bsub -P GIONB-SRDC -q regr_high -Is -J nbif_R_tl -R "rusage[mem=5000] select[type==RHEL7_64]" dj -l '+treeRoot+'/testlist.'+inputs.variantname+'.log -m run_test -s nbiftdl all -a print -w " config==nbif_all_rtl && (';
-            // groups
             groups  = JSON.parse(inputs.grouplist);
-            for(let g=0;g<groups.length;g++){
-              if(g!=0){
-                gettestlisttext +=  ' || ';
-              }
-              gettestlisttext +=  ' group=='+groups[g]+' ';
+            if(groups.length  ==  0){
+              gettestlisttext += 'bsub -P GIONB-SRDC -q regr_high -Is -J nbif_R_tl -R "rusage[mem=5000] select[type==RHEL7_64]" dj -l '+treeRoot+'/testlist.'+inputs.variantname+'.log -m run_test -s nbiftdl all -a print -w " config==nbif_all_rtl "';
             }
-            gettestlisttext += ')"\n';
+            else{
+              gettestlisttext += 'bsub -P GIONB-SRDC -q regr_high -Is -J nbif_R_tl -R "rusage[mem=5000] select[type==RHEL7_64]" dj -l '+treeRoot+'/testlist.'+inputs.variantname+'.log -m run_test -s nbiftdl all -a print -w " config==nbif_all_rtl && (';
+              // groups
+              for(let g=0;g<groups.length;g++){
+                if(g!=0){
+                  gettestlisttext +=  ' || ';
+                }
+                gettestlisttext +=  ' group=='+groups[g]+' ';
+              }
+              gettestlisttext += ')"\n';
+            }
             fs.writeFileSync(treeRoot+'.testlist.script',gettestlisttext,{
               encoding  : 'utf8',
               mode      : '0700',
@@ -490,7 +505,7 @@ module.exports = {
                         testlist[index]['isBAPU']=inputs.isBAPU;
                         testlist[index]['isOfficial']=inputs.isOfficial;
                         testlist[index]['run_out_path']='';
-                        testlist[index]['seed']=Math.floor((Math.random()*999999)+1);
+                        testlist[index]['seed']=Math.floor((Math.random()*999999)+1);//
                       }
                       if(regx02.test(lines[l])){
                         flag  = 0;
@@ -555,7 +570,7 @@ module.exports = {
                       out_hometext  +=  'bootenv -v '+inputs.variantname+' -out_anchor '+treeRoot+'/out.'+inputs.variantname+'\n';
 
                       //TODO
-                      let cron_check  = new cronJob('0 0 * * * *',async function(){
+                      let cron_check  = new cronJob('0 */2 * * * *',async function(){
                         console.log(loginit()+treeRoot+' checking result');
                         let mailbody  = '';
                         let mailbodyhead='';
@@ -648,11 +663,11 @@ module.exports = {
                           mailbodyinsert  = '';
                           mailbodyinsert  +=  '<h4>total number: '+testlist.length+'</h4>\n';
                           mailbodyinsert  +=  '<h4>pass number: '+passnum+'</h4>\n';
-                          mailbodyinsert  +=  '<h4>pass rate: '+(passnum/testlist.length*100).toFixed(2)+'</h4>\n';
+                          mailbodyinsert  +=  '<h4>pass rate: '+(passnum/testlist.length*100).toFixed(2)+'%</h4>\n';
                           mailbodyinsert  +=  '<h4>not started number: '+notstartnum+'</h4>\n';
-                          mailbodyinsert  +=  '<h4>not started rate: '+(notstartnum/testlist.length*100).toFixed(2)+'</h4>\n';
+                          mailbodyinsert  +=  '<h4>not started rate: '+(notstartnum/testlist.length*100).toFixed(2)+'%</h4>\n';
                           mailbodyinsert  +=  '<h4>running number: '+runnum+'</h4>\n';
-                          mailbodyinsert  +=  '<h4>running rate: '+(runnum/testlist.length*100).toFixed(2)+'</h4>\n';
+                          mailbodyinsert  +=  '<h4>running rate: '+(runnum/testlist.length*100).toFixed(2)+'%</h4>\n';
                           mailbody  +=  '  <td bgcolor='+color+'>'+result+'</td>\n';
                           mailbody  +=  '  <td>'+testlist[t]['seed']+'</td>\n';
                           //mailbody  +=  '  <td>Runtime</td>\n';//TODO
@@ -662,17 +677,28 @@ module.exports = {
                         }
                         mailbody  +=  '</body>\n';
                         mailbody  +=  '</html>\n';
-                        console.log(loginit()+treeRoot+mailbody);
+                        //console.log(loginit()+treeRoot+mailbody);
                         fs.writeFileSync(treeRoot+'/report',mailbodyhead+mailbodyinsert+mailbody,{
                           encoding  : 'utf8',
                           mode      : '0600',
                           flag      : 'w'
                         });
+                        if((runnum==0) && (notstartnum==0)){
+                          cron_check.stop();
+                        }
                         child_process.exec('mutt '+getemail(inputs.username)+' -e \'set content_type="text/html"\' -s [NBIF][Regression][notofficial][changelist:'+inputs.changelist+'][shelve:'+inputs.shelve+'][grouplist:'+inputs.grouplist+'] < '+treeRoot+'/report');
                       },null,false,'Asia/Chongqing');
                       cron_check.start();
                       setTimeout(function(){
                         cron_check.stop();
+                        setTimeout(function(){
+                          child_process.execSync('mv '+treeRoot+' '+treeRoot+'.rm');
+                          child_process.execSync('rm -rf '+treeRoot+'.*.log');
+                          child_process.execSync('rm -rf '+treeRoot+'.*.script');
+                          child_process.exec('rm -rf '+treeRoot+'.rm',function(){
+                            console.log(loginit()+treeRoot+'.rm is cleaned');
+                          });
+                        },48**3600*1000);
                       },inputs.timeoutall*3600*1000);
                     });
                     ////////////////////////////////////////////////////////////
