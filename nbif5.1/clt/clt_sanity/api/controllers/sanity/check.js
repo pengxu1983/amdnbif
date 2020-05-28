@@ -21,7 +21,8 @@ module.exports = {
       type    : 'string'
     },
     testlist  : {
-      type    : 'string'
+      type    : 'string',
+      columnType  : 'longtext'
     },
     treeRoot  : {
       type    : 'string'
