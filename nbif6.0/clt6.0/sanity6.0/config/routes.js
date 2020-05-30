@@ -23,12 +23,15 @@ module.exports.routes = {
   'GET /start'  : {
     action      : 'start'
   },
-  'POST /start'  : {
+  'POST /start' : {
     action      : 'start'
   },
   //'POST /sync'  : {
   //  action      : 'sync'
-  //}
+  //},
+  'POST /clientrun' : {
+    action      : 'clientrun'
+  }
 
 
   /***************************************************************************
