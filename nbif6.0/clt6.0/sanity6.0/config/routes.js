@@ -22,7 +22,13 @@ module.exports.routes = {
   //'/': { view: 'pages/homepage' },
   'GET /start'  : {
     action      : 'start'
-  }
+  },
+  'POST /start'  : {
+    action      : 'start'
+  },
+  //'POST /sync'  : {
+  //  action      : 'sync'
+  //}
 
 
   /***************************************************************************

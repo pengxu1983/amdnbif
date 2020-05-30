@@ -1,12 +1,15 @@
-#!/tool/pandora64/bin/tcsh -f
+#!/tool/pandora64/bin/tcsh
 source /proj/verif_release_ro/cbwa_initscript/current/cbwa_init.csh
-set variantname   ="nbif_et_0"
-set out_anchor    ="NA"
-set suite         ="nbiftdl"
-set config        ="nbif_all_rtl"
-set seed          =12345678
-set tasktype      ="test"
-set UVM_VERBOSITY ="UVM_LOW"
+set variantname="nbif_et_0"
+set out_anchor="NA"
+set suite="nbiftdl"
+set config="nbif_all_rtl"
+set seed=12345678
+set tasktype="test"
+set UVM_VERBOSITY="UVM_LOW"
+set runopt="all"
+set treeRoot=`pwd`
+set casename="demo_test_0"
 #get all argv
 if ($#argv >= 0) then
   while($#argv >0) 
@@ -40,21 +43,38 @@ if ($#argv >= 0) then
       echo "tasktype      : $tasktype"
     else if($1:q == "--UVM_VERBOSITY") then
       shift
-      set $UVM_VERBOSITY=$1:q
+      set UVM_VERBOSITY=$1:q
       echo "UVM_VERBOSITY : $UVM_VERBOSITY"
+    else if($1:q == "--runopt") then
+      shift
+      set runopt=$1:q
+      echo "runopt        : $runopt"
+    else if($1:q == "--treeRoot") then
+      shift
+      set treeRoot=$1:q
+      echo "treeRoot      : $treeRoot"
     endif
     shift
   end
   endif
 endif
 #run case
+cd $treeRoot
 if($out_anchor  ==  "NA") then
   bootenv
   set out_anchor  = "$STEM"
 endif
 bootenv -v $variantname -out_anchor  $out_anchor
 if($tasktype  ==  "test") then
-  dj -q -l $STEM/nb__.$variantname.$tasktype.$casename.log -DUVM_VERBOSITY=$UVM_VERBOSITY -m4 -DUSE_VRQ -DCGM -DSEED=$seed  run_test -s ${suite} $casename\_${config}
+  if($runopt  ==  "all")  then
+    dj -q -l $STEM/nb__.$variantname.$tasktype.$casename.log -DUVM_VERBOSITY=$UVM_VERBOSITY -m4 -DUSE_VRQ -DCGM -DSEED=$seed  run_test -s ${suite} $casename\_${config}
+  endif
+  if($runopt  ==  "compileonly")  then
+    dj -q -l $STEM/nb__.$variantname.$tasktype.$casename.log -DUVM_VERBOSITY=$UVM_VERBOSITY -m4 -DUSE_VRQ -DCGM -DSEED=$seed  run_test -s ${suite} $casename\_${config} -a execute=off
+  endif
+  if($runopt  ==  "runonly")  then
+    dj -q -l $STEM/nb__.$variantname.$tasktype.$casename.log -DUVM_VERBOSITY=$UVM_VERBOSITY -m4 -DUSE_VRQ -DCGM -DSEED=$seed  run_test -s ${suite} $casename\_${config} -a run=only
+  endif
 else if($tasktype ==  "task") then
   if($casename  ==  "dcelab") then
     if($variantname  ==  "nbif_draco_gpu") then

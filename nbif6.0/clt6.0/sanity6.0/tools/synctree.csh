@@ -1,45 +1,44 @@
-#!/tool/pandora64/bin/tcsh -f
+#!/tool/pandora64/bin/tcsh
 source /proj/verif_release_ro/cbwa_initscript/current/cbwa_init.csh
-set variantname
+set variantname="nbif_et_0"
 set out_anchor="NA"
 set suite="nbiftdl"
 set config="nbif_all_rtl"
-set seed=12345678
+set seed="12345678"
+set tasktype="test"
+set UVM_VERBOSITY="UVM_LOW"
+set codeline="nbif2_0"
+set branch_name="nbif2_0_main"
+set changelist=""
+set treeRoot=`pwd`
 #get all argv
 if ($#argv >= 0) then
   while($#argv >0) 
-    if(($1:q == "--variantname")) then
+    if($1:q == "--codeline") then
       shift
-      set variantname=$1:q
-      echo "variantname:"
-      echo $variantname
-    else if(($1:q == "--testname")) then
+      set codeline=$1:q
+      echo "codeline      : $codeline"
+    else if($1:q == "--branch_name") then
       shift
-      set testname=$1:q
-      echo "testname:"
-      echo $testname
-    else if(($1:q == "--seed")) then
+      set branch_name=$1:q
+      echo "branch_name   : $branch_name"
+    else if($1:q == "--changelist") then
       shift
-      set seed=$1:q
-      echo "seed:"
-      echo $seed
-    else if(($1:q == "--out_anchor")) then
+      set changelist=$1:q
+      echo "changelist    : $changelist"
+    else if($1:q == "--treeRoot") then
       shift
-      set out_anchor=$1:q
-      echo "out_anchor:"
-      echo $out_anchor
-    else if(($1:q == "--suite")) then
-      shift
-      set suite=$1:q
-      echo "suite:"
-      echo $suite
-    else if(($1:q == "--config")) then
-      shift
-      set config=$1:q
-      echo "config:"
-      echo $config
+      set treeRoot=$1:q
+      echo "treeRoot      : $treeRoot"
     endif
     shift
   end
   endif
+endif
+#sync tree
+cd $treeRoot
+if($changelist  ==  "") then
+  p4_mkwa -codeline $codeline -branch_name $branch_name
+else
+  p4_mkwa -codeline $codeline -branch_name $branch_name -cl $changelist
 endif
