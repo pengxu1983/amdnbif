@@ -21,8 +21,7 @@ module.exports = {
       type    : 'string'
     },
     testlist  : {
-      type    : 'string',
-      columnType  : 'longtext'
+      type    : 'string'
     },
     treeRoot  : {
       type    : 'string'
@@ -34,6 +33,9 @@ module.exports = {
       type    : 'string'
     },
     changelist  : {
+      type    : 'string'
+    },
+    p4describe  : {
       type    : 'string'
     }
   },
@@ -52,6 +54,8 @@ module.exports = {
       codeline      : inputs.codeline   ,
       branch_name   : inputs.branch_name,
       shelve        : inputs.shelve     ,
+      changelist    : inputs.changelist ,
+      describe      : inputs.describe
     });
     if(SHDB.length>1){
       return exits.success(JSON.stringify({
@@ -75,7 +79,8 @@ module.exports = {
         result        : 'NOTSTARTED',
         resultlocation: 'NA',
         details       : 'NA',
-        testlist      : JSON.stringify(testlist)
+        testlist      : JSON.stringify(testlist),
+        p4describe    : inputs.p4describe
       });
       return exits.success(JSON.stringify({
         msg : 'task dispatched'
@@ -129,7 +134,8 @@ module.exports = {
           result        : 'NOTSTARTED',
           resultlocation: 'NA',
           details       : 'NA',
-          testlist      : JSON.stringify(testlist)
+          testlist      : JSON.stringify(testlist),
+          p4describe    : inputs.p4describe
         });
         return exits.success(JSON.stringify({
           msg : 'your previous try already killed. Dispatching for another run'

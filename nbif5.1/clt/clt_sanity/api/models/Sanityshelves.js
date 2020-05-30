@@ -49,6 +49,10 @@ module.exports = {
     details     : {
       type    : 'string',
       columnType  : 'longtext'
+    },
+    describe  : {
+      type    : 'string',
+      columnType  : 'longtext'
     }
 
     //  ╔═╗╔╦╗╔╗ ╔═╗╔╦╗╔═╗
