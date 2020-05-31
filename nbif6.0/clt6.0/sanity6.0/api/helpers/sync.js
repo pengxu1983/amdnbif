@@ -92,7 +92,7 @@ module.exports = {
   fn: async function (inputs) {
     sails.log('/sync');
     sails.log(inputs);
-    let treeID  = inputs.checktype+'.'+inputs.codeline+'.'+inputs.branch_name+'.'+inputs.changelist+'.'+inputs.shelve+'.'+inputs.describe
+    let treeID  = inputs.checktype+'.'+inputs.codeline+'.'+inputs.branch_name+'.CL'+inputs.changelist+'.SHELVE'+inputs.shelve+'.'+inputs.describe
     let treeRoot;
     treeRoot  = HOME+'/'+treeID;
     //check if killed
@@ -103,31 +103,13 @@ module.exports = {
       shelve      : inputs.shelve,
       describe    : inputs.describe
     });
-    if(!DB){
-      await Sanitysummary.create({
-        codeline    : inputs.codeline,
-        branch_name : inputs.branch_name,
-        changelist  : inputs.changelist,
-        shelve      : inputs.shelve,
-        describe    : inputs.describe,
-        result      : 'NOTSTARTED',
-        resultlocation: 'NA',
-        details     : 'NA'
-      });//TODO
-      DB  = await Sanitysummary.findOne({
-        codeline    : inputs.codeline,
-        branch_name : inputs.branch_name,
-        changelist  : inputs.changelist,
-        shelve      : inputs.shelve,
-        describe    : inputs.describe
-      });
-    }
     if((DB.result  =='KILLED')||(DB.result  =='TOKILL')||(DB.result  =='KILLING')){
       return;
     }
     else if(fs.existsSync(treeRoot)){
       //clean up workspace
       console.log(loginit()+treeRoot+' exists. cleaning up');
+      child_process.execSync('cd '+treeRoot+' && /tool/pandora64/.package/perforce-2009.2/bin/p4 revert ...');
       child_process.execSync('mv '+treeRoot+' '+treeRoot+'.rm');
       child_process.exec('rm -rf '+treeRoot+'.rm',function(err,stdout,stderr){
         console.log(loginit()+treeRoot+'.rm clean done');
@@ -135,6 +117,19 @@ module.exports = {
     }
     child_process.execSync('mkdir -p '+treeRoot);
     console.log(loginit()+treeRoot+' sync start');
+    await Sanitysummary.update({
+      codeline    : inputs.codeline    ,
+      branch_name : inputs.branch_name ,
+      changelist  : inputs.changelist  ,
+      shelve      : inputs.shelve      ,
+      username    : inputs.username    ,
+      describe    : inputs.describe    ,
+      checktype   : inputs.checktype   
+    },{
+      result      : 'RUNNING',
+      resultlocation  : treeRoot,
+    });
+    child_process.execSync('echo "<html><body><h3>Hi '+inputs.username+'</h3><h4>Your shelve/chengelist start to sync.</h4><h4><a href="http://logviewer-atl/'+treeRoot+'">Find Details here</a></h4></body></html>" | mutt  -c Benny.Peng@amd.com '+getemail(inputs.username)+' -e \'set content_type="text/html"\' -s [NBIF][Sanitycheck]['+inputs.checktype+'][STARTS][treeRoot:'+treeRoot+']');
     let syncstarttime = new moment();
     child_process.exec(__dirname+'/../../tools/synctree.csh --treeRoot '+treeRoot+' --codeline '+inputs.codeline+' --branch_name '+inputs.branch_name+' --changelist '+inputs.changelist+' > '+treeRoot+'.sync.log',async function(err,stdout,stderr){
       let syncendtime = new moment();
@@ -170,20 +165,29 @@ module.exports = {
       }
       if(fs.existsSync(treeRoot+'/nb__.sync.FAIL')){
         console.log(loginit()+treeRoot+' sync fail');
-        child_process.exec('echo "syncfail" | mutt Benny.Peng@amd.com -s [NBIF][shelvecheck][SYNCFAIL]['+treeRoot+']');
         child_process.execSync('/home/benpeng/rtlogin');
-        await Sanitysummary.update({
-          codeline    : inputs.codeline,
-          branch_name : inputs.branch_name,
-          changelist  : inputs.changelist,
-          shelve      : inputs.shelve,
-          describe    : inputs.describe
-        },{
-          result      : 'NOTSTARTED'
-        });
+        child_process.execSync('mv '+treeRoot+'.sync.log '+treeRoot+'.sync.log.review');
+        child_process.execSync('mv '+treeRoot+' '+treeRoot+'.rm');
+        child_process.exec('rm -rf '+treeRoot+'.rm');
+        child_process.execSync('echo "<html><body><h3>Hi '+inputs.username+'</h3><h4>Your shelve/chengelist failed to sync. Please contact Benny.Peng@amd.com</h4></body></html>" | mutt  -c Benny.Peng@amd.com '+getemail(inputs.username)+' -e \'set content_type="text/html"\' -s [NBIF][Sanitycheck]['+inputs.checktype+'][SYNCFAIL][treeRoot:'+treeRoot+']');
+        setTimeout(async function(){
+          await Sanitysummary.update({
+            codeline    : inputs.codeline,
+            branch_name : inputs.branch_name,
+            changelist  : inputs.changelist,
+            shelve      : inputs.shelve,
+            describe    : inputs.describe
+          },{
+            result      : 'NOTSTARTED'
+          });
+        },1*3600*1000);
       }
       if(fs.existsSync(treeRoot+'/nb__.sync.PASS')){
         console.log(loginit()+treeRoot+' sync pass');
+        child_process.execSync('echo "<html><body><h3>Hi '+inputs.username+'</h3><h4>Your shelve/chengelist sync pass.</h4><h4><a href="http://logviewer-atl/'+treeRoot+'">Find Details here</a></h4></body></html>" | mutt  -c Benny.Peng@amd.com '+getemail(inputs.username)+' -e \'set content_type="text/html"\' -s [NBIF][Sanitycheck]['+inputs.checktype+'][SYNCPASS][treeRoot:'+treeRoot+']');
+        let passon  = JSON.parse(JSON.stringify(inputs));
+        passon.treeRoot =  treeRoot;
+        await sails.helpers.resolve.with(passon);
       }
     });
     // All done.

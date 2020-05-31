@@ -49,10 +49,12 @@ let cron_check  = new cronJob('*/10 * * * * *',async function(){
     checktype   : 'shelvecheck',
     result      : 'RUNNING'
   });
+  console.log(loginit()+'shelvecheck running number is '+shelvecheckRunnings.length);
   let changelistcheckRunnings  = await Sanitysummary.find({
     checktype   : 'changelistcheck',
     result      : 'RUNNING'
   });
+  console.log(loginit()+'changelistcheck running number is '+changelistcheckRunnings.length);
   if(shelvecheckRunnings.length>= maxPS_SH){
     console.log(loginit()+'too many shelvecheck Running tasks');
   }
@@ -87,6 +89,15 @@ let cron_check  = new cronJob('*/10 * * * * *',async function(){
       }
       else{
         //TODO
+        await sails.helpers.sync.with({
+          codeline    : pickedupitem.codeline    ,
+          branch_name : pickedupitem.branch_name ,
+          changelist  : pickedupitem.changelist  ,
+          shelve      : pickedupitem.shelve      ,
+          username    : pickedupitem.username    ,
+          describe    : pickedupitem.describe    ,
+          checktype   : pickedupitem.checktype   
+        });
       }
     }
   }
@@ -118,17 +129,7 @@ module.exports = {
   fn: async function (inputs,exits) {
     sails.log('/start');
     sails.log(inputs);
-    let msg='';
-    await sails.helpers.sync.with({
-      codeline    : 'nbif2_0',
-      branch_name : 'nbif2_0_main',
-      changelist  : '4358702',
-      shelve      : '4362548',
-      username    : 'benpeng',
-      describe    : 'abc',
-      hostname    : 'srdcws808',
-      checktype   : 'shelvecheck'
-    });
+    cron_check.start();//TODO
     ////////
     // All done.
     return exits.success(JSON.stringify({

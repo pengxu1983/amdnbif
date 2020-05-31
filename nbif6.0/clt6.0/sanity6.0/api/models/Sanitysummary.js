@@ -44,6 +44,9 @@ module.exports = {
     describe    : {
       type    : 'string',
       columnType  : 'longtext'
+    },
+    checktype   : {
+      type    : 'string'
     }
 
     //  ╔═╗╔╦╗╔╗ ╔═╗╔╦╗╔═╗

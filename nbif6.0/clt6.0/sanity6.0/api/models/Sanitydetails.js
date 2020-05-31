@@ -41,6 +41,9 @@ module.exports = {
     },
     variantname : {
       type      : 'string'
+    },
+    checktype   : {
+      type      : 'string'
     }
 
 
