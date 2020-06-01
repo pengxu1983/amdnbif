@@ -83,7 +83,8 @@ module.exports = {
       branch_name : inputs.branch_name,
       changelist  : inputs.changelist,
       shelve      : inputs.shelve,
-      describe    : inputs.describe
+      describe    : inputs.describe,
+      checktype   : inputs.checktype
     });
     if((DB.result  =='KILLED')||(DB.result  =='TOKILL')||(DB.result  =='KILLING')){
       return;
@@ -91,7 +92,7 @@ module.exports = {
     console.log(loginit()+treeRoot+' resolve start');
     child_process.execSync('echo "<html><body><h3>Hi '+inputs.username+'</h3><h4>Your shelve/chengelist start to resolve.</h4><h4><a href="http://logviewer-atl/'+treeRoot+'">Find Details here</a></h4></body></html>" | mutt  -c Benny.Peng@amd.com '+getemail(inputs.username)+' -e \'set content_type="text/html"\' -s [NBIF][Sanitycheck]['+inputs.checktype+'][RESOLVESTART][treeRoot:'+treeRoot+']');
     let resolvestarttime  = new moment();
-    child_process.exec(__dirname+'/../../tools/resolve.csh --treeRoot '+treeRoot+' --shelve '+inputs.shelve+' --resolveopt -am > '+treeRoot+'/nb__.resolve.log',function(){
+    child_process.exec(__dirname+'/../../tools/resolve.csh --treeRoot '+treeRoot+' --shelve '+inputs.shelve+' --resolveopt -am > '+treeRoot+'/nb__.resolve.log',async function(){
       let resolveendtime  = new moment();
       console.log(loginit()+treeRoot+' resolve done');
       console.log(loginit()+treeRoot+' resolve cost '+moment.duration(resolveendtime.diff(resolvestarttime)).as('minutes')+' minutes');

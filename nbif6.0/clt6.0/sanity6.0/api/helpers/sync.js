@@ -101,7 +101,8 @@ module.exports = {
       branch_name : inputs.branch_name,
       changelist  : inputs.changelist,
       shelve      : inputs.shelve,
-      describe    : inputs.describe
+      describe    : inputs.describe,
+      checktype   : inputs.checktype
     });
     if((DB.result  =='KILLED')||(DB.result  =='TOKILL')||(DB.result  =='KILLING')){
       return;
@@ -176,7 +177,8 @@ module.exports = {
             branch_name : inputs.branch_name,
             changelist  : inputs.changelist,
             shelve      : inputs.shelve,
-            describe    : inputs.describe
+            describe    : inputs.describe,
+            checktype   : inputs.checktype
           },{
             result      : 'NOTSTARTED'
           });

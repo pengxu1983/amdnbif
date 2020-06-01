@@ -8,7 +8,7 @@ set seed=12345678
 set tasktype="test"
 set UVM_VERBOSITY="UVM_LOW"
 set runopt="all"
-set treeRoot=`pwd`
+set treeRoot="NA"
 set casename="demo_test_0"
 #get all argv
 if ($#argv >= 0) then
@@ -59,11 +59,14 @@ if ($#argv >= 0) then
   endif
 endif
 #run case
-cd $treeRoot
+bootenv
 if($out_anchor  ==  "NA") then
-  bootenv
-  set out_anchor  = "$STEM"
+  set out_anchor= $STEM
 endif
+if($treeRoot  ==  "NA") then
+  set treeRoot= $STEM
+endif
+cd $treeRoot
 bootenv -v $variantname -out_anchor  $out_anchor
 if($tasktype  ==  "test") then
   if($runopt  ==  "all")  then
@@ -78,19 +81,19 @@ if($tasktype  ==  "test") then
 else if($tasktype ==  "task") then
   if($casename  ==  "dcelab") then
     if($variantname  ==  "nbif_draco_gpu") then
-      dj -v -l $STEM/nb__.$variantname.$tasktype.$casename.log -e 'releaseflow::dropflow(:rtl_drop).build(:rhea_drop,:rhea_dc)' -DPUBLISH_BLKS=nbif_shub_wrap_algfx
+      dj -q -v -l $STEM/nb__.$variantname.$tasktype.$casename.log -e 'releaseflow::dropflow(:rtl_drop).build(:rhea_drop,:rhea_dc)' -DPUBLISH_BLKS=nbif_shub_wrap_algfx
     endif
     if($variantname  ==  "nbif_nv10_gpu") then
-      dj -v -l $STEM/nb__.$variantname.$tasktype.$casename.log -e 'releaseflow::dropflow(:rtl_drop).build(:rhea_drop,:rhea_dc)' -DPUBLISH_BLKS=nbif_shub_wrap_gfx
+      dj -q -v -l $STEM/nb__.$variantname.$tasktype.$casename.log -e 'releaseflow::dropflow(:rtl_drop).build(:rhea_drop,:rhea_dc)' -DPUBLISH_BLKS=nbif_shub_wrap_gfx
     endif
     if($variantname  ==  "nbif_et_0") then
-      dj -v -l $STEM/nb__.$variantname.$tasktype.$casename.log -e 'releaseflow::dropflow(:rtl_drop).build(:rhea_drop,:rhea_dc)' -DPUBLISH_BLKS=nbif_shub_wrap_et_0
+      dj -q -v -l $STEM/nb__.$variantname.$tasktype.$casename.log -e 'releaseflow::dropflow(:rtl_drop).build(:rhea_drop,:rhea_dc)' -DPUBLISH_BLKS=nbif_shub_wrap_et_0
     endif
     if($variantname  ==  "nbif_et_1") then
-      dj -v -l $STEM/nb__.$variantname.$tasktype.$casename.log -e 'releaseflow::dropflow(:rtl_drop).build(:rhea_drop,:rhea_dc)' -DPUBLISH_BLKS=nbif_shub_wrap_et_1
+      dj -q -v -l $STEM/nb__.$variantname.$tasktype.$casename.log -e 'releaseflow::dropflow(:rtl_drop).build(:rhea_drop,:rhea_dc)' -DPUBLISH_BLKS=nbif_shub_wrap_et_1
     endif
     if($variantname  ==  "nbif_et_2") then
-      dj -v -l $STEM/nb__.$variantname.$tasktype.$casename.log -e 'releaseflow::dropflow(:rtl_drop).build(:rhea_drop,:rhea_dc)' -DPUBLISH_BLKS=nbif_shub_wrap_et_2
+      dj -q -v -l $STEM/nb__.$variantname.$tasktype.$casename.log -e 'releaseflow::dropflow(:rtl_drop).build(:rhea_drop,:rhea_dc)' -DPUBLISH_BLKS=nbif_shub_wrap_et_2
     endif
   endif
 endif

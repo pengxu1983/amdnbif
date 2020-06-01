@@ -36,7 +36,7 @@ module.exports = {
     tasktype    : {
       type      : 'string'
     },
-    taskname    : {
+    casename    : {
       type      : 'string'
     },
     variantname : {
