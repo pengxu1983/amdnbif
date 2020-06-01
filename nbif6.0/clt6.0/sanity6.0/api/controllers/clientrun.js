@@ -83,7 +83,8 @@ module.exports = {
         resultlocation: 'NA',
         details       : 'NA',
         testlist      : JSON.stringify(testlist),
-        describe      : inputs.describe
+        describe      : inputs.describe,
+        checktype     : 'shelvecheck'
       });
     }
     // All done.
