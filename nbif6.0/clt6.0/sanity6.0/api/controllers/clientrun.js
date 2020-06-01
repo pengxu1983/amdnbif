@@ -69,7 +69,9 @@ module.exports = {
       }));
     }
     else if(SHDB.length==1){
-      msg : 'same sanity check task already exists'
+      return exits.success(JSON.stringify({
+        msg : 'same sanity check task already exists, if you would like to kickoff a new sanity with same shelveID, Please use -d "Your description" as additional option'
+      }));
     }
     else{
       await Sanitysummary.create({
