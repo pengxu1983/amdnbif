@@ -181,8 +181,8 @@ module.exports = {
               });
             }
             let passon  = JSON.parse(JSON.stringify(inputs));
-            passon.MASK = MASK;
-            await sails.helpers.checkifdon.with(passon);
+            passon.MASK = JSON.stringify(MASK);
+            await sails.helpers.checkifdone.with(passon);
           });
         }
       }

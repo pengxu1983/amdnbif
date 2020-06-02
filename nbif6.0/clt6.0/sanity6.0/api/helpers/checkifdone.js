@@ -39,7 +39,36 @@ module.exports = {
 
 
   inputs: {
-
+    codeline    : {
+      type      : 'string'
+    },
+    branch_name : {
+      type      : 'string'
+    },
+    changelist  : {
+      type      : 'string'
+    },
+    shelve      : {
+      type      : 'string'
+    },
+    describe    : {
+      type      : 'string'
+    },
+    username    : {
+      type      : 'string'
+    },
+    hostname    : {
+      type      : 'string'
+    },
+    checktype   : {
+      type      : 'string'
+    },
+    treeRoot    : {
+      type      : 'string'
+    },
+    MASK        : {
+      type      : 'string'
+    }
   },
 
 
@@ -55,13 +84,13 @@ module.exports = {
   fn: async function (inputs,exits) {
     sails.log('/checkifdone');
     sails.log(inputs);
-    let MASK  = inputs.MASK;
+    let MASK  = JSON.parse(inputs.MASK);
     let isDone='yes';
     let overall='PASS';
     let mailbody  = '';
     mailbody  +=  '<html>\n';
     mailbody  +=  '<body>\n';
-    mailbody  +=  '<h3>Hi '+pickedupitem.username+'</h3>\n';
+    mailbody  +=  '<h3>Hi '+inputs.username+'</h3>\n';
     for(let variantname in MASK){
       mailbody  +=  '<h4>Variant : '+variantname+'</h4>\n';
       mailbody  +=  '<table border="1">\n';
@@ -71,9 +100,9 @@ module.exports = {
       mailbody  +=  '</tr>\n';
       
       for(let tasktype  in  MASK[variantname]){
-        for(let taskname in MASK[variantname][tasktype]){
+        for(let casename in MASK[variantname][tasktype]){
           mailbody  +=  '<tr>\n';
-          mailbody  +=  '  <td>'+taskname+'</td>\n';
+          mailbody  +=  '  <td>'+casename+'</td>\n';
           let DB = await Sanitydetails.findOne({
             codeline    : inputs.codeline,
             branch_name : inputs.branch_name,
@@ -131,18 +160,27 @@ module.exports = {
       },{
         result      : overall
       });
-      setTimeout(async function(){
+      if(overall  =='FAIL'){
+        setTimeout(async function(){
+          child_process.exec('cd '+inputs.treeRoot+' && /tool/pandora64/.package/perforce-2009.2/bin/p4 revert ...',function(){
+            child_process.execSync('rm -rf '+inputs.treeRoot+'.log');
+            child_process.execSync('mv '+inputs.treeRoot+' '+inputs.treeRoot+'.rm');
+            child_process.exec('rm -rf '+inputs.treeRoot+'.rm',function(){
+              console.log(loginit()+inputs.treeRoot+'.rm is cleaned');
+            });
+          });
+        },48*3600*1000);
+      }
+      else{
         child_process.exec('cd '+inputs.treeRoot+' && /tool/pandora64/.package/perforce-2009.2/bin/p4 revert ...',function(){
           child_process.execSync('rm -rf '+inputs.treeRoot+'.log');
           child_process.execSync('mv '+inputs.treeRoot+' '+inputs.treeRoot+'.rm');
           child_process.exec('rm -rf '+inputs.treeRoot+'.rm',function(){
             console.log(loginit()+inputs.treeRoot+'.rm is cleaned');
           });
-        })
-      },48*3600*1000);
+        });
+      }
     }
   }
-
-
 };
 
