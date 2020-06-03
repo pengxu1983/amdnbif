@@ -95,14 +95,14 @@ module.exports = {
       mailbody  +=  '<h4>Variant : '+variantname+'</h4>\n';
       mailbody  +=  '<table border="1">\n';
       mailbody  +=  '<tr>\n';
-      mailbody  +=  '  <th>Task Name</th>\n';
+      mailbody  +=  '  <th>Case Name</th>\n';
       mailbody  +=  '  <th>Result</th>\n';
       mailbody  +=  '</tr>\n';
       
       for(let tasktype  in  MASK[variantname]){
-        for(let casename in MASK[variantname][tasktype]){
+        for(let casename=0;casename <MASK[variantname][tasktype].length;casename++){
           mailbody  +=  '<tr>\n';
-          mailbody  +=  '  <td>'+casename+'</td>\n';
+          mailbody  +=  '  <td>'+MASK[variantname][tasktype][casename]+'</td>\n';
           let DB = await Sanitydetails.findOne({
             codeline    : inputs.codeline,
             branch_name : inputs.branch_name,
