@@ -47,6 +47,10 @@ module.exports = {
     },
     checktype   : {
       type    : 'string'
+    },
+    testlist    : {
+      type      : 'string',
+      columnType  : 'longtext'
     }
 
     //  ╔═╗╔╦╗╔╗ ╔═╗╔╦╗╔═╗
