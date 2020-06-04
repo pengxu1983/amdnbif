@@ -5,6 +5,7 @@ let process         = require('process');
 let cronJob         = require("cron").CronJob;
 let child_process   = require('child_process');
 let fs              = require('fs');
+let variants        = ['nbif_et_0','nbif_et_1','nbif_et_2'];
 let loginit         = function(){
   return '[LOG]['+moment().format('YYYY-MM-DD HH:mm:ss')+'] ';
 };
@@ -13,7 +14,7 @@ let djregxpass      = /dj exited successfully/;
 let syncregxpass    = /All syncs OK/;
 let resolvefail     = /resolve skipped/;
 let HOME            = '/proj/cip_nbif_regress1/regression';
-let treeRoot        = HOME+'/nbif2_0.nbif2_0_main.nbif_et_0.1';
+let treeRoots       = [HOME+'/nbif2_0.nbif2_0_main.nbif_et_0.1'];//TODO
 let runtimeout      = 60*6;//6 hrs
 let getemail        = function(username){
   let email;
@@ -31,70 +32,6 @@ let getemail        = function(username){
   }
   return email;
 }
-let cron_check  = new cronJob('*/10 * * * * *',async function(){
-  //check if too many running overall
-  let shelvecheckRunnings  = await Sanitysummary.find({
-    checktype   : 'shelvecheck',
-    result      : 'RUNNING'
-  });
-  console.log(loginit()+'shelvecheck running number is '+shelvecheckRunnings.length);
-  let changelistcheckRunnings  = await Sanitysummary.find({
-    checktype   : 'changelistcheck',
-    result      : 'RUNNING'
-  });
-  console.log(loginit()+'changelistcheck running number is '+changelistcheckRunnings.length);
-  if(shelvecheckRunnings.length>= maxPS_SH){
-    console.log(loginit()+'too many shelvecheck Running tasks');
-  }
-  else{
-    let shelvecheckNotstarted = await Sanitysummary.find({
-      checktype   : 'shelvecheck',
-      result      : 'NOTSTARTED'
-    });
-    if(shelvecheckNotstarted.length ==  0){
-      console.log(loginit()+'no shelvecheck to run');
-    }
-    else{
-      let pickedupitem  = 'NA';
-      for(let i=0;i<shelvecheckNotstarted.length;i++){
-        //check if exceed limit
-        let username  = shelvecheckNotstarted[i].username;
-        let DB  = await Sanitysummary.find({
-          checktype : 'shelvecheck',
-          result    : 'RUNNING',
-          username  : username
-        });
-        if(DB.length>=maxPSperson_SH){
-          console.log(loginit()+'too many '+username+' runnings');
-        }
-        else{
-          pickedupitem  = shelvecheckNotstarted[i];
-          break;
-        }
-      }
-      if(pickedupitem=='NA'){
-        console.log(loginit()+'no shelvecheck to run');
-      }
-      else{
-        //TODO
-        await sails.helpers.sync.with({
-          codeline    : pickedupitem.codeline    ,
-          branch_name : pickedupitem.branch_name ,
-          changelist  : pickedupitem.changelist  ,
-          shelve      : pickedupitem.shelve      ,
-          username    : pickedupitem.username    ,
-          describe    : pickedupitem.describe    ,
-          checktype   : pickedupitem.checktype   
-        });
-      }
-    }
-  }
-  if(changelistcheckRunnings.length>= maxPS_CL){
-    //TODO
-  }
-  //check if too many running personally
-  //pick up one item
-},null,false,'Asia/Chongqing');
 module.exports = {
 
 
@@ -105,7 +42,42 @@ module.exports = {
 
 
   inputs: {
-
+    act             : {
+      type          : 'string'
+    },
+    codeline        : {
+      type          : 'string'
+    },
+    branch_name     : {
+      type          : 'string'
+    },
+    changelist      : {
+      type          : 'string'
+    },
+    shelve          : {
+      type          : 'string'
+    },
+    describe        : {
+      type          : 'string'
+    },
+    isBAPU          : {
+      type          : 'string'
+    },
+    isOfficial      : {
+      type          : 'string'
+    },
+    treeRoot        : {
+      type          : 'string'
+    },
+    variantname     : {
+      type          : 'string'
+    },
+    username        : {
+      type          : 'string'
+    },
+    grouplist       : {
+      type          : 'string'
+    }
   },
 
 
@@ -117,7 +89,28 @@ module.exports = {
   fn: async function (inputs,exits) {
     sails.log('/start');
     sails.log(inputs);
-    cron_check.start();//TODO
+    if(inputs.act ==  'start'){
+      await Regressionsummary.create({
+        codeline      : inputs.codeline,
+        branch_name   : inputs.branch_name,
+        changelist    : inputs.changelist,
+        shelve        : inputs.shelve,
+        kickoffdate   : moment().format('YYYY-MM-DD'),
+        describe      : inputs.describe,
+        isOfficial    : inputs.isOfficial,
+        isBAPU        : inputs.isBAPU,
+        variantname   : inputs.variantname,
+        grouplist     : inputs.grouplist,
+        testnumber    : 'NOTSTARTED',
+        passnumber    : 'NOTSTARTED',
+        failnumber    : 'NOTSTARTED',
+        passrate      : 'NOTSTARTED',
+        notrunnumber  : 'NOTSTARTED',
+        runningnumber : 'NOTSTARTED',
+      });
+      let passon  = JSON.parse(JSON.stringify(inputs));
+      await sails.helpers.sync.with(passon);
+    }
     ////////
     // All done.
     return exits.success(JSON.stringify({

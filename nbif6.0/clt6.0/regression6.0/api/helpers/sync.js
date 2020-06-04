@@ -57,13 +57,22 @@ module.exports = {
     describe    : {
       type      : 'string'
     },
+    isBAPU      : {
+      type      : 'string'
+    },
+    isOfficial  : {
+      type      : 'string'
+    },
+    treeRoot    : {
+      type      : 'string'
+    },
+    variantname : {
+      type      : 'string'
+    },
     username    : {
       type      : 'string'
     },
-    hostname    : {
-      type      : 'string'
-    },
-    checktype   : {
+    grouplist   : {
       type      : 'string'
     }
   },
@@ -81,51 +90,55 @@ module.exports = {
   fn: async function (inputs) {
     sails.log('/sync');
     sails.log(inputs);
-    let treeID  = inputs.checktype+'.'+inputs.codeline+'.'+inputs.branch_name+'.CL'+inputs.changelist+'.SHELVE'+inputs.shelve+'.'+inputs.describe
-    let treeRoot;
+    let treeID  = '';
+    if(inputs.isOfficial  ==  'yes'){
+      treeID  +=  'Official.';
+    }
+    else{
+      treeID  +=  'nonOfficial.';
+    }
+    treeID  +=  inputs.codeline+'.'+inputs.branch_name+'.CHANGELIST'+inputs.changelist+'.SHELVE'+inputs.shelve+'.'+inputs.describe;
     treeRoot  = HOME+'/'+treeID;
     //check if killed
-    let DB  = await Sanitysummary.findOne({
+    let DB  = await Regressionsummary.findOne({
       codeline    : inputs.codeline,
       branch_name : inputs.branch_name,
       changelist  : inputs.changelist,
       shelve      : inputs.shelve,
       describe    : inputs.describe,
-      checktype   : inputs.checktype
+      isBAPU      : inputs.isBAPU,
+      isOfficial  : inputs.isOfficial,
+      variantname : inputs.variantname
     });
     if((DB.result  =='KILLED')||(DB.result  =='TOKILL')||(DB.result  =='KILLING')){
       return;
     }
-    else if(fs.existsSync(treeRoot)){
+    if(!fs.existsSync(treeRoot)){
       //clean up workspace
-      console.log(loginit()+treeRoot+' exists. cleaning up');
-      child_process.execSync('cd '+treeRoot+' && /tool/pandora64/.package/perforce-2009.2/bin/p4 revert ...');
-      child_process.execSync('mv '+treeRoot+' '+treeRoot+'.rm');
-      child_process.exec('rm -rf '+treeRoot+'.rm',function(err,stdout,stderr){
-        console.log(loginit()+treeRoot+'.rm clean done');
-      });
+      console.log(loginit()+treeRoot+' not exists please contact Benny.Peng@amd.com');
+      return;
     }
-    child_process.execSync('mkdir -p '+treeRoot);
     console.log(loginit()+treeRoot+' sync start');
-    await Sanitysummary.update({
+    await Regressionsummary.update({
       codeline    : inputs.codeline    ,
       branch_name : inputs.branch_name ,
       changelist  : inputs.changelist  ,
       shelve      : inputs.shelve      ,
-      username    : inputs.username    ,
       describe    : inputs.describe    ,
-      checktype   : inputs.checktype   
+      isBAPU      : inputs.isBAPU      ,
+      isOfficial  : inputs.isOfficial  ,
+      variantname : inputs.variantname 
     },{
       result      : 'RUNNING',
-      resultlocation  : treeRoot,
+      treeRoot    : treeRoot
     });
-    child_process.execSync('echo "<html><body><h3>Hi '+inputs.username+'</h3><h4>Your shelve/chengelist start to sync.</h4><h4><a href="http://logviewer-atl/'+treeRoot+'">Find Details here</a></h4></body></html>" | mutt  -c Benny.Peng@amd.com '+getemail(inputs.username)+' -e \'set content_type="text/html"\' -s [NBIF][Sanitycheck]['+inputs.checktype+'][STARTS][treeRoot:'+treeRoot+']');
+    child_process.execSync('echo "<html><body><h3>Hi benpeng</h3><h4>Regression start to sync.</h4><h4><a href="http://logviewer-atl/'+treeRoot+'">Find Details here</a></h4></body></html>" | mutt  Benny.Peng@amd.com  -e \'set content_type="text/html"\' -s [NBIF][regression][isOfficial:'+inputs.isOfficial+'][isBAPU:'+inputs.isBAPU+'][codeline:'+inputs.codeline+'][branch_name:'+branch_name+'][changelist:'+inputs.changelist+'][shelve:'+inputs.shelve+'][STARTS]');
     let syncstarttime = new moment();
-    child_process.exec(__dirname+'/../../tools/synctree.csh --treeRoot '+treeRoot+' --codeline '+inputs.codeline+' --branch_name '+inputs.branch_name+' --changelist '+inputs.changelist+' > '+treeRoot+'.sync.log',async function(err,stdout,stderr){
+    child_process.exec(__dirname+'/../../tools/synctree.csh --treeRoot '+treeRoot+' --changelist '+inputs.changelist+' --codeline '+inputs.codeline+' --branch_name '+inputs.branch_name+' > '+treeRoot+'/nb__.sync.log',async function(err,stdout,stderr){
       let syncendtime = new moment();
       console.log(loginit()+treeRoot+' sync done');
       console.log(loginit()+treeRoot+' sync cost '+moment.duration(syncendtime.diff(syncstarttime)).as('minutes')+' minutes');
-      if(!fs.existsSync(treeRoot+'.sync.log')){
+      if(!fs.existsSync(treeRoot+'/nb__.sync.log')){
         fs.writeFileSync(treeRoot+'/nb__.sync.FAIL','',{
           encoding  : 'utf8',
           mode      : '0600',
@@ -133,7 +146,7 @@ module.exports = {
         });
       }
       else{
-        let lines = fs.readFileSync(treeRoot+'.sync.log','utf8').split('\n');
+        let lines = fs.readFileSync(treeRoot+'/nb__.sync.log','utf8').split('\n');
         lines.pop();
         for(let l=0;l<lines.length;l++){
           if(syncregxpass.test(lines[l])){
@@ -155,37 +168,15 @@ module.exports = {
       }
       if(fs.existsSync(treeRoot+'/nb__.sync.FAIL')){
         console.log(loginit()+treeRoot+' sync fail');
-        child_process.execSync('/home/benpeng/rtlogin');
-        child_process.execSync('mv '+treeRoot+'.sync.log '+treeRoot+'.sync.log.review');
-        child_process.execSync('mv '+treeRoot+' '+treeRoot+'.rm');
-        child_process.exec('rm -rf '+treeRoot+'.rm');
-        child_process.execSync('echo "<html><body><h3>Hi '+inputs.username+'</h3><h4>Your shelve/chengelist failed to sync. Please contact Benny.Peng@amd.com</h4></body></html>" | mutt  -c Benny.Peng@amd.com '+getemail(inputs.username)+' -e \'set content_type="text/html"\' -s [NBIF][Sanitycheck]['+inputs.checktype+'][SYNCFAIL][treeRoot:'+treeRoot+']');
-        setTimeout(async function(){
-          await Sanitysummary.update({
-            codeline    : inputs.codeline,
-            branch_name : inputs.branch_name,
-            changelist  : inputs.changelist,
-            shelve      : inputs.shelve,
-            describe    : inputs.describe,
-            checktype   : inputs.checktype
-          },{
-            result      : 'NOTSTARTED'
-          });
-        },1*3600*1000);
+        child_process.execSync('echo "<html><body><h3>Hi benpeng</h3><h4>Regression sync fail.</h4><h4><a href="http://logviewer-atl/'+treeRoot+'">Find Details here</a></h4></body></html>" | mutt  Benny.Peng@amd.com  -e \'set content_type="text/html"\' -s [NBIF][regression][isOfficial:'+inputs.isOfficial+'][isBAPU:'+inputs.isBAPU+'][codeline:'+inputs.codeline+'][branch_name:'+branch_name+'][changelist:'+inputs.changelist+'][shelve:'+inputs.shelve+'][STARTS]');//FIXME should come from configuration_id
       }
       if(fs.existsSync(treeRoot+'/nb__.sync.PASS')){
         console.log(loginit()+treeRoot+' sync pass');
-        child_process.execSync('echo "<html><body><h3>Hi '+inputs.username+'</h3><h4>Your shelve/chengelist sync pass.</h4><h4><a href="http://logviewer-atl/'+treeRoot+'">Find Details here</a></h4></body></html>" | mutt  -c Benny.Peng@amd.com '+getemail(inputs.username)+' -e \'set content_type="text/html"\' -s [NBIF][Sanitycheck]['+inputs.checktype+'][SYNCPASS][treeRoot:'+treeRoot+']');
+        child_process.execSync('echo "<html><body><h3>Hi benpeng</h3><h4>Regression sync pass.</h4><h4><a href="http://logviewer-atl/'+treeRoot+'">Find Details here</a></h4></body></html>" | mutt  Benny.Peng@amd.com  -e \'set content_type="text/html"\' -s [NBIF][regression][isOfficial:'+inputs.isOfficial+'][isBAPU:'+inputs.isBAPU+'][codeline:'+inputs.codeline+'][branch_name:'+branch_name+'][changelist:'+inputs.changelist+'][shelve:'+inputs.shelve+'][STARTS]');//FIXME should come from configuration_id
         let passon  = JSON.parse(JSON.stringify(inputs));
-        passon.treeRoot =  treeRoot;
         await sails.helpers.resolve.with(passon);
       }
     });
-    // All done.
-    //return exits.success(JSON.stringify({
-    //  ok  : 'ok',
-    //  msg : treeRoot+' starts'
-    //}));
   }
 
 
