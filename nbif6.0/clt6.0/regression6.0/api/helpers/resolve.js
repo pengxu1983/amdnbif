@@ -35,32 +35,44 @@ module.exports = {
 
 
   inputs: {
-    codeline    : {
-      type      : 'string'
+    act             : {
+      type          : 'string'
     },
-    branch_name : {
-      type      : 'string'
+    codeline        : {
+      type          : 'string'
     },
-    changelist  : {
-      type      : 'string'
+    branch_name     : {
+      type          : 'string'
     },
-    shelve      : {
-      type      : 'string'
+    changelist      : {
+      type          : 'string'
     },
-    describe    : {
-      type      : 'string'
+    shelve          : {
+      type          : 'string'
     },
-    username    : {
-      type      : 'string'
+    describe        : {
+      type          : 'string'
     },
-    hostname    : {
-      type      : 'string'
+    isBAPU          : {
+      type          : 'string'
     },
-    checktype   : {
-      type      : 'string'
+    isOfficial      : {
+      type          : 'string'
     },
-    treeRoot    : {
-      type      : 'string'
+    variantname     : {
+      type          : 'string'
+    },
+    username        : {
+      type          : 'string'
+    },
+    grouplist       : {
+      type          : 'string'
+    },
+    kickoffdate     : {
+      type          : 'string'
+    },
+    treeRoot        : {
+      type          : 'string'
     }
   },
 
@@ -78,65 +90,73 @@ module.exports = {
     sails.log('/resolve');
     sails.log(inputs);
     let treeRoot  = inputs.treeRoot;
-    let DB  = await Sanitysummary.findOne({
+    let DB  = await Regressionsummary.findOne({
       codeline    : inputs.codeline,
       branch_name : inputs.branch_name,
       changelist  : inputs.changelist,
       shelve      : inputs.shelve,
       describe    : inputs.describe,
-      checktype   : inputs.checktype
+      isOfficial  : inputs.isOfficial,
+      isBAPU      : inputs.isBAPU,
+      kickoffdate : inputs.kickoffdate,
+      username    : inputs.username
     });
     if((DB.result  =='KILLED')||(DB.result  =='TOKILL')||(DB.result  =='KILLING')){
       return;
     }
     console.log(loginit()+treeRoot+' resolve start');
-    child_process.execSync('echo "<html><body><h3>Hi '+inputs.username+'</h3><h4>Your shelve/chengelist start to resolve.</h4><h4><a href="http://logviewer-atl/'+treeRoot+'">Find Details here</a></h4></body></html>" | mutt  -c Benny.Peng@amd.com '+getemail(inputs.username)+' -e \'set content_type="text/html"\' -s [NBIF][Sanitycheck]['+inputs.checktype+'][RESOLVESTART][treeRoot:'+treeRoot+']');
+    child_process.execSync('echo "<html><body><h3>Hi benpeng</h3><h4>Regression resolve start.</h4><h4><a href="http://logviewer-atl/'+treeRoot+'">Find Details here</a></h4></body></html>" | mutt  Benny.Peng@amd.com  -e \'set content_type="text/html"\' -s [NBIF][regression][isOfficial:'+inputs.isOfficial+'][isBAPU:'+inputs.isBAPU+'][codeline:'+inputs.codeline+'][branch_name:'+inputs.branch_name+'][changelist:'+inputs.changelist+'][shelve:'+inputs.shelve+'][RESOLVESTART]');//FIXME should come from configuration_id
     let resolvestarttime  = new moment();
-    child_process.exec(__dirname+'/../../tools/resolve.csh --treeRoot '+treeRoot+' --shelve '+inputs.shelve+' --resolveopt -am > '+treeRoot+'/nb__.resolve.log',async function(){
-      let resolveendtime  = new moment();
-      console.log(loginit()+treeRoot+' resolve done');
-      console.log(loginit()+treeRoot+' resolve cost '+moment.duration(resolveendtime.diff(resolvestarttime)).as('minutes')+' minutes');
-      if(!fs.existsSync(treeRoot+'/nb__.resolve.log')){
-        fs.writeFileSync(treeRoot+'/nb__.resolve.FAIL','',{
-          encoding  : 'utf8',
-          mode      : '0600',
-          flag      : 'w'
-        });
-      }
-      else{
-        let lines=fs.readFileSync(treeRoot+'/nb__.resolve.log','utf8').split('\n');
-        lines.pop();
-        for(let l=0;l<lines.length;l++){
-          if(resolvefail.test(lines[l])){
-            fs.writeFileSync(treeRoot+'/nb__.resolve.FAIL','',{
-              encoding  : 'utf8',
-              mode      : '0600',
-              flag      : 'w'
-            });
-            break;
-          }
-        }
-        if(!fs.existsSync(treeRoot+'/nb__.resolve.FAIL')){
-          fs.writeFileSync(treeRoot+'/nb__.resolve.PASS','',{
+    if(inputs.shelve  ==  'NA'){
+      let passon  = JSON.parse(JSON.stringify(inputs));
+      await sails.helpers.compile.with(passon);
+      return;
+    }
+    else{
+      child_process.exec(__dirname+'/../../tools/resolve.csh --treeRoot '+treeRoot+' --shelve '+inputs.shelve+' --resolveopt -am --syncopt sync_local > '+treeRoot+'/nb__.resolve.log',async function(){
+        let resolveendtime  = new moment();
+        console.log(loginit()+treeRoot+' resolve done');
+        console.log(loginit()+treeRoot+' resolve cost '+moment.duration(resolveendtime.diff(resolvestarttime)).as('minutes')+' minutes');
+        if(!fs.existsSync(treeRoot+'/nb__.resolve.log')){
+          fs.writeFileSync(treeRoot+'/nb__.resolve.FAIL','',{
             encoding  : 'utf8',
             mode      : '0600',
             flag      : 'w'
           });
         }
-      }
-      if(fs.existsSync(treeRoot+'/nb__.resolve.FAIL')){
-        console.log(loginit()+treeRoot+' resolve fail');
-        child_process.execSync('echo "<html><body><h3>Hi '+inputs.username+'</h3><h4>Your shelve/chengelist failed to resolve.</h4><h4><a href="http://logviewer-atl/'+treeRoot+'">Find Details here</a></h4></body></html>" | mutt  -c Benny.Peng@amd.com '+getemail(inputs.username)+' -e \'set content_type="text/html"\' -s [NBIF][Sanitycheck]['+inputs.checktype+'][RESOLVEFAIL][treeRoot:'+treeRoot+']');
-      }
-      else if(fs.existsSync(treeRoot+'/nb__.resolve.PASS')){
-        console.log(loginit()+treeRoot+' resolve pass');
-        child_process.execSync('echo "<html><body><h3>Hi '+inputs.username+'</h3><h4>Your shelve/chengelist resolve pass and begin to runtask.</h4><h4><a href="http://logviewer-atl/'+treeRoot+'">Find Details here</a></h4></body></html>" | mutt  -c Benny.Peng@amd.com '+getemail(inputs.username)+' -e \'set content_type="text/html"\' -s [NBIF][Sanitycheck]['+inputs.checktype+'][RESOLVEPASS][treeRoot:'+treeRoot+']');
-        let passon  = JSON.parse(JSON.stringify(inputs));
-        if(inputs.checktype  ==  'shelvecheck'){
-          await sails.helpers.runtask.with(passon);
+        else{
+          let lines=fs.readFileSync(treeRoot+'/nb__.resolve.log','utf8').split('\n');
+          lines.pop();
+          for(let l=0;l<lines.length;l++){
+            if(resolvefail.test(lines[l])){
+              fs.writeFileSync(treeRoot+'/nb__.resolve.FAIL','',{
+                encoding  : 'utf8',
+                mode      : '0600',
+                flag      : 'w'
+              });
+              break;
+            }
+          }
+          if(!fs.existsSync(treeRoot+'/nb__.resolve.FAIL')){
+            fs.writeFileSync(treeRoot+'/nb__.resolve.PASS','',{
+              encoding  : 'utf8',
+              mode      : '0600',
+              flag      : 'w'
+            });
+          }
         }
-      }
-    });
+        if(fs.existsSync(treeRoot+'/nb__.resolve.FAIL')){
+          console.log(loginit()+treeRoot+' resolve fail');
+          child_process.execSync('echo "<html><body><h3>Hi benpeng</h3><h4>Regression resolve fail.</h4><h4><a href="http://logviewer-atl/'+treeRoot+'">Find Details here</a></h4></body></html>" | mutt  Benny.Peng@amd.com  -e \'set content_type="text/html"\' -s [NBIF][regression][isOfficial:'+inputs.isOfficial+'][isBAPU:'+inputs.isBAPU+'][codeline:'+inputs.codeline+'][branch_name:'+inputs.branch_name+'][changelist:'+inputs.changelist+'][shelve:'+inputs.shelve+'][RESOLVEFAIL]');//FIXME should come from configuration_id
+        }
+        else if(fs.existsSync(treeRoot+'/nb__.resolve.PASS')){
+          console.log(loginit()+treeRoot+' resolve pass');
+          child_process.execSync('echo "<html><body><h3>Hi benpeng</h3><h4>Regression resolve pass.</h4><h4><a href="http://logviewer-atl/'+treeRoot+'">Find Details here</a></h4></body></html>" | mutt  Benny.Peng@amd.com  -e \'set content_type="text/html"\' -s [NBIF][regression][isOfficial:'+inputs.isOfficial+'][isBAPU:'+inputs.isBAPU+'][codeline:'+inputs.codeline+'][branch_name:'+inputs.branch_name+'][changelist:'+inputs.changelist+'][shelve:'+inputs.shelve+'][RESOLVEPASS]');//FIXME should come from configuration_id
+          let passon  = JSON.parse(JSON.stringify(inputs));
+          await sails.helpers.compile.with(passon);
+        }
+      });
+    }
   }
 
 

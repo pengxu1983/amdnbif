@@ -73,7 +73,7 @@ if($tasktype  ==  "test") then
     dj -q -l $STEM/nb__.$variantname.$tasktype.$casename.log -DUVM_VERBOSITY=$UVM_VERBOSITY -m4 -DUSE_VRQ -DCGM -DSEED=$seed  run_test -s ${suite} $casename\_${config}
   endif
   if($runopt  ==  "compileonly")  then
-    dj -q -l $STEM/nb__.$variantname.$tasktype.$casename.log -DUVM_VERBOSITY=$UVM_VERBOSITY -m4 -DUSE_VRQ -DCGM -DSEED=$seed  run_test -s ${suite} $casename\_${config} -a execute=off
+    dj -q -l $STEM/nb__.$variantname.compileonly.log -DUVM_VERBOSITY=$UVM_VERBOSITY -m4 -DUSE_VRQ -DCGM -DSEED=$seed  run_test -s ${suite} $casename\_${config} -a execute=off
   endif
   if($runopt  ==  "runonly")  then
     dj -q -l $STEM/nb__.$variantname.$tasktype.$casename.log -DUVM_VERBOSITY=$UVM_VERBOSITY -m4 -DUSE_VRQ -DCGM -DSEED=$seed  run_test -s ${suite} $casename\_${config} -a run=only

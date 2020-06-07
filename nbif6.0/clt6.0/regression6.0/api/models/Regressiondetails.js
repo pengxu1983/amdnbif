@@ -12,7 +12,54 @@ module.exports = {
     //  ╔═╗╦═╗╦╔╦╗╦╔╦╗╦╦  ╦╔═╗╔═╗
     //  ╠═╝╠╦╝║║║║║ ║ ║╚╗╔╝║╣ ╚═╗
     //  ╩  ╩╚═╩╩ ╩╩ ╩ ╩ ╚╝ ╚═╝╚═╝
-
+    codeline      : {
+      type        : 'string'
+    },
+    branch_name   : {
+      type        : 'string'
+    },
+    changelist    : {
+      type        : 'string'
+    },
+    shelve        : {
+      type        : 'string'
+    },
+    isBAPU        : {
+      type        : 'string'
+    },
+    isOfficial    : {
+      type        : 'string'
+    },
+    seed          : {
+      type        : 'string'
+    },
+    variantname   : {
+      type        : 'string'
+    },
+    signature     : {
+      type        : 'string'
+    },
+    result        : {
+      type        : 'string'
+    },
+    group         : {
+      type        : 'string'
+    },
+    config        : {
+      type        : 'string'
+    },
+    bsubQ         : {
+      type        : 'string'
+    },
+    casename      : {
+      type        : 'string'
+    },
+    describe      : {
+      type        : 'string'
+    },
+    suite         : {
+      type        : 'string'
+    }
 
     //  ╔═╗╔╦╗╔╗ ╔═╗╔╦╗╔═╗
     //  ║╣ ║║║╠╩╗║╣  ║║╚═╗

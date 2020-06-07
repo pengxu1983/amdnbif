@@ -66,9 +66,6 @@ module.exports = {
     isOfficial      : {
       type          : 'string'
     },
-    treeRoot        : {
-      type          : 'string'
-    },
     variantname     : {
       type          : 'string'
     },
@@ -90,7 +87,7 @@ module.exports = {
     sails.log('/start');
     sails.log(inputs);
     if(inputs.act ==  'start'){
-      await Regressionsummary.create({
+      let DB  = await Regressionsummary.find({
         codeline      : inputs.codeline,
         branch_name   : inputs.branch_name,
         changelist    : inputs.changelist,
@@ -100,7 +97,28 @@ module.exports = {
         isOfficial    : inputs.isOfficial,
         isBAPU        : inputs.isBAPU,
         variantname   : inputs.variantname,
+        //grouplist     : inputs.grouplist,
+        username      : inputs.username
+      });
+      if(DB.length !=0){
+        return  exits.success(JSON.stringify({
+          ok  : 'notok',
+          msg : 'please rename your regression'
+        }));
+      }
+      let kickoffdate = moment().format('YYYY-MM-DD');
+      await Regressionsummary.create({
+        codeline      : inputs.codeline,
+        branch_name   : inputs.branch_name,
+        changelist    : inputs.changelist,
+        shelve        : inputs.shelve,//should be a list
+        kickoffdate   : kickoffdate,
+        describe      : inputs.describe,
+        isOfficial    : inputs.isOfficial,
+        isBAPU        : inputs.isBAPU,
+        variantname   : inputs.variantname,
         grouplist     : inputs.grouplist,
+        username      : inputs.username,
         testnumber    : 'NOTSTARTED',
         passnumber    : 'NOTSTARTED',
         failnumber    : 'NOTSTARTED',
@@ -109,7 +127,8 @@ module.exports = {
         runningnumber : 'NOTSTARTED',
       });
       let passon  = JSON.parse(JSON.stringify(inputs));
-      await sails.helpers.sync.with(passon);
+      passon.kickoffdate  = kickoffdate;
+      await sails.helpers.sync.with(passon);//TODO
     }
     ////////
     // All done.

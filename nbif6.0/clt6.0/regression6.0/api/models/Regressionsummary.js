@@ -37,22 +37,22 @@ module.exports = {
       type      : 'string'
     },
     testnumber  : {
-      type      : 'number'
+      type      : 'string'
     },
     passnumber  : {
-      type      : 'number'
+      type      : 'string'
     },
     passrate    : {
-      type      : 'number'
+      type      : 'string'
     },
     failnumber  : {
-      type      : 'number'
+      type      : 'string'
     },
     notrunnumber  : {
-      type      : 'number'
+      type      : 'string'
     },
     runningnumber : {
-      type      : 'number'
+      type      : 'string'
     },
     isOfficial  : {
       type      : 'string'
@@ -67,6 +67,9 @@ module.exports = {
       type      : 'string'
     },
     treeRoot    : {
+      type      : 'string'
+    },
+    username    : {
       type      : 'string'
     }
     
