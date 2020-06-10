@@ -138,6 +138,7 @@ module.exports = {
     let gettestliststarttime  = new moment();
     console.log(loginit()+inputs.treeRoot+' testlist script made');
     console.log(loginit()+inputs.treeRoot+' testlist start');
+    child_process.execSync('echo "<html><body><h3>Hi benpeng</h3><h4>Regression testlistgen start.</h4><h4><a href="http://logviewer-atl/'+inputs.treeRoot+'">Find Details here</a></h4></body></html>" | mutt  Benny.Peng@amd.com  -e \'set content_type="text/html"\' -s [NBIF][regression][isOfficial:'+inputs.isOfficial+'][isBAPU:'+inputs.isBAPU+'][codeline:'+inputs.codeline+'][branch_name:'+inputs.branch_name+'][changelist:'+inputs.changelist+'][shelve:'+inputs.shelve+'][TESTLISTGENSTART]');//FIXME should come from configuration_id
     child_process.exec(inputs.treeRoot+'/testlist.script',{
       maxBuffer : 200*1024*1024
     },async function(err_tl,stdout_tl,stderr_tl){
@@ -180,6 +181,7 @@ module.exports = {
           testlist[index]['isBAPU']=inputs.isBAPU;
           testlist[index]['isOfficial']=inputs.isOfficial;
           testlist[index]['run_out_path']='';
+          testlist[index]['variantname']=inputs.variantname;
           testlist[index]['seed']=Math.floor((Math.random()*999999)+1);//
         }
         if(regx02.test(lines[l])){
@@ -193,7 +195,7 @@ module.exports = {
           if(regx03.test(lines[l])){
             lines[l].replace(regx03,function(rs,$1){
               testlist[index]['name'] = $1;
-              console.log(loginit()+inputs.treeRoot+' name '+testlist[index]['name']);
+              //console.log(loginit()+inputs.treeRoot+' name '+testlist[index]['name']);
             });
           }
           //run_out_path
@@ -204,14 +206,14 @@ module.exports = {
               let R = $1;
               R = R.replace(regxouthome,out_home);
               testlist[index]['run_out_path'] = R;
-              console.log(loginit()+inputs.treeRoot+' run_out_path '+testlist[index]['run_out_path']);
+              //console.log(loginit()+inputs.treeRoot+' run_out_path '+testlist[index]['run_out_path']);
             });
           }
           //group
           if(regx06.test(lines[l])){
             lines[l].replace(regx06,function(rs,$1){
               testlist[index]['group'] = $1;
-              console.log(loginit()+inputs.treeRoot+' group '+testlist[index]['group']);
+              //console.log(loginit()+inputs.treeRoot+' group '+testlist[index]['group']);
             });
           }
           //suite 
@@ -219,45 +221,42 @@ module.exports = {
           if(regx04.test(lines[l])){
             lines[l].replace(regx04,function(rs,$1){
               testlist[index]['config'] = $1;
-              console.log(loginit()+inputs.treeRoot+' config '+testlist[index]['config']);
+              //console.log(loginit()+inputs.treeRoot+' config '+testlist[index]['config']);
             });
           }
         }
       }
       console.log(loginit()+inputs.treeRoot+' test number is '+testlist.length);
+      child_process.execSync('echo "<html><body><h3>Hi benpeng</h3><h4>Regression testlistgen done. '+testlist.length+' tests found </h4><h4><a href="http://logviewer-atl/'+inputs.treeRoot+'">Find Details here</a></h4></body></html>" | mutt  Benny.Peng@amd.com  -e \'set content_type="text/html"\' -s [NBIF][regression][isOfficial:'+inputs.isOfficial+'][isBAPU:'+inputs.isBAPU+'][codeline:'+inputs.codeline+'][branch_name:'+inputs.branch_name+'][changelist:'+inputs.changelist+'][shelve:'+inputs.shelve+'][TESTLISTGENDONE]');//FIXME should come from configuration_id
       //prepare case initial status
       for(let t=0;t<testlist.length;t++){
-        //get last seed
-        //TODO
-        await Regressiondetails.destroy({
+        console.log(loginit()+' t :'+t);
+        let onetest = {
           codeline    : testlist[t]['codeline'],
           branch_name : testlist[t]['branch_name'],
           changelist  : testlist[t]['changelist'],
           shelve      : testlist[t]['shelve'],
-          variantname : testlist[t]['variantname'],
+          variantname : inputs.variantname,
           casename    : testlist[t]['name'],
           seed        : testlist[t]['seed'],
           config      : testlist[t]['config'],
           group       : testlist[t]['group'],
           suite       : testlist[t]['suite'],//TODO
-          kickoffdate : testlist[t]['kickoffdate'],
+          //kickoffdate : testlist[t]['kickoffdate'],
+          isBAPU      : inputs.isBAPU,
+          isOfficial  : inputs.isOfficial,
           describe    : inputs.describe
-        });
-        await Regressiondetails.create({
-          codeline    : testlist[t]['codeline'],
-          branch_name : testlist[t]['branch_name'],
-          changelist  : testlist[t]['changelist'],
-          shelve      : testlist[t]['shelve'],
-          variantname : testlist[t]['variantname'],
-          casename    : testlist[t]['name'],
-          seed        : testlist[t]['seed'],
-          config      : testlist[t]['config'],
-          group       : testlist[t]['group'],
-          suite       : testlist[t]['suite'],//TODO
-          kickoffdate : testlist[t]['kickoffdate'],
-          describe    : inputs.describe,
-          result      : 'NOTSTARTED'
-        });
+        }; 
+        //get last seed
+        onetest.kickoffdate = testlist[t]['kickoffdate'];
+        await Regressiondetails.destroy(onetest);
+        await Regressiondetails.create(onetest);
+        let passon  = JSON.parse(JSON.stringify(inputs));
+        passon.casename = testlist[t]['name'];
+        passon.seed     = testlist[t]['seed'];
+        passon.config   = testlist[t]['config'];
+        passon.group    = testlist[t]['group'];
+        await sails.helpers.runtask.with(passon);
       }
     });
   }

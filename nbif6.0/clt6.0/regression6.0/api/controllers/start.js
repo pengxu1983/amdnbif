@@ -98,7 +98,8 @@ module.exports = {
         isBAPU        : inputs.isBAPU,
         variantname   : inputs.variantname,
         //grouplist     : inputs.grouplist,
-        username      : inputs.username
+        username      : inputs.username,
+        result        : 'NOTSTARTED'
       });
       if(DB.length !=0){
         return  exits.success(JSON.stringify({
@@ -125,6 +126,7 @@ module.exports = {
         passrate      : 'NOTSTARTED',
         notrunnumber  : 'NOTSTARTED',
         runningnumber : 'NOTSTARTED',
+        result        : 'NOTSTARTED'
       });
       let passon  = JSON.parse(JSON.stringify(inputs));
       passon.kickoffdate  = kickoffdate;
