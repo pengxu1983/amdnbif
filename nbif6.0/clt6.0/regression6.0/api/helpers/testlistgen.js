@@ -228,36 +228,10 @@ module.exports = {
       }
       console.log(loginit()+inputs.treeRoot+' test number is '+testlist.length);
       child_process.execSync('echo "<html><body><h3>Hi benpeng</h3><h4>Regression testlistgen done. '+testlist.length+' tests found </h4><h4><a href="http://logviewer-atl/'+inputs.treeRoot+'">Find Details here</a></h4></body></html>" | mutt  Benny.Peng@amd.com  -e \'set content_type="text/html"\' -s [NBIF][regression][isOfficial:'+inputs.isOfficial+'][isBAPU:'+inputs.isBAPU+'][codeline:'+inputs.codeline+'][branch_name:'+inputs.branch_name+'][changelist:'+inputs.changelist+'][shelve:'+inputs.shelve+'][TESTLISTGENDONE]');//FIXME should come from configuration_id
-      //prepare case initial status
-      for(let t=0;t<testlist.length;t++){
-        console.log(loginit()+' t :'+t);
-        let onetest = {
-          codeline    : testlist[t]['codeline'],
-          branch_name : testlist[t]['branch_name'],
-          changelist  : testlist[t]['changelist'],
-          shelve      : testlist[t]['shelve'],
-          variantname : inputs.variantname,
-          casename    : testlist[t]['name'],
-          seed        : testlist[t]['seed'],
-          config      : testlist[t]['config'],
-          group       : testlist[t]['group'],
-          suite       : testlist[t]['suite'],//TODO
-          //kickoffdate : testlist[t]['kickoffdate'],
-          isBAPU      : inputs.isBAPU,
-          isOfficial  : inputs.isOfficial,
-          describe    : inputs.describe
-        }; 
-        //get last seed
-        onetest.kickoffdate = testlist[t]['kickoffdate'];
-        await Regressiondetails.destroy(onetest);
-        await Regressiondetails.create(onetest);
-        let passon  = JSON.parse(JSON.stringify(inputs));
-        passon.casename = testlist[t]['name'];
-        passon.seed     = testlist[t]['seed'];
-        passon.config   = testlist[t]['config'];
-        passon.group    = testlist[t]['group'];
-        await sails.helpers.runtask.with(passon);
-      }
+      
+      let passon  = JSON.parse(JSON.stringify(inputs));
+      passon.testlist = testlist;
+      await sails.helpers.runtask.with(passon);
     });
   }
 

@@ -81,20 +81,8 @@ module.exports = {
     out_anchor      : {
       type          : 'string'
     },
-    casename        : {
-      type          : 'string'
-    },
-    config          : {
-      type          : 'string'
-    },
-    suite           : {
-      type          : 'string'
-    },
-    seed            : {
-      type          : 'string'
-    },
-    group           : {
-      type          : 'string'
+    testlist        : {
+      type          : 'json'
     }
   },
 
@@ -110,7 +98,7 @@ module.exports = {
 
   fn: async function (inputs,exits) {
     sails.log('/runtask');
-    sails.log(inputs);
+    sails.log(inputs.testlist.length);
     let DB  = await Regressionsummary.findOne({
       codeline    : inputs.codeline,
       branch_name : inputs.branch_name,
@@ -125,17 +113,25 @@ module.exports = {
     if((DB.result  =='KILLED')||(DB.result  =='TOKILL')||(DB.result  =='KILLING')){
       return;
     }
-    let caseshort;
+    let maxbsub = 100;
     let regx  = /(\w+)_nbif_all_rtl/;
-    inputs.casename.replace(regx,function(rs,$1){
-      caseshort = $1;
+    let runtext = '';
+    for(let t=0;t<inputs.testlist.length;t++){
+      let caseshort;
+      inputs.testlist[t]['name'].replace(regx,function(rs,$1){
+        caseshort = $1;
+      });
+      runtext +=  'bsub -P GIONB-SRDC -W '+runtimeout+' -q regr_high -J nbif_R_rn -R "rusage[mem=5000] select[type==RHEL7_64]" '+__dirname+'/../../tools/runonecase.csh --treeRoot '+inputs.treeRoot+' --variantname '+inputs.variantname+' --tasktype test --runopt runonly --casename  '+caseshort+' --out_anchor '+inputs.out_anchor+'\n';
+    }
+    fs.writeFileSync(inputs.treeRoot+'/runtest.script','runtest',{
+      encoding  : 'utf8',
+      mode      : '0700',
+      flag      : 'w'
     });
-    console.log(loginit()+inputs.treeRoot+' '+caseshort+' start');
-    //child_process.exec('bsub -P GIONB-SRDC -W '+runtimeout+' -q regr_high -J nbif_R_rn -R "rusage[mem=5000] select[type==RHEL7_64]" '+__dirname+'/../../tools/runonecase.csh --treeRoot '+inputs.treeRoot+' --variantname '+inputs.variantname+' --tasktype test --casename  '+caseshort+' --out_anchor '+inputs.treeRoot+'/out.'+inputs.variantname+'.'+inputs.kickoffdate,async function(err_run,stdout_run,stderr_run){
-    //  console.log(loginit()+inputs.treeRoot+' '+caseshort+' dispatched');
-    //  console.log(stderr_run);
-    //});
-    return;
+    child_process.exec(inputs.treeRoot+'/runtest.script',function(err,stdout,stderr){
+      console.log(loginit()+inputs.treeRoot+' : ');
+      console.log(stdout);
+    });
   }
 
 
