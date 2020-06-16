@@ -44,6 +44,9 @@ module.exports = {
     },
     checktype   : {
       type      : 'string'
+    },
+    isBAPU      : {
+      type      : 'string'
     }
 
 

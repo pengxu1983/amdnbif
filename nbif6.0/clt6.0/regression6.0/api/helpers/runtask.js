@@ -121,16 +121,62 @@ module.exports = {
       inputs.testlist[t]['name'].replace(regx,function(rs,$1){
         caseshort = $1;
       });
+      await Regressiondetails.create({
+        codeline    : inputs.codeline,
+        branch_name : inputs.branch_name,
+        changelist  : inputs.changelist,
+        shelve      : inputs.shelve,
+        variantname : inputs.variantname,
+        casename    : caseshort,
+        isBAPU      : inputs.isBAPU,
+        isOfficial  : inputs.isOfficial,
+        seed        : inputs.testlist[t]['seed'],
+        config      : inputs.testlist[t]['config'],
+        kickoffdate : inputs.kickoffdate,
+        group       : inputs.testlist[t]['group'],
+        describe    : inputs.describe,
+        username    : inputs.username,
+        result      : 'NOTSTARTED',
+      });
       runtext +=  'bsub -P GIONB-SRDC -W '+runtimeout+' -q regr_high -J nbif_R_rn -R "rusage[mem=5000] select[type==RHEL7_64]" '+__dirname+'/../../tools/runonecase.csh --treeRoot '+inputs.treeRoot+' --variantname '+inputs.variantname+' --tasktype test --runopt runonly --casename  '+caseshort+' --out_anchor '+inputs.out_anchor+'\n';
     }
-    fs.writeFileSync(inputs.treeRoot+'/runtest.script','runtest',{
+    fs.writeFileSync(inputs.treeRoot+'/runtest.script',runtext,{
       encoding  : 'utf8',
       mode      : '0700',
       flag      : 'w'
     });
-    child_process.exec(inputs.treeRoot+'/runtest.script',function(err,stdout,stderr){
+    child_process.exec(inputs.treeRoot+'/runtest.script',async function(err,stdout,stderr){
       console.log(loginit()+inputs.treeRoot+' : ');
       console.log(stdout);
+      let lines = stdout.split('\n');
+      lines.pop();
+      let regx=/Job <(\d+)>/;
+      let bsubQlist  = [];
+      for(let l=0;l<lines.length;l++){
+        if(regx.test(lines[l])){
+          lines[l].replace(regx,function(rs,$1){
+            bsubQlist.push($1);
+          });
+        }
+      }
+      await Regressionsummary.update({
+        codeline    : inputs.codeline,
+        branch_name : inputs.branch_name,
+        changelist  : inputs.changelist,
+        shelve      : inputs.shelve,
+        describe    : inputs.describe,
+        isOfficial  : inputs.isOfficial,
+        isBAPU      : inputs.isBAPU,
+        kickoffdate : inputs.kickoffdate,
+        username    : inputs.username,
+        variantname : inputs.variantname,
+        grouplist   : inputs.grouplist
+      },{
+        result      : 'RUNNING',
+        bsubQlist   : JSON.stringify(bsubQlist)
+      });
+      let passon  = JSON.parse(JSON.stringify(inputs));
+      await sails.helpers.report.with(passon);
     });
   }
 

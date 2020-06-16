@@ -37,7 +37,8 @@ module.exports = {
       type        : 'string'
     },
     signature     : {
-      type        : 'string'
+      type        : 'string',
+      columnType  : 'longtext'
     },
     result        : {
       type        : 'string'
@@ -61,6 +62,9 @@ module.exports = {
       type        : 'string'
     },
     kickoffdate   : {
+      type        : 'string'
+    },
+    username      : {
       type        : 'string'
     }
 

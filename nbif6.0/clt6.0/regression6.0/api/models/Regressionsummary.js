@@ -71,6 +71,10 @@ module.exports = {
     },
     username    : {
       type      : 'string'
+    },
+    bsubQlist   : {
+      type      : 'string',
+      columnType  : 'longtext'
     }
     
 

@@ -231,6 +231,26 @@ module.exports = {
       
       let passon  = JSON.parse(JSON.stringify(inputs));
       passon.testlist = testlist;
+      await Regressionsummary.update({
+        codeline      : inputs.codeline,
+        branch_name   : inputs.branch_name,
+        changelist    : inputs.changelist,
+        shelve        : inputs.shelve,//should be a list
+        kickoffdate   : inputs.kickoffdate,
+        describe      : inputs.describe,
+        isOfficial    : inputs.isOfficial,
+        isBAPU        : inputs.isBAPU,
+        variantname   : inputs.variantname,
+        grouplist     : inputs.grouplist,
+        username      : inputs.username,
+      },{
+        testnumber    : testlist.length,
+        passnumber    : 0,
+        failnumber    : 0,
+        passrate      : 0,
+        notrunnumber  : testlist.length,
+        runningnumber : 0,
+      });
       await sails.helpers.runtask.with(passon);
     });
   }

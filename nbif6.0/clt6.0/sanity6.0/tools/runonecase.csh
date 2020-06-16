@@ -10,6 +10,7 @@ set UVM_VERBOSITY="UVM_LOW"
 set runopt="all"
 set treeRoot="NA"
 set casename="demo_test_0"
+set isBAPU="no"
 #get all argv
 if ($#argv >= 0) then
   while($#argv >0) 
