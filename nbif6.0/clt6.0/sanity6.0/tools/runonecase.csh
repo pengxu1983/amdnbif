@@ -55,6 +55,11 @@ if ($#argv >= 0) then
       set treeRoot=$1:q
       echo "treeRoot      : $treeRoot"
     endif
+    else if($1:q == "--isBAPU") then
+      shift
+      set isBAPU=$1:q
+      echo "isBAPU        : $isBAPU"
+    endif
     shift
   end
   endif
@@ -71,13 +76,28 @@ cd $treeRoot
 bootenv -v $variantname -out_anchor  $out_anchor
 if($tasktype  ==  "test") then
   if($runopt  ==  "all")  then
-    dj -q -l $STEM/nb__.$variantname.$tasktype.$casename.log -DUVM_VERBOSITY=$UVM_VERBOSITY -m4 -DUSE_VRQ -DCGM -DSEED=$seed  run_test -s ${suite} $casename\_${config}
+    if($isBAPU  ==  "no") then
+      dj -q -l $STEM/nb__.$variantname.$tasktype.$casename.log -DUVM_VERBOSITY=$UVM_VERBOSITY -m4 -DUSE_VRQ -DCGM -DSEED=$seed  run_test -s ${suite} $casename\_${config}
+    endif
+    if($isBAPU  ==  "yes") then
+      dj -q -l $STEM/nb__.$variantname.$tasktype.$casename.log -DUVM_VERBOSITY=$UVM_VERBOSITY -m4 -DUSE_VRQ -DCGM -DBAPU -DSEED=$seed  run_test -s ${suite} $casename\_${config}
+    endif
   endif
   if($runopt  ==  "compileonly")  then
-    dj -q -l $STEM/nb__.$variantname.$tasktype.$casename.log -DUVM_VERBOSITY=$UVM_VERBOSITY -m4 -DUSE_VRQ -DCGM -DSEED=$seed  run_test -s ${suite} $casename\_${config} -a execute=off
+    if($isBAPU  ==  "no") then
+      dj -q -l $STEM/nb__.$variantname.$tasktype.$casename.log -DUVM_VERBOSITY=$UVM_VERBOSITY -m4 -DUSE_VRQ -DCGM -DSEED=$seed  run_test -s ${suite} $casename\_${config} -a execute=off
+    endif
+    if($isBAPU  ==  "yes") then
+      dj -q -l $STEM/nb__.$variantname.$tasktype.$casename.log -DUVM_VERBOSITY=$UVM_VERBOSITY -m4 -DUSE_VRQ -DCGM -DBAPU -DSEED=$seed  run_test -s ${suite} $casename\_${config} -a execute=off
+    endif
   endif
   if($runopt  ==  "runonly")  then
-    dj -q -l $STEM/nb__.$variantname.$tasktype.$casename.log -DUVM_VERBOSITY=$UVM_VERBOSITY -m4 -DUSE_VRQ -DCGM -DSEED=$seed  run_test -s ${suite} $casename\_${config} -a run=only
+    if($isBAPU  ==  "no") then
+      dj -q -l $STEM/nb__.$variantname.$tasktype.$casename.log -DUVM_VERBOSITY=$UVM_VERBOSITY -m4 -DUSE_VRQ -DCGM -DSEED=$seed  run_test -s ${suite} $casename\_${config} -a run=only
+    endif
+    if($isBAPU  ==  "yes") then
+      dj -q -l $STEM/nb__.$variantname.$tasktype.$casename.log -DUVM_VERBOSITY=$UVM_VERBOSITY -m4 -DUSE_VRQ -DCGM -DBAPU -DSEED=$seed  run_test -s ${suite} $casename\_${config} -a run=only
+    endif
   endif
 else if($tasktype ==  "task") then
   if($casename  ==  "dcelab") then
