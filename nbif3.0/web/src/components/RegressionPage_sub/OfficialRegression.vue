@@ -1,5 +1,6 @@
 <template>
   <el-container>
+    <el-header>
     <el-form :inline="true" :model="regressionID" class="demo-form-inline">
       <el-form-item label="projectname">
         <el-select v-model="regressionID.projectname">
@@ -26,9 +27,59 @@
         </el-select>
       </el-form-item>
       <el-form-item>
-        <el-button type="primary" @click="searchresult">Check</el-button>
+        <el-button type="primary" @click="getRegressionlist()">Check</el-button>
       </el-form-item>
     </el-form>
+    </el-header>
+    <el-main>
+      <el-table
+        :data="regressionlist"
+        stripe
+        style="width: 100%"
+      >
+        <el-table-column
+          prop="kickoffdate"
+          label="date"
+          width="150"
+        >
+        </el-table-column>
+        <el-table-column
+          prop="changelist"
+          label="changelist"
+        >
+        </el-table-column>
+        <el-table-column
+          prop="shelve"
+          label="shelve"
+        >
+        </el-table-column>
+        <el-table-column
+          prop="totalnum"
+          label="total"
+        >
+        </el-table-column>
+        <el-table-column
+          prop="passnum"
+          label="pass"
+        >
+        </el-table-column>
+        <el-table-column
+          prop="failnum"
+          label="fail"
+        >
+        </el-table-column>
+        <el-table-column
+          prop="runningnum"
+          label="running"
+        >
+        </el-table-column>
+        <el-table-column
+          prop="notstartednum"
+          label="notstarted"
+        >
+        </el-table-column>
+      </el-table>
+    </el-main>
   </el-container>
 </template>
 
@@ -48,15 +99,23 @@ export default {
         branch_name : 'nbif2_0_main',
         variantname : 'nbif_et_0',
         projectname : 'floyd'
-      }
+      },
+      regressionlist  :[],
     }
   },
   methods : {
-    searchresult  (){
+    getRegressionlist(){
+      this.$http.post('/regression/getregressionlist',{
+      }).then(
+        function(response){
+          window.console.log(response);
+        },
+        function(response){
+          window.console.log(response);
+        });
     },
   },
   mounted (){
-    this.getprojects();
   }
 }
 </script>
