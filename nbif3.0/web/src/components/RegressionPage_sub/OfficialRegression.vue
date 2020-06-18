@@ -1,49 +1,58 @@
 <template>
-  <el-tabs v-model="activeProj" type="card" @tab-click="handleClick">
-    <el-tab-pane 
-      v-for="oneproject in projects"
-      :label="oneproject.projectname" 
-      :name="oneproject.projectname"
-    >
-    </el-tab-pane>
-    <OneprojPage
-      v-bind:projectname="activeProj"
-    >
-    </OneprojPage>
-  </el-tabs>
+  <el-container>
+    <el-form :inline="true" :model="regressionID" class="demo-form-inline">
+      <el-form-item label="projectname">
+        <el-select v-model="regressionID.projectname">
+          <el-option label="floyd" value="floyd"></el-option>
+          <el-option label="nv31" value="nv31"></el-option>
+        </el-select>
+      </el-form-item>
+      <el-form-item label="codeline">
+        <el-select v-model="regressionID.codeline">
+          <el-option label="nbif2_0" value="nbif2_0"></el-option>
+        </el-select>
+      </el-form-item>
+      <el-form-item label="branch_name">
+        <el-select v-model="regressionID.branch_name">
+          <el-option label="nbif2_0_main" value="nbif2_0_main"></el-option>
+          <el-option label="rmb_main" value="rmb_main"></el-option>
+        </el-select>
+      </el-form-item>
+      <el-form-item label="branch_name">
+        <el-select v-model="regressionID.variantname">
+          <el-option label="nbif_et_0" value="nbif_et_0"></el-option>
+          <el-option label="nbif_et_1" value="nbif_et_1"></el-option>
+          <el-option label="nbif_et_2" value="nbif_et_2"></el-option>
+        </el-select>
+      </el-form-item>
+      <el-form-item>
+        <el-button type="primary" @click="searchresult">Check</el-button>
+      </el-form-item>
+    </el-form>
+  </el-container>
 </template>
 
 <script>
-import OneprojPage  from '@/components/RegressionPage_sub/OfficialRegression_sub/OneprojPage.vue'
+//import OneprojPage  from '@/components/RegressionPage_sub/OfficialRegression_sub/OneprojPage.vue'
 export default {
   name: 'OfficialRegression',
   props: {
   },
   components  : {
-    OneprojPage
+    //OneprojPage
   },
   data() {
     return {
-      projects    : [],
-      activeProj  : 'mi200',
+      regressionID: {
+        codeline    : 'nbif2_0',
+        branch_name : 'nbif2_0_main',
+        variantname : 'nbif_et_0',
+        projectname : 'floyd'
+      }
     }
   },
   methods : {
-    getprojects (){
-      this.$http.post('/config/projects/get',{
-        kind  : 'all',
-      }).then(
-        function(response){
-          if(response.body.ok ==  'ok'){
-            console.log('all projects successfully get from DB');
-            this.projects = JSON.parse(response.body.projects);
-          }
-        },
-        function(){}
-      );
-    },
-    handleClick(tab, event) {
-      console.log(this.activeProj + ' clicked');
+    searchresult  (){
     },
   },
   mounted (){

@@ -22,7 +22,7 @@
             @click="currentTab=onekind"
           >
             <i class="el-icon-setting"></i>
-            <span slot="title">{{ kind_disp(onekind)}}</span>
+            <span slot="title">{{ onekind}}</span>
           </el-menu-item>
         </el-menu>
       </el-aside>
@@ -40,8 +40,8 @@
 
 <script>
 import OfficialRegression from '@/components/RegressionPage_sub/OfficialRegression.vue'
-import FunctionCoverage   from '@/components/RegressionPage_sub/FunctionCoverage.vue'
-import Neverpass          from '@/components/RegressionPage_sub/Neverpass.vue'
+//import FunctionCoverage   from '@/components/RegressionPage_sub/FunctionCoverage.vue'
+//import Neverpass          from '@/components/RegressionPage_sub/Neverpass.vue'
 
 export default {
   name: 'RegressionPage',
@@ -50,7 +50,7 @@ export default {
   data() {
     return {
       projectinfo : {
-        projectname : 'mi200',
+        projectname : 'mi300',
         variantname : 'nbif_nv10_gpu',
       },
       projects    : [],
@@ -59,7 +59,7 @@ export default {
       kinds       : [
         'OfficialRegression',
         'FunctionCoverage',
-        'Neverpass',
+        //'Neverpass',
         //'ByDVgroup',
         //'Byfeature',
       ],
@@ -69,8 +69,8 @@ export default {
   components  : {
     //Overall,
     OfficialRegression,
-    FunctionCoverage,
-    Neverpass,
+    //FunctionCoverage,
+    //Neverpass,
     //Byfeature,
     //ByDVgroup,
   },
@@ -81,9 +81,9 @@ export default {
     }
   },
   methods : {
-    kind_disp (name){
-      return name;
-    },
+    //kind_disp (name){
+    //  return name;
+    //},
     //handleOpen(key, keyPath) {
     //  //console.log(key, keyPath);
     //},
