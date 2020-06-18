@@ -150,17 +150,10 @@ module.exports = {
                   signature = 'LOG TOO LARGE';
                 }
                 else{
-                  let lines = fs.readFileSync(testlist[t]['run_out_path']+'/vcs_run.log','utf8').split('\n');
-                  lines.pop();
-                  let regx001 = /^error/i;
-                  let regx002 = /^UVM_ERROR/;
-                  let regx003 = /^UVM_FATAL/;
-                  for(let l=0;l<lines.length;l++){
-                    if((regx001.test(lines[l])) || (regx002.test(lines[l])) || (regx003.test(lines[l]))){
-                      signature = lines[l];
-                      break;
-                    }
-                  }
+                  signature = child_process.execSync(__dirname+'/../../tools/getsignature.js '+testlist[t]['run_out_path']+'/vcs_run.log',{
+                    maxBuffer : 500*1024*1024,
+                    encoding  : 'utf8'
+                  });
                 }
                 await Regressiondetails.update({
                   codeline      : inputs.codeline,
@@ -177,6 +170,7 @@ module.exports = {
                   seed          : testlist[t]['seed'],
                   config        : testlist[t]['config'],
                   group         : testlist[t]['group'],
+                  projectname   : inputs.projectname,
                 },{
                   result        : 'FAIL',
                   signature     : signature
@@ -204,6 +198,7 @@ module.exports = {
               seed          : testlist[t]['seed'],
               config        : testlist[t]['config'],
               group         : testlist[t]['group'],
+              projectname   : inputs.projectname
             },{
               result        : 'PASS',
               signature     : 'NA'
@@ -226,6 +221,7 @@ module.exports = {
               seed          : testlist[t]['seed'],
               config        : testlist[t]['config'],
               group         : testlist[t]['group'],
+              projectname   : inputs.projectname
             },{
               result        : 'RUNNING',
               //signature   : ''//TODO

@@ -77,6 +77,9 @@ module.exports = {
     },
     treeRoot        : {
       type          : 'string'
+    },
+    projectname     : {
+      type          : 'string'
     }
   },
 

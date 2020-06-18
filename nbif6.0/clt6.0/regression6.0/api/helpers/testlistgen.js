@@ -79,6 +79,9 @@ module.exports = {
     },
     out_anchor      : {
       type          : 'string'
+    },
+    projectname     : {
+      type          : 'string'
     }
   },
 

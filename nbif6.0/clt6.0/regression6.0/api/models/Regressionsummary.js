@@ -75,6 +75,9 @@ module.exports = {
     bsubQlist   : {
       type      : 'string',
       columnType  : 'longtext'
+    },
+    projectname : {
+      type      : 'string'
     }
     
 

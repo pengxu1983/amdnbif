@@ -83,6 +83,9 @@ module.exports = {
     },
     testlist        : {
       type          : 'json'
+    },
+    projectname     : {
+      type          : 'string'
     }
   },
 
@@ -108,7 +111,8 @@ module.exports = {
       isOfficial  : inputs.isOfficial,
       isBAPU      : inputs.isBAPU,
       kickoffdate : inputs.kickoffdate,
-      username    : inputs.username
+      username    : inputs.username,
+      projectname : inputs.projectname,
     });
     if((DB.result  =='KILLED')||(DB.result  =='TOKILL')||(DB.result  =='KILLING')){
       return;
@@ -137,6 +141,7 @@ module.exports = {
         describe    : inputs.describe,
         username    : inputs.username,
         result      : 'NOTSTARTED',
+        projectname : inputs.projectname
       });
       runtext +=  'bsub -P GIONB-SRDC -W '+runtimeout+' -q regr_high -J nbif_R_rn -R "rusage[mem=5000] select[type==RHEL7_64]" '+__dirname+'/../../tools/runonecase.csh --treeRoot '+inputs.treeRoot+' --variantname '+inputs.variantname+' --tasktype test --runopt runonly --casename  '+caseshort+' --out_anchor '+inputs.out_anchor+'\n';
     }
@@ -170,14 +175,16 @@ module.exports = {
         kickoffdate : inputs.kickoffdate,
         username    : inputs.username,
         variantname : inputs.variantname,
-        grouplist   : inputs.grouplist
+        grouplist   : inputs.grouplist,
+        projectname : inputs.projectname,
       },{
         result      : 'RUNNING',
         bsubQlist   : JSON.stringify(bsubQlist)
       });
-      let passon  = JSON.parse(JSON.stringify(inputs));
-      await sails.helpers.report.with(passon);
     });
+    let passon  = JSON.parse(JSON.stringify(inputs));
+    await sails.helpers.report.with(passon);
+
   }
 
 

@@ -78,6 +78,9 @@ module.exports = {
     },
     kickoffdate     : {
       type          : 'string'
+    },
+    projectname     : {
+      type          : 'string'
     }
   },
 
@@ -94,7 +97,7 @@ module.exports = {
   fn: async function (inputs) {
     sails.log('/sync');
     sails.log(inputs);
-    let treeID  = 'regression.';
+    let treeID  = 'regression.'+inputs.projectname+'.';
     if(inputs.isOfficial  ==  'yes'){
       treeID  +=  'Official.';
     }
@@ -122,7 +125,8 @@ module.exports = {
       isBAPU      : inputs.isBAPU,
       isOfficial  : inputs.isOfficial,
       variantname : inputs.variantname,
-      kickoffdate : inputs.kickoffdate
+      kickoffdate : inputs.kickoffdate,
+      projectname : inputs.projectname
     });
     if((DB.result  =='KILLED')||(DB.result  =='TOKILL')||(DB.result  =='KILLING')){
       return;
@@ -137,7 +141,8 @@ module.exports = {
       isBAPU      : inputs.isBAPU      ,
       isOfficial  : inputs.isOfficial  ,
       variantname : inputs.variantname ,
-      kickoffdate : inputs.kickoffdate
+      kickoffdate : inputs.kickoffdate ,
+      projectname : inputs.projectname ,
     },{
       result      : 'RUNNING',
       treeRoot    : treeRoot

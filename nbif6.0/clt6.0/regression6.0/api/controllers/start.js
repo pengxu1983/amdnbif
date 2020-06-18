@@ -14,7 +14,6 @@ let djregxpass      = /dj exited successfully/;
 let syncregxpass    = /All syncs OK/;
 let resolvefail     = /resolve skipped/;
 let HOME            = '/proj/cip_nbif_regress1/regression';
-let treeRoots       = [HOME+'/nbif2_0.nbif2_0_main.nbif_et_0.1'];//TODO
 let runtimeout      = 60*6;//6 hrs
 let getemail        = function(username){
   let email;
@@ -74,6 +73,9 @@ module.exports = {
     },
     grouplist       : {
       type          : 'string'
+    },
+    projectname     : {
+      type          : 'string'
     }
   },
 
@@ -99,7 +101,8 @@ module.exports = {
         variantname   : inputs.variantname,
         //grouplist     : inputs.grouplist,
         username      : inputs.username,
-        result        : 'NOTSTARTED'
+        result        : 'NOTSTARTED',
+        projectname   : inputs.projectname
       });
       if(DB.length !=0){
         return  exits.success(JSON.stringify({
@@ -126,7 +129,8 @@ module.exports = {
         passrate      : 'NOTSTARTED',
         notrunnumber  : 'NOTSTARTED',
         runningnumber : 'NOTSTARTED',
-        result        : 'NOTSTARTED'
+        result        : 'NOTSTARTED',
+        projectname   : inputs.projectname
       });
       let passon  = JSON.parse(JSON.stringify(inputs));
       passon.kickoffdate  = kickoffdate;
