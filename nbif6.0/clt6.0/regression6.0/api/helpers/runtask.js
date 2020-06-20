@@ -102,17 +102,18 @@ module.exports = {
   fn: async function (inputs,exits) {
     sails.log('/runtask');
     sails.log(inputs.testlist.length);
+    let inputs_local  = JSON.parse(JSON.stringify(inputs));
     let DB  = await Regressionsummary.findOne({
-      codeline    : inputs.codeline,
-      branch_name : inputs.branch_name,
-      changelist  : inputs.changelist,
-      shelve      : inputs.shelve,
-      describe    : inputs.describe,
-      isOfficial  : inputs.isOfficial,
-      isBAPU      : inputs.isBAPU,
-      kickoffdate : inputs.kickoffdate,
-      username    : inputs.username,
-      projectname : inputs.projectname,
+      codeline    : inputs_local.codeline,
+      branch_name : inputs_local.branch_name,
+      changelist  : inputs_local.changelist,
+      shelve      : inputs_local.shelve,
+      describe    : inputs_local.describe,
+      isOfficial  : inputs_local.isOfficial,
+      isBAPU      : inputs_local.isBAPU,
+      kickoffdate : inputs_local.kickoffdate,
+      username    : inputs_local.username,
+      projectname : inputs_local.projectname,
     });
     if((DB.result  =='KILLED')||(DB.result  =='TOKILL')||(DB.result  =='KILLING')){
       return;
@@ -120,38 +121,38 @@ module.exports = {
     let maxbsub = 100;
     let regx  = /(\w+)_nbif_all_rtl/;
     let runtext = '';
-    for(let t=0;t<inputs.testlist.length;t++){
+    for(let t=0;t<inputs_local.testlist.length;t++){
       let caseshort;
-      inputs.testlist[t]['name'].replace(regx,function(rs,$1){
+      inputs_local.testlist[t]['name'].replace(regx,function(rs,$1){
         caseshort = $1;
       });
       await Regressiondetails.create({
-        codeline    : inputs.codeline,
-        branch_name : inputs.branch_name,
-        changelist  : inputs.changelist,
-        shelve      : inputs.shelve,
-        variantname : inputs.variantname,
+        codeline    : inputs_local.codeline,
+        branch_name : inputs_local.branch_name,
+        changelist  : inputs_local.changelist,
+        shelve      : inputs_local.shelve,
+        variantname : inputs_local.variantname,
         casename    : caseshort,
-        isBAPU      : inputs.isBAPU,
-        isOfficial  : inputs.isOfficial,
-        seed        : inputs.testlist[t]['seed'],
-        config      : inputs.testlist[t]['config'],
-        kickoffdate : inputs.kickoffdate,
-        group       : inputs.testlist[t]['group'],
-        describe    : inputs.describe,
-        username    : inputs.username,
+        isBAPU      : inputs_local.isBAPU,
+        isOfficial  : inputs_local.isOfficial,
+        seed        : inputs_local.testlist[t]['seed'],
+        config      : inputs_local.testlist[t]['config'],
+        kickoffdate : inputs_local.kickoffdate,
+        group       : inputs_local.testlist[t]['group'],
+        describe    : inputs_local.describe,
+        username    : inputs_local.username,
         result      : 'NOTSTARTED',
-        projectname : inputs.projectname
+        projectname : inputs_local.projectname
       });
-      runtext +=  'bsub -P GIONB-SRDC -W '+runtimeout+' -q regr_high -J nbif_R_rn -R "rusage[mem=5000] select[type==RHEL7_64]" '+__dirname+'/../../tools/runonecase.csh --treeRoot '+inputs.treeRoot+' --variantname '+inputs.variantname+' --tasktype test --runopt runonly --casename  '+caseshort+' --out_anchor '+inputs.out_anchor+'\n';
+      runtext +=  'bsub -P GIONB-SRDC -W '+runtimeout+' -q regr_high -J nbif_R_rn -R "rusage[mem=5000] select[type==RHEL7_64]" '+__dirname+'/../../tools/runonecase.csh --treeRoot '+inputs_local.treeRoot+' --variantname '+inputs_local.variantname+' --tasktype test --runopt runonly --casename  '+caseshort+' --out_anchor '+inputs_local.out_anchor+'\n';
     }
-    fs.writeFileSync(inputs.treeRoot+'/runtest.script',runtext,{
+    fs.writeFileSync(inputs_local.treeRoot+'/runtest.script',runtext,{
       encoding  : 'utf8',
       mode      : '0700',
       flag      : 'w'
     });
-    child_process.exec(inputs.treeRoot+'/runtest.script',async function(err,stdout,stderr){
-      console.log(loginit()+inputs.treeRoot+' : ');
+    child_process.exec(inputs_local.treeRoot+'/runtest.script',async function(err,stdout,stderr){
+      console.log(loginit()+inputs_local.treeRoot+' : ');
       console.log(stdout);
       let lines = stdout.split('\n');
       lines.pop();
@@ -165,24 +166,24 @@ module.exports = {
         }
       }
       await Regressionsummary.update({
-        codeline    : inputs.codeline,
-        branch_name : inputs.branch_name,
-        changelist  : inputs.changelist,
-        shelve      : inputs.shelve,
-        describe    : inputs.describe,
-        isOfficial  : inputs.isOfficial,
-        isBAPU      : inputs.isBAPU,
-        kickoffdate : inputs.kickoffdate,
-        username    : inputs.username,
-        variantname : inputs.variantname,
-        grouplist   : inputs.grouplist,
-        projectname : inputs.projectname,
+        codeline    : inputs_local.codeline,
+        branch_name : inputs_local.branch_name,
+        changelist  : inputs_local.changelist,
+        shelve      : inputs_local.shelve,
+        describe    : inputs_local.describe,
+        isOfficial  : inputs_local.isOfficial,
+        isBAPU      : inputs_local.isBAPU,
+        kickoffdate : inputs_local.kickoffdate,
+        username    : inputs_local.username,
+        variantname : inputs_local.variantname,
+        grouplist   : inputs_local.grouplist,
+        projectname : inputs_local.projectname,
       },{
         result      : 'RUNNING',
         bsubQlist   : JSON.stringify(bsubQlist)
       });
     });
-    let passon  = JSON.parse(JSON.stringify(inputs));
+    let passon  = JSON.parse(JSON.stringify(inputs_local));
     await sails.helpers.report.with(passon);
 
   }

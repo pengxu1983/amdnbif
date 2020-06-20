@@ -48,10 +48,19 @@ module.exports = {
     failnumber  : {
       type      : 'string'
     },
+    failrate    : {
+      type      : 'string'
+    },
     notrunnumber  : {
       type      : 'string'
     },
+    notrunrate  : {
+      type      : 'string'
+    },
     runningnumber : {
+      type      : 'string'
+    },
+    runningrate : {
       type      : 'string'
     },
     isOfficial  : {

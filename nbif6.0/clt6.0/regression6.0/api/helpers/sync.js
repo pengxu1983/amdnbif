@@ -97,15 +97,16 @@ module.exports = {
   fn: async function (inputs) {
     sails.log('/sync');
     sails.log(inputs);
-    let treeID  = 'regression.'+inputs.projectname+'.';
-    if(inputs.isOfficial  ==  'yes'){
+    let inputs_local  = JSON.parse(JSON.stringify(inputs));
+    let treeID  = 'regression.'+inputs_local.projectname+'.';
+    if(inputs_local.isOfficial  ==  'yes'){
       treeID  +=  'Official.';
     }
     else{
       treeID  +=  'nonOfficial.';
     }
-    treeID  +=  inputs.codeline+'.'+inputs.branch_name+'.CHANGELIST'+inputs.changelist+'.SHELVE'+inputs.shelve+'.'+inputs.variantname+'.'+inputs.kickoffdate+'.'+inputs.describe+'.'+inputs.username;
-    treeRoot  = HOME+'/'+treeID;
+    treeID  +=  inputs_local.codeline+'.'+inputs_local.branch_name+'.CHANGELIST'+inputs_local.changelist+'.SHELVE'+inputs_local.shelve+'.'+inputs_local.variantname+'.'+inputs_local.kickoffdate+'.'+inputs_local.describe+'.'+inputs_local.username;
+    let treeRoot  = HOME+'/'+treeID;
     if(fs.existsSync(treeRoot)){
       console.log(loginit()+treeRoot+' exists need to clean ');
       child_process.execSync('rm -rf '+treeRoot+'.*.log');
@@ -117,39 +118,39 @@ module.exports = {
     child_process.execSync('mkdir -p '+treeRoot);
     //check if killed
     let DB  = await Regressionsummary.findOne({
-      codeline    : inputs.codeline,
-      branch_name : inputs.branch_name,
-      changelist  : inputs.changelist,
-      shelve      : inputs.shelve,
-      describe    : inputs.describe,
-      isBAPU      : inputs.isBAPU,
-      isOfficial  : inputs.isOfficial,
-      variantname : inputs.variantname,
-      kickoffdate : inputs.kickoffdate,
-      projectname : inputs.projectname
+      codeline    : inputs_local.codeline,
+      branch_name : inputs_local.branch_name,
+      changelist  : inputs_local.changelist,
+      shelve      : inputs_local.shelve,
+      describe    : inputs_local.describe,
+      isBAPU      : inputs_local.isBAPU,
+      isOfficial  : inputs_local.isOfficial,
+      variantname : inputs_local.variantname,
+      kickoffdate : inputs_local.kickoffdate,
+      projectname : inputs_local.projectname
     });
     if((DB.result  =='KILLED')||(DB.result  =='TOKILL')||(DB.result  =='KILLING')){
       return;
     }
     console.log(loginit()+treeRoot+' sync start');
     await Regressionsummary.update({
-      codeline    : inputs.codeline    ,
-      branch_name : inputs.branch_name ,
-      changelist  : inputs.changelist  ,
-      shelve      : inputs.shelve      ,
-      describe    : inputs.describe    ,
-      isBAPU      : inputs.isBAPU      ,
-      isOfficial  : inputs.isOfficial  ,
-      variantname : inputs.variantname ,
-      kickoffdate : inputs.kickoffdate ,
-      projectname : inputs.projectname ,
+      codeline    : inputs_local.codeline    ,
+      branch_name : inputs_local.branch_name ,
+      changelist  : inputs_local.changelist  ,
+      shelve      : inputs_local.shelve      ,
+      describe    : inputs_local.describe    ,
+      isBAPU      : inputs_local.isBAPU      ,
+      isOfficial  : inputs_local.isOfficial  ,
+      variantname : inputs_local.variantname ,
+      kickoffdate : inputs_local.kickoffdate ,
+      projectname : inputs_local.projectname ,
     },{
       result      : 'RUNNING',
       treeRoot    : treeRoot
     });
-    child_process.execSync('echo "<html><body><h3>Hi benpeng</h3><h4>Regression start to sync.</h4><h4><a href="http://logviewer-atl/'+treeRoot+'">Find Details here</a></h4></body></html>" | mutt  Benny.Peng@amd.com  -e \'set content_type="text/html"\' -s [NBIF][regression][isOfficial:'+inputs.isOfficial+'][isBAPU:'+inputs.isBAPU+'][codeline:'+inputs.codeline+'][branch_name:'+inputs.branch_name+'][changelist:'+inputs.changelist+'][shelve:'+inputs.shelve+'][STARTS]');
+    child_process.execSync('echo "<html><body><h3>Hi benpeng</h3><h4>Regression start to sync.</h4><h4><a href="http://logviewer-atl/'+treeRoot+'">Find Details here</a></h4></body></html>" | mutt  Benny.Peng@amd.com  -e \'set content_type="text/html"\' -s [NBIF][regression][isOfficial:'+inputs_local.isOfficial+'][isBAPU:'+inputs_local.isBAPU+'][codeline:'+inputs_local.codeline+'][branch_name:'+inputs_local.branch_name+'][changelist:'+inputs_local.changelist+'][shelve:'+inputs_local.shelve+'][STARTS]');
     let syncstarttime = new moment();
-    child_process.exec(__dirname+'/../../tools/synctree.csh --treeRoot '+treeRoot+' --changelist '+inputs.changelist+' --codeline '+inputs.codeline+' --branch_name '+inputs.branch_name+' > '+treeRoot+'.sync.log',async function(err,stdout,stderr){
+    child_process.exec(__dirname+'/../../tools/synctree.csh --treeRoot '+treeRoot+' --changelist '+inputs_local.changelist+' --codeline '+inputs_local.codeline+' --branch_name '+inputs_local.branch_name+' > '+treeRoot+'.sync.log',async function(err,stdout,stderr){
       let syncendtime = new moment();
       console.log(loginit()+treeRoot+' sync done');
       console.log(loginit()+treeRoot+' sync cost '+moment.duration(syncendtime.diff(syncstarttime)).as('minutes')+' minutes');
@@ -183,12 +184,12 @@ module.exports = {
       }
       if(fs.existsSync(treeRoot+'/nb__.sync.FAIL')){
         console.log(loginit()+treeRoot+' sync fail');
-        child_process.execSync('echo "<html><body><h3>Hi benpeng</h3><h4>Regression sync fail.</h4><h4><a href="http://logviewer-atl/'+treeRoot+'">Find Details here</a></h4></body></html>" | mutt  Benny.Peng@amd.com  -e \'set content_type="text/html"\' -s [NBIF][regression][isOfficial:'+inputs.isOfficial+'][isBAPU:'+inputs.isBAPU+'][codeline:'+inputs.codeline+'][branch_name:'+inputs.branch_name+'][changelist:'+inputs.changelist+'][shelve:'+inputs.shelve+'][SYNCFAIL]');//FIXME should come from configuration_id
+        child_process.execSync('echo "<html><body><h3>Hi benpeng</h3><h4>Regression sync fail.</h4><h4><a href="http://logviewer-atl/'+treeRoot+'">Find Details here</a></h4></body></html>" | mutt  Benny.Peng@amd.com  -e \'set content_type="text/html"\' -s [NBIF][regression][isOfficial:'+inputs_local.isOfficial+'][isBAPU:'+inputs_local.isBAPU+'][codeline:'+inputs_local.codeline+'][branch_name:'+inputs_local.branch_name+'][changelist:'+inputs_local.changelist+'][shelve:'+inputs_local.shelve+'][describe:'+inputs_local.describe+'][SYNCFAIL]');//FIXME should come from configuration_id
       }
       if(fs.existsSync(treeRoot+'/nb__.sync.PASS')){
         console.log(loginit()+treeRoot+' sync pass');
-        child_process.execSync('echo "<html><body><h3>Hi benpeng</h3><h4>Regression sync pass.</h4><h4><a href="http://logviewer-atl/'+treeRoot+'">Find Details here</a></h4></body></html>" | mutt  Benny.Peng@amd.com  -e \'set content_type="text/html"\' -s [NBIF][regression][isOfficial:'+inputs.isOfficial+'][isBAPU:'+inputs.isBAPU+'][codeline:'+inputs.codeline+'][branch_name:'+inputs.branch_name+'][changelist:'+inputs.changelist+'][shelve:'+inputs.shelve+'][SYNCPASS]');//FIXME should come from configuration_id
-        let passon  = JSON.parse(JSON.stringify(inputs));
+        child_process.execSync('echo "<html><body><h3>Hi benpeng</h3><h4>Regression sync pass.</h4><h4><a href="http://logviewer-atl/'+treeRoot+'">Find Details here</a></h4></body></html>" | mutt  Benny.Peng@amd.com  -e \'set content_type="text/html"\' -s [NBIF][regression][isOfficial:'+inputs_local.isOfficial+'][isBAPU:'+inputs_local.isBAPU+'][codeline:'+inputs_local.codeline+'][branch_name:'+inputs_local.branch_name+'][changelist:'+inputs_local.changelist+'][shelve:'+inputs_local.shelve+'][describe:'+inputs_local.describe+'][SYNCPASS]');//FIXME should come from configuration_id
+        let passon  = JSON.parse(JSON.stringify(inputs_local));
         passon.treeRoot = treeRoot;
         await sails.helpers.resolve.with(passon);
       }

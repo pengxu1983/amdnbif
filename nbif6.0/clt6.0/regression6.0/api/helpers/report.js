@@ -83,6 +83,9 @@ module.exports = {
     },
     testlist        : {
       type          : 'json'
+    },
+    projectname     : {
+      type          : 'string'
     }
   },
 
@@ -98,25 +101,26 @@ module.exports = {
 
   fn: async function (inputs) {
     sails.log('/report');
-    let testlist  = inputs.testlist;
+    let inputs_local  = JSON.parse(JSON.stringify(inputs));
+    let testlist  = inputs_local.testlist;
     let regx  = /(\w+)_nbif_all_rtl/;
     let cron_check  = new cronJob('0 */30 * * * *',async function(){
       for(let t=0;t<testlist.length;t++){
         let caseshort;
-        inputs.testlist[t]['name'].replace(regx,function(rs,$1){
+        inputs_local.testlist[t]['name'].replace(regx,function(rs,$1){
           caseshort = $1;
         });
         console.log(loginit()+treeRoot+' checking test '+caseshort);
-        if(fs.existsSync(inputs.treeRoot+'/result.'+inputs.variantname+'.'+caseshort+'.PASS')){
+        if(fs.existsSync(inputs_local.treeRoot+'/result.'+inputs_local.variantname+'.'+caseshort+'.PASS')){
         }
-        else if(fs.existsSync(inputs.treeRoot+'/result.'+inputs.variantname+'.'+caseshort+'.FAIL')){
+        else if(fs.existsSync(inputs_local.treeRoot+'/result.'+inputs_local.variantname+'.'+caseshort+'.FAIL')){
         }
-        else if(fs.existsSync(inputs.treeRoot+'/nb__.'+inputs.variantname+'.test.'+caseshort+'.log')){
-          let lines = fs.readFileSync(inputs.treeRoot+'/nb__.'+inputs.variantname+'.test.'+caseshort+'.log','utf8').split('\n');
+        else if(fs.existsSync(inputs_local.treeRoot+'/nb__.'+inputs_local.variantname+'.test.'+caseshort+'.log')){
+          let lines = fs.readFileSync(inputs_local.treeRoot+'/nb__.'+inputs_local.variantname+'.test.'+caseshort+'.log','utf8').split('\n');
           lines.pop();
           for(let l=0;l<lines.length;l++){
             if(djregxpass.test(lines[l])){
-              fs.writeFileSync(inputs.treeRoot+'/result.'+inputs.variantname+'.'+caseshort+'.PASS','',{
+              fs.writeFileSync(inputs_local.treeRoot+'/result.'+inputs_local.variantname+'.'+caseshort+'.PASS','',{
                 encoding  : 'utf8',
                 mode      : '0600',
                 flag      : 'w'
@@ -124,7 +128,7 @@ module.exports = {
               break;
             }
             if(djregxfail.test(lines[l])){
-              fs.writeFileSync(inputs.treeRoot+'/result.'+inputs.variantname+'.'+caseshort+'.FAIL','',{
+              fs.writeFileSync(inputs_local.treeRoot+'/result.'+inputs_local.variantname+'.'+caseshort+'.FAIL','',{
                 encoding  : 'utf8',
                 mode      : '0600',
                 flag      : 'w'
@@ -132,7 +136,7 @@ module.exports = {
               break;
             }
           }
-          if(fs.existsSync(inputs.treeRoot+'/result.'+inputs.variantname+'.'+caseshort+'.FAIL')){
+          if(fs.existsSync(inputs_local.treeRoot+'/result.'+inputs_local.variantname+'.'+caseshort+'.FAIL')){
             let signature = 'NA';
             if(!fs.existsSync(testlist[t]['run_out_path'])){
               console.log(loginit()+treeRoot+' logdir not found');
@@ -156,21 +160,21 @@ module.exports = {
                   });
                 }
                 await Regressiondetails.update({
-                  codeline      : inputs.codeline,
-                  branch_name   : inputs.branch_name,
-                  changelist    : inputs.changelist,
-                  shelve        : inputs.shelve,
-                  describe      : inputs.describe,
-                  kickoffdate   : inputs.kickoffdate,
-                  username      : inputs.username,
-                  isBAPU        : inputs.isBAPU,
-                  isOfficial    : inputs.isOfficial,
-                  variantname   : inputs.variantname,
+                  codeline      : inputs_local.codeline,
+                  branch_name   : inputs_local.branch_name,
+                  changelist    : inputs_local.changelist,
+                  shelve        : inputs_local.shelve,
+                  describe      : inputs_local.describe,
+                  kickoffdate   : inputs_local.kickoffdate,
+                  username      : inputs_local.username,
+                  isBAPU        : inputs_local.isBAPU,
+                  isOfficial    : inputs_local.isOfficial,
+                  variantname   : inputs_local.variantname,
                   casename      : caseshort,
                   seed          : testlist[t]['seed'],
                   config        : testlist[t]['config'],
                   group         : testlist[t]['group'],
-                  projectname   : inputs.projectname,
+                  projectname   : inputs_local.projectname,
                 },{
                   result        : 'FAIL',
                   signature     : signature
@@ -182,23 +186,23 @@ module.exports = {
               });
             }
           }
-          else if(fs.existsSync(inputs.treeRoot+'/result.'+inputs.variantname+'.'+caseshort+'.PASS')){
+          else if(fs.existsSync(inputs_local.treeRoot+'/result.'+inputs_local.variantname+'.'+caseshort+'.PASS')){
             await Regressiondetails.update({
-              codeline      : inputs.codeline,
-              branch_name   : inputs.branch_name,
-              changelist    : inputs.changelist,
-              shelve        : inputs.shelve,
-              describe      : inputs.describe,
-              kickoffdate   : inputs.kickoffdate,
-              username      : inputs.username,
-              isBAPU        : inputs.isBAPU,
-              isOfficial    : inputs.isOfficial,
-              variantname   : inputs.variantname,
+              codeline      : inputs_local.codeline,
+              branch_name   : inputs_local.branch_name,
+              changelist    : inputs_local.changelist,
+              shelve        : inputs_local.shelve,
+              describe      : inputs_local.describe,
+              kickoffdate   : inputs_local.kickoffdate,
+              username      : inputs_local.username,
+              isBAPU        : inputs_local.isBAPU,
+              isOfficial    : inputs_local.isOfficial,
+              variantname   : inputs_local.variantname,
               casename      : caseshort,
               seed          : testlist[t]['seed'],
               config        : testlist[t]['config'],
               group         : testlist[t]['group'],
-              projectname   : inputs.projectname
+              projectname   : inputs_local.projectname
             },{
               result        : 'PASS',
               signature     : 'NA'
@@ -207,21 +211,21 @@ module.exports = {
           }
           else{
             await Regressiondetails.update({
-              codeline      : inputs.codeline,
-              branch_name   : inputs.branch_name,
-              changelist    : inputs.changelist,
-              shelve        : inputs.shelve,
-              describe      : inputs.describe,
-              kickoffdate   : inputs.kickoffdate,
-              username      : inputs.username,
-              isBAPU        : inputs.isBAPU,
-              isOfficial    : inputs.isOfficial,
-              variantname   : inputs.variantname,
+              codeline      : inputs_local.codeline,
+              branch_name   : inputs_local.branch_name,
+              changelist    : inputs_local.changelist,
+              shelve        : inputs_local.shelve,
+              describe      : inputs_local.describe,
+              kickoffdate   : inputs_local.kickoffdate,
+              username      : inputs_local.username,
+              isBAPU        : inputs_local.isBAPU,
+              isOfficial    : inputs_local.isOfficial,
+              variantname   : inputs_local.variantname,
               casename      : caseshort,
               seed          : testlist[t]['seed'],
               config        : testlist[t]['config'],
               group         : testlist[t]['group'],
-              projectname   : inputs.projectname
+              projectname   : inputs_local.projectname
             },{
               result        : 'RUNNING',
               //signature   : ''//TODO
@@ -232,11 +236,13 @@ module.exports = {
           //NOTSTARTED
         }
       }
+      let passon  = JSON.parse(JSON.stringify(inputs_local));
+      await sails.helpers.calculate.with(passon);
     },null,false,'Asia/Chongqing');
     cron_check.start();
     setTimeout(async function(){
       cron_check.stop();
-    },5*3600*1000);//TODO 
+    },10*3600*1000);//TODO 
   }
 };
 

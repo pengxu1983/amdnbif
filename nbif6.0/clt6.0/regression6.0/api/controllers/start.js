@@ -88,21 +88,23 @@ module.exports = {
   fn: async function (inputs,exits) {
     sails.log('/start');
     sails.log(inputs);
-    if(inputs.act ==  'start'){
+    let inputs_local  = JSON.parse(JSON.stringify(inputs));
+    sails.log(inputs_local);
+    if(inputs_local.act ==  'start'){
       let DB  = await Regressionsummary.find({
-        codeline      : inputs.codeline,
-        branch_name   : inputs.branch_name,
-        changelist    : inputs.changelist,
-        shelve        : inputs.shelve,
+        codeline      : inputs_local.codeline,
+        branch_name   : inputs_local.branch_name,
+        changelist    : inputs_local.changelist,
+        shelve        : inputs_local.shelve,
         kickoffdate   : moment().format('YYYY-MM-DD'),
-        describe      : inputs.describe,
-        isOfficial    : inputs.isOfficial,
-        isBAPU        : inputs.isBAPU,
-        variantname   : inputs.variantname,
-        //grouplist     : inputs.grouplist,
-        username      : inputs.username,
+        describe      : inputs_local.describe,
+        isOfficial    : inputs_local.isOfficial,
+        isBAPU        : inputs_local.isBAPU,
+        variantname   : inputs_local.variantname,
+        //grouplist     : inputs_local.grouplist,
+        username      : inputs_local.username,
         result        : 'NOTSTARTED',
-        projectname   : inputs.projectname
+        projectname   : inputs_local.projectname
       });
       if(DB.length !=0){
         return  exits.success(JSON.stringify({
@@ -112,17 +114,17 @@ module.exports = {
       }
       let kickoffdate = moment().format('YYYY-MM-DD');
       await Regressionsummary.create({
-        codeline      : inputs.codeline,
-        branch_name   : inputs.branch_name,
-        changelist    : inputs.changelist,
-        shelve        : inputs.shelve,//should be a list
+        codeline      : inputs_local.codeline,
+        branch_name   : inputs_local.branch_name,
+        changelist    : inputs_local.changelist,
+        shelve        : inputs_local.shelve,//should be a list
         kickoffdate   : kickoffdate,
-        describe      : inputs.describe,
-        isOfficial    : inputs.isOfficial,
-        isBAPU        : inputs.isBAPU,
-        variantname   : inputs.variantname,
-        grouplist     : inputs.grouplist,
-        username      : inputs.username,
+        describe      : inputs_local.describe,
+        isOfficial    : inputs_local.isOfficial,
+        isBAPU        : inputs_local.isBAPU,
+        variantname   : inputs_local.variantname,
+        grouplist     : inputs_local.grouplist,
+        username      : inputs_local.username,
         testnumber    : 'NOTSTARTED',
         passnumber    : 'NOTSTARTED',
         failnumber    : 'NOTSTARTED',
@@ -130,9 +132,9 @@ module.exports = {
         notrunnumber  : 'NOTSTARTED',
         runningnumber : 'NOTSTARTED',
         result        : 'NOTSTARTED',
-        projectname   : inputs.projectname
+        projectname   : inputs_local.projectname
       });
-      let passon  = JSON.parse(JSON.stringify(inputs));
+      let passon  = JSON.parse(JSON.stringify(inputs_local));
       passon.kickoffdate  = kickoffdate;
       await sails.helpers.sync.with(passon);//TODO
     }
