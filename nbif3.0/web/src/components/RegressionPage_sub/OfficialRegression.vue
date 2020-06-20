@@ -27,6 +27,7 @@
         </el-select>
       </el-form-item>
       <el-form-item>
+        <el-button type="text" @click="centerDialogVisible = true">Select group</el-button>
         <el-button type="primary" @click="getRegressionlist()">Check</el-button>
       </el-form-item>
     </el-form>
@@ -80,6 +81,18 @@
         </el-table-column>
       </el-table>
     </el-main>
+    <el-dialog
+      title="Group Select"
+      :visible.sync="centerDialogVisible"
+      width="90%"
+      center
+    >
+      <el-checkbox :indeterminate="isIndeterminateHost" v-model="checkAllHost" @change="handleCheckAllHostChange">Host</el-checkbox>
+      <div style="margin: 15px 0;"></div>
+      <el-checkbox-group v-model="checkedHostGroups" @change="handleCheckedHostGroupsChange">
+        <el-checkbox v-for="hostgroup in hostgroups" :label="hostgroup" :key="hostgroup">{{hostgroup}}</el-checkbox>
+      </el-checkbox-group>
+    </el-dialog>
   </el-container>
 </template>
 
@@ -93,6 +106,7 @@ export default {
     //OneprojPage
   },
   data() {
+
     return {
       regressionID: {
         codeline    : 'nbif2_0',
@@ -101,9 +115,23 @@ export default {
         projectname : 'floyd'
       },
       regressionlist  :[],
+      centerDialogVisible : false,
+      checkAllHost: false,
+      checkedHostGroups: ['aer', 'doorbell'],
+      hostgroups:['aer', 'doorbell', 'generic'],
+      isIndeterminateHost: true
     }
   },
   methods : {
+    handleCheckAllHostChange(val) {
+      this.checkedHostGroups = val ? this.hostgroups: [];
+      this.isIndeterminateHost = false;
+    },
+    handleCheckedHostGroupsChange(value) {
+      let checkedCount = value.length;
+      this.checkAllHost = checkedCount === this.hostgroups.length;
+      this.isIndeterminateHost = checkedCount > 0 && checkedCount < this.hostgroups.length;
+    },
     getRegressionlist(){
       this.$http.post('/regression/getregressionlist',{
       }).then(
@@ -111,8 +139,9 @@ export default {
           window.console.log(response);
         },
         function(response){
-          window.console.log(response);
-        });
+          window.console.log(response); 
+        }
+      );
     },
   },
   mounted (){
