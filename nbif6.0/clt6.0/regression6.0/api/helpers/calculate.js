@@ -1,3 +1,33 @@
+let querystring     = require('querystring');
+let http            = require('http');
+let moment          = require('moment');
+let process         = require('process');
+let cronJob         = require("cron").CronJob;
+let child_process   = require('child_process');
+let fs              = require('fs');
+let YAML            = require('yamljs');
+let runtimeout      = 12*60;
+let loginit         = function(){
+  return '[LOG]['+moment().format('YYYY-MM-DD HH:mm:ss')+'] ';
+};
+let getemail        = function(username){
+  let email;
+  let lines = fs.readFileSync('/home/benpeng/p4users','utf8').split('\n');
+  lines.pop();
+  let regx  = /^(\w+) <(\S+)>.*accessed/;
+  for(let l=0;l<lines.length;l++){
+    if(regx.test(lines[l])){
+      lines[l].replace(regx,function(rs,$1,$2){
+        if($1==username){
+          email = $2;
+        }
+      })
+    }
+  }
+  return email;
+}
+let djregxfail      = /dj exited with errors/;
+let djregxpass      = /dj exited successfully/;
 module.exports = {
 
 
@@ -105,7 +135,7 @@ module.exports = {
     notrunID.result = 'NOTSTARTED';
     delete notrunID.grouplist;
     let notrunnumber= await Regressiondetails.count(notrunID);
-    let notrunrate  = (notrunrate/testnumber*100).toFixed(2);
+    let notrunrate  = (notrunnumber/testnumber*100).toFixed(2);
     //running
     let runningID   = JSON.parse(JSON.stringify(regressionID));
     runningID.result= 'RUNNING';
@@ -120,7 +150,8 @@ module.exports = {
       notrunnumber  : notrunnumber,
       notrunrate    : notrunrate,
       runningnumber : runningnumber,
-      runningrate   : runningrate
+      runningrate   : runningrate,
+      updatetime    : moment().formate('YYYY-MM-DD HH:mm:ss')
     });
   }
 

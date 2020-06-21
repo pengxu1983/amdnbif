@@ -7,7 +7,7 @@ let cronJob         = require("cron").CronJob;
 let child_process   = require('child_process');
 let fs              = require('fs');
 let YAML            = require('yamljs');
-let runtimeout      = 6*60;
+let runtimeout      = 12*60;
 let loginit         = function(){
   return '[LOG]['+moment().format('YYYY-MM-DD HH:mm:ss')+'] ';
 };
@@ -110,7 +110,7 @@ module.exports = {
         inputs_local.testlist[t]['name'].replace(regx,function(rs,$1){
           caseshort = $1;
         });
-        console.log(loginit()+treeRoot+' checking test '+caseshort);
+        //console.log(loginit()+inputs_local.treeRoot+' checking test '+caseshort);
         if(fs.existsSync(inputs_local.treeRoot+'/result.'+inputs_local.variantname+'.'+caseshort+'.PASS')){
         }
         else if(fs.existsSync(inputs_local.treeRoot+'/result.'+inputs_local.variantname+'.'+caseshort+'.FAIL')){
@@ -138,10 +138,10 @@ module.exports = {
           }
           if(fs.existsSync(inputs_local.treeRoot+'/result.'+inputs_local.variantname+'.'+caseshort+'.FAIL')){
             let signature = 'NA';
-            if(!fs.existsSync(testlist[t]['run_out_path'])){
-              console.log(loginit()+treeRoot+' logdir not found');
-              console.log(loginit()+treeRoot+' '+testlist[t]['name']);
-              console.log(loginit()+treeRoot+' '+testlist[t]['run_out_path']);
+            if(!fs.existsSync(testlist[t]['run_out_path']+'/vcs_run.log')){
+              console.log(loginit()+inputs_local.treeRoot+' vcs_run.log not found');
+              console.log(loginit()+inputs_local.treeRoot+' '+testlist[t]['name']);
+              console.log(loginit()+inputs_local.treeRoot+' '+testlist[t]['run_out_path']);
             }
             else{
               let size  ;
@@ -240,9 +240,10 @@ module.exports = {
       await sails.helpers.calculate.with(passon);
     },null,false,'Asia/Chongqing');
     cron_check.start();
+    console.log(loginit()+inputs_local.treeRoot+' checking starts ');
     setTimeout(async function(){
       cron_check.stop();
-    },10*3600*1000);//TODO 
+    },24*3600*1000);//TODO 
   }
 };
 

@@ -163,7 +163,7 @@ module.exports = {
       if(overall  =='FAIL'){
         setTimeout(async function(){
           child_process.exec('cd '+inputs.treeRoot+' && /tool/pandora64/.package/perforce-2009.2/bin/p4 revert ...',function(){
-            child_process.execSync('rm -rf '+inputs.treeRoot+'.log');
+            child_process.execSync('rm -rf '+inputs.treeRoot+'.sync.log');
             child_process.execSync('mv '+inputs.treeRoot+' '+inputs.treeRoot+'.rm');
             child_process.exec('rm -rf '+inputs.treeRoot+'.rm',function(){
               console.log(loginit()+inputs.treeRoot+'.rm is cleaned');
