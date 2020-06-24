@@ -126,6 +126,17 @@ module.exports = {
       }
       if(fs.existsSync(treeRoot+'/nb__.resolve.FAIL')){
         console.log(loginit()+treeRoot+' resolve fail');
+        await Sanitysummary.update({
+          codeline    : inputs.codeline,
+          branch_name : inputs.branch_name,
+          changelist  : inputs.changelist,
+          shelve      : inputs.shelve,
+          username    : inputs.username,
+          describe    : inputs.describe,
+          checktype   : inputs.checktype,
+        },{
+          result      : 'FAIL'
+        });
         child_process.execSync('echo "<html><body><h3>Hi '+inputs.username+'</h3><h4>Your shelve/chengelist failed to resolve.</h4><h4><a href="http://logviewer-atl/'+treeRoot+'">Find Details here</a></h4></body></html>" | mutt  -c Benny.Peng@amd.com '+getemail(inputs.username)+' -e \'set content_type="text/html"\' -s [NBIF][Sanitycheck]['+inputs.checktype+'][RESOLVEFAIL][treeRoot:'+treeRoot+']');
       }
       else if(fs.existsSync(treeRoot+'/nb__.resolve.PASS')){

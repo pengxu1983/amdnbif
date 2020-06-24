@@ -151,7 +151,7 @@ module.exports = {
       notrunrate    : notrunrate,
       runningnumber : runningnumber,
       runningrate   : runningrate,
-      updatetime    : moment().formate('YYYY-MM-DD HH:mm:ss')
+      updatetime    : moment().format('YYYY-MM-DD HH:mm:ss')
     });
   }
 

@@ -101,7 +101,7 @@ module.exports = {
 
   fn: async function (inputs,exits) {
     sails.log('/runtask');
-    sails.log(inputs.testlist.length);
+    sails.log(inputs.isBAPU);
     let inputs_local  = JSON.parse(JSON.stringify(inputs));
     let DB  = await Regressionsummary.findOne({
       codeline    : inputs_local.codeline,
@@ -137,14 +137,16 @@ module.exports = {
         isOfficial  : inputs_local.isOfficial,
         seed        : inputs_local.testlist[t]['seed'],
         config      : inputs_local.testlist[t]['config'],
-        kickoffdate : inputs_local.kickoffdate,
         group       : inputs_local.testlist[t]['group'],
+        suite       : inputs_local.testlist[t]['suite'],
+        kickoffdate : inputs_local.kickoffdate,
         describe    : inputs_local.describe,
         username    : inputs_local.username,
         result      : 'NOTSTARTED',
         projectname : inputs_local.projectname
       });
-      runtext +=  'bsub -P GIONB-SRDC -W '+runtimeout+' -q regr_high -J nbif_R_rn -R "rusage[mem=5000] select[type==RHEL7_64]" '+__dirname+'/../../tools/runonecase.csh --treeRoot '+inputs_local.treeRoot+' --variantname '+inputs_local.variantname+' --tasktype test --runopt runonly --casename  '+caseshort+' --out_anchor '+inputs_local.out_anchor+'\n';
+      //runtext +=  'bsub -P GIONB-SRDC -W '+runtimeout+' -q regr_high -J nbif_R_rn -R "rusage[mem=5000] select[type==RHEL7_64]" '+__dirname+'/../../tools/runonecase.csh --treeRoot '+inputs_local.treeRoot+' --variantname '+inputs_local.variantname+' --tasktype test --runopt runonly --suite '+inputs_local.testlist[t]['suite']+' --casename  '+caseshort+' --out_anchor '+inputs_local.out_anchor+'\n';
+      runtext +=  'bsub -P GIONB-SRDC -W '+runtimeout+' -q regr_high -J nbif_R_rn -R "rusage[mem=5000] select[type==RHEL7_64]" '+__dirname+'/../../tools/runonecase.js '+inputs_local.codeline+' '+inputs_local.branch_name+' '+inputs_local.changelist+' '+inputs_local.shelve+' '+inputs_local.variantname+' '+inputs_local.projectname+' '+inputs_local.isOfficial+' '+inputs_local.isBAPU+' '+inputs_local.describe+' '+caseshort+' '+inputs_local.testlist[t]['seed']+' '+inputs_local.testlist[t]['suite']+' '+inputs_local.testlist[t]['config']+' '+inputs_local.kickoffdate+' '+inputs_local.username+' '+inputs_local.testlist[t]['group']+' '+inputs_local.treeRoot+' '+inputs_local.out_anchor+' '+inputs_local.testlist[t]['run_out_path']+'\n';
     }
     fs.writeFileSync(inputs_local.treeRoot+'/runtest.script',runtext,{
       encoding  : 'utf8',
@@ -152,8 +154,8 @@ module.exports = {
       flag      : 'w'
     });
     child_process.exec(inputs_local.treeRoot+'/runtest.script',async function(err,stdout,stderr){
-      console.log(loginit()+inputs_local.treeRoot+' : ');
-      console.log(stdout);
+      console.log(loginit()+inputs_local.treeRoot+' Jobs : ');
+      //console.log(stdout);
       let lines = stdout.split('\n');
       lines.pop();
       let regx=/Job <(\d+)>/;
@@ -183,8 +185,8 @@ module.exports = {
         bsubQlist   : JSON.stringify(bsubQlist)
       });
     });
-    let passon  = JSON.parse(JSON.stringify(inputs_local));
-    await sails.helpers.report.with(passon);
+    //let passon  = JSON.parse(JSON.stringify(inputs_local));
+    //await sails.helpers.report.with(passon);
 
   }
 

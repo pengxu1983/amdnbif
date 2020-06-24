@@ -152,7 +152,7 @@ module.exports = {
       let lines     = fs.readFileSync(inputs_local.treeRoot+'/testlist.'+inputs_local.variantname+'.log','utf8').split('\n');
       lines.pop();
       let regx00    = /^\[dj \d+:\d+:\d+ I\]:   "testcase": "(.*)"/;
-      let regx01    = /^\[dj \d+:\d+:\d+ I\]:   "suite": "(.*)"/;
+      let regx01    = /^\[dj \d+:\d+:\d+ I\]:   "suite": "(.*)::(\w+)"/;
       let regx02    = /^\[dj \d+:\d+:\d+ I\]:   }/;
       let regx03    = /^\[dj \d+:\d+:\d+ I\]:     "name": "(.*)"/;
       let regx04    = /^\[dj \d+:\d+:\d+ I\]:     "config": "(.*)"/;
@@ -221,6 +221,12 @@ module.exports = {
             });
           }
           //suite 
+          if(regx01.test(lines[l])){
+            lines[l].replace(regx01,function(rs,$1,$2){
+              testlist[index]['suite'] = $2;
+              console.log(loginit()+inputs_local.treeRoot+' suite '+testlist[index]['suite']);
+            });
+          }
           //config
           if(regx04.test(lines[l])){
             lines[l].replace(regx04,function(rs,$1){
