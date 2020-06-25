@@ -102,7 +102,9 @@ req_start.on('error', (e) => {
 req_start.write(postData_start);
 req_start.end();
 //start
-child_process.exec(__dirname+'/runonecase.csh --treeRoot '+treeRoot+' --variantname '+variantname+' --tasktype test --runopt runonly --suite '+suite+' --casename  '+casename+' --out_anchor '+out_anchor,function(err,stdout,stderr){
+child_process.exec(__dirname+'/runonecase.csh --treeRoot '+treeRoot+' --variantname '+variantname+' --tasktype test --runopt runonly --suite '+suite+' --casename  '+casename+' --out_anchor '+out_anchor,{
+  maxBuffer : 500*1024*1024,
+},function(err,stdout,stderr){
   if(!fs.existsSync(treeRoot+'/nb__.'+variantname+'.test.'+casename+'.log')){
     fs.writeFileSync(treeRoot+'/result.'+variantname+'.'+casename+'.FAIL','',{
       encoding  : 'utf8',
@@ -113,67 +115,81 @@ child_process.exec(__dirname+'/runonecase.csh --treeRoot '+treeRoot+' --variantn
     signature = 'NO DJ LOG'
   }
   else{
-    let lines = fs.readFileSync(treeRoot+'/nb__.'+variantname+'.test.'+casename+'.log','utf8').split('\n');
-    lines.pop();
-    for(let l=0;l<lines.length;l++){
-      if(djregxpass.test(lines[l])){
-        fs.writeFileSync(treeRoot+'/result.'+variantname+'.'+casename+'.PASS','',{
-          encoding  : 'utf8',
-          mode      : '0600',
-          flag      : 'w'
-        });
-      }
-      if(djregxfail.test(lines[l])){
-        fs.writeFileSync(treeRoot+'/result.'+variantname+'.'+casename+'.FAIL','',{
-          encoding  : 'utf8',
-          mode      : '0600',
-          flag      : 'w'
-        });
-      }
-      //runtime
-      if(djregxruntime.test(lines[l])){
-        lines[l].replace(djregxruntime,function(rs,$1){
-          runtime = $1;
-        });
-      }
-      //bsub
-      if(djregxbsubq.test(lines[l])){
-        lines[l].replace(djregxbsubq,function(rs,$1){
-          bsubQ = $1;
-        });
-      }
-    }
-    if(fs.existsSync(treeRoot+'/result.'+variantname+'.'+casename+'.PASS')){
-      signature = 'NA';
-      result    = 'PASS';
-      child_process.exec('cd '+vcslogdir+' && rm -rf *',function(){});
-    }
-    else if(fs.existsSync(treeRoot+'/result.'+variantname+'.'+casename+'.FAIL')){
-      result    = 'FAIL';
-      if(fs.existsSync(vcslogdir+'/vcs_run.log')){
-        let lines = fs.readFileSync(log,'utf8').split('\n');
-        lines.pop();
-        let regx001 = /^error/i;
-        let regx002 = /^UVM_ERROR/;
-        let regx003 = /^UVM_FATAL/;
-        for(let l=0;l<lines.length;l++){
-          if((regx001.test(lines[l])) || (regx002.test(lines[l])) || (regx003.test(lines[l]))){
-            signature = lines[l];
-            break;
-          }
-        }
-        child_process.execSync('mv '+vcslogdir+'/vcs_run.log '+vcslogdir+'.vcs_run.log');
-        child_process.exec('cd '+vcslogdir+' && rm -rf *',function(){
-          child_process.execSync('mv '+vcslogdir+'.vcs_run.log '+vcslogdir+'/vcs_run.log');
-        });
-      }
-      else{
-        signature = 'NO VCS LOG';
-      }
-      
+    //check size
+    let size;
+    let R = child_process.execSync('du '+vcslogdir+'/vcs_run.log',{
+      encoding  : 'utf8',
+    });
+    let regx  = /^(\d\+) vcs_run.log/;
+    R.replace(regx,function(rs,$1){
+      size  = $1;
+    });
+    if(size >300000){
+      signature = 'LOG TOO LARGE';
     }
     else{
-      signature = 'KILLED'
+      let lines = fs.readFileSync(treeRoot+'/nb__.'+variantname+'.test.'+casename+'.log','utf8').split('\n');
+      lines.pop();
+      for(let l=0;l<lines.length;l++){
+        if(djregxpass.test(lines[l])){
+          fs.writeFileSync(treeRoot+'/result.'+variantname+'.'+casename+'.PASS','',{
+            encoding  : 'utf8',
+            mode      : '0600',
+            flag      : 'w'
+          });
+        }
+        if(djregxfail.test(lines[l])){
+          fs.writeFileSync(treeRoot+'/result.'+variantname+'.'+casename+'.FAIL','',{
+            encoding  : 'utf8',
+            mode      : '0600',
+            flag      : 'w'
+          });
+        }
+        //runtime
+        if(djregxruntime.test(lines[l])){
+          lines[l].replace(djregxruntime,function(rs,$1){
+            runtime = $1;
+          });
+        }
+        //bsub
+        if(djregxbsubq.test(lines[l])){
+          lines[l].replace(djregxbsubq,function(rs,$1){
+            bsubQ = $1;
+          });
+        }
+      }
+      if(fs.existsSync(treeRoot+'/result.'+variantname+'.'+casename+'.PASS')){
+        signature = 'NA';
+        result    = 'PASS';
+        child_process.exec('cd '+vcslogdir+' && rm -rf *',function(){});
+      }
+      else if(fs.existsSync(treeRoot+'/result.'+variantname+'.'+casename+'.FAIL')){
+        result    = 'FAIL';
+        if(fs.existsSync(vcslogdir+'/vcs_run.log')){
+          let lines = fs.readFileSync(vcslogdir+'/vcs_run.log','utf8').split('\n');
+          lines.pop();
+          let regx001 = /^error/i;
+          let regx002 = /^UVM_ERROR/;
+          let regx003 = /^UVM_FATAL/;
+          for(let l=0;l<lines.length;l++){
+            if((regx001.test(lines[l])) || (regx002.test(lines[l])) || (regx003.test(lines[l]))){
+              signature = lines[l];
+              break;
+            }
+          }
+          child_process.execSync('mv '+vcslogdir+'/vcs_run.log '+vcslogdir+'.vcs_run.log');
+          child_process.exec('cd '+vcslogdir+' && rm -rf *',function(){
+            child_process.execSync('mv '+vcslogdir+'.vcs_run.log '+vcslogdir+'/vcs_run.log');
+          });
+        }
+        else{
+          signature = 'NO VCS LOG';
+        }
+        
+      }
+      else{
+        signature = 'KILLED'
+      }
     }
   }
   console.log('signature');
