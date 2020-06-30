@@ -83,8 +83,8 @@ let options_start = {
 };
 
 let req_start = http.request(options_start, (res_start) => {
-  console.log(`STATUS: ${res_start.statusCode}`);
-  console.log(`HEADERS: ${JSON.stringify(res_start.headers)}`);
+  //console.log(`STATUS: ${res_start.statusCode}`);
+  //console.log(`HEADERS: ${JSON.stringify(res_start.headers)}`);
   res_start.setEncoding('utf8');
   res_start.on('data', (chunk) => {
     console.log(`BODY: ${chunk}`);
@@ -101,10 +101,12 @@ req_start.on('error', (e) => {
 // Write data to request body
 req_start.write(postData_start);
 req_start.end();
+console.log('case start ');
 //start
-child_process.exec(__dirname+'/runonecase.csh --treeRoot '+treeRoot+' --variantname '+variantname+' --tasktype test --runopt runonly --suite '+suite+' --casename  '+casename+' --out_anchor '+out_anchor,{
-  maxBuffer : 500*1024*1024,
-},function(err,stdout,stderr){
+child_process.execSync(__dirname+'/runonecase.csh --treeRoot '+treeRoot+' --variantname '+variantname+' --tasktype test --runopt runonly --suite '+suite+' --casename  '+casename+' --out_anchor '+out_anchor,{
+  maxBuffer : 4*1024*1024*1024,
+});//,function(err,stdout,stderr){
+  console.log('case done');
   if(!fs.existsSync(treeRoot+'/nb__.'+variantname+'.test.'+casename+'.log')){
     fs.writeFileSync(treeRoot+'/result.'+variantname+'.'+casename+'.FAIL','',{
       encoding  : 'utf8',
@@ -113,6 +115,10 @@ child_process.exec(__dirname+'/runonecase.csh --treeRoot '+treeRoot+' --variantn
     });
     result  = 'FAIL';
     signature = 'NO DJ LOG'
+  }
+  else if(!fs.existsSync(vcslogdir+'/vcs_run.log')){
+    result  = 'FAIL';
+    signature = 'NO VCS LOG';
   }
   else{
     //check size
@@ -125,6 +131,7 @@ child_process.exec(__dirname+'/runonecase.csh --treeRoot '+treeRoot+' --variantn
       size  = $1;
     });
     if(size >300000){
+      result    = 'FAIL';
       signature = 'LOG TOO LARGE';
     }
     else{
@@ -188,7 +195,8 @@ child_process.exec(__dirname+'/runonecase.csh --treeRoot '+treeRoot+' --variantn
         
       }
       else{
-        signature = 'KILLED'
+        result    = 'FAIL';
+        signature = 'KILLED';
       }
     }
   }
@@ -230,8 +238,8 @@ child_process.exec(__dirname+'/runonecase.csh --treeRoot '+treeRoot+' --variantn
   };
   
   let req_end = http.request(options_end, (res_end) => {
-    console.log(`STATUS: ${res_end.statusCode}`);
-    console.log(`HEADERS: ${JSON.stringify(res_end.headers)}`);
+    //console.log(`STATUS: ${res_end.statusCode}`);
+    //console.log(`HEADERS: ${JSON.stringify(res_end.headers)}`);
     res_end.setEncoding('utf8');
     res_end.on('data', (chunk) => {
       console.log(`BODY: ${chunk}`);
@@ -248,4 +256,4 @@ child_process.exec(__dirname+'/runonecase.csh --treeRoot '+treeRoot+' --variantn
   // Write data to request body
   req_end.write(postData_end);
   req_end.end();
-});
+//});
