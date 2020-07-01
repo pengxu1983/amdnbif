@@ -23,6 +23,15 @@ module.exports.routes = {
   'POST /start'  : {
     action      : 'start'
   },
+  'POST /casestart' : {
+    action      : 'casestart'
+  },
+  'POST /caseend'   : {
+    action      : 'caseend'
+  },
+  'POST /regressionstart'   : {
+    action      : 'regressionstart'
+  }
 
   /***************************************************************************
   *                                                                          *

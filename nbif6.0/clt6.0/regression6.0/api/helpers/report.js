@@ -110,10 +110,12 @@ module.exports = {
         inputs_local.testlist[t]['name'].replace(regx,function(rs,$1){
           caseshort = $1;
         });
-        //console.log(loginit()+inputs_local.treeRoot+' checking test '+caseshort);
+        console.log(loginit()+inputs_local.treeRoot+' checking test '+caseshort);
         if(fs.existsSync(inputs_local.treeRoot+'/result.'+inputs_local.variantname+'.'+caseshort+'.PASS')){
+          console.log(loginit()+inputs_local.treeRoot+' ignore pass');
         }
         else if(fs.existsSync(inputs_local.treeRoot+'/result.'+inputs_local.variantname+'.'+caseshort+'.FAIL')){
+          console.log(loginit()+inputs_local.treeRoot+' ignore fail');
         }
         else if(fs.existsSync(inputs_local.treeRoot+'/nb__.'+inputs_local.variantname+'.test.'+caseshort+'.log')){
           let lines = fs.readFileSync(inputs_local.treeRoot+'/nb__.'+inputs_local.variantname+'.test.'+caseshort+'.log','utf8').split('\n');
@@ -137,11 +139,13 @@ module.exports = {
             }
           }
           if(fs.existsSync(inputs_local.treeRoot+'/result.'+inputs_local.variantname+'.'+caseshort+'.FAIL')){
+            console.log(loginit()+inputs_local.treeRoot+' first time found fail');
             let signature = 'NA';
             if(!fs.existsSync(testlist[t]['run_out_path']+'/vcs_run.log')){
               console.log(loginit()+inputs_local.treeRoot+' vcs_run.log not found');
               console.log(loginit()+inputs_local.treeRoot+' '+testlist[t]['name']);
               console.log(loginit()+inputs_local.treeRoot+' '+testlist[t]['run_out_path']);
+              signature = "NO VCS LOG";
             }
             else{
               let size  ;
@@ -159,32 +163,35 @@ module.exports = {
                     encoding  : 'utf8'
                   });
                 }
-                await Regressiondetails.update({
-                  codeline      : inputs_local.codeline,
-                  branch_name   : inputs_local.branch_name,
-                  changelist    : inputs_local.changelist,
-                  shelve        : inputs_local.shelve,
-                  describe      : inputs_local.describe,
-                  kickoffdate   : inputs_local.kickoffdate,
-                  username      : inputs_local.username,
-                  isBAPU        : inputs_local.isBAPU,
-                  isOfficial    : inputs_local.isOfficial,
-                  variantname   : inputs_local.variantname,
-                  casename      : caseshort,
-                  seed          : testlist[t]['seed'],
-                  config        : testlist[t]['config'],
-                  group         : testlist[t]['group'],
-                  projectname   : inputs_local.projectname,
-                },{
-                  result        : 'FAIL',
-                  signature     : signature
-                });
-                child_process.execSync('mv '+testlist[t]['run_out_path']+'/vcs_run.log '+testlist[t]['run_out_path']+'/.vcs_run.log');
-                child_process.exec('rm -rf '+testlist[t]['run_out_path']+'/*',function(err,stdout,stderr){
-                  child_process.execSync('mv '+testlist[t]['run_out_path']+'/.vcs_run.log '+testlist[t]['run_out_path']+'/vcs_run.log');
-                });
+                console.log(loginit()+inputs_local.treeRoot+' signature is '+signature);
+                
               });
             }
+            await Regressiondetails.update({
+              codeline      : inputs_local.codeline,
+              branch_name   : inputs_local.branch_name,
+              changelist    : inputs_local.changelist,
+              shelve        : inputs_local.shelve,
+              describe      : inputs_local.describe,
+              kickoffdate   : inputs_local.kickoffdate,
+              username      : inputs_local.username,
+              isBAPU        : inputs_local.isBAPU,
+              isOfficial    : inputs_local.isOfficial,
+              variantname   : inputs_local.variantname,
+              casename      : caseshort,
+              seed          : testlist[t]['seed'],
+              config        : testlist[t]['config'],
+              group         : testlist[t]['group'],
+              suite         : testlist[t]['suite'],
+              projectname   : inputs_local.projectname,
+            },{
+              result        : 'FAIL',
+              signature     : signature
+            });
+            child_process.execSync('mv '+testlist[t]['run_out_path']+'/vcs_run.log '+testlist[t]['run_out_path']+'.vcs_run.log');
+            child_process.exec('cd '+testlist[t]['run_out_path']+' && rm -rf *',function(err,stdout,stderr){
+              child_process.execSync('mv '+testlist[t]['run_out_path']+'.vcs_run.log '+testlist[t]['run_out_path']+'/vcs_run.log');
+            });
           }
           else if(fs.existsSync(inputs_local.treeRoot+'/result.'+inputs_local.variantname+'.'+caseshort+'.PASS')){
             await Regressiondetails.update({
@@ -202,12 +209,13 @@ module.exports = {
               seed          : testlist[t]['seed'],
               config        : testlist[t]['config'],
               group         : testlist[t]['group'],
+              suite         : testlist[t]['suite'],
               projectname   : inputs_local.projectname
             },{
               result        : 'PASS',
               signature     : 'NA'
             });
-            child_process.exec('rm -rf '+testlist[t]['run_out_path']+'/*',function(err,stdout,stderr){});
+            child_process.exec('cd '+testlist[t]['run_out_path']+' && rm -rf *',function(err,stdout,stderr){});//TODO confirm if delete entire dir
           }
           else{
             await Regressiondetails.update({
@@ -225,6 +233,7 @@ module.exports = {
               seed          : testlist[t]['seed'],
               config        : testlist[t]['config'],
               group         : testlist[t]['group'],
+              suite         : testlist[t]['suite'],
               projectname   : inputs_local.projectname
             },{
               result        : 'RUNNING',
