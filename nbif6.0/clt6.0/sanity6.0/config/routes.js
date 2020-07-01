@@ -31,6 +31,9 @@ module.exports.routes = {
   //},
   'POST /clientrun' : {
     action      : 'clientrun'
+  },
+  'POST /test'  : {
+    action      : 'test'
   }
 
 
