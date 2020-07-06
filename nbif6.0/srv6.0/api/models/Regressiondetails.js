@@ -66,6 +66,9 @@ module.exports = {
     },
     username      : {
       type        : 'string'
+    },
+    projectname   : {
+      type        : 'string'
     }
 
     //  ╔═╗╔╦╗╔╗ ╔═╗╔╦╗╔═╗

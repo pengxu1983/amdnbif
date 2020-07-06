@@ -20,7 +20,18 @@ module.exports.routes = {
   ***************************************************************************/
 
   //'/': { view: 'pages/homepage' },
-
+  'POST /regression/start'  : {
+    action  : 'regression/start'
+  },
+  'POST /regression/stop'  : {
+    action  : 'regression/stop'
+  },
+  'POST /regression/clear'  : {
+    action  : 'regression/clear'
+  },
+  'POST /regression/update'  : {
+    action  : 'regression/update'
+  },
 
   /***************************************************************************
   *                                                                          *
