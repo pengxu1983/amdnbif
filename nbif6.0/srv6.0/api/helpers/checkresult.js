@@ -76,6 +76,9 @@ module.exports = {
     },
     kickoffdate : {
       type          : 'string'
+    },
+    action      : {
+      type          : 'string'
     }
   },
 
@@ -92,8 +95,8 @@ module.exports = {
   fn: async function (inputs) {
     sails.log('/checkresult');
     sails.log(inputs);
-    let check = new cronJob('0 */30 * * * *', function () {
-      if(fs.existsSync(treeRoot+'/NBIF_TREE_INFO')){
+    let check = new cronJob('0 */30 * * * *', async function () {
+      if(fs.existsSync(inputs.treeRoot+'/NBIF_TREE_INFO')){
         let listtocheck = await Regressiondetails.find({
           codeline    : inputs.codeline,
           branch_name : inputs.branch_name,
@@ -138,11 +141,11 @@ module.exports = {
               if(!fs.existsSync(listtocheck[t]['run_out_path']+'/vcs_run.log')){
               }
               else{
-                let seed      = child_process.execSync(__dirname+'/../../../common6.0/VCS_LOG_seed.js',{
+                let seed      = child_process.execSync(__dirname+'/../../../common6.0/VCS_LOG_seed.js  '+listtocheck[t]['run_out_path']+'/vcs_run.log',{
                   maxBuffer : 300*1024*1024,
                   encoding  : 'utf8'
                 });
-                let signature = child_process.execSync(__dirname+'/../../../common6.0/VCS_LOG_parse.js',{
+                let signature = child_process.execSync(__dirname+'/../../../common6.0/VCS_LOG_parse.js '+listtocheck[t]['run_out_path']+'/vcs_run.log',{
                   maxBuffer : 300*1024*1024,
                   encoding  : 'utf8'
                 });
@@ -164,6 +167,7 @@ module.exports = {
                     config      : listtocheck[t]['config'],
                   },{
                     result      : 'PASS',
+                    seed        : seed,
                     signature   : 'NA'
                   });
                 }
@@ -185,7 +189,30 @@ module.exports = {
                     config      : listtocheck[t]['config'],
                   },{
                     result      : 'RUNNING',
+                    seed        : seed,
                     //signature   : 'NA',
+                  });
+                }
+                else{
+                  await Regressiondetails.update({
+                    codeline    : inputs.codeline,
+                    branch_name : inputs.branch_name,
+                    changelist  : inputs.changelist,
+                    shelve      : inputs.shelve,
+                    variantname : inputs.variantname,
+                    isBAPU      : inputs.isBAPU,
+                    isOfficial  : inputs.isOfficial,
+                    kickoffdate : inputs.kickoffdate,
+                    describe    : inputs.describe,
+                    username    : 'benpeng',
+                    projectname : inputs.projectname,
+                    casename    : listtocheck[t]['casename'],
+                    suite       : listtocheck[t]['suite'],
+                    config      : listtocheck[t]['config'],
+                  },{
+                    result      : 'FAIL',
+                    seed        : seed,
+                    signature   : signature,
                   });
                 }
               }
@@ -193,12 +220,22 @@ module.exports = {
           }
         }
       }
+      else{
+        check.stop();
+        sails.log('checkresult stopped : '+inputs.treeRoot);
+      }
     }, null,false, 'Asia/Chongqing');
     if(inputs.action  ==  'start'){
       check.start();
+      sails.log('checkresult started : '+inputs.treeRoot);
+      setTimeout(function(){
+        check.stop();
+        sails.log('checkresult stopped : '+inputs.treeRoot);
+      },48*3600*1000);//TODO need to be configured
     }
     if(inputs.action  ==  'stop'){
       check.stop();
+      sails.log('checkresult stopped : '+inputs.treeRoot);
     }
   }
 

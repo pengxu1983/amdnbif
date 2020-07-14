@@ -74,7 +74,7 @@ module.exports = {
       casename    : inputs.casename,
       isBAPU      : inputs.isBAPU,
       isOfficial  : inputs.isOfficial,
-      seed        : inputs.seed,
+      //seed        : inputs.seed,
       config      : inputs.config,
       suite       : inputs.suite,
       kickoffdate : inputs.kickoffdate,

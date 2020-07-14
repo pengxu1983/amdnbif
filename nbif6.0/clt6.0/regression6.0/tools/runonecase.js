@@ -73,7 +73,7 @@ let postData_start = querystring.stringify({
 
 let options_start = {
   hostname: 'atletx7-neu003',
-  port: 7001,
+  port: 7021,
   path: '/casestart',
   method: 'POST',
   headers: {
@@ -91,6 +91,170 @@ let req_start = http.request(options_start, (res_start) => {
   });
   res_start.on('end', () => {
     console.log('No more data in response.');
+
+    //start
+    console.log('case start ');
+    while(!fs.existsSync(vcslogdir+'/vcs_run.log')){
+      if(fs.existsSync(treeRoot+'/nb__.'+variantname+'.test.'+casename+'.log')){
+        child_process.execSync('rm -rf '+treeRoot+'/nb__.'+variantname+'.test.'+casename+'.log');
+      }
+      child_process.execSync(__dirname+'/runonecase.csh --treeRoot '+treeRoot+' --variantname '+variantname+' --tasktype test --runopt runonly --suite '+suite+' --casename  '+casename+' --out_anchor '+out_anchor,{
+        maxBuffer : 4*1024*1024*1024,
+      });//,function(err,stdout,stderr){
+    }
+    console.log('case done');
+    if(!fs.existsSync(treeRoot+'/nb__.'+variantname+'.test.'+casename+'.log')){
+      fs.writeFileSync(treeRoot+'/result.'+variantname+'.'+casename+'.FAIL','',{
+        encoding  : 'utf8',
+        mode      : '0600',
+        flag      : 'w'
+      });
+      result  = 'FAIL';
+      signature = 'NO DJ LOG'
+    }
+    else if(!fs.existsSync(vcslogdir+'/vcs_run.log')){
+      result  = 'FAIL';
+      signature = 'NO VCS LOG';
+    }
+    else{
+      //check size
+      let size;
+      let R = child_process.execSync('du '+vcslogdir+'/vcs_run.log',{
+        encoding  : 'utf8',
+      });
+      let regx  = /^(\d+) vcs_run.log/;
+      R.replace(regx,function(rs,$1){
+        size  = $1;
+      });
+      if(size >300000){
+        result    = 'FAIL';
+        signature = 'LOG TOO LARGE';
+      }
+      else{
+        let lines = fs.readFileSync(treeRoot+'/nb__.'+variantname+'.test.'+casename+'.log','utf8').split('\n');
+        lines.pop();
+        for(let l=0;l<lines.length;l++){
+          if(djregxpass.test(lines[l])){
+            fs.writeFileSync(treeRoot+'/result.'+variantname+'.'+casename+'.PASS','',{
+              encoding  : 'utf8',
+              mode      : '0600',
+              flag      : 'w'
+            });
+          }
+          if(djregxfail.test(lines[l])){
+            fs.writeFileSync(treeRoot+'/result.'+variantname+'.'+casename+'.FAIL','',{
+              encoding  : 'utf8',
+              mode      : '0600',
+              flag      : 'w'
+            });
+          }
+          //runtime
+          if(djregxruntime.test(lines[l])){
+            lines[l].replace(djregxruntime,function(rs,$1){
+              runtime = $1;
+            });
+          }
+          //bsub
+          if(djregxbsubq.test(lines[l])){
+            lines[l].replace(djregxbsubq,function(rs,$1){
+              bsubQ = $1;
+            });
+          }
+        }
+        if(fs.existsSync(treeRoot+'/result.'+variantname+'.'+casename+'.PASS')){
+          signature = 'NA';
+          result    = 'PASS';
+          child_process.exec('cd '+vcslogdir+' && rm -rf *',function(){});
+        }
+        else if(fs.existsSync(treeRoot+'/result.'+variantname+'.'+casename+'.FAIL')){
+          result    = 'FAIL';
+          if(fs.existsSync(vcslogdir+'/vcs_run.log')){
+            let lines = fs.readFileSync(vcslogdir+'/vcs_run.log','utf8').split('\n');
+            lines.pop();
+            let regx001 = /^error/i;
+            let regx002 = /^UVM_ERROR/;
+            let regx003 = /^UVM_FATAL/;
+            for(let l=0;l<lines.length;l++){
+              if((regx001.test(lines[l])) || (regx002.test(lines[l])) || (regx003.test(lines[l]))){
+                signature = lines[l];
+                break;
+              }
+            }
+            child_process.execSync('mv '+vcslogdir+'/vcs_run.log '+vcslogdir+'.vcs_run.log');
+            child_process.exec('cd '+vcslogdir+' && rm -rf *',function(){
+              child_process.execSync('mv '+vcslogdir+'.vcs_run.log '+vcslogdir+'/vcs_run.log');
+            });
+          }
+          else{
+            signature = 'NO VCS LOG';
+          }
+          
+        }
+        else{
+          result    = 'FAIL';
+          signature = 'KILLED';
+        }
+      }
+    }
+    ////
+    ////sending result
+    ////
+    console.log('signature');
+    console.log(signature);
+    console.log('result');
+    console.log(result);
+    let postData_end = querystring.stringify({
+      'codeline'      : codeline,
+      'branch_name'   : branch_name,
+      'changelist'    : changelist,
+      'shelve'        : shelve,
+      'kickoffdate'   : kickoffdate,
+      'variantname'   : variantname,
+      'describe'      : describe,
+      'username'      : username,
+      'projectname'   : projectname,
+      'isOfficial'    : isOfficial,
+      'isBAPU'        : isBAPU,
+      'signature'     : signature,
+      'runtime'       : runtime,
+      'bsubQ'         : bsubQ,
+      'result'        : result,
+      'casename'      : casename,
+      'suite'         : suite,
+      'config'        : config,
+      'seed'          : seed
+    });
+    
+    let options_end = {
+      hostname: 'atletx7-neu003',
+      port: 7021,
+      path: '/caseend',
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/x-www-form-urlencoded',
+        'Content-Length': Buffer.byteLength(postData_end)
+      }
+    };
+    
+    let req_end = http.request(options_end, (res_end) => {
+      //console.log(`STATUS: ${res_end.statusCode}`);
+      //console.log(`HEADERS: ${JSON.stringify(res_end.headers)}`);
+      res_end.setEncoding('utf8');
+      res_end.on('data', (chunk) => {
+        console.log(`BODY: ${chunk}`);
+      });
+      res_end.on('end', () => {
+        console.log('No more data in response.');
+      });
+    });
+    
+    req_end.on('error', (e) => {
+      console.error(`problem with request: ${e.message}`);
+    });
+    
+    // Write data to request body
+    req_end.write(postData_end);
+    req_end.end();
   });
 });
 
@@ -101,159 +265,3 @@ req_start.on('error', (e) => {
 // Write data to request body
 req_start.write(postData_start);
 req_start.end();
-console.log('case start ');
-//start
-child_process.execSync(__dirname+'/runonecase.csh --treeRoot '+treeRoot+' --variantname '+variantname+' --tasktype test --runopt runonly --suite '+suite+' --casename  '+casename+' --out_anchor '+out_anchor,{
-  maxBuffer : 4*1024*1024*1024,
-});//,function(err,stdout,stderr){
-  console.log('case done');
-  if(!fs.existsSync(treeRoot+'/nb__.'+variantname+'.test.'+casename+'.log')){
-    fs.writeFileSync(treeRoot+'/result.'+variantname+'.'+casename+'.FAIL','',{
-      encoding  : 'utf8',
-      mode      : '0600',
-      flag      : 'w'
-    });
-    result  = 'FAIL';
-    signature = 'NO DJ LOG'
-  }
-  else if(!fs.existsSync(vcslogdir+'/vcs_run.log')){
-    result  = 'FAIL';
-    signature = 'NO VCS LOG';
-  }
-  else{
-    //check size
-    let size;
-    let R = child_process.execSync('du '+vcslogdir+'/vcs_run.log',{
-      encoding  : 'utf8',
-    });
-    let regx  = /^(\d\+) vcs_run.log/;
-    R.replace(regx,function(rs,$1){
-      size  = $1;
-    });
-    if(size >300000){
-      result    = 'FAIL';
-      signature = 'LOG TOO LARGE';
-    }
-    else{
-      let lines = fs.readFileSync(treeRoot+'/nb__.'+variantname+'.test.'+casename+'.log','utf8').split('\n');
-      lines.pop();
-      for(let l=0;l<lines.length;l++){
-        if(djregxpass.test(lines[l])){
-          fs.writeFileSync(treeRoot+'/result.'+variantname+'.'+casename+'.PASS','',{
-            encoding  : 'utf8',
-            mode      : '0600',
-            flag      : 'w'
-          });
-        }
-        if(djregxfail.test(lines[l])){
-          fs.writeFileSync(treeRoot+'/result.'+variantname+'.'+casename+'.FAIL','',{
-            encoding  : 'utf8',
-            mode      : '0600',
-            flag      : 'w'
-          });
-        }
-        //runtime
-        if(djregxruntime.test(lines[l])){
-          lines[l].replace(djregxruntime,function(rs,$1){
-            runtime = $1;
-          });
-        }
-        //bsub
-        if(djregxbsubq.test(lines[l])){
-          lines[l].replace(djregxbsubq,function(rs,$1){
-            bsubQ = $1;
-          });
-        }
-      }
-      if(fs.existsSync(treeRoot+'/result.'+variantname+'.'+casename+'.PASS')){
-        signature = 'NA';
-        result    = 'PASS';
-        child_process.exec('cd '+vcslogdir+' && rm -rf *',function(){});
-      }
-      else if(fs.existsSync(treeRoot+'/result.'+variantname+'.'+casename+'.FAIL')){
-        result    = 'FAIL';
-        if(fs.existsSync(vcslogdir+'/vcs_run.log')){
-          let lines = fs.readFileSync(vcslogdir+'/vcs_run.log','utf8').split('\n');
-          lines.pop();
-          let regx001 = /^error/i;
-          let regx002 = /^UVM_ERROR/;
-          let regx003 = /^UVM_FATAL/;
-          for(let l=0;l<lines.length;l++){
-            if((regx001.test(lines[l])) || (regx002.test(lines[l])) || (regx003.test(lines[l]))){
-              signature = lines[l];
-              break;
-            }
-          }
-          child_process.execSync('mv '+vcslogdir+'/vcs_run.log '+vcslogdir+'.vcs_run.log');
-          child_process.exec('cd '+vcslogdir+' && rm -rf *',function(){
-            child_process.execSync('mv '+vcslogdir+'.vcs_run.log '+vcslogdir+'/vcs_run.log');
-          });
-        }
-        else{
-          signature = 'NO VCS LOG';
-        }
-        
-      }
-      else{
-        result    = 'FAIL';
-        signature = 'KILLED';
-      }
-    }
-  }
-  console.log('signature');
-  console.log(signature);
-  console.log('result');
-  console.log(result);
-  let postData_end = querystring.stringify({
-    'codeline'      : codeline,
-    'branch_name'   : branch_name,
-    'changelist'    : changelist,
-    'shelve'        : shelve,
-    'kickoffdate'   : kickoffdate,
-    'variantname'   : variantname,
-    'describe'      : describe,
-    'username'      : username,
-    'projectname'   : projectname,
-    'isOfficial'    : isOfficial,
-    'isBAPU'        : isBAPU,
-    'signature'     : signature,
-    'runtime'       : runtime,
-    'bsubQ'         : bsubQ,
-    'result'        : result,
-    'casename'      : casename,
-    'suite'         : suite,
-    'config'        : config,
-    'seed'          : seed
-  });
-  
-  let options_end = {
-    hostname: 'atletx7-neu003',
-    port: 7001,
-    path: '/caseend',
-    method: 'POST',
-    headers: {
-      'Content-Type': 'application/x-www-form-urlencoded',
-      'Content-Length': Buffer.byteLength(postData_end)
-    }
-  };
-  
-  let req_end = http.request(options_end, (res_end) => {
-    //console.log(`STATUS: ${res_end.statusCode}`);
-    //console.log(`HEADERS: ${JSON.stringify(res_end.headers)}`);
-    res_end.setEncoding('utf8');
-    res_end.on('data', (chunk) => {
-      console.log(`BODY: ${chunk}`);
-    });
-    res_end.on('end', () => {
-      console.log('No more data in response.');
-    });
-  });
-  
-  req_end.on('error', (e) => {
-    console.error(`problem with request: ${e.message}`);
-  });
-  
-  // Write data to request body
-  req_end.write(postData_end);
-  req_end.end();
-//});

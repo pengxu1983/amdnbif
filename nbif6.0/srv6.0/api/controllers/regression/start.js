@@ -218,6 +218,7 @@ module.exports = {
       result        : 'RUNNING'
     });
     let passon  = JSON.parse(JSON.stringify(inputs_local));
+    passon.action = 'start'
     await sails.helpers.checkresult.with(passon);
     // All done.
     return exits.success(JSON.stringify({
