@@ -24,9 +24,6 @@ module.exports = {
     updatedDate : {
       type    : 'string'
     },
-    rejectedDate  : {
-      type    : 'string'
-    }
     dueDate     : {
       type    : 'string'
     },
@@ -51,6 +48,22 @@ module.exports = {
       type    : 'string',
       columnType  : 'longtext'
     },
+    sampleDate  : {
+      type    : 'string'
+    },
+    variantname : {
+      type    : 'string',
+      columnType  : 'longtext'
+    },
+    JIRAID    : {
+      type    : 'string'
+    },
+    type      : {
+      type    : 'string'
+    },
+    stat      : {
+      type    : 'string'
+    }
 
     //  ╔═╗╔╦╗╔╗ ╔═╗╔╦╗╔═╗
     //  ║╣ ║║║╠╩╗║╣  ║║╚═╗

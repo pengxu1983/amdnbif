@@ -19,9 +19,10 @@ module.exports.routes = {
   *                                                                          *
   ***************************************************************************/
 
-  '/': { view: 'pages/homepage' },
-
-
+  //'/': { view: 'pages/homepage' },
+  'POST /jira/add'  : {
+    action  : 'jira/add'
+  }
   /***************************************************************************
   *                                                                          *
   * More custom routes here...                                               *
