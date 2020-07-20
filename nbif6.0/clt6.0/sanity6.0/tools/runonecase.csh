@@ -101,8 +101,11 @@ if($tasktype  ==  "test") then
   endif
 else if($tasktype ==  "task") then
   if($casename  ==  "dcelab") then
-    if($variantname  ==  "nbif_draco_gpu") then
+    if($variantname  ==  "nbif_al_gpu") then
       dj -q -v -l $STEM/nb__.$variantname.$tasktype.$casename.log -e 'releaseflow::dropflow(:rtl_drop).build(:rhea_drop,:rhea_dc)' -DPUBLISH_BLKS=nbif_shub_wrap_algfx
+    endif
+    if($variantname  ==  "nbif_draco_gpu") then
+      dj -q -v -l $STEM/nb__.$variantname.$tasktype.$casename.log -e 'releaseflow::dropflow(:rtl_drop).build(:rhea_drop,:rhea_dc)' -DPUBLISH_BLKS=nbif_shub_wrap_dcgfx
     endif
     if($variantname  ==  "nbif_nv10_gpu") then
       dj -q -v -l $STEM/nb__.$variantname.$tasktype.$casename.log -e 'releaseflow::dropflow(:rtl_drop).build(:rhea_drop,:rhea_dc)' -DPUBLISH_BLKS=nbif_shub_wrap_gfx

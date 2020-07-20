@@ -13,7 +13,11 @@ let fields;
 let parser = new xml2js.Parser();
 //TODO  need to collect all files under one DIR
 fs.readFile(xmlfile, function(err, data) {
-  let sampleDate  = '2020-07-15';//TODO
+  let sampleDate;
+  let regxfilename  = /(\d\d\d\d-\d\d-\d\d)\.xml/;
+  xmlfile.replace(regxfilename,function(rs,$1){
+    sampleDate  = $1;
+  });
   parser.parseString(data,async function (err, result) {
     //console.dir(result.rss.channel[0].item[0].customfields[0].customfield);
     //console.dir(result.rss.channel[0].item[0].comments[0].comment);
@@ -22,6 +26,9 @@ fs.readFile(xmlfile, function(err, data) {
       //JIRAID
       let JIRAID  = result.rss.channel[0].item[i].key[0].$.id;
       //console.dir(JIRAID);
+      //link
+      let link    = result.rss.channel[0].item[i].link[0];
+      //console.dir(link);
       //key
       let key = result.rss.channel[0].item[i].key[0]._;
       //console.dir(key);
@@ -133,7 +140,8 @@ fs.readFile(xmlfile, function(err, data) {
         'sampleDate'  : sampleDate,
         'type'        : type,
         'stat'        : stat,
-        'lastComment' : lastComment
+        'lastComment' : lastComment,
+        'link'        : link
       });
       
       let options = {
