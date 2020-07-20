@@ -117,7 +117,7 @@ module.exports = {
             console.log(loginit()+treeRoot+'.'+variantname+'.'+tasktype+'.'+MASK[variantname][tasktype][casename]+' run done');
             console.log(loginit()+treeRoot+'.'+variantname+'.'+tasktype+'.'+MASK[variantname][tasktype][casename]+' run cost '+moment.duration(caseendtime.diff(casestarttime)).as('minutes')+' minutes');
             if(!fs.existsSync(treeRoot+'/nb__.'+variantname+'.'+tasktype+'.'+MASK[variantname][tasktype][casename]+'.log')){
-              fs.writeFileSync(treeRoot+'/nb__.'+variantname+'.'+tasktype+'.'+MASK[variantname][tasktype][casename]+'.FAIL','',{
+              fs.writeFileSync(treeRoot+'/result.run.'+variantname+'.'+tasktype+'.'+MASK[variantname][tasktype][casename]+'.FAIL','',{
                 encoding  : 'utf8',
                 mode      : '0600',
                 flag      : 'w'

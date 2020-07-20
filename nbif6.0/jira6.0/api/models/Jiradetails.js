@@ -63,6 +63,10 @@ module.exports = {
     },
     stat      : {
       type    : 'string'
+    },
+    link      : {
+      type    : 'string',
+      columnType  : 'longtext'
     }
 
     //  ╔═╗╔╦╗╔╗ ╔═╗╔╦╗╔═╗
