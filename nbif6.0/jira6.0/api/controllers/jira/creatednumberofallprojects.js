@@ -45,7 +45,7 @@ module.exports = {
       }));
     }
     let current = inputs.start;
-    while(moment(current).isSameorBefore(inputs.end)){
+    while(moment(current).isSameOrBefore(inputs.end)){
       let RR =  await Jiradetails.count({
         sampleDate  : sampleDate,
         createdDate : current
