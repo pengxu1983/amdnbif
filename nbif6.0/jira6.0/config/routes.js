@@ -22,6 +22,9 @@ module.exports.routes = {
   //'/': { view: 'pages/homepage' },
   'POST /jira/add'  : {
     action  : 'jira/add'
+  },
+  'POST /jira/creatednumberofallprojects'  : {
+    action  : 'jira/creatednumberofallprojects'
   }
   /***************************************************************************
   *                                                                          *

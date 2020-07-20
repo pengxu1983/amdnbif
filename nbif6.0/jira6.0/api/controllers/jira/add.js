@@ -31,7 +31,7 @@ let sampleDate;
 let addJIRA= new cronJob('0 0 */12 * * *', async function () {
   console.log(moment().format('YYYY-MM-DD'));
   sampleDate  = moment().subtract(1, 'days').format('YYYY-MM-DD');
-  xmlfile = '/proj/cip_nbif_regress1/amdnbif/resource/jira/NBIF_ALL_JIRA/'+sampleDate+'.xml';
+  xmlfile = '/proj/cip_nbif_regress1/jira/NBIF_ALL_JIRA/'+sampleDate+'.xml';
   if(fs.existsSync(xmlfile)){
     child_process.exec(__dirname+'/../../../../common6.0/AddJIRA.js '+xmlfile,async function(err,stdout,stderr){
       console.log('SEND:'+stdout);
@@ -96,6 +96,9 @@ module.exports = {
     lastComment :{
       type      :'string'
     },
+    link        :{
+      type      :'string'
+    },
   },
 
 
@@ -132,6 +135,7 @@ module.exports = {
         type        : inputs.type        ,
         stat        : inputs.stat        ,
         lastComment : querystring.stringify(inputs.lastComment),
+        link        : inputs.link
       });
     }
     else{
