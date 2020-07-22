@@ -21,7 +21,7 @@ fs.readFile(xmlfile, function(err, data) {
   parser.parseString(data,async function (err, result) {
     //console.dir(result.rss.channel[0].item[0].customfields[0].customfield);
     //console.dir(result.rss.channel[0].item[0].comments[0].comment);
-    //console.dir(result.rss.channel[0].item[0]);
+    //console.dir(typeof(result.rss.channel[0].item[0].summary[0]));
     for(let i=0;i<result.rss.channel[0].item.length;i++){
       //JIRAID
       let JIRAID  = result.rss.channel[0].item[i].key[0].$.id;
@@ -145,7 +145,7 @@ fs.readFile(xmlfile, function(err, data) {
       });
       
       let options = {
-        hostname: 'atletx7-neu003',
+        hostname: 'srdcws808',
         port: 7031,
         path: '/jira/add',
         method: 'POST',
