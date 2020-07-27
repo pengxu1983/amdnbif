@@ -34,7 +34,6 @@ let TeamMemberList= [//TODO
   'jawan',
   'wangr1',
   'xiaojwan',
-  'lweng',
   'shiyan',
   'dongyu',
   'alzhu',
@@ -66,11 +65,11 @@ let getemail        = function(username){
 }
 //making mailbody
 
-let startTime = moment().subtract(6,'days').format('YYYY-MM-DD');
+let startTime = moment().subtract(7,'days').format('YYYY-MM-DD');
 let endTime = moment().subtract(0,'days').format('YYYY-MM-DD');
 
 
-let sendReport= new cronJob('* * * * * *', async function () {
+let sendReport= new cronJob('* * * * * 1', async function () {
   let startTimeReport = {};
   let endTimeReport   = {};
   let startTimeAllUser  = {};
@@ -370,7 +369,7 @@ let sendReport= new cronJob('* * * * * *', async function () {
         newones.push(endTimeAllUser[TeamMemberList[userindex]][id]);
       }
     }
-
+    //new comming JIRA
     mailbody_weekly  +=  '<h4>New ones '+newones.length+': </h4>';
     mailbody_weekly  +=  '<table border="1">';
     mailbody_weekly  +=  '<tr>';
@@ -391,6 +390,7 @@ let sendReport= new cronJob('* * * * * *', async function () {
       mailbody_weekly +=  '<td>'+newones[n].variantname+'</td>'
       mailbody_weekly +=  '</tr>';
     }
+    //JIRA 
     mailbody_weekly  +=  '</body>';
     mailbody_weekly  +=  '</html>';
     fs.writeFileSync('/local_vol1_nobackup/benpeng/jira/NBIF_ALL_JIRA/'+startTime+'.'+endTime+'.'+TeamMemberList[userindex]+'.weekly',mailbody_weekly,{
@@ -399,6 +399,15 @@ let sendReport= new cronJob('* * * * * *', async function () {
       flag      : 'w'
     })
     //send mail
+    let CC  = '';
+    for (let c=0;c<CClist.length;c++){
+      CC  +=  ' -c '+getemail(CClist[c])+' ';
+    }
+    console.log('AA');
+    console.log(CC);
+    console.log(TeamMemberList[userindex]);
+    console.log(getemail(TeamMemberList[userindex]));
+    child_process.execSync('mutt '+getemail(TeamMemberList[userindex])+' -e  \'set content_type="text/html"\' -s "[NBIF][JIRA]Weekly personal JIRA progress" '+CC+'  < '+'/local_vol1_nobackup/benpeng/jira/NBIF_ALL_JIRA/'+startTime+'.'+endTime+'.'+TeamMemberList[userindex]+'.weekly');//TODO
   }
   sendReport.stop();
 }, null,true, 'Asia/Chongqing');

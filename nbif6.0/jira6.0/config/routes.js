@@ -18,10 +18,11 @@ module.exports.routes = {
   * `assets` directory)                                                      *
   *                                                                          *
   ***************************************************************************/
-
-  //'/': { view: 'pages/homepage' },
   'POST /jira/add'  : {
     action  : 'jira/add'
+  },
+  'POST /jira/get'  : {
+    action  : 'jira/get'
   },
   'POST /jira/creatednumberofallprojects'  : {
     action  : 'jira/creatednumberofallprojects'
