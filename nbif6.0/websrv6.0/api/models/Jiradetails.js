@@ -33,21 +33,21 @@ module.exports = {
     deferredDate  : {
       type    : 'string'
     },
-    lastComment : {
-      type    : 'string',
-      columnType  : 'longtext'
-    },
-    description : {
-      type    : 'string',
-      columnType  : 'longtext'
-    },
+    //lastComment : {
+    //  type    : 'string',
+    //  columnType  : 'longtext'
+    //},
+    //description : {
+    //  type    : 'string',
+    //  columnType  : 'longtext'
+    //},
     key         : {
       type    : 'string'
     },
-    summary     : {
-      type    : 'string',
-      columnType  : 'longtext'
-    },
+    //summary     : {
+    //  type    : 'string',
+    //  columnType  : 'longtext'
+    //},
     sampleDate  : {
       type    : 'string'
     },
