@@ -23,7 +23,11 @@ module.exports.routes = {
   'GET /': '/home',
   'POST /jira/add'  : {
     action  : 'jira/add'
-  }
+  },
+  'POST /jira/createdNumber'  : {
+    action  : 'jira/createdNumber'
+  },
+
 
 
   /***************************************************************************
