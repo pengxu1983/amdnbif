@@ -28,9 +28,9 @@ let getemail        = function(username){
 }
 let xmlfile;
 let sampleDate;
-let addJIRA= new cronJob('0 0 */3 * * *', async function () {
+let addJIRA= new cronJob('0 0 * * * *', async function () {
   console.log(moment().format('YYYY-MM-DD'));
-  sampleDate  = moment().subtract(1, 'days').format('YYYY-MM-DD');
+  sampleDate  = moment().subtract(0, 'days').format('YYYY-MM-DD');
   xmlfile = '/local_vol1_nobackup/benpeng/jira/NBIF_ALL_JIRA/'+sampleDate+'.xml';
   if(fs.existsSync(xmlfile)){
     child_process.exec(__dirname+'/../../../../common6.0/AddJIRA.js '+xmlfile,async function(err,stdout,stderr){
@@ -48,6 +48,9 @@ module.exports = {
 
 
   inputs: {
+    project     : {
+      type      :'string'
+    },
     JIRAID      :{
       type      :'string'
     },
@@ -119,6 +122,7 @@ module.exports = {
     if(R.length ==  0){
       //no record
       await Jiradetails.create({
+        project     : inputs.project,
         JIRAID      : inputs.JIRAID      ,
         key         : inputs.key         ,
         //summary     : inputs.summary     ,

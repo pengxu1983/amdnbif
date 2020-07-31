@@ -21,8 +21,10 @@ fs.readFile(xmlfile, function(err, data) {
   parser.parseString(data,async function (err, result) {
     //console.dir(result.rss.channel[0].item[0].customfields[0].customfield);
     //console.dir(result.rss.channel[0].item[0].comments[0].comment);
-    //console.dir(typeof(result.rss.channel[0].item[0].summary[0]));
+    //console.dir(result.rss.channel[0].item[0].project[0].$.key);
     for(let i=0;i<result.rss.channel[0].item.length;i++){
+      //project
+      let project = result.rss.channel[0].item[i].project[0].$.key;
       //JIRAID
       let JIRAID  = result.rss.channel[0].item[i].key[0].$.id;
       //console.dir(JIRAID);
@@ -141,7 +143,8 @@ fs.readFile(xmlfile, function(err, data) {
         'type'        : type,
         'stat'        : stat,
         'lastComment' : lastComment,
-        'link'        : link
+        'link'        : link,
+        'project'     : project,
       });
       
       let options = {

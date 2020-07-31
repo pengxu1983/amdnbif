@@ -1,3 +1,4 @@
+let moment = require('moment');
 module.exports = {
 
 
@@ -33,10 +34,15 @@ module.exports = {
     for(let p=0;p<projectlist.length;p++){
       //Floyd
       if(projectlist[p] ==  'Floyd'){
-        let R = await Jiradetails.find({
-
-        });
-        result['Floyd'] = 
+        result['Floyd'] = [];
+        for(let index=0;index<30;index++){
+          let R = await Jiradetails.count({
+            project     : 'DEIPCNBS20',
+            variantname : 'Floyd',
+            sampleDate  : moment(inputs.start,'YYYY-MM-DD').add(index,'days').format('YYYY-MM-DD'),
+          });
+          result['Floyd'].push(R);
+        }
       }
     }
     // All done.
