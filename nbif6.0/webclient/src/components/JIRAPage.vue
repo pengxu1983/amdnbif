@@ -12,6 +12,9 @@ export default {
   props: {
   },
   methods: {
+    getcreatedNumber(projectname){
+      window.console.log(projectname);
+    },
     createdNumber(){
       let myChart = this.$echarts.init(document.getElementById('createdNumber'));
       let X = [];
@@ -91,6 +94,7 @@ export default {
   mounted (){
     //createdNumber
     this.createdNumber();
+    
   }
 }
 </script>
