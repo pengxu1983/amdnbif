@@ -1,6 +1,9 @@
 <template>
   <el-container>
-    <div id="createdNumber" style="width: 100%;height:1000px;">
+    <div id="creatednumber" style="width: 100%;height:1000px;">
+    </div>
+    <br />
+    <div id="totalnumber" style="width: 100%;height:1000px;">
     </div>
     <br />
   </el-container>
@@ -13,11 +16,11 @@ export default {
   props: {
   },
   methods: {
-    getcreatedNumber(projectname){
+    getcreatednumber(projectname){
       window.console.log(projectname);
     },
-    createdNumber(){
-      let myChart = this.$echarts.init(document.getElementById('createdNumber'));
+    creatednumber(){
+      let myChart = this.$echarts.init(document.getElementById('creatednumber'));
       let X = [];
       for(let i=this.recordWindow;i>0;i--){
         X.push(moment().subtract(i,'days').format('YYYY-MM-DD'));
@@ -91,7 +94,78 @@ export default {
       );
     },
     totalnumber(){
-      
+      let myChart = this.$echarts.init(document.getElementById('totalnumber'));
+      let X = [];
+      for(let i=10;i>=0;i--){
+        X.push(moment().day(1-i*7).format('YYYY-MM-DD'));
+      }
+      window.console.log(X);
+      this.$http.post('/jira/totalnumber', {
+        start       : moment().day(1-10*7).format('YYYY-MM-DD'),
+        end         : moment().day(1).format('YYYY-MM-DD'),
+        projectlist : JSON.stringify(this.projectlist)
+      }).then( 
+        function(response){
+          window.console.log('ok');
+          window.console.log(JSON.parse(response.body.result)['Floyd']);
+          window.console.log(JSON.parse(response.body.result)['MI300']);
+          window.console.log(JSON.parse(response.body.result)['NV31']);
+          myChart.setOption({
+            title: {
+                text: 'JIRA Created Number Of All Projects Last 10 weeks(per week)'
+            },
+            tooltip: {
+              trigger: 'axis'
+            },
+            legend: {
+              data: [
+                'Floyd', 
+                'MI300', 
+                'NV31'
+              ]
+            },
+            grid: {
+              left: '3%',
+              right: '4%',
+              bottom: '3%',
+              containLabel: true
+            },
+            toolbox: {
+                feature: {
+                    saveAsImage: {}
+                }
+            },
+            xAxis: {
+              type: 'category',
+              boundaryGap: false,
+              data: X
+            },
+            yAxis: {
+              type: 'value'
+            },
+            series: [
+              {
+                  name: 'Floyd',
+                  type: 'line',
+                  data: JSON.parse(response.body.result)['Floyd']
+              },
+              {
+                  name: 'MI300',
+                  type: 'line',
+                  data: JSON.parse(response.body.result)['MI300']
+              },
+              {
+                  name: 'NV31',
+                  type: 'line',
+                  data: JSON.parse(response.body.result)['NV31']
+              },
+            ]
+          });
+        },
+        function(){
+          window.console.log('notok');
+        }
+      );
     },
   },
   data() {
@@ -101,9 +175,9 @@ export default {
     };
   },
   mounted (){
-    //createdNumber
-    this.createdNumber();
-    
+    //creatednumber
+    this.creatednumber();
+    this.totalnumber();
   }
 }
 </script>
