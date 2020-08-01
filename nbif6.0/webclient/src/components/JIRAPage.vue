@@ -94,7 +94,7 @@ export default {
   data() {
     return{
       recordWindow  : 30,
-      projectlist   : ['Floyd']
+      projectlist   : ['Floyd','MI300','NV31']
     };
   },
   mounted (){
