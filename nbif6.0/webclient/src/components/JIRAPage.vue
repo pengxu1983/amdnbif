@@ -1,8 +1,8 @@
 <template>
   <el-container>
     <el-row>
-      <el-col :span="24"><div id="creatednumber" style="width: 100%;height:1000px;"></div></el-col>
-      <el-col :span="24"><div id="totalnumber" style="width: 100%;height:1000px;"></div></el-col>
+      <el-col :span="24"><div id="creatednumber" style="width: 1080px;height:900px;"></div></el-col>
+      <el-col :span="24"><div id="totalnumber" style="width: 1080px;height:900px;"></div></el-col>
     </el-row>
   </el-container>
 </template>
