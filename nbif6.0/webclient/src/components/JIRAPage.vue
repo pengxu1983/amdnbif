@@ -26,7 +26,7 @@ export default {
       }).then( 
         function(response){
           window.console.log('ok');
-          window.console.log(JSON.parse(response))
+          window.console.log(JSON.parse(response.body.result))
           myChart.setOption({
             title: {
                 text: 'JIRA Created Number Of All Projects'
