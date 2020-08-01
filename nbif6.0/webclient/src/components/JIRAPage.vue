@@ -36,7 +36,7 @@ export default {
           window.console.log(JSON.parse(response.body.result)['NV31']);
           myChart.setOption({
             title: {
-                text: 'JIRA Created Number Of All Projects Last 30 days(per day)'
+                text: 'Total Number'
             },
             tooltip: {
               trigger: 'axis'
@@ -110,7 +110,7 @@ export default {
           window.console.log(JSON.parse(response.body.result)['NV31']);
           myChart.setOption({
             title: {
-                text: 'JIRA Created Number Of All Projects Last 10 weeks(per week)'
+              text: 'Created Number'
             },
             tooltip: {
               trigger: 'axis'
