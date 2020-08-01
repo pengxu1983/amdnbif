@@ -2,10 +2,8 @@
   <el-container>
     <div id="creatednumber" style="width: 100%;height:1000px;">
     </div>
-    <br />
     <div id="totalnumber" style="width: 100%;height:1000px;">
     </div>
-    <br />
   </el-container>
 </template>
 
