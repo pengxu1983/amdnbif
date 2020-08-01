@@ -1,9 +1,9 @@
 <template>
   <el-container>
-    <div id="creatednumber" style="width: 100%;height:1000px;">
-    </div>
-    <div id="totalnumber" style="width: 100%;height:1000px;">
-    </div>
+    <el-row>
+      <el-col :span="24"><div id="creatednumber" style="width: 100%;height:1000px;"></div></el-col>
+      <el-col :span="24"><div id="totalnumber" style="width: 100%;height:1000px;"></div></el-col>
+    </el-row>
   </el-container>
 </template>
 
@@ -174,8 +174,8 @@ export default {
   },
   mounted (){
     //creatednumber
-    this.creatednumber();
-    this.totalnumber();
+    //this.creatednumber();
+    //this.totalnumber();
   }
 }
 </script>
