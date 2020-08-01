@@ -29,22 +29,28 @@ export default {
       }).then( 
         function(response){
           window.console.log('ok');
-          window.console.log(JSON.parse(response.body.result))
+          window.console.log(JSON.parse(response.body.result)['Floyd']);
+          window.console.log(JSON.parse(response.body.result)['MI300']);
+          window.console.log(JSON.parse(response.body.result)['NV31']);
           myChart.setOption({
             title: {
                 text: 'JIRA Created Number Of All Projects'
             },
             tooltip: {
-                trigger: 'axis'
+              trigger: 'axis'
             },
             legend: {
-                data: ['Floyd', 'MI300', 'NV31']
+              data: [
+                'Floyd', 
+                'MI300', 
+                'NV31'
+              ]
             },
             grid: {
-                left: '3%',
-                right: '4%',
-                bottom: '3%',
-                containLabel: true
+              left: '3%',
+              right: '4%',
+              bottom: '3%',
+              containLabel: true
             },
             toolbox: {
                 feature: {
@@ -63,17 +69,17 @@ export default {
               {
                   name: 'Floyd',
                   type: 'line',
-                  data: [120, 132, 101, 134, 90, 230, 210]
+                  data: JSON.parse(response.body.result)['Floyd']
               },
               {
                   name: 'MI300',
                   type: 'line',
-                  data: [220, 182, 191, 234, 290, 330, 310]
+                  data: JSON.parse(response.body.result)['MI300']
               },
               {
                   name: 'NV31',
                   type: 'line',
-                  data: [150, 232, 201, 154, 190, 330, 410]
+                  data: JSON.parse(response.body.result)['NV31']
               },
             ]
           });
