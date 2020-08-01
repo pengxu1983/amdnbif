@@ -174,8 +174,8 @@ export default {
   },
   mounted (){
     //creatednumber
-    //this.creatednumber();
-    //this.totalnumber();
+    this.creatednumber();
+    this.totalnumber();
   }
 }
 </script>
