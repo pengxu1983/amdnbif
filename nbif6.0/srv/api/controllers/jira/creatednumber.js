@@ -27,8 +27,8 @@ module.exports = {
 
 
   fn: async function (inputs,exits) {
-    sails.log('/jira/createdNumber');
-    sails.log(inputs);
+    //sails.log('/jira/createdNumber');
+    //sails.log(inputs);
     let result  = {};
     let projectlist = JSON.parse(inputs.projectlist);
     for(let p=0;p<projectlist.length;p++){
@@ -44,7 +44,7 @@ module.exports = {
             },
             createdDate : moment(inputs.start,'YYYY-MM-DD').add(index,'days').format('YYYY-MM-DD'),
           });
-          sails.log('Floyd:'+R['Floyd']);
+          //sails.log('Floyd:'+R['Floyd']);
           result['Floyd'].push(R['Floyd']);
         }
       }
@@ -60,7 +60,7 @@ module.exports = {
             },
             createdDate : moment(inputs.start,'YYYY-MM-DD').add(index,'days').format('YYYY-MM-DD'),
           });
-          sails.log('NV31'+R['NV31']);
+          //sails.log('NV31:'+R['NV31']);
           result['NV31'].push(R['NV31']);
         }
       }
@@ -76,7 +76,7 @@ module.exports = {
             },
             createdDate : moment(inputs.start,'YYYY-MM-DD').add(index,'days').format('YYYY-MM-DD'),
           });
-          sails.log('MI300'+R['MI300']);
+          //sails.log('MI300:'+R['MI300']);
           result['MI300'].push(R['MI300']);
         }
       }

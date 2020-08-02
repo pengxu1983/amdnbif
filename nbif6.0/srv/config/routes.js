@@ -26,6 +26,9 @@ module.exports.routes = {
   },
   'POST /jira/creatednumber':{
     action  : 'jira/creatednumber'
+  },
+  'POST /jira/totalnumber':{
+    action  : 'jira/totalnumber'
   }
 
   /***************************************************************************
