@@ -20,8 +20,8 @@ export default {
     creatednumber(){
       let myChart = this.$echarts.init(document.getElementById('creatednumber'));
       let X = [];
-      for(let i=this.recordWindow;i>0;i--){
-        X.push(moment().subtract(i,'days').format('YYYY-MM-DD'));
+      for(let i=this.recordWindow;i>=0;i--){
+        X.push(moment().day(1-i*7).format('YYYY-MM-DD'));
       }
       window.console.log(X);
       this.$http.post('/jira/creatednumber', {
@@ -94,12 +94,12 @@ export default {
     totalnumber(){
       let myChart = this.$echarts.init(document.getElementById('totalnumber'));
       let X = [];
-      for(let i=10;i>=0;i--){
+      for(let i=this.recordWindow;i>=0;i--){
         X.push(moment().day(1-i*7).format('YYYY-MM-DD'));
       }
       window.console.log(X);
       this.$http.post('/jira/totalnumber', {
-        start       : moment().day(1-10*7).format('YYYY-MM-DD'),
+        start       : moment().day(1-this.recordWindow*7).format('YYYY-MM-DD'),
         end         : moment().day(1).format('YYYY-MM-DD'),
         projectlist : JSON.stringify(this.projectlist)
       }).then( 
@@ -168,7 +168,7 @@ export default {
   },
   data() {
     return{
-      recordWindow  : 30,
+      recordWindow  : 10,
       projectlist   : ['Floyd','MI300','NV31']
     };
   },
