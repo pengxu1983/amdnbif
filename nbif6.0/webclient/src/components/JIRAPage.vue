@@ -110,7 +110,7 @@ export default {
           window.console.log(JSON.parse(response.body.result)['NV31']);
           myChart.setOption({
             title: {
-              text: 'abc'
+              text: 'Total number'
             },
             tooltip: {
               trigger: 'axis'
