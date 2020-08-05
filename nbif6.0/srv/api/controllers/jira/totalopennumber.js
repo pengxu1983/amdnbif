@@ -2,16 +2,13 @@ let moment = require('moment');
 module.exports = {
 
 
-  friendlyName: 'Totalnumber',
+  friendlyName: 'Totalopennumber',
 
 
-  description: 'Totalnumber jira.',
+  description: 'Totalopennumber jira.',
 
 
   inputs: {
-    start : {
-      type  : 'string'
-    },
     projectlist : {
       type  : 'string'
     }
@@ -24,7 +21,7 @@ module.exports = {
 
 
   fn: async function (inputs,exits) {
-    //sails.log('/jira/totalnumber');
+    //sails.log('/jira/totalopennumber');
     //sails.log(inputs);
     let result  = {};
     let regx  = {};
@@ -39,13 +36,18 @@ module.exports = {
           project     : 'DEIPCNBS20',
           variantname : {
             contains  : projectlist[p]
+          },
+          stat        : {
+            nin:[
+              'Closed',
+              'Deferred',
+              'Rejected'
+            ]
           }
         });
         result[projectlist[p]].push(R);
       }
     }
-    //sails.log(result);
-    
     // All done.
     return exits.success(JSON.stringify({
       ok  : 'ok',

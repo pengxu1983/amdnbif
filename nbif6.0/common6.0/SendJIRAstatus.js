@@ -39,6 +39,7 @@ let TeamMemberList= [//TODO
   'alzhu',
   'yangz',
   'lweng',
+  'yiwezhou',
 ];
 let DVMemberList= [];
 let DEMemberList= [];
@@ -64,16 +65,20 @@ let getemail        = function(username){
   return email;
 }
 //making mailbody
-
+let startTimeObj = moment().subtract(7,'days');
+//console.log(typeof(startTimeObj));
 let startTime = moment().subtract(7,'days').format('YYYY-MM-DD');
+let endTimeObj = moment().subtract(0,'days');
+//console.log(typeof(endTimeObj));
 let endTime = moment().subtract(0,'days').format('YYYY-MM-DD');
 
 
-let sendReport= new cronJob('* * * * * 1', async function () {
+let sendReport= new cronJob('0 0 15 * * 1', async function () {
   let startTimeReport = {};
   let endTimeReport   = {};
   let startTimeAllUser  = {};
   let endTimeAllUser  = {};
+  let today = new moment();
   console.log('start');
   let data_startTime  =  fs.readFileSync('/local_vol1_nobackup/benpeng/jira/NBIF_ALL_JIRA/'+startTime+'.xml'); 
   let data_endTime    =  fs.readFileSync('/local_vol1_nobackup/benpeng/jira/NBIF_ALL_JIRA/'+endTime+'.xml'); 
@@ -100,6 +105,8 @@ let sendReport= new cronJob('* * * * * 1', async function () {
     mailbody_weekly  +=  '<th>status</th>';
     mailbody_weekly  +=  '<th>dueDate</th>';
     mailbody_weekly  +=  '<th>variant</th>';
+    mailbody_weekly  +=  '<th>createdDate</th>';
+    mailbody_weekly  +=  '<th>Opendays</th>';
     mailbody_weekly  +=  '</tr>';
     //startTimeReport
     let startTimeNumber=0;
@@ -211,6 +218,8 @@ let sendReport= new cronJob('* * * * * 1', async function () {
         mailbody_weekly +=  '<td>'+stat+'</td>';
         mailbody_weekly +=  '<td>'+dueDate+'</td>';
         mailbody_weekly +=  '<td>'+variantname+'</td>';
+        mailbody_weekly +=  '<td>'+createdDate+'</td>';
+        mailbody_weekly +=  '<td>'+moment.duration(startTimeObj.diff(createdDate)).as('days').toFixed()+'</td>';
         mailbody_weekly +=  '</tr>';
         startTimeNumber++;
         startTimeAllUser[TeamMemberList[userindex]][JIRAID]={};
@@ -221,6 +230,7 @@ let sendReport= new cronJob('* * * * * 1', async function () {
         startTimeAllUser[TeamMemberList[userindex]][JIRAID]['stat']=stat;
         startTimeAllUser[TeamMemberList[userindex]][JIRAID]['dueDate']=dueDate;
         startTimeAllUser[TeamMemberList[userindex]][JIRAID]['variantname']=variantname;
+        startTimeAllUser[TeamMemberList[userindex]][JIRAID]['createdDate']=createdDate;
       }
     }
     mailbody_weekly  +=  '</table>';
@@ -233,6 +243,8 @@ let sendReport= new cronJob('* * * * * 1', async function () {
     mailbody_weekly  +=  '<th>status</th>';
     mailbody_weekly  +=  '<th>dueDate</th>';
     mailbody_weekly  +=  '<th>variant</th>';
+    mailbody_weekly  +=  '<th>createdDate</th>';
+    mailbody_weekly  +=  '<th>Opendays</th>';
     mailbody_weekly  +=  '</tr>';
     //endTimeReport
     let endTimeNumber=0;
@@ -345,6 +357,8 @@ let sendReport= new cronJob('* * * * * 1', async function () {
         mailbody_weekly +=  '<td>'+stat+'</td>';
         mailbody_weekly +=  '<td>'+dueDate+'</td>';
         mailbody_weekly +=  '<td>'+variantname+'</td>';
+        mailbody_weekly +=  '<td>'+createdDate+'</td>';
+        mailbody_weekly +=  '<td>'+moment.duration(endTimeObj.diff(createdDate)).as('days').toFixed()+'</td>';
         mailbody_weekly +=  '</tr>';
         endTimeNumber++;
         endTimeAllUser[TeamMemberList[userindex]][JIRAID]={};
@@ -355,6 +369,7 @@ let sendReport= new cronJob('* * * * * 1', async function () {
         endTimeAllUser[TeamMemberList[userindex]][JIRAID]['stat']=stat;
         endTimeAllUser[TeamMemberList[userindex]][JIRAID]['dueDate']=dueDate;
         endTimeAllUser[TeamMemberList[userindex]][JIRAID]['variantname']=variantname;
+        endTimeAllUser[TeamMemberList[userindex]][JIRAID]['createdDate']=createdDate;
       }
     }
     mailbody_weekly  +=  '</table>';
@@ -379,6 +394,8 @@ let sendReport= new cronJob('* * * * * 1', async function () {
     mailbody_weekly  +=  '<th>status</th>';
     mailbody_weekly  +=  '<th>dueDate</th>';
     mailbody_weekly  +=  '<th>variant</th>';
+    mailbody_weekly  +=  '<th>createdDate</th>';
+    mailbody_weekly  +=  '<th>Opendays</th>';
     mailbody_weekly  +=  '</tr>';
     for(let n=0;n<newones.length;n++){
       mailbody_weekly +=  '<tr>';
@@ -388,6 +405,8 @@ let sendReport= new cronJob('* * * * * 1', async function () {
       mailbody_weekly +=  '<td>'+newones[n].stat+'</td>'
       mailbody_weekly +=  '<td>'+newones[n].dueDate+'</td>'
       mailbody_weekly +=  '<td>'+newones[n].variantname+'</td>'
+      mailbody_weekly +=  '<td>'+newones[n].createdDate+'</td>'
+      mailbody_weekly +=  '<td>'+moment.duration(today.diff(newones[n].createdDate)).as('days').toFixed()+'</td>';
       mailbody_weekly +=  '</tr>';
     }
     //JIRA 
@@ -403,11 +422,13 @@ let sendReport= new cronJob('* * * * * 1', async function () {
     for (let c=0;c<CClist.length;c++){
       CC  +=  ' -c '+getemail(CClist[c])+' ';
     }
-    console.log('AA');
-    console.log(CC);
-    console.log(TeamMemberList[userindex]);
-    console.log(getemail(TeamMemberList[userindex]));
+    //console.log('AA');
+    //console.log(CC);
+    //console.log(TeamMemberList[userindex]);
+    //console.log(getemail(TeamMemberList[userindex]));
     child_process.execSync('mutt '+getemail(TeamMemberList[userindex])+' -e  \'set content_type="text/html"\' -s "[NBIF][JIRA]Weekly personal JIRA progress" '+CC+'  < '+'/local_vol1_nobackup/benpeng/jira/NBIF_ALL_JIRA/'+startTime+'.'+endTime+'.'+TeamMemberList[userindex]+'.weekly');//TODO
+    //child_process.execSync('mutt '+getemail('benpeng')+' -e  \'set content_type="text/html"\' -s "[NBIF][JIRA]Weekly personal JIRA progress"   < '+'/local_vol1_nobackup/benpeng/jira/NBIF_ALL_JIRA/'+startTime+'.'+endTime+'.'+TeamMemberList[userindex]+'.weekly');//TODO
+    fs.unlinkSync('/local_vol1_nobackup/benpeng/jira/NBIF_ALL_JIRA/'+startTime+'.'+endTime+'.'+TeamMemberList[userindex]+'.weekly');
   }
   sendReport.stop();
 }, null,true, 'Asia/Chongqing');

@@ -29,7 +29,13 @@ module.exports.routes = {
   },
   'POST /jira/totalnumber':{
     action  : 'jira/totalnumber'
-  }
+  },
+  'POST /jira/totalopennumber':{
+    action  : 'jira/totalopennumber'
+  },
+  'POST /jira/averageopentime':{
+    action  : 'jira/averageopentime'
+  },
 
   /***************************************************************************
   *                                                                          *

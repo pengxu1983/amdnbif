@@ -28,7 +28,7 @@ let getemail        = function(username){
 }
 let xmlfile;
 let sampleDate;
-let addJIRA= new cronJob('0 0 * * * *', async function () {
+let addJIRA= new cronJob('0 0 */4 * * *', async function () {
   console.log(moment().format('YYYY-MM-DD'));
   sampleDate  = moment().subtract(0, 'days').format('YYYY-MM-DD');
   xmlfile = '/local_vol1_nobackup/benpeng/jira/NBIF_ALL_JIRA/'+sampleDate+'.xml';
