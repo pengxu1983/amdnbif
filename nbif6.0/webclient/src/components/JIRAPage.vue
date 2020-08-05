@@ -46,24 +46,27 @@ export default {
             dataset: {
               dimensions: ['project', 'shortest', 'average', 'longest'],
               source: [
-                {
-                  project: 'Matcha Latte', 
-                  'shortest': 43.3, 
-                  'average': 85.8, 
-                  'longest': 93.7
-                },
-                {
-                  project: 'Milk Tea', 
-                  'shortest': 83.1, 
-                  'average': 73.4, 
-                  'longest': 55.1
-                },
-                {
-                  project: 'Cheese Cocoa', 
-                  'shortest': 86.4, 
-                  'average': 65.2, 
-                  'longest': 82.5
-                },
+                JSON.parse(response.body.result)['Floyd'],
+                JSON.parse(response.body.result)['MI300'],
+                JSON.parse(response.body.result)['NV31'],
+                //{
+                //  project: 'Matcha Latte', 
+                //  'shortest': 43.3, 
+                //  'average': 85.8, 
+                //  'longest': 93.7
+                //},
+                //{
+                //  project: 'Milk Tea', 
+                //  'shortest': 83.1, 
+                //  'average': 73.4, 
+                //  'longest': 55.1
+                //},
+                //{
+                //  project: 'Cheese Cocoa', 
+                //  'shortest': 86.4, 
+                //  'average': 65.2, 
+                //  'longest': 82.5
+                //},
                 
               ]
             },
