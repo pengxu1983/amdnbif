@@ -37,7 +37,7 @@ export default {
           window.console.log(JSON.parse(response.body.result)['NV31']);
           myChart.setOption({
             title: {
-              text: 'Total number'
+              text: 'Total Open number'
             },
             tooltip: {
               trigger: 'axis'
