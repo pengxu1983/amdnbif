@@ -251,6 +251,7 @@ export default {
     //creatednumber
     this.creatednumber();
     this.totalnumber();
+    this.totalopennumber();
   }
 }
 </script>
