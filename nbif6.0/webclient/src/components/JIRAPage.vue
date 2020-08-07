@@ -5,6 +5,17 @@
       <el-col :span="24"><div id="totalnumber" style="width: 1080px;height:900px;"></div></el-col>
       <el-col :span="24"><div id="totalopennumber" style="width: 1080px;height:900px;"></div></el-col>
       <el-col :span="24"><div id="averageopentime" style="width: 1080px;height:900px;"></div></el-col>
+      <el-col :span="24">
+        <el-tabs v-model="currentProject" @tab-click="handleClick">
+          <el-tab-pane label="Floyd" name="Floyd">
+          </el-tab-pane>
+          <el-tab-pane label="NV31" name="NV31">
+          </el-tab-pane>
+          <el-tab-pane label="MI300" name="MI300">
+          </el-tab-pane>
+        </el-tabs>
+        <div id="perpersonjira" style="width: 1080px;height:900px;"></div>
+      </el-col>
     </el-row>
   </el-container>
 </template>
@@ -19,6 +30,190 @@ export default {
     getcreatednumber(projectname){
       window.console.log(projectname);
     },
+    handleClick(tab, event) {
+      console.log(tab, event);
+      console.log(this.currentProject);
+      this.perpersonjira();
+    },
+    perpersonjira(){
+      let myChart = this.$echarts.init(document.getElementById('perpersonjira'));
+      let X = [];
+      for(let i=this.recordWindow;i>=0;i--){
+        X.push(moment().day(1-i*7).format('YYYY-MM-DD'));
+      }
+      window.console.log(X);
+      this.$http.post('/jira/perpersonjira', {
+        //start       : moment().day(1-this.recordWindow*7).format('YYYY-MM-DD'),
+        //end         : moment().day(1).format('YYYY-MM-DD'),
+        projectlist : JSON.stringify(this.projectlist)
+      }).then( 
+        function(response){
+          window.console.log('ok');
+          window.console.log(response.body);
+          let result  = JSON.parse(response.body.result);
+          let userlist  = result['userlist'];
+          //window.console.log(JSON.parse(response.body.result)[this.currentProject]);
+          myChart.setOption({
+            tooltip: {
+              trigger: 'axis',
+              axisPointer: {            // 坐标轴指示器，坐标轴触发有效
+                type: 'shadow'        // 默认为直线，可选为：'line' | 'shadow'
+              }
+            },
+            legend: {
+              data: ['Opened','Implemented', 'Closed', 'Rejected', 'Deferred']
+            },
+            grid: {
+              left: '3%',
+              right: '4%',
+              bottom: '3%',
+              containLabel: true
+            },
+            xAxis: {
+                type: 'value'
+            },
+            yAxis: {
+                type: 'category',
+                data: userlist
+            },
+            series: [
+              {
+                  name: 'Opened',
+                  type: 'bar',
+                  stack: 'total',
+                  label: {
+                      show: true,
+                      position: 'insideRight'
+                  },
+                  data: result[this.currentProject]['Opened']
+              },
+              {
+                  name: 'Implemented',
+                  type: 'bar',
+                  stack: 'total',
+                  label: {
+                      show: true,
+                      position: 'insideRight'
+                  },
+                  data: result[this.currentProject]['Implemented']
+              },
+              {
+                  name: 'Closed',
+                  type: 'bar',
+                  stack: 'total',
+                  label: {
+                      show: true,
+                      position: 'insideRight'
+                  },
+                  data: result[this.currentProject]['Closed']
+              },
+              {
+                  name: 'Rejected',
+                  type: 'bar',
+                  stack: 'total',
+                  label: {
+                      show: true,
+                      position: 'insideRight'
+                  },
+                  data: result[this.currentProject]['Rejected']
+              },
+              {
+                  name: 'Deferred',
+                  type: 'bar',
+                  stack: 'total',
+                  label: {
+                      show: true,
+                      position: 'insideRight'
+                  },
+                  data: result[this.currentProject]['Deferred']
+              },
+            ]
+          });
+        },
+        function(){
+          window.console.log('notok');
+          //window.console.log(JSON.parse(response.body.result)['Floyd']);
+          //window.console.log(JSON.parse(response.body.result)['MI300']);
+          //window.console.log(JSON.parse(response.body.result)['NV31']);
+          myChart.setOption({
+            tooltip: {
+                trigger: 'axis',
+                axisPointer: {            // 坐标轴指示器，坐标轴触发有效
+                    type: 'shadow'        // 默认为直线，可选为：'line' | 'shadow'
+                }
+            },
+            legend: {
+                data: ['直接访问', '邮件营销', '联盟广告', '视频广告', '搜索引擎']
+            },
+            grid: {
+                left: '3%',
+                right: '4%',
+                bottom: '3%',
+                containLabel: true
+            },
+            xAxis: {
+                type: 'value'
+            },
+            yAxis: {
+                type: 'category',
+                data: ['周一', '周二', '周三', '周四', '周五', '周六', '周日']
+            },
+            series: [
+                {
+                    name: '直接访问',
+                    type: 'bar',
+                    stack: '总量',
+                    label: {
+                        show: true,
+                        position: 'insideRight'
+                    },
+                    data: [320, 302, 301, 334, 390, 330, 320]
+                },
+                {
+                    name: '邮件营销',
+                    type: 'bar',
+                    stack: '总量',
+                    label: {
+                        show: true,
+                        position: 'insideRight'
+                    },
+                    data: [120, 132, 101, 134, 90, 230, 210]
+                },
+                {
+                    name: '联盟广告',
+                    type: 'bar',
+                    stack: '总量',
+                    label: {
+                        show: true,
+                        position: 'insideRight'
+                    },
+                    data: [220, 182, 191, 234, 290, 330, 310]
+                },
+                {
+                    name: '视频广告',
+                    type: 'bar',
+                    stack: '总量',
+                    label: {
+                        show: true,
+                        position: 'insideRight'
+                    },
+                    data: [150, 212, 201, 154, 190, 330, 410]
+                },
+                {
+                    name: '搜索引擎',
+                    type: 'bar',
+                    stack: '总量',
+                    label: {
+                        show: true,
+                        position: 'insideRight'
+                    },
+                    data: [820, 832, 901, 934, 1290, 1330, 1320]
+                }
+            ]
+          });
+        }
+      );
+    },
     averageopentime(){
       let myChart = this.$echarts.init(document.getElementById('averageopentime'));
       let X = [];
@@ -32,10 +227,10 @@ export default {
         projectlist : JSON.stringify(this.projectlist)
       }).then( 
         function(response){
-          window.console.log('ok');
-          window.console.log(JSON.parse(response.body.result)['Floyd']);
-          window.console.log(JSON.parse(response.body.result)['MI300']);
-          window.console.log(JSON.parse(response.body.result)['NV31']);
+          //window.console.log('ok');
+          //window.console.log(JSON.parse(response.body.result)['Floyd']);
+          //window.console.log(JSON.parse(response.body.result)['MI300']);
+          //window.console.log(JSON.parse(response.body.result)['NV31']);
           myChart.setOption({
             title: {
               text: 'Total Open number'
@@ -136,10 +331,10 @@ export default {
         projectlist : JSON.stringify(this.projectlist)
       }).then( 
         function(response){
-          window.console.log('ok');
-          window.console.log(JSON.parse(response.body.result)['Floyd']);
-          window.console.log(JSON.parse(response.body.result)['MI300']);
-          window.console.log(JSON.parse(response.body.result)['NV31']);
+          //window.console.log('ok');
+          //window.console.log(JSON.parse(response.body.result)['Floyd']);
+          //window.console.log(JSON.parse(response.body.result)['MI300']);
+          //window.console.log(JSON.parse(response.body.result)['NV31']);
           myChart.setOption({
             title: {
               text: 'Total Open number'
@@ -210,10 +405,10 @@ export default {
         projectlist : JSON.stringify(this.projectlist)
       }).then( 
         function(response){
-          window.console.log('ok');
-          window.console.log(JSON.parse(response.body.result)['Floyd']);
-          window.console.log(JSON.parse(response.body.result)['MI300']);
-          window.console.log(JSON.parse(response.body.result)['NV31']);
+          //window.console.log('ok');
+          //window.console.log(JSON.parse(response.body.result)['Floyd']);
+          //window.console.log(JSON.parse(response.body.result)['MI300']);
+          //window.console.log(JSON.parse(response.body.result)['NV31']);
           myChart.setOption({
             title: {
                 text: 'Created Number'
@@ -349,7 +544,8 @@ export default {
   data() {
     return{
       recordWindow  : 10,
-      projectlist   : ['Floyd','MI300','NV31']
+      projectlist   : ['Floyd','MI300','NV31'],
+      currentProject : 'Floyd'
     };
   },
   mounted (){
@@ -358,6 +554,7 @@ export default {
     this.totalnumber();
     this.totalopennumber();
     this.averageopentime();
+    this.perpersonjira();
   }
 }
 </script>
