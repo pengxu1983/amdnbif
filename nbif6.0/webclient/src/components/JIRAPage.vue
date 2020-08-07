@@ -14,7 +14,7 @@
           <el-tab-pane label="MI300" name="MI300">
           </el-tab-pane>
         </el-tabs>
-        <div id="perpersonjira" style="width: 2000px;height:900px;"></div>
+        <div id="perpersonjira" style="width: 1080px;height:900px;"></div>
       </el-col>
     </el-row>
   </el-container>
