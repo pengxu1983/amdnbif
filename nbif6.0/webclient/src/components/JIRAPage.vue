@@ -33,9 +33,9 @@ export default {
     handleClick(tab, event) {
       console.log(tab, event);
       console.log(this.currentProject);
-      this.perpersonjira();
+      this.perpersonjira(this.currentProject);
     },
-    perpersonjira(){
+    perpersonjira(projectname){
       let myChart = this.$echarts.init(document.getElementById('perpersonjira'));
       let X = [];
       for(let i=this.recordWindow;i>=0;i--){
@@ -45,7 +45,8 @@ export default {
       this.$http.post('/jira/perpersonjira', {
         //start       : moment().day(1-this.recordWindow*7).format('YYYY-MM-DD'),
         //end         : moment().day(1).format('YYYY-MM-DD'),
-        projectlist : JSON.stringify(this.projectlist)
+        //projectlist : JSON.stringify(this.projectlist),
+        projectname : projectname
       }).then( 
         function(response){
           window.console.log('ok');
@@ -86,50 +87,50 @@ export default {
                   name: 'Opened',
                   type: 'bar',
                   stack: 'total',
-                  label: {
-                      show: true,
-                      position: 'insideRight'
-                  },
+                  //label: {
+                  //  show: true,
+                  //  position: 'insideRight'
+                  //},
                   data: result[this.currentProject]['Opened']
               },
               {
                   name: 'Implemented',
                   type: 'bar',
                   stack: 'total',
-                  label: {
-                      show: true,
-                      position: 'insideRight'
-                  },
+                  //label: {
+                  //    show: true,
+                  //    position: 'insideRight'
+                  //},
                   data: result[this.currentProject]['Implemented']
               },
               {
                   name: 'Closed',
                   type: 'bar',
                   stack: 'total',
-                  label: {
-                      show: true,
-                      position: 'insideRight'
-                  },
+                  //label: {
+                  //    show: true,
+                  //    position: 'insideRight'
+                  //},
                   data: result[this.currentProject]['Closed']
               },
               {
                   name: 'Rejected',
                   type: 'bar',
                   stack: 'total',
-                  label: {
-                      show: true,
-                      position: 'insideRight'
-                  },
+                  //label: {
+                  //    show: true,
+                  //    position: 'insideRight'
+                  //},
                   data: result[this.currentProject]['Rejected']
               },
               {
                   name: 'Deferred',
                   type: 'bar',
                   stack: 'total',
-                  label: {
-                      show: true,
-                      position: 'insideRight'
-                  },
+                  //label: {
+                  //    show: true,
+                  //    position: 'insideRight'
+                  //},
                   data: result[this.currentProject]['Deferred']
               },
             ]
@@ -479,7 +480,9 @@ export default {
     this.totalnumber();
     this.totalopennumber();
     this.averageopentime();
-    this.perpersonjira();
+    for(let p=0;p<this.projectlist.length;p++){
+      this.perpersonjira(this.projectlist[p]);
+    }
   }
 }
 </script>
