@@ -480,9 +480,7 @@ export default {
     this.totalnumber();
     this.totalopennumber();
     this.averageopentime();
-    for(let p=0;p<this.projectlist.length;p++){
-      this.perpersonjira(this.projectlist[p]);
-    }
+    this.perpersonjira(this.currentProject);
   }
 }
 </script>
