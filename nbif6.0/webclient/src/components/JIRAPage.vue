@@ -14,7 +14,7 @@
           <el-tab-pane label="MI300" name="MI300">
           </el-tab-pane>
         </el-tabs>
-        <div id="perpersonjira" style="width: 1080px;height:900px;"></div>
+        <div id="perpersonjira" style="width: 2000px;height:900px;"></div>
       </el-col>
     </el-row>
   </el-container>
@@ -58,6 +58,11 @@ export default {
               trigger: 'axis',
               axisPointer: {            // 坐标轴指示器，坐标轴触发有效
                 type: 'shadow'        // 默认为直线，可选为：'line' | 'shadow'
+              }
+            },
+            toolbox: {
+              feature: {
+                saveAsImage: {}
               }
             },
             legend: {
