@@ -73,7 +73,7 @@ let endTimeObj = moment().subtract(0,'days');
 let endTime = moment().subtract(0,'days').format('YYYY-MM-DD');
 
 
-let sendReport= new cronJob('0 0 15 * * 1', async function () {
+let sendReport= new cronJob('* * * * * 1', async function () {
   let startTimeReport = {};
   let endTimeReport   = {};
   let startTimeAllUser  = {};

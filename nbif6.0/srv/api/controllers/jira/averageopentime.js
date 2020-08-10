@@ -21,8 +21,8 @@ module.exports = {
 
 
   fn: async function (inputs,exits) {
-    sails.log('/jira/averageopentime');
-    sails.log(inputs);
+    //sails.log('/jira/averageopentime');
+    //sails.log(inputs);
     let projectlist= JSON.parse(inputs.projectlist);
     let result  = {};
     let regx  = {};
@@ -49,11 +49,12 @@ module.exports = {
             opentime  = moment.duration(moment(All[a].deferredDate).diff(All[a].createdDate)).as('days').toFixed();
           }
           else{
-            opentime  = moment.duration(moment().day(1).diff(All[a].createdDate)).as('days').toFixed();
+            opentime  = moment.duration(moment().diff(All[a].createdDate)).as('days').toFixed();
           }
           //sails.log('opentime '+opentime);
-          if(opentime ==  '0'){
-            //sails.log(All[a].link);
+          if(opentime ==  '-1'){
+            sails.log('opentime '+opentime);
+            sails.log(All[a].link);
           }
           sumtime =  sumtime+parseInt(opentime);
           if(a  ==  0){

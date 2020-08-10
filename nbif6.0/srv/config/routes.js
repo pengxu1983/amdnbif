@@ -36,6 +36,9 @@ module.exports.routes = {
   'POST /jira/averageopentime':{
     action  : 'jira/averageopentime'
   },
+  'POST /jira/perpersonjira':{
+    action  : 'jira/perpersonjira'
+  },
 
   /***************************************************************************
   *                                                                          *
