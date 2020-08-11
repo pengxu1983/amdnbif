@@ -130,7 +130,7 @@ module.exports = {
       result      : 'RUNNING',
       resultlocation  : treeRoot,
     });
-    child_process.execSync('echo "<html><body><h3>Hi '+inputs.username+'</h3><h4>Your shelve/chengelist start to sync.</h4><h4><a href="http://logviewer-atl/'+treeRoot+'">Find Details here</a></h4></body></html>" | mutt  -c Benny.Peng@amd.com '+getemail(inputs.username)+' -e \'set content_type="text/html"\' -s [NBIF][Sanitycheck]['+inputs.checktype+'][STARTS][treeRoot:'+treeRoot+']');
+    child_process.execSync('echo "<html><body><h3>Hi '+inputs.username+'</h3><h4>Your shelve/changelist start to sync.</h4><h4><a href="http://logviewer-atl/'+treeRoot+'">Find Details here</a></h4></body></html>" | mutt  -c Benny.Peng@amd.com '+getemail(inputs.username)+' -e \'set content_type="text/html"\' -s [NBIF][Sanitycheck]['+inputs.checktype+'][STARTS][treeRoot:'+treeRoot+']');
     let syncstarttime = new moment();
     child_process.exec(__dirname+'/../../tools/synctree.csh --treeRoot '+treeRoot+' --codeline '+inputs.codeline+' --branch_name '+inputs.branch_name+' --changelist '+inputs.changelist+' > '+treeRoot+'.sync.log',async function(err,stdout,stderr){
       let syncendtime = new moment();
@@ -170,7 +170,7 @@ module.exports = {
         child_process.execSync('mv '+treeRoot+'.sync.log '+treeRoot+'.sync.log.review');
         child_process.execSync('mv '+treeRoot+' '+treeRoot+'.rm');
         child_process.exec('rm -rf '+treeRoot+'.rm');
-        child_process.execSync('echo "<html><body><h3>Hi '+inputs.username+'</h3><h4>Your shelve/chengelist failed to sync. Please contact Benny.Peng@amd.com</h4></body></html>" | mutt  -c Benny.Peng@amd.com '+getemail(inputs.username)+' -e \'set content_type="text/html"\' -s [NBIF][Sanitycheck]['+inputs.checktype+'][SYNCFAIL][treeRoot:'+treeRoot+']');
+        child_process.execSync('echo "<html><body><h3>Hi '+inputs.username+'</h3><h4>Your shelve/changelist failed to sync. Please contact Benny.Peng@amd.com</h4></body></html>" | mutt  -c Benny.Peng@amd.com '+getemail(inputs.username)+' -e \'set content_type="text/html"\' -s [NBIF][Sanitycheck]['+inputs.checktype+'][SYNCFAIL][treeRoot:'+treeRoot+']');
         setTimeout(async function(){
           await Sanitysummary.update({
             codeline    : inputs.codeline,
@@ -186,7 +186,7 @@ module.exports = {
       }
       if(fs.existsSync(treeRoot+'/nb__.sync.PASS')){
         console.log(loginit()+treeRoot+' sync pass');
-        child_process.execSync('echo "<html><body><h3>Hi '+inputs.username+'</h3><h4>Your shelve/chengelist sync pass.</h4><h4><a href="http://logviewer-atl/'+treeRoot+'">Find Details here</a></h4></body></html>" | mutt  -c Benny.Peng@amd.com '+getemail(inputs.username)+' -e \'set content_type="text/html"\' -s [NBIF][Sanitycheck]['+inputs.checktype+'][SYNCPASS][treeRoot:'+treeRoot+']');
+        child_process.execSync('echo "<html><body><h3>Hi '+inputs.username+'</h3><h4>Your shelve/changelist sync pass.</h4><h4><a href="http://logviewer-atl/'+treeRoot+'">Find Details here</a></h4></body></html>" | mutt  -c Benny.Peng@amd.com '+getemail(inputs.username)+' -e \'set content_type="text/html"\' -s [NBIF][Sanitycheck]['+inputs.checktype+'][SYNCPASS][treeRoot:'+treeRoot+']');
         let passon  = JSON.parse(JSON.stringify(inputs));
         passon.treeRoot =  treeRoot;
         await sails.helpers.resolve.with(passon);

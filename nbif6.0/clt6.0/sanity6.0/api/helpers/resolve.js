@@ -90,7 +90,7 @@ module.exports = {
       return;
     }
     console.log(loginit()+treeRoot+' resolve start');
-    child_process.execSync('echo "<html><body><h3>Hi '+inputs.username+'</h3><h4>Your shelve/chengelist start to resolve.</h4><h4><a href="http://logviewer-atl/'+treeRoot+'">Find Details here</a></h4></body></html>" | mutt  -c Benny.Peng@amd.com '+getemail(inputs.username)+' -e \'set content_type="text/html"\' -s [NBIF][Sanitycheck]['+inputs.checktype+'][RESOLVESTART][treeRoot:'+treeRoot+']');
+    child_process.execSync('echo "<html><body><h3>Hi '+inputs.username+'</h3><h4>Your shelve/changelist start to resolve.</h4><h4><a href="http://logviewer-atl/'+treeRoot+'">Find Details here</a></h4></body></html>" | mutt  -c Benny.Peng@amd.com '+getemail(inputs.username)+' -e \'set content_type="text/html"\' -s [NBIF][Sanitycheck]['+inputs.checktype+'][RESOLVESTART][treeRoot:'+treeRoot+']');
     let resolvestarttime  = new moment();
     child_process.exec(__dirname+'/../../tools/resolve.csh --treeRoot '+treeRoot+' --shelve '+inputs.shelve+' --resolveopt -am > '+treeRoot+'/nb__.resolve.log',async function(){
       let resolveendtime  = new moment();
@@ -137,11 +137,11 @@ module.exports = {
         },{
           result      : 'FAIL'
         });
-        child_process.execSync('echo "<html><body><h3>Hi '+inputs.username+'</h3><h4>Your shelve/chengelist failed to resolve.</h4><h4><a href="http://logviewer-atl/'+treeRoot+'">Find Details here</a></h4></body></html>" | mutt  -c Benny.Peng@amd.com '+getemail(inputs.username)+' -e \'set content_type="text/html"\' -s [NBIF][Sanitycheck]['+inputs.checktype+'][RESOLVEFAIL][treeRoot:'+treeRoot+']');
+        child_process.execSync('echo "<html><body><h3>Hi '+inputs.username+'</h3><h4>Your shelve/changelist failed to resolve.</h4><h4><a href="http://logviewer-atl/'+treeRoot+'">Find Details here</a></h4></body></html>" | mutt  -c Benny.Peng@amd.com '+getemail(inputs.username)+' -e \'set content_type="text/html"\' -s [NBIF][Sanitycheck]['+inputs.checktype+'][RESOLVEFAIL][treeRoot:'+treeRoot+']');
       }
       else if(fs.existsSync(treeRoot+'/nb__.resolve.PASS')){
         console.log(loginit()+treeRoot+' resolve pass');
-        child_process.execSync('echo "<html><body><h3>Hi '+inputs.username+'</h3><h4>Your shelve/chengelist resolve pass and begin to runtask.</h4><h4><a href="http://logviewer-atl/'+treeRoot+'">Find Details here</a></h4></body></html>" | mutt  -c Benny.Peng@amd.com '+getemail(inputs.username)+' -e \'set content_type="text/html"\' -s [NBIF][Sanitycheck]['+inputs.checktype+'][RESOLVEPASS][treeRoot:'+treeRoot+']');
+        child_process.execSync('echo "<html><body><h3>Hi '+inputs.username+'</h3><h4>Your shelve/changelist resolve pass and begin to runtask.</h4><h4><a href="http://logviewer-atl/'+treeRoot+'">Find Details here</a></h4></body></html>" | mutt  -c Benny.Peng@amd.com '+getemail(inputs.username)+' -e \'set content_type="text/html"\' -s [NBIF][Sanitycheck]['+inputs.checktype+'][RESOLVEPASS][treeRoot:'+treeRoot+']');
         let passon  = JSON.parse(JSON.stringify(inputs));
         if(inputs.checktype  ==  'shelvecheck'){
           await sails.helpers.runtask.with(passon);

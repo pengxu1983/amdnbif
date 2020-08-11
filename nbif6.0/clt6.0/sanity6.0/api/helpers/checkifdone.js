@@ -148,7 +148,7 @@ module.exports = {
     });
     console.log(loginit()+'sending email');
     if(isDone ==  'yes'){
-      child_process.execSync('mutt '+getemail(inputs.username)+' -e  \'set content_type="text/html"\' -s [NBIF][SanityCheck][CheckDone:'+overall+'][treeRoot:'+inputs.treeRoot+'] < '+inputs.treeRoot+'/report');
+      child_process.execSync('mutt '+getemail(inputs.username)+' -c Benny.Peng@amd.com -e  \'set content_type="text/html"\' -s [NBIF][SanityCheck][CheckDone:'+overall+'][treeRoot:'+inputs.treeRoot+'] < '+inputs.treeRoot+'/report');
       await Sanitysummary.update({
         codeline    : inputs.codeline,
         branch_name : inputs.branch_name,
