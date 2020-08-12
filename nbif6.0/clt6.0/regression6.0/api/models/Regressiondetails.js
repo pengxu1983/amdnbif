@@ -69,6 +69,10 @@ module.exports = {
     },
     projectname   : {
       type        : 'string'
+    },
+    run_out_path  : {
+      type        : 'string',
+      columnType  : 'longtext'
     }
 
     //  ╔═╗╔╦╗╔╗ ╔═╗╔╦╗╔═╗

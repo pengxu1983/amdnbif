@@ -206,6 +206,7 @@ module.exports = {
         config      : testlist[t]['config'],
         group       : testlist[t]['group'],
         suite       : testlist[t]['suite'],
+        run_out_path: testlist[t]['run_out_path'],
         kickoffdate : inputs_local.kickoffdate,
         describe    : inputs_local.describe,
         username    : 'benpeng',
@@ -213,6 +214,8 @@ module.exports = {
         projectname : inputs_local.projectname
       });
     }
+    let passon  = JSON.parse(JSON.stringify(inputs_local));
+    await sails.helpers.regression.updatestatus.with(passon);
     return exits.success(JSON.stringify({
       ok  : 'ok'
     }));

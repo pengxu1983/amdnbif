@@ -112,7 +112,7 @@ module.exports = {
       for(let tasktype  in  MASK[variantname]){
         for(let casename=0;casename<MASK[variantname][tasktype].length;casename++){
           let casestarttime  = new moment();
-          child_process.exec('bsub -P GIONB-SRDC -W '+runtimeout+' -q regr_high -Is -J nbif_C_rn -R "rusage[mem=5000] select[type==RHEL7_64]" '+__dirname+'/../../tools/runonecase.csh --treeRoot '+treeRoot+' --variantname '+variantname+' --tasktype '+tasktype+' --casename  '+MASK[variantname][tasktype][casename]+' --out_anchor '+treeRoot+'/out.'+variantname+'.'+tasktype+'.'+MASK[variantname][tasktype][casename],async function(err_run,stdout_run,stderr_run){
+          child_process.exec('bsub -P GIONB-SRDC -W '+runtimeout+' -q regr_high -Is -J nbif_C_rn -R "rusage[mem=60000] select[type==RHEL7_64]" '+__dirname+'/../../tools/runonecase.csh --treeRoot '+treeRoot+' --variantname '+variantname+' --tasktype '+tasktype+' --casename  '+MASK[variantname][tasktype][casename]+' --out_anchor '+treeRoot+'/out.'+variantname+'.'+tasktype+'.'+MASK[variantname][tasktype][casename],async function(err_run,stdout_run,stderr_run){
             let caseendtime   = new moment();
             console.log(loginit()+treeRoot+'.'+variantname+'.'+tasktype+'.'+MASK[variantname][tasktype][casename]+' run done');
             console.log(loginit()+treeRoot+'.'+variantname+'.'+tasktype+'.'+MASK[variantname][tasktype][casename]+' run cost '+moment.duration(caseendtime.diff(casestarttime)).as('minutes')+' minutes');

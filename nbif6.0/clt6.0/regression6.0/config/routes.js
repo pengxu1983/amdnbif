@@ -19,16 +19,16 @@ module.exports.routes = {
   *                                                                          *
   ***************************************************************************/
 
-  '/': { view: 'pages/homepage' },
-  'POST /start'  : {
-    action      : 'start'
-  },
-  'POST /casestart' : {
-    action      : 'casestart'
-  },
-  'POST /caseend'   : {
-    action      : 'caseend'
-  },
+  //'/': { view: 'pages/homepage' },
+  //'POST /start'  : {
+  //  action      : 'start'
+  //},
+  //'POST /casestart' : {
+  //  action      : 'casestart'
+  //},
+  //'POST /caseend'   : {
+  //  action      : 'caseend'
+  //},
   'POST /regressionstart'   : {
     action      : 'regressionstart'
   }
