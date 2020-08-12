@@ -39,6 +39,8 @@ let cron_rtlogin = new cronJob(rtlogintime.s+' '+rtlogintime.m+' * * * *',functi
         if(regx.test(stdout)){
         }
         else{
+          console.log(loginit()+'STDOUT :');
+          console.log(stdout);
           child_process.execSync('echo "RTLOGINFAIL" | mutt Benny.Peng@amd.com -s [NBIF][Sanity][RTLOGINFAIL]');
           throw 'need fix';
         }
