@@ -70,6 +70,9 @@ module.exports = {
     },
     out_home    : {
       type          : 'string'
+    },
+    kickoffdate   : {
+      type          : 'string'
     }
   },
 
@@ -87,7 +90,9 @@ module.exports = {
     sails.log('/regression/updatestatus');
     sails.log(inputs);
     let cron_update = new cronJob('0 0 * * * *',async function(){
+      sails.log('start');
       if(!fs.existsSync(inputs.treeRoot+'/NBIF_TREE_INFO')){
+        sails.log('no NBIF_TREE_INFO');
         cron_update.stop();
         return;
       }
@@ -144,18 +149,31 @@ module.exports = {
           }
           else{
             for(let c=0;c<nostatuscases.length;c++){
+              if(!fs.existsSync(inputs.treeRoot+'/NBIF_TREE_INFO')){
+                break;
+              }
               let result;
               let signature;
               let seed;
               if(fs.existsSync(nostatuscases.run_out_path+'/REGRESSPASS')){
                 result  = 'PASS';
+                seed    = 'NA';
+                signature = 'NA';
+                console.log(loginit()+inputs.treeRoot+' signature is '+signature);
+                console.log(loginit()+inputs.treeRoot+' seed  is '+seed);
+                console.log(loginit()+inputs.treeRoot+' result  is '+result);
               }
               else if(!fs.existsSync(nostatuscases.run_out_path+'/vcs_run.log')){
                 result  = 'NOTSTARTED';
+                seed    = 'NA';
+                signature = 'NA';
+                console.log(loginit()+inputs.treeRoot+' signature is '+signature);
+                console.log(loginit()+inputs.treeRoot+' seed  is '+seed);
+                console.log(loginit()+inputs.treeRoot+' result  is '+result);
               }
               else{
                 let size  ;
-                child_process.exec('du '+nostatuscases.run_out_path+'/vcs_run.log',async function(err,stdout,stderr){
+                await child_process.exec('du '+nostatuscases.run_out_path+'/vcs_run.log',async function(err,stdout,stderr){
                   let regx  = /^(\d\+) vcs_run.log/;
                   stdout.replace(regx,function(rs,$1){
                     size  = $1;
@@ -173,7 +191,7 @@ module.exports = {
                     });
                     signature = child_process.execSync(__dirname+'/../../../tools/getsignature.js '+nostatuscases.run_out_path+'/vcs_run.log',{
                       encoding  : 'utf8'
-                    });
+                    });//TODO
                     seed  = child_process.execSync(__dirname+'/../../../tools/getseed.js '+nostatuscases.run_out_path+'/vcs_run.log',{
                       encoding  : 'utf8'
                     });

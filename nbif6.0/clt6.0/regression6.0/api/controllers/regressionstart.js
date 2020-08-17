@@ -70,6 +70,9 @@ module.exports = {
     },
     out_home    : {
       type          : 'string'
+    },
+    kickoffdate : {
+      type          : 'string'
     }
   },
 
