@@ -20,7 +20,7 @@ let HOME            = '/proj/cip_nbif_regress1/sanitycheck';
 let refTrees        = [HOME+'/nbif.ref.main'];
 let maxPS_CL        = 20;
 let maxPS_SH        = 20;//TODO
-let maxPSperson_SH  = 3;//TODO
+let maxPSperson_SH  = 10;//TODO
 let runningtasks_CL = 0;
 let runningtasks_SH = 0;
 let tasktype;
