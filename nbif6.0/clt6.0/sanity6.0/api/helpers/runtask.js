@@ -65,6 +65,9 @@ module.exports = {
     },
     treeRoot    : {
       type      : 'string'
+    },
+    HOME        : {
+      type      : 'string'
     }
   },
 
@@ -95,8 +98,7 @@ module.exports = {
     }
     console.log(loginit()+treeRoot+' runtask start');
     //get MASK
-    let MASK  = YAML.load(treeRoot+'/sanityprofile.yml');
-    let MASK_cp  = YAML.load(treeRoot+'/sanityprofile.yml');
+    let MASK  = YAML.load(treeRoot+'/sanitycheckprofile.yml');
     sails.log(MASK);
     await Sanitysummary.update({
       codeline    : inputs.codeline,
@@ -112,8 +114,27 @@ module.exports = {
       for(let tasktype  in  MASK[variantname]){
         for(let casename=0;casename<MASK[variantname][tasktype].length;casename++){
           let casestarttime  = new moment();
-          child_process.exec('bsub -P GIONB-SRDC -W '+runtimeout+' -q regr_high -Is -J nbif_C_rn -R "rusage[mem=60000] select[type==RHEL7_64]" '+__dirname+'/../../tools/runonecase.csh --treeRoot '+treeRoot+' --variantname '+variantname+' --tasktype '+tasktype+' --casename  '+MASK[variantname][tasktype][casename]+' --out_anchor '+treeRoot+'/out.'+variantname+'.'+tasktype+'.'+MASK[variantname][tasktype][casename],async function(err_run,stdout_run,stderr_run){
+          let suite;
+          let name;
+          let config;
+          let cmd;
+          //get suite casename and config
+          if(tasktype ==  'test'){
+            let R = MASK[variantname][tasktype][casename].split('.');
+            suite = R[0];
+            name  = R[1];
+            config= R[2]
+            console.log(loginit()+'suite  :'+suite);
+            console.log(loginit()+'name   :'+name);
+            console.log(loginit()+'config :'+config);
+            cmd = 'bsub -P GIONB-SRDC -W '+runtimeout+' -q regr_high -Is -J nbif_C_rn -R "rusage[mem=20000] select[type==RHEL7_64]" '+__dirname+'/../../tools/runonecase.csh --treeRoot '+treeRoot+' --variantname '+variantname+' --tasktype '+tasktype+' --casename  '+name+' --suite '+suite+' --config '+config+' --out_anchor '+treeRoot+'/out.'+variantname+'.'+tasktype+'.'+suite+'.'+name+'.'+config;
+          }
+          if(tasktype ==  'task'){
+            cmd = 'bsub -P GIONB-SRDC -W '+runtimeout+' -q regr_high -Is -J nbif_C_rn -R "rusage[mem=60000] select[type==RHEL7_64]" '+__dirname+'/../../tools/runonecase.csh --treeRoot '+treeRoot+' --variantname '+variantname+' --tasktype '+tasktype+' --casename  '+MASK[variantname][tasktype][casename]+' --out_anchor '+treeRoot+'/out.'+variantname+'.'+tasktype+'.'+MASK[variantname][tasktype][casename];
+          }
+          child_process.exec(cmd,async function(err_run,stdout_run,stderr_run){
             let caseendtime   = new moment();
+            let runtime = moment.duration(caseendtime.diff(casestarttime)).as('minutes').toFixed(0);
             console.log(loginit()+treeRoot+'.'+variantname+'.'+tasktype+'.'+MASK[variantname][tasktype][casename]+' run done');
             console.log(loginit()+treeRoot+'.'+variantname+'.'+tasktype+'.'+MASK[variantname][tasktype][casename]+' run cost '+moment.duration(caseendtime.diff(casestarttime)).as('minutes')+' minutes');
             if(!fs.existsSync(treeRoot+'/nb__.'+variantname+'.'+tasktype+'.'+MASK[variantname][tasktype][casename]+'.log')){
@@ -156,7 +177,8 @@ module.exports = {
                 variantname : variantname,
                 tasktype    : tasktype,
                 casename    : MASK[variantname][tasktype][casename],
-                result      : 'PASS'
+                result      : 'PASS',
+                runtime     : runtime
               });
               //clean up due to pass
               child_process.execSync('mv '+treeRoot+'/out.'+variantname+'.'+tasktype+'.'+MASK[variantname][tasktype][casename]+' '+treeRoot+'/out.'+variantname+'.'+tasktype+'.'+MASK[variantname][tasktype][casename]+'.rm');
@@ -177,7 +199,8 @@ module.exports = {
                 variantname : variantname,
                 tasktype    : tasktype,
                 casename    : MASK[variantname][tasktype][casename],
-                result      : 'FAIL'
+                result      : 'FAIL',
+                runtime     : runtime
               });
             }
             let passon  = JSON.parse(JSON.stringify(inputs));

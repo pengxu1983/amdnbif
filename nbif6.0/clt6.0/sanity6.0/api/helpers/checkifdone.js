@@ -68,6 +68,9 @@ module.exports = {
     },
     MASK        : {
       type      : 'string'
+    },
+    HOME        : {
+      type      : 'string'
     }
   },
 
@@ -97,6 +100,7 @@ module.exports = {
       mailbody  +=  '<tr>\n';
       mailbody  +=  '  <th>Case Name</th>\n';
       mailbody  +=  '  <th>Result</th>\n';
+      mailbody  +=  '  <th>Runtime(min)</th>\n';
       mailbody  +=  '</tr>\n';
       
       for(let tasktype  in  MASK[variantname]){
@@ -132,6 +136,7 @@ module.exports = {
               bgcolor = 'yellow';
             }
             mailbody  +=  '  <td bgcolor='+bgcolor+'>'+DB.result+'</td>\n';
+            mailbody  +=  '  <td>'+DB.runtime+'</td>\n';
             mailbody  +=  '</tr>\n';
           }
         }
@@ -146,8 +151,42 @@ module.exports = {
       mode      : '0600',
       flag      : 'w'
     });
-    console.log(loginit()+'sending email');
     if(isDone ==  'yes'){
+      console.log(loginit()+'sending email');
+      let DBall  = await Sanitycheckdetails.find({
+        codeline    : inputs.codeline,
+        branch_name : inputs.branch_name,
+        changelist  : inputs.changelist,
+        shelve      : inputs.shelve,
+        username    : inputs.username,
+        describe    : inputs.describe,
+        checktype   : inputs.checktype
+      });
+      console.log(loginit()+'done tasks number '+DBall.length);
+      let longesttasktype;
+      let longesttask;
+      let runtime =0;
+      let longestvariantname;
+      for(let t=0;t<DBall.length;t++){
+        if(t==0){
+          longesttask = DBall[t].casename;
+          longesttasktype = DBall[t].tasktype;
+          runtime = DBall[t].runtime;
+          longestvariantname  = DBall[t].variantname;
+        }
+        else{
+          if(runtime<DBall[t].runtime){
+            longesttask = DBall[t].casename;
+            longesttasktype = DBall[t].tasktype;
+            runtime = DBall[t].runtime;
+            longestvariantname  = DBall[t].variantname;
+          }
+        }
+      }
+      console.log('longesttasktype  : '+longesttasktype);
+      console.log('longesttask  : '+longesttask);
+      console.log('runtime  : '+runtime);
+      console.log('longestvariantname : '+longestvariantname);
       child_process.execSync('mutt '+getemail(inputs.username)+' -c Benny.Peng@amd.com -e  \'set content_type="text/html"\' -s [NBIF][SanityCheck]['+inputs.checktype+'][CheckDone:'+overall+'][treeRoot:'+inputs.treeRoot+'] < '+inputs.treeRoot+'/report');
       await Sanitysummary.update({
         codeline    : inputs.codeline,
@@ -158,7 +197,11 @@ module.exports = {
         describe    : inputs.describe,
         checktype   : inputs.checktype,
       },{
-        result      : overall
+        result      : overall,
+        runtime     : runtime,
+        longesttasktype : longesttasktype,
+        longesttask : longesttask,
+        longestvariantname  : longestvariantname
       });
       if(overall  =='FAIL'){
         setTimeout(async function(){

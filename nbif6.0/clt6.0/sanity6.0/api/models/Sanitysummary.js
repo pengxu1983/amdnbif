@@ -51,6 +51,21 @@ module.exports = {
     testlist    : {
       type      : 'string',
       columnType  : 'longtext'
+    },
+    submitdate  : {
+      type    : 'string'
+    },
+    runtime     : {
+      type    : 'number'
+    },
+    longesttask : {
+      type    : 'string'
+    },
+    longesttasktype : {
+      type    : 'string'
+    },
+    longestvariantname  : {
+      type    : 'string'
     }
 
     //  ╔═╗╔╦╗╔╗ ╔═╗╔╦╗╔═╗

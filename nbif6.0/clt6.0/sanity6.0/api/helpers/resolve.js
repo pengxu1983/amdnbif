@@ -61,6 +61,9 @@ module.exports = {
     },
     treeRoot    : {
       type      : 'string'
+    },
+    HOME        : {
+      type      : 'string'
     }
   },
 

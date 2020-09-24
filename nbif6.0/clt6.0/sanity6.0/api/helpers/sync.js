@@ -16,8 +16,6 @@ let djregxfail      = /dj exited with errors/;
 let djregxpass      = /dj exited successfully/;
 let syncregxpass    = /All syncs OK/;
 let resolvefail     = /resolve skipped/;
-let HOME            = '/proj/cip_nbif_regress1/sanitycheck';
-let refTrees        = [HOME+'/nbif.ref.main'];
 let maxPS_CL        = 20;
 let maxPS_SH        = 20;//TODO
 let maxPSperson_SH  = 3;//TODO
@@ -76,6 +74,9 @@ module.exports = {
     },
     checktype   : {
       type      : 'string'
+    },
+    HOME        : {
+      type      : 'string'
     }
   },
 
@@ -94,7 +95,7 @@ module.exports = {
     sails.log(inputs);
     let treeID  = inputs.checktype+'.'+inputs.codeline+'.'+inputs.branch_name+'.CL'+inputs.changelist+'.SHELVE'+inputs.shelve+'.'+inputs.describe
     let treeRoot;
-    treeRoot  = HOME+'/'+treeID;
+    treeRoot  = inputs.HOME+'/'+treeID;
     //check if killed
     let DB  = await Sanitysummary.findOne({
       codeline    : inputs.codeline,
@@ -171,18 +172,18 @@ module.exports = {
         child_process.execSync('mv '+treeRoot+' '+treeRoot+'.rm');
         child_process.exec('rm -rf '+treeRoot+'.rm');
         child_process.execSync('echo "<html><body><h3>Hi '+inputs.username+'</h3><h4>Your shelve/changelist failed to sync. Please contact Benny.Peng@amd.com</h4></body></html>" | mutt  -c Benny.Peng@amd.com '+getemail(inputs.username)+' -e \'set content_type="text/html"\' -s [NBIF][Sanitycheck]['+inputs.checktype+'][SYNCFAIL][treeRoot:'+treeRoot+']');
-        setTimeout(async function(){
-          await Sanitysummary.update({
-            codeline    : inputs.codeline,
-            branch_name : inputs.branch_name,
-            changelist  : inputs.changelist,
-            shelve      : inputs.shelve,
-            describe    : inputs.describe,
-            checktype   : inputs.checktype
-          },{
-            result      : 'NOTSTARTED'
-          });
-        },1*3600*1000);
+        //setTimeout(async function(){
+        //  await Sanitysummary.update({
+        //    codeline    : inputs.codeline,
+        //    branch_name : inputs.branch_name,
+        //    changelist  : inputs.changelist,
+        //    shelve      : inputs.shelve,
+        //    describe    : inputs.describe,
+        //    checktype   : inputs.checktype
+        //  },{
+        //    result      : 'NOTSTARTED'
+        //  });
+        //},1*3600*1000);
       }
       if(fs.existsSync(treeRoot+'/nb__.sync.PASS')){
         console.log(loginit()+treeRoot+' sync pass');

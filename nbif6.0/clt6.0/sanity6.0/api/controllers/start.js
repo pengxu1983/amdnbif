@@ -18,15 +18,15 @@ let syncregxpass    = /All syncs OK/;
 let resolvefail     = /resolve skipped/;
 let HOME            = '/proj/cip_nbif_regress1/sanitycheck';
 let refTrees        = [HOME+'/nbif.ref.main'];
-let maxPS_CL        = 20;
-let maxPS_SH        = 20;//TODO
+let maxPS_CL        = 30;
+let maxPS_SH        = 30;//TODO
 let maxPSperson_SH  = 10;//TODO
 let runningtasks_CL = 0;
 let runningtasks_SH = 0;
 let tasktype;
 let params;
 let act;
-let runtimeout      = 60*6;//6 hrs
+let runtimeout      = 60*8;//8 hrs
 let getemail        = function(username){
   let email;
   let lines = fs.readFileSync('/home/benpeng/p4users','utf8').split('\n');
@@ -96,7 +96,8 @@ let cron_check  = new cronJob('*/10 * * * * *',async function(){
           shelve      : pickedupitem.shelve      ,
           username    : pickedupitem.username    ,
           describe    : pickedupitem.describe    ,
-          checktype   : pickedupitem.checktype   
+          checktype   : pickedupitem.checktype   ,
+          HOME        : HOME
         });
       }
     }
@@ -106,7 +107,7 @@ let cron_check  = new cronJob('*/10 * * * * *',async function(){
   }
   //check if too many running personally
   //pick up one item
-},null,false,'Asia/Chongqing');
+},null,true,'Asia/Chongqing');
 module.exports = {
 
 

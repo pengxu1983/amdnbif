@@ -47,6 +47,9 @@ module.exports = {
     },
     isBAPU      : {
       type      : 'string'
+    },
+    runtime     : {
+      type      : 'number'
     }
 
 
