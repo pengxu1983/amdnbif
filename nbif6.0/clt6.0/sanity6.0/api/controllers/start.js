@@ -107,7 +107,7 @@ let cron_check  = new cronJob('*/10 * * * * *',async function(){
   }
   //check if too many running personally
   //pick up one item
-},null,true,'Asia/Chongqing');
+},null,false,'Asia/Chongqing');
 module.exports = {
 
 
