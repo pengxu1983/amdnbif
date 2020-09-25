@@ -77,23 +77,23 @@ bootenv -v $variantname -out_anchor  $out_anchor
 if($tasktype  ==  "test") then
   if($runopt  ==  "all")  then
     if($isBAPU  ==  "no") then
-      dj -q -l $STEM/nb__.$variantname.$tasktype.$casename.log -DUVM_VERBOSITY=$UVM_VERBOSITY -m4 -DUSE_VRQ -DCGM -DSEED=$seed  run_test -s ${suite} $casename\_${config}
+      dj -q -l $STEM/nb__.$variantname.$tasktype.$suite.$casename.$config.log -DUVM_VERBOSITY=$UVM_VERBOSITY -m4 -DUSE_VRQ -DCGM -DSEED=$seed  run_test -s ${suite} $casename\_${config}
     endif
     if($isBAPU  ==  "yes") then
-      dj -q -l $STEM/nb__.$variantname.$tasktype.$casename.log -DUVM_VERBOSITY=$UVM_VERBOSITY -m4 -DUSE_VRQ -DCGM -DBAPU -DSEED=$seed  run_test -s ${suite} $casename\_${config}
+      dj -q -l $STEM/nb__.$variantname.$tasktype.$suite.$casename.$config.log -DUVM_VERBOSITY=$UVM_VERBOSITY -m4 -DUSE_VRQ -DCGM -DBAPU -DSEED=$seed  run_test -s ${suite} $casename\_${config}
     endif
   endif
   if($runopt  ==  "compileonly")  then
     if($isBAPU  ==  "no") then
-      dj -q -l $STEM/nb__.$variantname.$tasktype.$casename.log -DUVM_VERBOSITY=$UVM_VERBOSITY -m4 -DUSE_VRQ -DCGM -DSEED=$seed  run_test -s ${suite} $casename\_${config} -a execute=off
+      dj -q -l $STEM/nb__.$variantname.$tasktype.$suite.$casename.$config.log -DUVM_VERBOSITY=$UVM_VERBOSITY -m4 -DUSE_VRQ -DCGM -DSEED=$seed  run_test -s ${suite} $casename\_${config} -a execute=off
     endif
     if($isBAPU  ==  "yes") then
-      dj -q -l $STEM/nb__.$variantname.$tasktype.$casename.log -DUVM_VERBOSITY=$UVM_VERBOSITY -m4 -DUSE_VRQ -DCGM -DBAPU -DSEED=$seed  run_test -s ${suite} $casename\_${config} -a execute=off
+      dj -q -l $STEM/nb__.$variantname.$tasktype.$suite.$casename.$config.log -DUVM_VERBOSITY=$UVM_VERBOSITY -m4 -DUSE_VRQ -DCGM -DBAPU -DSEED=$seed  run_test -s ${suite} $casename\_${config} -a execute=off
     endif
   endif
   if($runopt  ==  "runonly")  then
     if($isBAPU  ==  "no") then
-      dj -q -l $STEM/nb__.$variantname.$tasktype.$casename.log -DUVM_VERBOSITY=$UVM_VERBOSITY -m4 -DUSE_VRQ -DCGM -DSEED=$seed  run_test -s ${suite} $casename\_${config} -a run=only
+      dj -q -l $STEM/nb__.$variantname.$tasktype.$suite.$casename.$config.log -DUVM_VERBOSITY=$UVM_VERBOSITY -m4 -DUSE_VRQ -DCGM -DSEED=$seed  run_test -s ${suite} $casename\_${config} -a run=only
     endif
     if($isBAPU  ==  "yes") then
       dj -q -l $STEM/nb__.$variantname.$tasktype.$casename.log -DUVM_VERBOSITY=$UVM_VERBOSITY -m4 -DUSE_VRQ -DCGM -DBAPU -DSEED=$seed  run_test -s ${suite} $casename\_${config} -a run=only
