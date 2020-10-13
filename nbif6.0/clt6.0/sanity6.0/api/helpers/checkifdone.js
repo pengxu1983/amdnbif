@@ -153,7 +153,7 @@ module.exports = {
     });
     if(isDone ==  'yes'){
       console.log(loginit()+'sending email');
-      let DBall  = await Sanitycheckdetails.find({
+      let DBall  = await Sanitydetails.find({
         codeline    : inputs.codeline,
         branch_name : inputs.branch_name,
         changelist  : inputs.changelist,

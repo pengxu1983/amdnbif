@@ -73,6 +73,13 @@ module.exports = {
     run_out_path  : {
       type        : 'string',
       columnType  : 'longtext'
+    },
+    comment       : {
+      type        : 'string',
+      columnType  : 'longtext'
+    },
+    commentdate   : {
+      type        : 'string',
     }
 
     //  ╔═╗╔╦╗╔╗ ╔═╗╔╦╗╔═╗

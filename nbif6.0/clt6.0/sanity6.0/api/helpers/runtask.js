@@ -117,17 +117,33 @@ module.exports = {
           let suite;
           let name;
           let config;
+          let runopt;
+          let isBAPU;
           let cmd;
           //get suite casename and config
           if(tasktype ==  'test'){
             let R = MASK[variantname][tasktype][casename].split('.');
             suite = R[0];
             name  = R[1];
-            config= R[2]
+            config= R[2];
+            if(R[3]){
+              runopt  = R[3];
+            }
+            else{
+              runopt  = 'all';
+            }
+            if(R[4] ==  'BAPU'){
+              isBAPU  = 'yes';
+            }
+            else{
+              isBAPU  = 'no';
+            }
             console.log(loginit()+'suite  :'+suite);
             console.log(loginit()+'name   :'+name);
             console.log(loginit()+'config :'+config);
-            cmd = 'bsub -P GIONB-SRDC -W '+runtimeout+' -q regr_high -Is -J nbif_C_rn -R "rusage[mem=20000] select[type==RHEL7_64]" '+__dirname+'/../../tools/runonecase.csh --treeRoot '+treeRoot+' --variantname '+variantname+' --tasktype '+tasktype+' --casename  '+name+' --suite '+suite+' --config '+config+' --out_anchor '+treeRoot+'/out.'+variantname+'.'+tasktype+'.'+suite+'.'+name+'.'+config;
+            console.log(loginit()+'runopt :'+runopt);
+            console.log(loginit()+'isBAPU :'+isBAPU);
+            cmd = 'bsub -P GIONB-SRDC -W '+runtimeout+' -q regr_high -Is -J nbif_C_rn -R "rusage[mem=20000] select[type==RHEL7_64]" '+__dirname+'/../../tools/runonecase.csh --treeRoot '+treeRoot+' --variantname '+variantname+' --tasktype '+tasktype+' --casename  '+name+' --suite '+suite+' --config '+config+' --out_anchor '+treeRoot+'/out.'+variantname+'.'+tasktype+'.'+suite+'.'+name+'.'+config+' --isBAPU '+isBAPU+' --runopt '+runopt;
           }
           if(tasktype ==  'task'){
             cmd = 'bsub -P GIONB-SRDC -W '+runtimeout+' -q regr_high -Is -J nbif_C_rn -R "rusage[mem=60000] select[type==RHEL7_64]" '+__dirname+'/../../tools/runonecase.csh --treeRoot '+treeRoot+' --variantname '+variantname+' --tasktype '+tasktype+' --casename  '+MASK[variantname][tasktype][casename]+' --out_anchor '+treeRoot+'/out.'+variantname+'.'+tasktype+'.'+MASK[variantname][tasktype][casename];

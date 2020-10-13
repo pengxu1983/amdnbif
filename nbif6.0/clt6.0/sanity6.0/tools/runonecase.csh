@@ -119,5 +119,8 @@ else if($tasktype ==  "task") then
     if($variantname  ==  "nbif_et_2") then
       dj -q -v -l $STEM/nb__.$variantname.$tasktype.$casename.log -e 'releaseflow::dropflow(:rtl_drop).build(:rhea_drop,:rhea_dc)' -DPUBLISH_BLKS=nbif_shub_wrap_et_2
     endif
+    if($variantname  ==  "nbif_cheetah_gpu") then
+      dj -q -v -l $STEM/nb__.$variantname.$tasktype.$casename.log -e 'releaseflow::dropflow(:rtl_drop).build(:rhea_drop,:rhea_dc)' -DPUBLISH_BLKS=nbif_shub_wrap_chtgfx
+    endif
   endif
 endif

@@ -148,7 +148,7 @@ fs.readFile(xmlfile, function(err, data) {
       });
       
       let options = {
-        hostname: 'atlrind0090',
+        hostname: 'atletx7-neu004',
         port: 7031,
         path: '/jira/add',
         method: 'POST',

@@ -155,7 +155,7 @@ module.exports = {
               let result;
               let signature;
               let seed;
-              if(fs.existsSync(nostatuscases.run_out_path+'/REGRESSPASS')){
+              if(fs.existsSync(nostatuscases[c].run_out_path+'/REGRESS_PASS')){
                 result  = 'PASS';
                 seed    = 'NA';
                 signature = 'NA';
@@ -163,7 +163,7 @@ module.exports = {
                 console.log(loginit()+inputs.treeRoot+' seed  is '+seed);
                 console.log(loginit()+inputs.treeRoot+' result  is '+result);
               }
-              else if(!fs.existsSync(nostatuscases.run_out_path+'/vcs_run.log')){
+              else if(!fs.existsSync(nostatuscases[c].run_out_path+'/vcs_run.log')){
                 result  = 'NOTSTARTED';
                 seed    = 'NA';
                 signature = 'NA';
@@ -173,7 +173,7 @@ module.exports = {
               }
               else{
                 let size  ;
-                await child_process.exec('du '+nostatuscases.run_out_path+'/vcs_run.log',async function(err,stdout,stderr){
+                await child_process.exec('du '+nostatuscases[c].run_out_path+'/vcs_run.log',async function(err,stdout,stderr){
                   let regx  = /^(\d\+) vcs_run.log/;
                   stdout.replace(regx,function(rs,$1){
                     size  = $1;
@@ -181,18 +181,18 @@ module.exports = {
                   if(size >500000){
                     result  = 'FAIL';
                     signature = 'LOG TOO LARGE';
-                    seed  = child_process.execSync(__dirname+'/../../../tools/getseed.js '+nostatuscases.run_out_path+'/vcs_run.log',{
+                    seed  = child_process.execSync(__dirname+'/../../../tools/getseed.js '+nostatuscases[c].run_out_path+'/vcs_run.log',{
                       encoding  : 'utf8'
                     });
                   }
                   else{
-                    result  = child_process.execSync(__dirname+'/../../../tools/getresult.js '+nostatuscases.run_out_path+'/vcs_run.log',{
+                    result  = child_process.execSync(__dirname+'/../../../tools/getresult.js '+nostatuscases[c].run_out_path+'/vcs_run.log',{
                       encoding  : 'utf8'
                     });
-                    signature = child_process.execSync(__dirname+'/../../../tools/getsignature.js '+nostatuscases.run_out_path+'/vcs_run.log',{
+                    signature = child_process.execSync(__dirname+'/../../../tools/getsignature.js '+nostatuscases[c].run_out_path+'/vcs_run.log',{
                       encoding  : 'utf8'
                     });//TODO
-                    seed  = child_process.execSync(__dirname+'/../../../tools/getseed.js '+nostatuscases.run_out_path+'/vcs_run.log',{
+                    seed  = child_process.execSync(__dirname+'/../../../tools/getseed.js '+nostatuscases[c].run_out_path+'/vcs_run.log',{
                       encoding  : 'utf8'
                     });
                   }

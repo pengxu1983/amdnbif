@@ -218,7 +218,7 @@ module.exports = {
       });
     }
     let passon  = JSON.parse(JSON.stringify(inputs_local));
-    await sails.helpers.regression.updatestatus.with(passon);
+    //await sails.helpers.regression.updatestatus.with(passon);
     return exits.success(JSON.stringify({
       ok  : 'ok'
     }));

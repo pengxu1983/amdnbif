@@ -17,7 +17,8 @@ let rtlogintime     = {
 /////////////////////////
 //rt_login
 /////////////////////////
-let cron_rtlogin = new cronJob(rtlogintime.s+' '+rtlogintime.m+' * * * *',function(){
+//let cron_rtlogin = new cronJob(rtlogintime.s+' '+rtlogintime.m+' * * * *',function(){
+let cron_rtlogin = new cronJob('0 */30 * * * *',function(){
   child_process.exec('~/nbifweb_client/software/tools/rtlogin',function(err,stdout,stderr){
     if(err) {
       throw err;
